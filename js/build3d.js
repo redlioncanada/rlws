@@ -256,11 +256,20 @@ function initBuildings() {
 			if (typeof curCard === 'undefined') {br = true; break;}
 			
 			//if (x == 3) {br = true; break;}
+			//if the current draw matrix index is occupied, skip this index
 			if (drawMatrix.subset(math.index(y-1,maxX-x)) == 1) continue;
 			
+			//TODO skip this draw index if the current tile will extend into an occupied index
+			//TODO decouple draw and data indexes. Skipping a draw index should not skip the data index
+			
+			//set the current draw index as occupied
 			drawMatrix.subset(math.index(y-1,maxX-x), 1);
+			
+			//set the indexes the current item extends into as occupied
 			if (curCard.ysize > 1) for (var i = 1; i <= curCard.xsize; i++) {drawMatrix.subset(math.index(y+i-1,maxX-x),1);}
 			if (curCard.xsize > 1) for (var i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),1);}
+			
+			//set the current data index as displayed/occupied
 			dataMatrix.subset(math.index(0, curIndex), 1);
 			
 			var curBoxHeight = (gutterY*(curCard.ysize-1)) + boxheight*curCard.ysize;
