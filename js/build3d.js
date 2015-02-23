@@ -12,7 +12,7 @@ var mROTDOWN = false;
 var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 var scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2( 0xfffdf2, 0.25 );
-var renderer = new THREE.WebGLRenderer();
+var renderer = new THREE.WebGLRenderer({antialias:true});
 var light = null;
 
 // Boxes vars
