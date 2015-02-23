@@ -259,8 +259,9 @@ function initBuildings() {
 			if (drawMatrix.subset(math.index(y-1,maxX-x)) == 1) continue;
 			
 			drawMatrix.subset(math.index(y-1,maxX-x), 1);
-			if (curCard.ysize > 1) for (var i = 1; i <= curCard.xsize; i++) {drawMatrix.subset(math.index(y+i-1,maxX-x),1);}
-			if (curCard.xsize > 1) for (var i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),1);}
+			var i;
+			if (curCard.ysize > 1) for (i = 1; i <= curCard.xsize; i++) {drawMatrix.subset(math.index(y+i-1,maxX-x),1);}
+			if (curCard.xsize > 1) for (i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),1);}
 			dataMatrix.subset(math.index(0, curIndex), 1);
 			
 			var curBoxHeight = (gutterY*(curCard.ysize-1)) + boxheight*curCard.ysize;
