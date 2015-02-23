@@ -24,6 +24,8 @@ var maxY = 6;
 var colors = [0xe1251d,0x3ba6c3];
 var boxheight = 1.3;
 var boxwidth = 1;
+var gutterX = gridSizex-boxwidth;
+var gutterY = gridSizey-boxheight;
 
 // Touch Events vars
 var oldTouchX = 0;
@@ -33,6 +35,8 @@ var yMove = 0;
 var mTouchDown = false;
 var mTouchMove = false;
 var overlay = false;
+
+var initInterval;
 
 // Render init
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -213,9 +217,6 @@ document.addEventListener('touchmove', function(e) {
 }, false);
 
 function init3D() {
-	
-	document.addEventListener('mousedown', onDocumentMouseDown);
-	
 	// Objects init - plane (ground)
 	var geometry = new THREE.PlaneBufferGeometry( 100, 100 );
 	var material = new THREE.MeshPhongMaterial( {color: 0xfffdf2, side: THREE.DoubleSide} );
@@ -223,29 +224,71 @@ function init3D() {
 	scene.add( plane );
 	plane.position.z = -0.2;
 	
-	// Objects init - boxes (buildings)
-	var x;
-	var y;
-	for (x = 1; x <= maxX; x++) {
-		for (y = 1; y <= maxY; y++) {
-			var thisbox = {};
-			thisbox.geometry = new THREE.BoxGeometry( boxwidth, boxheight, (Math.random() * 3) + 1 );
-			thisbox.material = new THREE.MeshLambertMaterial( {color: colors[Math.round(Math.random())] }); //new THREE.MeshBasicMaterial( { color: colors[Math.round(Math.random())] } );
-			thisbox.cube = new THREE.Mesh( thisbox.geometry, thisbox.material );
-			thisbox.cube.name = ((x-1)*maxX)+y;
-			scene.add( thisbox.cube );
-			objects.push(thisbox.cube);
-			thisbox.cube.position.x = x * gridSizex;
-			thisbox.cube.position.y = y * gridSizey;
-		}
-	}
-	
 	// Objects init - camera light
 	light = new THREE.PointLight(0xffffff, 1, 50);
 	light.position.set(0,0,4);
 	scene.add(light);
 	camera.position.z = 5;
 	
+	//delay building init until data is populated
+	initInterval = setInterval(function() {
+		if (glCards.length > 0) {
+			clearInterval(initInterval);
+			initBuildings();
+		}
+	}, 500);
+	
 	// Start Rendering
 	render();
+}
+
+function initBuildings() {
+	// Objects init - boxes (buildings)
+	var drawMatrix = math.zeros(maxX, maxY);
+	var dataMatrix = math.zeros(1, glCards.length);
+
+	var br = false;
+	for (var y = 1; y <= maxY; y++) {
+		for (var x = maxX; x >= 1; x--) {
+			var thisbox = {};
+			var curIndex = (y*maxY)-x;
+			var curCard = glCards[curIndex];
+			if (typeof curCard === 'undefined') {br = true; break;}
+			
+			//if (x == 3) {br = true; break;}
+			if (drawMatrix.subset(math.index(y-1,maxX-x)) == 1) continue;
+			
+			drawMatrix.subset(math.index(y-1,maxX-x), 1);
+			if (curCard.ysize > 1) for (var i = 1; i <= curCard.xsize; i++) {drawMatrix.subset(math.index(y+i-1,maxX-x),1);}
+			if (curCard.xsize > 1) for (var i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),1);}
+			dataMatrix.subset(math.index(0, curIndex), 1);
+			
+			var curBoxHeight = (gutterY*(curCard.ysize-1)) + boxheight*curCard.ysize;
+			var curBoxWidth = (gutterX*(curCard.xsize-1)) + boxwidth*curCard.xsize;
+			
+			thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, (Math.random() * 3) + 1 );
+			thisbox.material = new THREE.MeshLambertMaterial( {color: colors[Math.round(Math.random())] }); //new THREE.MeshBasicMaterial( { color: colors[Math.round(Math.random())] } );
+			thisbox.cube = new THREE.Mesh( thisbox.geometry, thisbox.material );
+			thisbox.cube.name = ((x-1)*maxX)+y;
+			scene.add( thisbox.cube );
+			objects.push(thisbox.cube);
+			thisbox.cube.position.x = -x * gridSizex - (((curCard.xsize - 1) * gridSizex) / 2);
+			thisbox.cube.position.y = -y * gridSizey - (((curCard.ysize - 1) * gridSizey) / 2);
+
+			logMatrix(drawMatrix);
+			logMatrix(dataMatrix);
+			if (br) break;
+		}
+		if (br) break;
+	}
+	
+	document.addEventListener('mousedown', onDocumentMouseDown);
+}
+
+function logMatrix(drawMatrix) {
+	for (var arr in drawMatrix) {
+		for (var index in arr) {
+			console.log(drawMatrix[arr][index]);
+		}
+	}
 }
