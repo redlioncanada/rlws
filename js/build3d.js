@@ -26,6 +26,8 @@ var boxheight = 1.3;
 var boxwidth = 1;
 var gutterX = gridSizex-boxwidth;
 var gutterY = gridSizey-boxheight;
+var jitterX = 0.05;
+var jitterY = 0.4;
 
 // Touch Events vars
 var oldTouchX = 0;
@@ -246,13 +248,17 @@ function initBuildings() {
 	// Objects init - boxes (buildings)
 	var drawMatrix = math.zeros(maxX, maxY);
 	var dataMatrix = math.zeros(1, glCards.length);
-
+	
+	var cards = glCards;
+	var totalCards = cards.length;
+	var jitterxBool = jitterX;
+	var jitteryBool = jitterY;
 	var br = false;
+	var ind = 0;
 	for (var y = 1; y <= maxY; y++) {
 		for (var x = maxX; x >= 1; x--) {
 			var thisbox = {};
-			var curIndex = (y*maxY)-x;
-			var curCard = glCards[curIndex];
+			var curCard = cards[ind];
 			if (typeof curCard === 'undefined') {br = true; break;}
 			
 			//if (x == 3) {br = true; break;}
@@ -260,7 +266,12 @@ function initBuildings() {
 			if (drawMatrix.subset(math.index(y-1,maxX-x)) == 1) continue;
 			
 			//TODO skip this draw index if the current tile will extend into an occupied index
-			//TODO decouple draw and data indexes. Skipping a draw index should not skip a data index
+			/*if (curCard.ysize > 1) {
+				for (var i = 1; i <= curCard.xsize; i++) {
+					drawMatrix.subset(math.index(y+i-1,maxX-x),1);
+				}
+			}*/
+			//if (curCard.xsize > 1) for (var i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),1);}
 			
 			//set the current draw index as occupied
 			drawMatrix.subset(math.index(y-1,maxX-x), 1);
@@ -270,8 +281,11 @@ function initBuildings() {
 			if (curCard.xsize > 1) for (var i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),1);}
 			
 			//set the current data index as displayed/occupied
-			dataMatrix.subset(math.index(0, curIndex), 1);
+			dataMatrix.subset(math.index(0, totalCards-cards.length), 1);
+			cards = cards.splice(ind, 1);
 			
+			jitterxBool *= -1;
+			jitteryBool *= -1;
 			var curBoxHeight = (gutterY*(curCard.ysize-1)) + boxheight*curCard.ysize;
 			var curBoxWidth = (gutterX*(curCard.xsize-1)) + boxwidth*curCard.xsize;
 			
@@ -281,8 +295,8 @@ function initBuildings() {
 			thisbox.cube.name = ((x-1)*maxX)+y;
 			scene.add( thisbox.cube );
 			objects.push(thisbox.cube);
-			thisbox.cube.position.x = -x * gridSizex - (((curCard.xsize - 1) * gridSizex) / 2);
-			thisbox.cube.position.y = -y * gridSizey - (((curCard.ysize - 1) * gridSizey) / 2);
+			thisbox.cube.position.x = -x * gridSizex - (((curCard.xsize - 1) * gridSizex) / 2) + jitterxBool;
+			thisbox.cube.position.y = -y * gridSizey - (((curCard.ysize - 1) * gridSizey) / 2) + jitteryBool;
 
 			logMatrix(drawMatrix);
 			logMatrix(dataMatrix);
