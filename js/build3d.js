@@ -15,19 +15,21 @@ scene.fog = new THREE.FogExp2( 0xfffdf2, 0.18 );
 var renderer = new THREE.WebGLRenderer();
 var light = null;
 
-// Boxes vars
-var objects = [];
+// Boxes options 
 var gridSizex = 1.2;
 var gridSizey = 1.5;
 var maxX = 6;
 var maxY = 6;
-var colors = [0xe1251d,0x3ba6c3];
 var boxheight = 1.3;
 var boxwidth = 1;
 var gutterX = gridSizex-boxwidth;
 var gutterY = gridSizey-boxheight;
 var jitterX = 0.05;
 var jitterY = 0.4;
+var colors = [0xe1251d,0x3ba6c3];
+
+// Boxes vars
+var objects = [];
 
 // Touch Events vars
 var oldTouchX = 0;
