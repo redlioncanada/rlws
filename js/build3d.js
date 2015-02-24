@@ -377,7 +377,7 @@ function initBuildings() {
 			];
 			thisbox.material[4].minFilter = THREE.NearestFilter;
 			thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
-			thisbox.cube.name = curIndex;
+			thisbox.cube.name = ind;
 			scene.add( thisbox.cube );
 			objects.push(thisbox.cube);
 			thisbox.cube.position.x = -x * gridSizex - (((curCard.xsize - 1) * gridSizex) / 2) + jitterxBool;
