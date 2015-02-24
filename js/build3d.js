@@ -11,8 +11,8 @@ var mROTDOWN = false;
 // Three.JS/WebGL init vars
 var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 var scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2( 0xfffdf2, 0.25 );
-var renderer = new THREE.WebGLRenderer({antialias:true});
+scene.fog = new THREE.FogExp2( 0xfffdf2, 0.18 );
+var renderer = new THREE.WebGLRenderer();
 var light = null;
 
 // Boxes vars
@@ -277,8 +277,9 @@ function initBuildings() {
 			drawMatrix.subset(math.index(y-1,maxX-x), 1);
 			
 			//set the indexes the current item extends into as occupied
-			if (curCard.ysize > 1) for (var i = 1; i <= curCard.xsize; i++) {drawMatrix.subset(math.index(y+i-1,maxX-x),1);}
-			if (curCard.xsize > 1) for (var i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),1);}
+			var i;
+			if (curCard.ysize > 1) for (i = 1; i <= curCard.xsize; i++) {drawMatrix.subset(math.index(y+i-1,maxX-x),1);}
+			if (curCard.xsize > 1) for (i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),1);}
 			
 			//set the current data index as displayed/occupied
 			dataMatrix.subset(math.index(0, totalCards-cards.length), 1);
@@ -288,18 +289,27 @@ function initBuildings() {
 			jitteryBool *= -1;
 			var curBoxHeight = (gutterY*(curCard.ysize-1)) + boxheight*curCard.ysize;
 			var curBoxWidth = (gutterX*(curCard.xsize-1)) + boxwidth*curCard.xsize;
+			var curBoxDepth = (Math.random() * 3) + 1;
 			
-			thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, (Math.random() * 3) + 1 );
-			thisbox.material = new THREE.MeshLambertMaterial( {color: colors[Math.round(Math.random())] }); //new THREE.MeshBasicMaterial( { color: colors[Math.round(Math.random())] } );
-			thisbox.cube = new THREE.Mesh( thisbox.geometry, thisbox.material );
+			thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, curBoxDepth );
+			var useColor = colors[Math.round(Math.random())];
+			thisbox.material = [
+				new THREE.MeshLambertMaterial( {color: useColor }),
+				new THREE.MeshLambertMaterial( {color: useColor }),
+				new THREE.MeshLambertMaterial( {color: useColor }),
+				new THREE.MeshLambertMaterial( {color: useColor }),
+				new THREE.MeshLambertMaterial( {map: THREE.ImageUtils.loadTexture(curCard.img)}),
+				new THREE.MeshLambertMaterial( {color: useColor })
+			];
+			thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
 			thisbox.cube.name = ((x-1)*maxX)+y;
 			scene.add( thisbox.cube );
 			objects.push(thisbox.cube);
 			thisbox.cube.position.x = -x * gridSizex - (((curCard.xsize - 1) * gridSizex) / 2) + jitterxBool;
 			thisbox.cube.position.y = -y * gridSizey - (((curCard.ysize - 1) * gridSizey) / 2) + jitteryBool;
 
-			logMatrix(drawMatrix);
 			logMatrix(dataMatrix);
+			logMatrix(drawMatrix);
 			if (br) break;
 		}
 		if (br) break;
