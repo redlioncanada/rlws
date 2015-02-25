@@ -7,38 +7,35 @@ scene.fog = new THREE.FogExp2( 0xfffdf2, 0.18 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
 var light = null;
 
-var camMaxHeight = 6.5;
-var camMinHeight;
-
-// Boxes options 
-var gridSizex = 1.2;
-var gridSizey = 1.5;
-var maxX = 6;
-var maxY = 6;
-var boxheight = 1.3;
-var boxwidth = 1;
-var jitterX = 0.0;
-var jitterY = 0.0;
-var colors = [0xe1251d,0x3ba6c3];
-
 // Boxes vars
 var objects = [];
 var gutterX = gridSizex-boxwidth;
 var gutterY = gridSizey-boxheight;
 var gridTotalWidth = maxX * (gridSizex + gutterX);
 var gridTotalHeight = maxY * (gridSizey + gutterY);
-
 var initInterval;
 
 // Render init
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.shadowMapEnabled = true;
 document.body.appendChild( renderer.domElement );
+canScrollLeft = true;
+canScrollRight = true;
+canScrollBottom = true;
+canScrollUp = true;
 
 function render() {
 	requestAnimationFrame( render );
+	TWEEN.update();
 	//cube.rotation.x += 0.1;
 	//cube.rotation.y += 0.1;
+	
+	//constrain camera position
+	if (Math.abs(camera.position.y) >= Math.abs(originY-camY2Extents)) mDOWN = false;
+	if (Math.abs(camera.position.y) <= Math.abs(originY+camY1Extents)) mUP = false;
+	if (Math.abs(camera.position.x) >= Math.abs(originX-camX1Extents)) mLEFT = false;
+	if (Math.abs(camera.position.x) <= Math.abs(originX+camX2Extents)) mRIGHT = false;
+	
 	if (!overlay) {
 		if (mRIGHT) moveCamX(0.1);
 		if (mLEFT) moveCamX(-0.1);
@@ -70,7 +67,7 @@ function init3D() {
 	light = new THREE.PointLight(0xffffff, 1, 50);
 	light.position.set(0,0,4);
 	scene.add(light);
-	camera.position.z = 5;
+	camera.position.z = camZStart;
 	
 	//delay building init until data is populated
 	initInterval = setInterval(function() {
@@ -82,6 +79,19 @@ function init3D() {
 	
 	// Start Rendering
 	render();
+}
+
+function animateCameraZoom(from, to) {
+	var tween = new TWEEN.Tween( { z : from } )
+		.to( { z : to }, camZAnimationTime*1000 )
+		.easing( TWEEN.Easing.Elastic.InOut )
+		.onUpdate( function() {
+			camera.position.z = this.z;
+		})
+		.start();
+}
+
+function animateCameraPosition(from, to) {
 }
 
 function initBuildings() {
@@ -153,7 +163,18 @@ function initBuildings() {
 	
 	//center camera to grid
 	moveCamAbs(-(gridTotalWidth/2), -(gridTotalHeight/2));
-	console.log("camera max: " + camMaxHeight + " min: " + camMinHeight);
+	
+	//set camera constraints
+	camMinX = -gridTotalWidth-camX1Extents;
+	camMaxX = 0+camX2Extents;
+	camMinY = -gridTotalHeight-camY1Extents;
+	camMaxY = 0+camY2Extents;
+	
+	originX = camera.position.x;
+	originY = camera.position.y;
+	
+	//zoom camera
+	animateCameraZoom(camera.position.z, camZEnd);
 }
 
 function logMatrix(drawMatrix) {

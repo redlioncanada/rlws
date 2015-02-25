@@ -42,18 +42,22 @@ function moveCamAbs(x,y) {
 $(document).keydown(function( event ) {
 	if ( event.which == 38 ) { // UP
 		event.preventDefault();
+		console.log("camy:"+Math.abs(camera.position.y)+",constrain:"+Math.abs(originY+camY1Extents));
 		mUP = true;
 	}
 	if (event.which == 40) { // DOWN
 		event.preventDefault();
+		console.log("camy:"+Math.abs(camera.position.y)+",constrain:"+Math.abs(originY-camY2Extents));
 		mDOWN = true;
 	}
 	if (event.which == 37) { // LEFT
 		event.preventDefault();
+		console.log("camx:"+Math.abs(camera.position.x)+",constrain:"+Math.abs(originX-camX1Extents));
 		mLEFT = true;
 	}
 	if (event.which == 39) { // RIGHT
 		event.preventDefault();
+		console.log("camx:"+Math.abs(camera.position.x)+",constrain:"+Math.abs(originX+camX2Extents));
 		mRIGHT = true;
 	}
 	if (event.which == 34) { // PGDN
@@ -145,17 +149,27 @@ function fingerMouseDown(e) {
 
 function fingerMouseDrag(e) {
 	e.preventDefault();
+	var xMod, yMod, xOldMod, yOldMod;
 	if (isMobile) { 
 		var touch = e.touches[0];
-		xMove = touch.pageX - oldTouchX;
-		oldTouchX = touch.pageX;
-		yMove = touch.pageY - oldTouchY;
-		oldTouchY = touch.pageY;
+		xMod = touch.pageX - oldTouchX;
+		xOldMod = touch.pageX;
+		yMod = touch.pageY - oldTouchY;
+		yOldMod = touch.pageY;
 	} else if (mTouchDown) {
-		xMove = e.clientX - oldTouchX;
-		oldTouchX = e.clientX;
-		yMove = e.clientY - oldTouchY;
-		oldTouchY = e.clientY;
+		xMod = e.clientX - oldTouchX;
+		xOldMod = e.clientX;
+		yMod = e.clientY - oldTouchY;
+		yOldMod = e.clientY;
+	}
+	
+	if (camera.position.x + xMod <= camMaxX && camera.position.x + xMod >= camMinX) {
+		xMove = xMod;
+		oldTouchX = xOldMod;
+	}
+	if (camera.position.y + yMod <= camMaxY && camera.position.y + yMod >= camMinY) {
+		yMove = yMod;
+		oldTouchY = yOldMod;
 	}
 }
 
