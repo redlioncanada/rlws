@@ -162,14 +162,18 @@ function fingerMouseDrag(e) {
 		yMod = e.clientY - oldTouchY;
 		yOldMod = e.clientY;
 	}
-	
-	if (camera.position.x + xMod <= camMaxX && camera.position.x + xMod >= camMinX) {
+
+	if (xMove != xMod) {
 		xMove = xMod;
 		oldTouchX = xOldMod;
+		if (xMove > 0) mLEFT = true;
+		if (xMove < 0) mRIGHT = true;
 	}
-	if (camera.position.y + yMod <= camMaxY && camera.position.y + yMod >= camMinY) {
+	if (yMove != yMod) {
 		yMove = yMod;
 		oldTouchY = yOldMod;
+		if (yMove > 0) mDOWN = true;
+		if (yMove < 0) mUP = true;
 	}
 }
 
@@ -197,6 +201,10 @@ function fingerMouseUp(e) {
 	}
 	xMove = 0;
 	yMove = 0;
+	mUP = false;
+	mDOWN = false;
+	mRIGHT = false;
+	mDOWN = false;
 	mTouchDown = false;
 	oldScale = 0;
 	pinched = false;

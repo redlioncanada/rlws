@@ -33,14 +33,14 @@ function render() {
 	if (Math.abs(camera.position.x) <= Math.abs(originX+camX2Extents)) mRIGHT = false;
 	
 	if (!overlay) {
-		if (mRIGHT) moveCamX(0.1);
-		if (mLEFT) moveCamX(-0.1);
-		if (mUP) moveCamY(0.1);
-		if (mDOWN) moveCamY(-0.1);
+		if (!xMove && mRIGHT) moveCamX(0.1);
+		if (!xMove && mLEFT) moveCamX(-0.1);
+		if (!yMove && mUP) moveCamY(0.1);
+		if (!yMove && mDOWN) moveCamY(-0.1);
 		if (mGOIN) camera.position.z -= 0.1;
 		if (mGOOUT) camera.position.z += 0.1;
-		if (xMove) moveCamX((xMove/200) * -1);
-		if (yMove) moveCamY(yMove/200);
+		if (xMove && (mLEFT || mRIGHT)) moveCamX((xMove/200) * -1);
+		if (yMove && (mUP || mDOWN)) moveCamY(yMove/200);
 		if (mROTUP && camera.rotation.x < 0.9) {
 			camera.rotation.x += 0.03;
 		}
