@@ -22,8 +22,8 @@ var maxX = 6;
 var maxY = 6;
 var boxheight = 1.3;
 var boxwidth = 1;
-var jitterX = 0.05;
-var jitterY = 0.4;
+var jitterX = 0.0;
+var jitterY = 0.0;
 var colors = [0xe1251d,0x3ba6c3];
 
 // Boxes vars
