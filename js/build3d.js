@@ -8,12 +8,20 @@ var mGOOUT = false;
 var mROTUP = false;
 var mROTDOWN = false;
 
+var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
+
 // Three.JS/WebGL init vars
 var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 var scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2( 0xfffdf2, 0.18 );
-var renderer = new THREE.WebGLRenderer();
+var renderer = new THREE.WebGLRenderer({antialias: true});
 var light = null;
+
+var camMaxHeight = 6.5;
+var camMinHeight;
+
+// Boxes vars
+var objects = [];
 
 // Boxes options 
 var gridSizex = 1.2;
@@ -39,6 +47,8 @@ var yMove = 0;
 var mTouchDown = false;
 var mTouchMove = false;
 var overlay = false;
+var oldScale = 0;
+var pinched = false;
 
 var initInterval;
 
@@ -158,7 +168,7 @@ function boxClicked(intersect) {
 	$('#blackout').css({'display':'block'}).animate({'opacity': 1},500);
 	overlay = true;
 	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + glCards[parseInt(intersect.name)].title + "<br>Description: " + glCards[parseInt(intersect.name)].description + '<br>Image: <img src="' + glCards[parseInt(intersect.name)].img + '">');
-	$('#blackout').on('click', function(e) {
+	$('#blackout').on('click touchend', function(e) {
 		$(this).animate({'opacity': 0}, 500, function() {
 			$('#blackout').css({'display':'none'});
 			overlay = false;
@@ -167,15 +177,54 @@ function boxClicked(intersect) {
 	});
 }
 
-// Mouse/Finger Down Function
-function onDocumentMouseDown( event, vector ) {
-	if (!overlay) {
-		if (typeof vector === 'undefined') {
-			var touchX = ( event.clientX / window.innerWidth ) * 2 - 1;
-			var touchY = -( event.clientY / window.innerHeight ) * 2 + 1;
-			vector = new THREE.Vector3( touchX, touchY, 0.5 );
+function fingerMouseDown(e) {
+	e.preventDefault();
+	if (isMobile) {
+		if (e.touches.length == 2) {
+			console.log(e.touches);
+		} else {
+			var touch = e.touches[0];
+			oldTouchX = touch.pageX;
+			oldTouchY = touch.pageY;
 		}
-		
+	} else {
+		oldTouchX = e.clientX;
+		oldTouchY = e.clientY;
+	}
+	mTouchDown = true;
+}
+
+function fingerMouseDrag(e) {
+	e.preventDefault();
+	if (isMobile) { 
+		var touch = e.touches[0];
+		xMove = touch.pageX - oldTouchX;
+		oldTouchX = touch.pageX;
+		yMove = touch.pageY - oldTouchY;
+		oldTouchY = touch.pageY;
+	} else if (mTouchDown) {
+		xMove = e.clientX - oldTouchX;
+		oldTouchX = e.clientX;
+		yMove = e.clientY - oldTouchY;
+		oldTouchY = e.clientY;
+	}
+}
+
+function fingerMouseUp(e) {
+	e.preventDefault();
+	
+	var touchX, touchY, vector;
+	
+	if (isMobile) {
+		touchX = ( e.pageX / window.innerWidth ) * 2 - 1;
+		touchY = -( e.pageY / window.innerHeight ) * 2 + 1;
+		vector = new THREE.Vector3( touchX, touchY, 0.5 );		
+	} else {	
+		touchX = ( e.clientX / window.innerWidth ) * 2 - 1;
+		touchY = -( e.clientY / window.innerHeight ) * 2 + 1;
+		vector = new THREE.Vector3( touchX, touchY, 0.5 );
+	}	
+	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched) {
 		var raycaster = new THREE.Raycaster();
 		vector.unproject( camera );
 		raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
@@ -183,42 +232,63 @@ function onDocumentMouseDown( event, vector ) {
 		
 		if ( intersects.length > 0 ) boxClicked(intersects[0].object);
 	}
-}
-
-// Touch Events - Start (Finger down)
-document.addEventListener('touchstart', function(e) {
-	e.preventDefault();
-	var touch = e.touches[0];
-	oldTouchX = touch.pageX;
-	oldTouchY = touch.pageY;
-	mTouchDown = true;
-}, false);
-
-// Touch Events - End (Finger up)
-document.addEventListener('touchend', function(e) {
-	e.preventDefault();
-	var touch = e.touches[0];
-	
-	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1) {
-		var touchX = ( e.pageX / window.innerWidth ) * 2 - 1;
-		var touchY = -( e.pageY / window.innerHeight ) * 2 + 1;
-		var vector = new THREE.Vector3( touchX, touchY, 0.5 );
-		onDocumentMouseDown( e, vector );
-	}
 	xMove = 0;
 	yMove = 0;
-}, false);
+	mTouchDown = false;
+	oldScale = 0;
+	pinched = false;
+}
 
-// Touch Events - Move (Finger drag)
-document.addEventListener('touchmove', function(e) {
-	e.preventDefault();
-	var touch = e.touches[0];
-	xMove = touch.pageX - oldTouchX;
-	oldTouchX = touch.pageX;
-	yMove = touch.pageY - oldTouchY;
-	oldTouchY = touch.pageY;
-	mTouchMove = true;
-}, false);
+function zoomHandler(e) {
+	var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
+	if ((camera.position.z > camMinHeight && delta > 0) || (camera.position.z < camMaxHeight && delta < 0)) camera.position.z -= delta;
+}
+
+function resetPinches() {
+
+	$(document).on("pinchstart", function(e) {
+		oldScale = 0;
+		pinched = true;
+	});
+	
+	$(document).on("pinchmove", function(e) {
+		pinched = true;
+		var delta = e.scale - oldScale;
+		oldScale = e.scale;
+		if (camera.position.z < camMaxHeight && delta < 0) {
+			camera.position.z += 0.1;
+			console.log("zoom out, delta: " + delta);
+		}
+		else if (camera.position.z > camMinHeight && delta > 0) {
+			camera.position.z -= 0.1;
+			console.log("zoom in, delta: " + delta);
+		}
+	});
+	
+	$(document).on("pinchend", function(e) {
+		oldScale = 0;
+		pinched = false;
+		$(document).off("pinchstart pinchmove pinchend");
+		resetPinches();
+	});
+
+}
+
+resetPinches();
+
+// Touch Events - Start (Finger/Mouse down)
+document.addEventListener('touchstart', fingerMouseDown);
+document.addEventListener('mousedown', fingerMouseDown);
+
+// Touch Events - End (Finger/Mouse up)
+document.addEventListener('touchend', fingerMouseUp);
+document.addEventListener('mouseup', fingerMouseUp);
+
+// Touch Events - Move (Finger/Mouse drag)
+document.addEventListener('touchmove', fingerMouseDrag);
+document.addEventListener('mousemove', fingerMouseDrag);
+
+document.addEventListener("mousewheel", zoomHandler);
 
 function init3D() {
 	// Objects init - plane (ground)
@@ -250,6 +320,7 @@ function initBuildings() {
 	// Objects init - boxes (buildings)
 	var drawMatrix = math.zeros(maxX, maxY);
 	var dataMatrix = math.zeros(1, glCards.length);
+	camMinHeight = 0;
 	
 	var cards = glCards;
 	var totalCards = cards.length;
@@ -292,6 +363,7 @@ function initBuildings() {
 			var curBoxHeight = (gutterY*(curCard.ysize-1)) + boxheight*curCard.ysize;
 			var curBoxWidth = (gutterX*(curCard.xsize-1)) + boxwidth*curCard.xsize;
 			var curBoxDepth = (Math.random() * 3) + 1;
+			if (curBoxDepth / 2 + 1 > camMinHeight) camMinHeight = Math.ceil(curBoxDepth / 2 + 1);
 			
 			thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, curBoxDepth );
 			var useColor = colors[Math.round(Math.random())];
@@ -303,21 +375,21 @@ function initBuildings() {
 				new THREE.MeshLambertMaterial( {map: THREE.ImageUtils.loadTexture(curCard.img)}),
 				new THREE.MeshLambertMaterial( {color: useColor })
 			];
+			thisbox.material[4].minFilter = THREE.NearestFilter;
 			thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
-			thisbox.cube.name = ((x-1)*maxX)+y;
+			thisbox.cube.name = ind;
 			scene.add( thisbox.cube );
 			objects.push(thisbox.cube);
 			thisbox.cube.position.x = -x * gridSizex - (((curCard.xsize - 1) * gridSizex) / 2) + jitterxBool;
 			thisbox.cube.position.y = -y * gridSizey - (((curCard.ysize - 1) * gridSizey) / 2) + jitteryBool;
 
-			logMatrix(dataMatrix);
-			logMatrix(drawMatrix);
+			//logMatrix(dataMatrix);
+			//logMatrix(drawMatrix);
 			if (br) break;
 		}
 		if (br) break;
 	}
-	
-	document.addEventListener('mousedown', onDocumentMouseDown);
+	console.log("camera max: " + camMaxHeight + " min: " + camMinHeight);
 }
 
 function logMatrix(drawMatrix) {
