@@ -19,10 +19,6 @@ var initInterval;
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.shadowMapEnabled = true;
 document.body.appendChild( renderer.domElement );
-canScrollLeft = true;
-canScrollRight = true;
-canScrollBottom = true;
-canScrollUp = true;
 
 function render() {
 	requestAnimationFrame( render );

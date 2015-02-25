@@ -24,4 +24,3 @@ var camZAnimationTime = 2;
 //NON-MODIFIABLE
 var camMinHeight, camMinX, camMaxX, camMinY, camMaxY;
 var originX, originY;
-var canScrollRight, canScrollLeft, canScrollRight, canScrollLeft;
