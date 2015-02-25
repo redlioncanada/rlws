@@ -151,7 +151,8 @@ function initBuildings() {
 		if (br) break;
 	}
 	
-	moveCamAbs(gridTotalWidth/2, gridTotalHeight/2);
+	//center camera to grid
+	moveCamAbs(-(gridTotalWidth/2), -(gridTotalHeight/2));
 	console.log("camera max: " + camMaxHeight + " min: " + camMinHeight);
 }
 
