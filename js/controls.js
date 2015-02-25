@@ -31,6 +31,13 @@ function moveCamY(y) {
 	light.position.y += y;
 }
 
+function moveCamAbs(x,y) {
+	camera.position.y = y;
+	light.position.y = y;
+	camera.position.x = x;
+	light.position.x = x;
+}
+
 // Keyboard Controls - key down event
 $(document).keydown(function( event ) {
 	if ( event.which == 38 ) { // UP
