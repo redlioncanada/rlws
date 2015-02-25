@@ -333,19 +333,19 @@ function initBuildings() {
 			
 			//if (x == 3) {br = true; break;}
 			//if the current draw matrix index is occupied, skip this index
-			if (drawMatrix.subset(math.index(y-1,maxX-x)) == 1) continue;
+			if (drawMatrix.subset(math.index(y-1,maxX-x)) > 0) continue;
 			
 			//TODO skip this draw index if the current tile will extend into an occupied index, non-issue if only drawing right/down
 			
 			//set the current draw index as occupied
-			drawMatrix.subset(math.index(y-1,maxX-x), 1);
+			drawMatrix.subset(math.index(y-1,maxX-x), Math.max(curCard.xsize,curCard.ysize));
 			
 			//set the indexes the current item extends into as occupied
-			if (curCard.ysize > 1) for (var i = 1; i <= curCard.xsize; i++) {drawMatrix.subset(math.index(y+i-1,maxX-x),1);}
-			if (curCard.xsize > 1) for (var i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),1);}
+			if (curCard.ysize > 1) for (var i = 1; i <= curCard.xsize; i++) {drawMatrix.subset(math.index(y+i-1,maxX-x),Math.max(curCard.xsize,curCard.ysize));}
+			if (curCard.xsize > 1) for (var i = 1; i <= curCard.ysize; i++) {drawMatrix.subset(math.index(y-1,maxX-x+i),Math.max(curCard.xsize,curCard.ysize));}
 			
 			//set the current data index as displayed/occupied
-			dataMatrix.subset(math.index(0, totalCards-cards.length), 1);
+			dataMatrix.subset(math.index(0, totalCards-cards.length), Math.max(curCard.xsize,curCard.ysize));
 			cards.splice(ind, 1);
 			
 			jitterxBool *= -1;
@@ -373,7 +373,8 @@ function initBuildings() {
 			thisbox.cube.position.x = -x * gridSizex - (((curCard.xsize - 1) * gridSizex) / 2) + jitterxBool;
 			thisbox.cube.position.y = -y * gridSizey - (((curCard.ysize - 1) * gridSizey) / 2) + jitteryBool;
 
-			//logMatrix(dataMatrix);
+			logMatrix(drawMatrix);
+			logMatrix(dataMatrix);
 			if (br) break;
 		}
 		if (br) break;
