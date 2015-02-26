@@ -96,12 +96,13 @@ function initBuildings() {
 	var dataMatrix = math.zeros(1, glCards.length);
 	camMinHeight = 0;
 	
-	var cards = glCards;
+	var cards = glCards.slice();
 	var totalCards = cards.length;
 	var jitterxBool = jitterX;
 	var jitteryBool = jitterY;
 	var br = false;
 	var ind = 0;
+
 	for (var y = 1; y <= maxY; y++) {
 		for (var x = maxX; x >= 1; x--) {
 			var thisbox = {};
