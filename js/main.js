@@ -28,14 +28,14 @@ function render() {
 	if (Math.abs(camera.position.x) <= Math.abs(originX+camX2Extents)) mRIGHT = false;
 	
 	if (!overlay) {
-		if (!xMove && mRIGHT) animations.CameraPanX(0.1);
-		if (!xMove && mLEFT) animations.CameraPanX(-0.1);
-		if (!yMove && mUP) animations.CameraPanY(0.1);
-		if (!yMove && mDOWN) animations.CameraPanY(-0.1);
+		if (!xMove && mRIGHT) animations.CameraPanX(0.1, undefined, camPanAnimationTime);
+		if (!xMove && mLEFT) animations.CameraPanX(-0.1, undefined, camPanAnimationTime);
+		if (!yMove && mUP) animations.CameraPanY(0.1, undefined, camPanAnimationTime);
+		if (!yMove && mDOWN) animations.CameraPanY(-0.1, undefined, camPanAnimationTime);
 		if (mGOIN) animations.CameraZoom(0.1);
 		if (mGOOUT) animations.CameraZoom(-0.1);
-		if (xMove && (mLEFT || mRIGHT)) animations.CameraPanX((xMove/200) * -1);
-		if (yMove && (mUP || mDOWN)) animations.CameraPanY(yMove/200);
+		if (xMove && (mLEFT || mRIGHT)) animations.CameraPanX((xMove/200) * -1, undefined, camPanAnimationTime);
+		if (yMove && (mUP || mDOWN)) animations.CameraPanY(yMove/200, undefined, camPanAnimationTime);
 		if (mROTUP && camera.rotation.x < 0.9) {
 			camera.rotation.x += 0.03;
 		}
@@ -84,7 +84,7 @@ function init3D() {
 			originY = camera.position.y;
 	
 			//zoom camera
-			animations.CameraZoom(camZEnd, undefined, true);
+			animations.CameraZoom(camZEnd, undefined, camZAnimationTime, true);
 			
 			clearInterval(initInterval);
 			cityController.SpawnCity();

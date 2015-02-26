@@ -20,6 +20,7 @@ var camY2Extents = 1.6;	//affects how far outside the current grid that the came
 var camZStart = 15;
 var camZEnd = 5;
 var camZAnimationTime = 2;
+var camPanAnimationTime = 0.01;
 
 //NON-MODIFIABLE
 var camMinHeight, camMinX, camMaxX, camMinY, camMaxY;

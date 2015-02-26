@@ -2,42 +2,45 @@ var _objects = function() {
 	var self = this;
 	
 	//Animations - Holds various animations to three.js objects via tween library
-	this.animations = function() {}
-	this.animations.prototype.CameraPan = function(toX, toY, fromX, fromY, abs) {
-		this.CameraPanX(fromX, toX, abs);
-		this.CameraPanY(fromY, toY, abs);
+	this.animations = function() {};
+	this.animations.prototype.CameraPan = function(toX, toY, fromX, fromY, time, abs) {
+		this.CameraPanX(fromX, toX, fromX, fromY, time, abs);
+		this.CameraPanY(fromY, toY, fromX, fromY, time, abs);
 	}
 	
-	this.animations.prototype.CameraPanX = function(to, from, abs) {
+	this.animations.prototype.CameraPanX = function(to, from, time, abs) {
+		if (typeof time === 'undefined') time = 0.1;
 		if (typeof abs === 'undefined') abs = false;
 		if (typeof from === 'undefined') from = camera.position.x;
 		if (!abs) to = from + to;
 		var t = new TWEEN.Tween( { x : from } )
-			.to( { x : to }, camZAnimationTime*1000 )
+			.to( { x : to }, time*1000 )
 			.onUpdate( function() {
 				camera.position.x = this.x;
 			})
 			.start();
 	}
 	
-	this.animations.prototype.CameraPanY = function(to, from, abs) {
+	this.animations.prototype.CameraPanY = function(to, from, time, abs) {
+		if (typeof time === 'undefined') time = 0.1;
 		if (typeof abs === 'undefined') abs = false;
 		if (typeof from === 'undefined') from = camera.position.y;
 		if (!abs) to = from + to;
 		var t = new TWEEN.Tween( { y : from } )
-			.to( { y : to }, camZAnimationTime*1000 )
+			.to( { y : to }, time*1000 )
 			.onUpdate( function() {
 				camera.position.y = this.y;
 			})
 			.start();
 	}
 	
-	this.animations.prototype.CameraZoom = function(to, from, abs) {
+	this.animations.prototype.CameraZoom = function(to, from, time, abs) {
+		if (typeof time === 'undefined') time = 0.1;
 		if (typeof abs === 'undefined') abs = false;
 		if (typeof from === 'undefined') from = camera.position.z;
 		if (!abs) to = from + to;
 		var t = new TWEEN.Tween( { z : from } )
-			.to( { z : to }, camZAnimationTime*1000 )
+			.to( { z : to }, time*1000 )
 			.easing( TWEEN.Easing.Elastic.InOut )
 			.onUpdate( function() {
 				camera.position.z = this.z;
@@ -57,7 +60,7 @@ var _objects = function() {
 	}
 	//End CityController
 
-	//City - A single content entity, holds it's physical data as well as it's content data
+	//City - a collection of buildings
 	this.city = function() {
 		this.logMatrix = function(matrix) {
 			for (var arr in matrix) {
@@ -91,7 +94,7 @@ var _objects = function() {
 		for (var y = 1; y <= maxY; y++) {
 			for (var x = maxX; x >= 1; x--) {
 				var thisbox = {};
-				var curBuilding = this.buildingData[ind];
+				var curBuilding = new self.building(this.buildingData[ind]);
 				if (typeof curBuilding === 'undefined') {br = true; break;}
 			
 				//if (x == 3) {br = true; break;}
@@ -132,9 +135,9 @@ var _objects = function() {
 				thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
 				thisbox.cube.name = buildingDataLength-this.buildingData.length;
 				scene.add( thisbox.cube );
-				this.buildings.push(thisbox.cube);
 				thisbox.cube.position.x = -x * gridSizex - (((curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool;
 				thisbox.cube.position.y = -y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool;
+				curBuilding.setTDObject(thisbox.cube);
 
 				this.logMatrix(this.drawMatrix);
 				this.logMatrix(this.dataMatrix);
@@ -144,4 +147,22 @@ var _objects = function() {
 		}
 	};
 	//End City
+	
+	//Building - A single content entity, holds it's physical data as well as it's content data
+	this.building = function(data) {
+		if (typeof data !== 'undefined') {
+			this.xsize = typeof data.xsize === 'undefined' ? undefined : data.xsize;
+			this.ysize = typeof data.ysize === 'undefined' ? undefined : data.ysize;
+			this.id = typeof data.id === 'undefined' ? undefined : data.id;
+			this.title = typeof data.title === 'undefined' ? undefined : data.title;
+			this.description = typeof data.description === 'undefined' ? undefined : data.description;
+			this.tags = typeof data.tags === 'undefined' ? undefined : data.tags;
+			this.img = typeof data.img === 'undefined' ? undefined : data.img;
+		}
+		this.TDObject = undefined;
+	};
+	
+	this.building.prototype.setTDObject = function(obj) {
+		this.TDObject = obj
+	}
 };
