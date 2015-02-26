@@ -10,6 +10,8 @@ var boxwidth = 1; //multiplicative
 var jitterX = 0.0; //grid jitter
 var jitterY = 0.0; //grid jitter
 var colors = [0xe1251d,0x3ba6c3]; //possible box colors, randomly chosen
+var glCards = [];
+var glCards2 = [];
 
 //cam vars
 var camMaxHeight = 6.5;	//maximum camera z
@@ -25,3 +27,4 @@ var camPanAnimationTime = 0.01;
 //NON-MODIFIABLE
 var camMinHeight, camMinX, camMaxX, camMinY, camMaxY;
 var originX, originY;
+var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
