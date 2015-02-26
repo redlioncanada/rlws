@@ -120,7 +120,7 @@ function boxClicked(intersect) {
 	console.log(intersect.name);
 	$('#blackout').css({'display':'block'}).animate({'opacity': 1},500);
 	overlay = true;
-	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + glCards2[parseInt(intersect.name)].title + "<br>Description: " + glCards2[parseInt(intersect.name)].description + '<br>Image: <img src="' + glCards2[parseInt(intersect.name)].img + '">');
+	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + glCards[parseInt(intersect.name)].title + "<br>Description: " + glCards[parseInt(intersect.name)].description + '<br>Image: <img src="' + glCards[parseInt(intersect.name)].img + '">');
 	$('#blackout').on('click touchend', function(e) {
 		$(this).animate({'opacity': 0}, 500, function() {
 			$('#blackout').css({'display':'none'});
