@@ -140,8 +140,8 @@ var _objects = function() {
 				curBuilding.setTDObject(thisbox.cube);
 				objects.push(thisbox.cube);
 
-				this.logMatrix(this.drawMatrix);
-				this.logMatrix(this.dataMatrix);
+				//this.logMatrix(this.drawMatrix);
+				//this.logMatrix(this.dataMatrix);
 				if (br) break;
 			}
 			if (br) break;

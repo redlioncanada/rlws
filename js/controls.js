@@ -21,22 +21,7 @@ var overlay = false;
 var oldScale = 0;
 var pinched = false;
 
-function moveCamX(x) {
-	camera.position.x += x;
-	light.position.x += x;
-}
-
-function moveCamY(y) {
-	camera.position.y += y;
-	light.position.y += y;
-}
-
-function moveCamAbs(x,y) {
-	camera.position.y = y;
-	light.position.y = y;
-	camera.position.x = x;
-	light.position.x = x;
-}
+setupEventListeners();
 
 // Keyboard Controls - key down event
 $(document).keydown(function( event ) {
@@ -117,10 +102,10 @@ $(document).keyup(function(event) {
 
 // Box Clicked Function
 function boxClicked(intersect) {
-	console.log(intersect.name);
+	console.log(glCards[parseInt(intersect.name)]);
 	$('#blackout').css({'display':'block'}).animate({'opacity': 1},500);
 	overlay = true;
-	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + glCards2[parseInt(intersect.name)].title + "<br>Description: " + glCards2[parseInt(intersect.name)].description + '<br>Image: <img src="' + glCards2[parseInt(intersect.name)].img + '">');
+	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + glCards[parseInt(intersect.name)].title + "<br>Description: " + glCards[parseInt(intersect.name)].description + '<br>Image: <img src="' + glCards[parseInt(intersect.name)].img + '">');
 	$('#blackout').on('click touchend', function(e) {
 		$(this).animate({'opacity': 0}, 500, function() {
 			$('#blackout').css({'display':'none'});
@@ -175,6 +160,7 @@ function fingerMouseDrag(e) {
 		if (yMove > 0) mDOWN = true;
 		if (yMove < 0) mUP = true;
 	}
+	console.log(xMove+","+mLEFT+","+mRIGHT);
 }
 
 function fingerMouseUp(e) {
@@ -250,18 +236,18 @@ resetPinches();
 function setupEventListeners() {
 	var canvases = document.getElementsByTagName('canvas');
 	var canvas = canvases[0];
-	
+
 	// Touch Events - Start (Finger/Mouse down)
 	canvas.addEventListener('touchstart', fingerMouseDown);
 	canvas.addEventListener('mousedown', fingerMouseDown);
-	
+
 	// Touch Events - End (Finger/Mouse up)
 	canvas.addEventListener('touchend', fingerMouseUp);
 	canvas.addEventListener('mouseup', fingerMouseUp);
-	
+
 	// Touch Events - Move (Finger/Mouse drag)
 	canvas.addEventListener('touchmove', fingerMouseDrag);
 	canvas.addEventListener('mousemove', fingerMouseDrag);
-	
+
 	canvas.addEventListener("mousewheel", zoomHandler);
 }
