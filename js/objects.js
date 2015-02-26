@@ -9,7 +9,7 @@ var _objects = function() {
 	}
 	
 	this.animations.prototype.CameraPanX = function(to, from, time, abs) {
-		if (typeof time === 'undefined') time = 0.1;
+		if (typeof time === 'undefined') time = 0.01;
 		if (typeof abs === 'undefined') abs = false;
 		if (typeof from === 'undefined') from = camera.position.x;
 		if (!abs) to = from + to;
@@ -22,7 +22,7 @@ var _objects = function() {
 	}
 	
 	this.animations.prototype.CameraPanY = function(to, from, time, abs) {
-		if (typeof time === 'undefined') time = 0.1;
+		if (typeof time === 'undefined') time = 0.01;
 		if (typeof abs === 'undefined') abs = false;
 		if (typeof from === 'undefined') from = camera.position.y;
 		if (!abs) to = from + to;
@@ -35,7 +35,7 @@ var _objects = function() {
 	}
 	
 	this.animations.prototype.CameraZoom = function(to, from, time, abs) {
-		if (typeof time === 'undefined') time = 0.1;
+		if (typeof time === 'undefined') time = 0.01;
 		if (typeof abs === 'undefined') abs = false;
 		if (typeof from === 'undefined') from = camera.position.z;
 		if (!abs) to = from + to;
@@ -138,6 +138,7 @@ var _objects = function() {
 				thisbox.cube.position.x = -x * gridSizex - (((curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool;
 				thisbox.cube.position.y = -y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool;
 				curBuilding.setTDObject(thisbox.cube);
+				objects.push(thisbox.cube);
 
 				this.logMatrix(this.drawMatrix);
 				this.logMatrix(this.dataMatrix);
@@ -148,7 +149,7 @@ var _objects = function() {
 	};
 	//End City
 	
-	//Building - A single content entity, holds it's physical data as well as it's content data
+	//Building - A single content entity, holds it's 3d model as well as it's content data
 	this.building = function(data) {
 		if (typeof data !== 'undefined') {
 			this.xsize = typeof data.xsize === 'undefined' ? undefined : data.xsize;

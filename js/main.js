@@ -8,9 +8,11 @@ var renderer = new THREE.WebGLRenderer({antialias: true});
 var light = null;
 
 var initInterval;
-var objects = new _objects();
-var cityController = new objects.cityController();
-var animations = new objects.animations();
+var objs = new _objects();
+var cityController = new objs.cityController();
+var animations = new objs.animations();
+
+var objects = [];
 
 // Render init
 renderer.setSize( window.innerWidth, window.innerHeight );
