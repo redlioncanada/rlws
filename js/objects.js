@@ -6,7 +6,7 @@ var _objects = function() {
 	this.animations.prototype.CameraPan = function(toX, toY, fromX, fromY, time, abs) {
 		this.CameraPanX(fromX, toX, fromX, fromY, time, abs);
 		this.CameraPanY(fromY, toY, fromX, fromY, time, abs);
-	}
+	};
 	
 	this.animations.prototype.CameraPanX = function(to, from, time, abs) {
 		if (typeof time === 'undefined') time = 0.01;
@@ -19,7 +19,7 @@ var _objects = function() {
 				camera.position.x = this.x;
 			})
 			.start();
-	}
+	};
 	
 	this.animations.prototype.CameraPanY = function(to, from, time, abs) {
 		if (typeof time === 'undefined') time = 0.01;
@@ -32,7 +32,7 @@ var _objects = function() {
 				camera.position.y = this.y;
 			})
 			.start();
-	}
+	};
 	
 	this.animations.prototype.CameraZoom = function(to, from, time, abs) {
 		if (typeof time === 'undefined') time = 0.01;
@@ -41,12 +41,12 @@ var _objects = function() {
 		if (!abs) to = from + to;
 		var t = new TWEEN.Tween( { z : from } )
 			.to( { z : to }, time*1000 )
-			.easing( TWEEN.Easing.Elastic.InOut )
+			.easing( TWEEN.Easing.Cubic.InOut )
 			.onUpdate( function() {
 				camera.position.z = this.z;
 			})
 			.start();
-	}
+	};
 	//End Animations
 	
 	//CityController - Maintains cities
@@ -57,7 +57,7 @@ var _objects = function() {
 	this.cityController.prototype.SpawnCity = function() {
 		var c = new self.city();
 		this.cities.push(c);
-	}
+	};
 	//End CityController
 
 	//City - a collection of buildings
@@ -68,10 +68,10 @@ var _objects = function() {
 					console.log(matrix[arr][index]);
 				}
 			}
-		}
+		};
 	
 		this.buildings = [];
-		this.buildingData;
+		this.buildingData = null;
 		this.init3D();
 	};
 
@@ -107,8 +107,9 @@ var _objects = function() {
 				this.drawMatrix.subset(math.index(y-1,maxX-x), Math.max(curBuilding.xsize,curBuilding.ysize));
 			
 				//set the indexes the current item extends into as occupied
-				if (curBuilding.ysize > 1) for (var i = 1; i <= curBuilding.xsize; i++) {this.drawMatrix.subset(math.index(y+i-1,maxX-x),Math.max(curBuilding.xsize,curBuilding.ysize));}
-				if (curBuilding.xsize > 1) for (var i = 1; i <= curBuilding.ysize; i++) {this.drawMatrix.subset(math.index(y-1,maxX-x+i),Math.max(curBuilding.xsize,curBuilding.ysize));}
+				var i;
+				if (curBuilding.ysize > 1) for (i = 1; i <= curBuilding.xsize; i++) {this.drawMatrix.subset(math.index(y+i-1,maxX-x),Math.max(curBuilding.xsize,curBuilding.ysize));}
+				if (curBuilding.xsize > 1) for (i = 1; i <= curBuilding.ysize; i++) {this.drawMatrix.subset(math.index(y-1,maxX-x+i),Math.max(curBuilding.xsize,curBuilding.ysize));}
 			
 				//set the current data index as displayed/occupied
 				this.dataMatrix.subset(math.index(0, buildingDataLength-this.buildingData.length), Math.max(curBuilding.xsize,curBuilding.ysize));
@@ -140,8 +141,8 @@ var _objects = function() {
 				curBuilding.setTDObject(thisbox.cube);
 				objects.push(thisbox.cube);
 
-				this.logMatrix(this.drawMatrix);
-				this.logMatrix(this.dataMatrix);
+				//this.logMatrix(this.drawMatrix);
+				//this.logMatrix(this.dataMatrix);
 				if (br) break;
 			}
 			if (br) break;
@@ -151,6 +152,7 @@ var _objects = function() {
 	
 	//Building - A single content entity, holds it's 3d model as well as it's content data
 	this.building = function(data) {
+		console.log(data);
 		if (typeof data !== 'undefined') {
 			this.xsize = typeof data.xsize === 'undefined' ? undefined : data.xsize;
 			this.ysize = typeof data.ysize === 'undefined' ? undefined : data.ysize;
@@ -164,6 +166,6 @@ var _objects = function() {
 	};
 	
 	this.building.prototype.setTDObject = function(obj) {
-		this.TDObject = obj
-	}
+		this.TDObject = obj;
+	};
 };

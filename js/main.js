@@ -15,7 +15,7 @@ var animations = new objs.animations();
 var objects = [];
 
 // Render init
-renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setSize( window.innerWidth, window.innerHeight -73 );
 renderer.shadowMapEnabled = true;
 document.body.appendChild( renderer.domElement );
 
@@ -90,6 +90,7 @@ function init3D() {
 			
 			clearInterval(initInterval);
 			cityController.SpawnCity();
+			setupEventListeners();
 		}
 	}, 500);
 	

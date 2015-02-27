@@ -20,6 +20,7 @@ var mTouchMove = false;
 var overlay = false;
 var oldScale = 0;
 var pinched = false;
+var canvas;
 
 function moveCamX(x) {
 	camera.position.x += x;
@@ -36,6 +37,7 @@ function moveCamAbs(x,y) {
 	light.position.y = y;
 	camera.position.x = x;
 	light.position.x = x;
+
 }
 
 // Keyboard Controls - key down event
@@ -145,6 +147,7 @@ function fingerMouseDown(e) {
 		oldTouchY = e.clientY;
 	}
 	mTouchDown = true;
+	canvas.addEventListener('mousemove', fingerMouseDrag);
 }
 
 function fingerMouseDrag(e) {
@@ -166,19 +169,34 @@ function fingerMouseDrag(e) {
 	if (xMove != xMod) {
 		xMove = xMod;
 		oldTouchX = xOldMod;
-		if (xMove > 0) mLEFT = true;
-		if (xMove < 0) mRIGHT = true;
+		//if (xMove > 0) mLEFT = true;
+		//if (xMove < 0) mRIGHT = true;
 	}
 	if (yMove != yMod) {
 		yMove = yMod;
 		oldTouchY = yOldMod;
-		if (yMove > 0) mDOWN = true;
-		if (yMove < 0) mUP = true;
+		//if (yMove > 0) mDOWN = true;
+		//if (yMove < 0) mUP = true;
 	}
+	
+	if (Math.abs(camera.position.y) <= Math.abs(originY-camY2Extents) && yMod < 0 || // mDOWN = false;
+		Math.abs(camera.position.y) >= Math.abs(originY+camY1Extents) && yMod > 0) //mUP = false;
+	{
+		moveCamY(yMod/250);
+	}
+	if (Math.abs(camera.position.x) <= Math.abs(originX-camX1Extents) && xMod > 0 || // mLEFT = false;
+	Math.abs(camera.position.x) >= Math.abs(originX+camX2Extents) && xMod < 0) // mRIGHT = false;
+	{
+		moveCamX(-xMod/250); 
+	}
+	
+	
 }
 
 function fingerMouseUp(e) {
 	e.preventDefault();
+	
+	canvas.removeEventListener('mousemove', fingerMouseDrag);
 	
 	var touchX, touchY, vector;
 	
@@ -249,7 +267,7 @@ resetPinches();
 
 function setupEventListeners() {
 	var canvases = document.getElementsByTagName('canvas');
-	var canvas = canvases[0];
+	canvas = canvases[0];
 	
 	// Touch Events - Start (Finger/Mouse down)
 	canvas.addEventListener('touchstart', fingerMouseDown);
@@ -261,7 +279,6 @@ function setupEventListeners() {
 	
 	// Touch Events - Move (Finger/Mouse drag)
 	canvas.addEventListener('touchmove', fingerMouseDrag);
-	canvas.addEventListener('mousemove', fingerMouseDrag);
 	
 	canvas.addEventListener("mousewheel", zoomHandler);
 }

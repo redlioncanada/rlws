@@ -188,6 +188,78 @@ $array = array(
 		'img' => 'img/tile-7.jpg',
 		'xsize' => 1,
 		'ysize' => 1
+	),
+	array(
+		'id' => 22,
+		'title' => 'Tuned In',
+		'description' => 'TV spot and app',
+		'tags' => 'tech, admin, executive',
+		'img' => 'img/tile-1.jpg',
+		'xsize' => 1,
+		'ysize' => 1
+	),
+	array(
+		'id' => 23,
+		'title' => 'Sound Communication',
+		'description' => 'App',
+		'tags' => 'tech',
+		'img' => 'img/tile-2.jpg',
+		'xsize' => 1,
+		'ysize' => 1
+	),
+	array(
+		'id' => 24,
+		'title' => 'Stop the Chase',
+		'description' => 'Website and TV spot',
+		'tags' => 'tech',
+		'img' => 'img/tile-3.jpg',
+		'xsize' => 1,
+		'ysize' => 2
+	),
+	array(
+		'id' => 25,
+		'title' => 'Kraft Singles',
+		'description' => 'TV spot',
+		'tags' => 'tech, strategy',
+		'img' => 'img/tile-4.jpg',
+		'xsize' => 1,
+		'ysize' => 1
+	),
+	array(
+		'id' => 26,
+		'title' => 'Maytag Dishwashers',
+		'description' => 'TV spot',
+		'tags' => 'admin, creative',
+		'img' => 'img/tile-5.jpg',
+		'xsize' => 1,
+		'ysize' => 1
+	),
+	array(
+		'id' => 27,
+		'title' => 'Responsible Gambling Council',
+		'description' => 'TV Spot',
+		'tags' => 'tech, strategy',
+		'img' => 'img/tile-6.jpg',
+		'xsize' => 1,
+		'ysize' => 1
+	),
+	array(
+		'id' => 28,
+		'title' => 'KitchenAid',
+		'description' => 'TV spot',
+		'tags' => 'admin, accounts',
+		'img' => 'img/tile-7.jpg',
+		'xsize' => 1,
+		'ysize' => 1
+	),
+	array(
+		'id' => 29,
+		'title' => 'Tuned In',
+		'description' => 'TV spot and app',
+		'tags' => 'tech, admin, executive',
+		'img' => 'img/tile-1.jpg',
+		'xsize' => 1,
+		'ysize' => 1
 	)
 );
 
