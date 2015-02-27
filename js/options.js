@@ -3,8 +3,8 @@
 //box vars
 var gridSizex = 1.2; //multiplicative
 var gridSizey = 1.5; //multiplicative
-var maxX = 6; //maximum x grid elements
-var maxY = 6; //maximum y grid elements
+var buildingsPerRow = 6; //maximum x grid elements
+var buildingsPerColumn = 6; //maximum y grid elements
 var boxheight = 1.3; //multiplicative
 var boxwidth = 1; //multiplicative
 var jitterX = 0.0; //grid jitter
@@ -14,11 +14,12 @@ var glCards = [];
 var glCards2 = [];
 
 //cam vars
-var camMaxHeight = 6.5;	//maximum camera z
-var camX1Extents = 0.8; //affects how far outside the current grid that the camera can scroll, left
-var camX2Extents = 0.6; //affects how far outside the current grid that the camera can scroll, right
-var camY1Extents = 2.8;	//affects how far outside the current grid that the camera can scroll, up
-var camY2Extents = 1.6;	//affects how far outside the current grid that the camera can scroll, down
+var camXExtents = 0.8; //affects how far outside the current grid that the camera can scroll, left&right
+var camYExtents = 0.8;	//affects how far outside the current grid that the camera can scroll, up&down
+var camZ1Extents = 0.2;
+var camZ2Extents = 6.5;
+var camRotateMin = 0.0;
+var camRotateMax = 0.9;
 
 //camera zoom animation
 var camZStart = 15;
@@ -29,7 +30,7 @@ var camZAnimationTime = 2;
 var camPanAnimationTime = 0.01;
 
 //NON-MODIFIABLE
-var camMinHeight, camMinX, camMaxX, camMinY, camMaxY;
+var camMinHeight, camMinX, cambuildingsPerRow, camMinY, cambuildingsPerColumn;
 var originX, originY;
 var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
 

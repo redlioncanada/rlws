@@ -12,39 +12,37 @@ var objects = [];
 
 var objs = new _objects();
 var cityController = new objs.cityController();
-var animations = new objs.animations();
+var cameraController = new objs.cameraController();
 
 // Render init
-renderer.setSize( window.innerWidth, window.innerHeight -73 );
 renderer.shadowMapEnabled = true;
+resize();
 document.body.appendChild( renderer.domElement );
+$(window).on('resize', resize);
+
+function resize() {
+	renderer.setSize( window.innerWidth, window.innerHeight );	
+}
 
 function render() {
 	requestAnimationFrame( render );
 	TWEEN.update();
 	
-	//constrain camera position
-	if (Math.abs(camera.position.y) >= Math.abs(originY-camY2Extents)) mDOWN = false;
-	if (Math.abs(camera.position.y) <= Math.abs(originY+camY1Extents)) mUP = false;
-	if (Math.abs(camera.position.x) >= Math.abs(originX-camX1Extents)) mLEFT = false;
-	if (Math.abs(camera.position.x) <= Math.abs(originX+camX2Extents)) mRIGHT = false;
-	
 	//apply camera movement
 	if (!overlay) {
-		if (!xMove && mRIGHT) animations.CameraPanX(0.1, undefined, camPanAnimationTime);
-		if (!xMove && mLEFT) animations.CameraPanX(-0.1, undefined, camPanAnimationTime);
-		if (!yMove && mUP) animations.CameraPanY(0.1, undefined, camPanAnimationTime);
-		if (!yMove && mDOWN) animations.CameraPanY(-0.1, undefined, camPanAnimationTime);
-		if (mGOIN) animations.CameraZoom(0.1);
-		if (mGOOUT) animations.CameraZoom(-0.1);
-		//console.log(xMove+","+mLEFT+","+mRIGHT);
-		if (xMove && (mLEFT || mRIGHT)) animations.CameraPanX((xMove/200) * -1, undefined, camPanAnimationTime);
-		if (yMove && (mUP || mDOWN)) animations.CameraPanY(yMove/200, undefined, camPanAnimationTime);
+		if (!xMove && mRIGHT) cameraController.Move(0.1, undefined, undefined, false);
+		if (!xMove && mLEFT) cameraController.Move(-0.1, undefined, undefined, false);
+		if (!yMove && mUP) cameraController.Move(undefined, 0.1, undefined, false);
+		if (!yMove && mDOWN) cameraController.Move(undefined, -0.1, undefined, false);
+		if (mGOIN) cameraController.Zoom(0.1);
+		if (mGOOUT) cameraController.Zoom(-0.1);
+		if (xMove && (mLEFT || mRIGHT)) cameraController.Move(-(xMove/200), undefined, undefined, false);
+		if (yMove && (mUP || mDOWN)) cameraController.Move(undefined, yMove/200, undefined, false);
 		if (mROTUP && camera.rotation.x < 0.9) {
-			camera.rotation.x += 0.03;
+			cameraController.Rotate(0.03, undefined, undefined, false);
 		}
 		if (mROTDOWN && camera.rotation.x > 0) {
-			camera.rotation.x -= 0.03;
+			cameraController.Rotate(-0.03, undefined, undefined, false);
 		}
 		renderer.render( scene, camera );
 	}
@@ -64,35 +62,28 @@ function init3D() {
 	scene.add(light);
 	camera.position.z = camZStart;
 	
-	//delay building init until data is populated
+	//Objects init - city, delay until data is populated
 	initInterval = setInterval(function() {
 		if (glCards.length > 0) {
-			//center camera to grid
-			var gutterX = gridSizex-boxwidth;
-			var gutterY = gridSizey-boxheight;
-			var gridTotalWidth = maxX * (gridSizex + gutterX);
-			var gridTotalHeight = maxY * (gridSizey + gutterY);
-			camera.position.y = -(gridTotalHeight/2);
-			light.position.y = -(gridTotalHeight/2);
-			camera.position.x = -(gridTotalWidth/2);
-			light.position.x = -(gridTotalWidth/2);
-	
-			//set camera constraints
-			camMinX = -gridTotalWidth-camX1Extents;
-			camMaxX = 0+camX2Extents;
-			camMinY = -gridTotalHeight-camY1Extents;
-			camMaxY = 0+camY2Extents;
-		
-			//set camera origin
-			originX = camera.position.x;
-			originY = camera.position.y;
-	
-			//zoom camera
-			animations.CameraZoom(camZEnd, undefined, camZAnimationTime, true);
-			
 			clearInterval(initInterval);
-			cityController.SpawnCity();
-			setupEventListeners();
+			
+			//spawn city
+			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, 0, 0, glCards);
+			
+			//set camera constraints
+			var constraintX1 = -cityController.city.extents.X1-camXExtents;
+			var constraintY1 = -cityController.city.extents.Y1-camYExtents;
+			var constraintZ1 = -cityController.city.extents.Z1-camZ1Extents;
+			var constraintX2 = cityController.city.extents.X2+camXExtents;
+			var constraintY2 = cityController.city.extents.Y2+camYExtents;
+			var constraintZ2 = cityController.city.extents.Z2+camZ2Extents;
+			cameraController.SetConstraints(constraintX1, constraintY1, constraintZ1, camRotateMin, constraintX2, constraintY2, constraintZ2, camRotateMax);
+			
+			//center camera on city
+			cameraController.CenterOnCity(cityController.city);
+			
+			//zoom camera
+			cameraController.Zoom(camZEnd, undefined, camZAnimationTime, true);
 		}
 	}, 500);
 	
