@@ -8,11 +8,11 @@ var renderer = new THREE.WebGLRenderer({antialias: true});
 var light = null;
 
 var initInterval;
+var objects = [];
+
 var objs = new _objects();
 var cityController = new objs.cityController();
 var animations = new objs.animations();
-
-var objects = [];
 
 // Render init
 renderer.setSize( window.innerWidth, window.innerHeight -73 );
@@ -29,6 +29,7 @@ function render() {
 	if (Math.abs(camera.position.x) >= Math.abs(originX-camX1Extents)) mLEFT = false;
 	if (Math.abs(camera.position.x) <= Math.abs(originX+camX2Extents)) mRIGHT = false;
 	
+	//apply camera movement
 	if (!overlay) {
 		if (!xMove && mRIGHT) animations.CameraPanX(0.1, undefined, camPanAnimationTime);
 		if (!xMove && mLEFT) animations.CameraPanX(-0.1, undefined, camPanAnimationTime);
@@ -36,6 +37,7 @@ function render() {
 		if (!yMove && mDOWN) animations.CameraPanY(-0.1, undefined, camPanAnimationTime);
 		if (mGOIN) animations.CameraZoom(0.1);
 		if (mGOOUT) animations.CameraZoom(-0.1);
+		//console.log(xMove+","+mLEFT+","+mRIGHT);
 		if (xMove && (mLEFT || mRIGHT)) animations.CameraPanX((xMove/200) * -1, undefined, camPanAnimationTime);
 		if (yMove && (mUP || mDOWN)) animations.CameraPanY(yMove/200, undefined, camPanAnimationTime);
 		if (mROTUP && camera.rotation.x < 0.9) {

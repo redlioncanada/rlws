@@ -119,7 +119,6 @@ $(document).keyup(function(event) {
 
 // Box Clicked Function
 function boxClicked(intersect) {
-	console.log(intersect.name);
 	$('#blackout').css({'display':'block'}).animate({'opacity': 1},500);
 	overlay = true;
 	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + glCards[parseInt(intersect.name)].title + "<br>Description: " + glCards[parseInt(intersect.name)].description + '<br>Image: <img src="' + glCards[parseInt(intersect.name)].img + '">');
@@ -169,14 +168,10 @@ function fingerMouseDrag(e) {
 	if (xMove != xMod) {
 		xMove = xMod;
 		oldTouchX = xOldMod;
-		//if (xMove > 0) mLEFT = true;
-		//if (xMove < 0) mRIGHT = true;
 	}
 	if (yMove != yMod) {
 		yMove = yMod;
 		oldTouchY = yOldMod;
-		//if (yMove > 0) mDOWN = true;
-		//if (yMove < 0) mUP = true;
 	}
 	
 	if (Math.abs(camera.position.y) <= Math.abs(originY-camY2Extents) && yMod < 0 || // mDOWN = false;
@@ -189,8 +184,6 @@ function fingerMouseDrag(e) {
 	{
 		moveCamX(-xMod/250); 
 	}
-	
-	
 }
 
 function fingerMouseUp(e) {
@@ -246,11 +239,9 @@ function resetPinches() {
 		oldScale = e.scale;
 		if (camera.position.z < camMaxHeight && delta < 0) {
 			camera.position.z += 0.1;
-			console.log("zoom out, delta: " + delta);
 		}
 		else if (camera.position.z > camMinHeight && delta > 0) {
 			camera.position.z -= 0.1;
-			console.log("zoom in, delta: " + delta);
 		}
 	});
 	
@@ -272,13 +263,14 @@ function setupEventListeners() {
 	// Touch Events - Start (Finger/Mouse down)
 	canvas.addEventListener('touchstart', fingerMouseDown);
 	canvas.addEventListener('mousedown', fingerMouseDown);
-	
+
 	// Touch Events - End (Finger/Mouse up)
 	canvas.addEventListener('touchend', fingerMouseUp);
 	canvas.addEventListener('mouseup', fingerMouseUp);
-	
+
 	// Touch Events - Move (Finger/Mouse drag)
 	canvas.addEventListener('touchmove', fingerMouseDrag);
 	
+	// Mouse Wheel Zoom
 	canvas.addEventListener("mousewheel", zoomHandler);
 }
