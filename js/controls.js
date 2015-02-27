@@ -1,45 +1,3 @@
-var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
-
-// Rudimentary Controls with keyboard vars
-var mUP = false;
-var mDOWN = false;
-var mRIGHT = false;
-var mLEFT = false;
-var mGOIN = false;
-var mGOOUT = false;
-var mROTUP = false;
-var mROTDOWN = false;
-
-// Touch Events vars
-var oldTouchX = 0;
-var oldTouchY = 0;
-var xMove = 0;
-var yMove = 0;
-var mTouchDown = false;
-var mTouchMove = false;
-var overlay = false;
-var oldScale = 0;
-var pinched = false;
-var canvas;
-
-function moveCamX(x) {
-	camera.position.x += x;
-	light.position.x += x;
-}
-
-function moveCamY(y) {
-	camera.position.y += y;
-	light.position.y += y;
-}
-
-function moveCamAbs(x,y) {
-	camera.position.y = y;
-	light.position.y = y;
-	camera.position.x = x;
-	light.position.x = x;
-
-}
-
 // Keyboard Controls - key down event
 $(document).keydown(function( event ) {
 	if ( event.which == 38 ) { // UP
@@ -177,12 +135,12 @@ function fingerMouseDrag(e) {
 	if (Math.abs(camera.position.y) <= Math.abs(originY-camY2Extents) && yMod < 0 || // mDOWN = false;
 		Math.abs(camera.position.y) >= Math.abs(originY+camY1Extents) && yMod > 0) //mUP = false;
 	{
-		moveCamY(yMod/250);
+		animations.CameraMove(undefined, -yMod/250);
 	}
 	if (Math.abs(camera.position.x) <= Math.abs(originX-camX1Extents) && xMod > 0 || // mLEFT = false;
 	Math.abs(camera.position.x) >= Math.abs(originX+camX2Extents) && xMod < 0) // mRIGHT = false;
 	{
-		moveCamX(-xMod/250); 
+		animations.CameraMove(-xMod/250, undefined);
 	}
 }
 

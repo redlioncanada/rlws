@@ -47,6 +47,29 @@ var _objects = function() {
 			})
 			.start();
 	};
+	
+	this.animations.prototype.CameraMove = function(X, Y, abs) {
+		if (typeof abs == 'undefined') abs = false;
+		if (!abs) {
+			if (typeof X !== 'undefined') {
+				camera.position.x += X;
+				light.position.x += X;
+			}
+			if (typeof Y !== 'undefined') {
+				camera.position.y += Y;
+				light.position.y += Y;
+			}
+		} else {
+			if (typeof X !== 'undefined') {
+				camera.position.x = X;
+				light.position.x = X;
+			}
+			if (typeof Y !== 'undefined') {
+				camera.position.y = Y;
+				light.position.y = Y;
+			}
+		}
+	};
 	//End Animations
 	
 	//CityController - Maintains cities
@@ -168,4 +191,5 @@ var _objects = function() {
 	this.building.prototype.setTDObject = function(obj) {
 		this.TDObject = obj;
 	};
+	//End Building
 };

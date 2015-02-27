@@ -19,12 +19,38 @@ var camX1Extents = 0.8; //affects how far outside the current grid that the came
 var camX2Extents = 0.6; //affects how far outside the current grid that the camera can scroll, right
 var camY1Extents = 2.8;	//affects how far outside the current grid that the camera can scroll, up
 var camY2Extents = 1.6;	//affects how far outside the current grid that the camera can scroll, down
+
+//camera zoom animation
 var camZStart = 15;
 var camZEnd = 5;
 var camZAnimationTime = 2;
+
+//camera pan animation
 var camPanAnimationTime = 0.01;
 
 //NON-MODIFIABLE
 var camMinHeight, camMinX, camMaxX, camMinY, camMaxY;
 var originX, originY;
 var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
+
+// Rudimentary Controls with keyboard vars
+var mUP = false;
+var mDOWN = false;
+var mRIGHT = false;
+var mLEFT = false;
+var mGOIN = false;
+var mGOOUT = false;
+var mROTUP = false;
+var mROTDOWN = false;
+
+// Touch Events vars
+var oldTouchX = 0;
+var oldTouchY = 0;
+var xMove = 0;
+var yMove = 0;
+var mTouchDown = false;
+var mTouchMove = false;
+var overlay = false;
+var oldScale = 0;
+var pinched = false;
+var canvas;
