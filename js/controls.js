@@ -128,19 +128,8 @@ function fingerMouseDrag(e) {
 		oldTouchY = yOldMod;
 	}
 	
-	//if (!cityController.CityHitTestY(false, camera.position.y
-	if (Math.abs(camera.position.y) <= Math.abs(originY-camY2Extents) && yMod < 0 || // mDOWN = false;
-		Math.abs(camera.position.y) >= Math.abs(originY+camY1Extents) && yMod > 0) //mUP = false;
-	{
-		console.log('camera y position moved');
-		cameraController.Move(undefined, -yMod/250, undefined, false);
-	}
-	if (Math.abs(camera.position.x) <= Math.abs(originX-camX1Extents) && xMod > 0 || // mLEFT = false;
-	Math.abs(camera.position.x) >= Math.abs(originX+camX2Extents) && xMod < 0) // mRIGHT = false;
-	{
-		console.log('camera x position moved');
-		cameraController.Move(-xMod/250, undefined, undefined, false);
-	}
+	cameraController.Move(undefined, -yMod/250, undefined, false);
+	cameraController.Move(-xMod/250, undefined, undefined, false);
 }
 
 function fingerMouseUp(e) {

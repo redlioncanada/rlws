@@ -1,14 +1,14 @@
 var _objects = function() {
 	var self = this;
 	
-	//Camera Controller - maintains camera animation
-	this.cameraController = function() {
+	//this.camera Controller - maintains this.camera animation
+	this.cameraController = function(camera) {
+		this.camera = camera;
 		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0};
 		this.origin = {X:0,Y:0};
 	}
 	
 	this.cameraController.prototype.CenterOnCity = function(city) {
-		//this.Move(-(gridTotalWidth/2), -(gridTotalHeight/2));
 		this.Move(city.midpoint.X, city.midpoint.Y);
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
 	};
@@ -32,108 +32,128 @@ var _objects = function() {
 	this.cameraController.prototype.Pan = function(toX, toY, fromX, fromY, time, abs) {
 		this.PanX(fromX, toX, fromX, fromY, time, abs);
 		this.PanY(fromY, toY, fromX, fromY, time, abs);
+		console.log('Pan: X:'+toX+',Y:'+toY);
 	};
 	
 	this.cameraController.prototype.PanX = function(to, from, time, abs) {
+		var _self = this;
 		if (typeof time === 'undefined') time = 0.01;
 		if (typeof abs === 'undefined') abs = false;
-		if (typeof from === 'undefined') from = camera.position.x;
+		if (typeof from === 'undefined') from = this.camera.position.x;
 		if (!abs) to = from + to;
 		
-		if (to > this.constraints.X1 && to < this.constraints.X2) {
+		if (this.HitTestX(to)) {
 			var t = new TWEEN.Tween( { x : from } )
 				.to( { x : to }, time*1000 )
 				.onUpdate( function() {
-					camera.position.x = this.x;
+					_self.camera.position.x = this.x;
 				})
 				.start();
-			}
 		}
+		console.log('PanX:'+to);
 	};
 	
 	this.cameraController.prototype.PanY = function(to, from, time, abs) {
+		var _self = this;
 		if (typeof time === 'undefined') time = 0.01;
 		if (typeof abs === 'undefined') abs = false;
-		if (typeof from === 'undefined') from = camera.position.y;
+		if (typeof from === 'undefined') from = this.camera.position.y;
 		if (!abs) to = from + to;
 		
-		if (to > this.constraints.Y1 && to < this.constraints.Y2) {
+		if (this.HitTestY(to)) {
 			var t = new TWEEN.Tween( { y : from } )
 				.to( { y : to }, time*1000 )
 				.onUpdate( function() {
-					camera.position.y = this.y;
+					_self.camera.position.y = this.y;
 				})
 				.start();
 		}
+		console.log('PanY:'+to);
 	};
 	
 	this.cameraController.prototype.Zoom = function(to, from, time, abs) {
+		var _self = this;
 		if (typeof time === 'undefined') time = 0.01;
 		if (typeof abs === 'undefined') abs = false;
-		if (typeof from === 'undefined') from = camera.position.z;
+		if (typeof from === 'undefined') from = this.camera.position.z;
 		if (!abs) to = from + to;
-		var t = new TWEEN.Tween( { z : from } )
-			.to( { z : to }, time*1000 )
-			.easing( TWEEN.Easing.Cubic.InOut )
-			.onUpdate( function() {
-				camera.position.z = this.z;
-			})
-			.start();
+		
+		console.log('Zoom: '+to);
+		
+		if (this.HitTestZ(to)) {
+			var t = new TWEEN.Tween( { z : from } )
+				.to( { z : to }, time*1000 )
+				.easing( TWEEN.Easing.Cubic.InOut )
+				.onUpdate( function() {
+					_self.camera.position.z = this.z;
+				})
+				.start();
+		}
 	};
 	
 	this.cameraController.prototype.Move = function(X, Y, Z, abs) {
 		if (typeof abs === 'undefined') abs = true;
 		if (!abs) {
-			if (typeof X !== 'undefined') {
-				if (camera.position.x + X < this.constraints.X2 && camera.position.x + X > this.constraints.X1) {
-					camera.position.x += X;
-					light.position.x += X;
-				}
-			}
-			if (typeof Y !== 'undefined') {
-				if (camera.position.y + Y < this.constraints.Y2 && camera.position.y + Y > this.constraints.Y1) {
-					camera.position.y += Y;
-					light.position.y += Y;
-				}
-			}
-			if (typeof Z !== 'undefined') {
-				if (camera.position.z + Z < this.constraints.Z2 && camera.position.z + Z > this.constraints.Z1) {
-					camera.position.z += Z;
-				}
-			}
-		} else {
-			if (typeof X !== 'undefined') {
-				if (X < this.constraints.X2 && X > this.constraints.X1) {
-					camera.position.x = X;
-					light.position.x = X;
-				}
-			}
-			if (typeof Y !== 'undefined') {
-				if (Y < this.constraints.Y2 && Y > this.constraints.Y1) {
-				camera.position.y = Y;
-				light.position.y = Y;
-			}
-			if (typeof Z !== 'undefined') {
-				if (Z < this.constraints.Z2 && Z > this.constraints.Z1) {
-					camera.position.z = Z;
-				}
+			X = this.camera.position.x+X;
+			Y = this.camera.position.x+Y;
+			Z = this.camera.position.x+Z;
+		}
+		
+		if (typeof X !== 'undefined') {
+			if (this.HitTestX(X) || abs) {
+				this.camera.position.x = X;
+				light.position.x = X;
 			}
 		}
+		if (typeof Y !== 'undefined') {
+			console.log(this.HitTestY(Y));
+			if (this.HitTestY(Y) || abs) {
+				this.camera.position.y = Y;
+				light.position.y = Y;
+			}
+		}
+		if (typeof Z !== 'undefined') {
+			if (this.HitTestZ(Z) || abs) {
+				this.camera.position.z = Z;
+			}
+		}
+		
+		console.log('Move: X:'+X+',Y:'+Y+',Z:'+Z);
 	};
 	
 	this.cameraController.prototype.Rotate = function(X, Y, Z, abs) {
 		if (typeof abs === 'undefined') abs = true;
 		if (!abs) {
-			if (typeof X !== 'undefined') camera.rotation.x += X;
-			if (typeof Y !== 'undefined') camera.rotation.y += Y;
-			if (typeof Z !== 'undefined') camera.rotation.z += Z;
-		} else {
-			if (typeof X !== 'undefined') camera.rotation.x = X;
-			if (typeof Y !== 'undefined') camera.rotation.y = Y;
-			if (typeof Z !== 'undefined') camera.rotation.z = Z;
+			X = this.camera.position.x+X;
+			Y = this.camera.position.x+Y;
+			Z = this.camera.position.x+Z;
 		}
+		
+		if (typeof X !== 'undefined') {
+			if (this.HitTestR(X)) {
+				this.camera.rotation.x = X;
+				light.position.x = X;
+			}
+		}
+		if (typeof Y !== 'undefined') {
+			if (this.HitTestR(Y)) {
+				this.camera.rotation.y = Y;
+				light.position.y = Y;
+			}
+		}
+		if (typeof Z !== 'undefined') {
+			if (this.HitTestR(Z)) {
+				this.camera.rotation.z = Z;
+			}
+		}
+		console.log('Rotate: X:'+X+',Y:'+Y+',Z:'+Z);
 	};
-	//End Camera Controller 
+	
+	this.cameraController.prototype.HitTestX = function(X) {return X >= this.constraints.X1 && X <= this.constraints.X2; }
+	this.cameraController.prototype.HitTestY = function(Y) {return Y >= this.constraints.Y1 && Y <= this.constraints.Y2; }
+	this.cameraController.prototype.HitTestZ = function(Z) {return Z >= this.constraints.Z1 && Z <= this.constraints.Z2; }
+	this.cameraController.prototype.HitTestR = function(R) {return R >= this.constraints.R1 && Z <= this.constraints.R2; }
+	//End this.camera Controller 
 	
 	//CityController - Maintains cities
 	this.cityController = function() {
@@ -151,10 +171,6 @@ var _objects = function() {
 		if (index <= this.cities.length) this.city = cities[index];
 		else this.city = cities.length;
 	};
-	
-	this.cityController.prototype.CityHitTestX = function(side,X) {return this.city.HitTestX(side,X);}
-	this.cityController.prototype.CityHitTestY = function(side,Y) {return this.city.HitTestY(side,Y);}
-	this.cityController.prototype.CityHitTestZ = function(side,Z) {return this.city.HitTestZ(side,Z);}
 	//End CityController
 
 	//City - a collection of buildings
@@ -176,10 +192,6 @@ var _objects = function() {
 		this.buildingsPerColumn = buildingsPerColumn;
 		this.init3D();
 	};
-	
-	this.city.prototype.HitTestX = function(side,X) {return side == false ? X < this.extents.X1 : X > this.extents.X2; }
-	this.city.prototype.HitTestY = function(side,Y) {return side == false ? Y < this.extents.Y1 : Y > this.extents.Y2; }
-	this.city.prototype.HitTestZ = function(side,Z) {return side == false ? Z < this.extents.Z1 : Z > this.extents.Z2; }
 
 	this.city.prototype.init3D = function() {
 		var gutterX = gridSizex-boxwidth;
@@ -242,12 +254,12 @@ var _objects = function() {
 				thisbox.cube.position.x = this.origin.X + (-x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool);
 				thisbox.cube.position.y = this.origin.Y + (-y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool);
 				
-				if (thisbox.cube.position.x <= this.extents.X1) this.extents.X1 = thisbox.cube.position.x;
-				if (thisbox.cube.position.x+curBoxWidth >= this.extents.X2) this.extents.X2 = thisbox.cube.position.x+curBoxWidth; 
-				if (thisbox.cube.position.y <= this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y;
-				if (thisbox.cube.position.y+curBoxHeight >= this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y+curBoxHeight; 
-				if (thisbox.cube.position.z <= this.extents.Z1) this.extents.Z1 = thisbox.cube.position.z;
-				if (thisbox.cube.position.z+curBoxDepth >= this.extents.Z2) this.extents.Z2 = thisbox.cube.position.z+curBoxDepth; 
+				if (thisbox.cube.position.x < this.extents.X1) this.extents.X1 = thisbox.cube.position.x;
+				if (thisbox.cube.position.x+curBoxWidth > this.extents.X2) this.extents.X2 = thisbox.cube.position.x+curBoxWidth; 
+				if (thisbox.cube.position.y < this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y;
+				if (thisbox.cube.position.y+curBoxHeight > this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y+curBoxHeight; 
+				if (thisbox.cube.position.z < this.extents.Z1) this.extents.Z1 = thisbox.cube.position.z;
+				if (thisbox.cube.position.z+curBoxDepth > this.extents.Z2) this.extents.Z2 = thisbox.cube.position.z+curBoxDepth; 
 				
 				curBuilding.SetModel(thisbox.cube);
 				objects.push(thisbox.cube);
@@ -259,8 +271,8 @@ var _objects = function() {
 			if (br) break;
 		}
 		
-		this.midpoint.X = (this.extents.X2 - this.extents.X1) / 2;
-		this.midpoint.Y = (this.extents.Y2 - this.extents.Y1) / 2;
+		this.midpoint.X = (this.extents.X2 + this.extents.X1) / 2;
+		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
 	};
 	//End City
 	

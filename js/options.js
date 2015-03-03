@@ -14,19 +14,19 @@ var glCards = [];
 var glCards2 = [];
 
 //cam vars
-var camXExtents = 0.8; //affects how far outside the current grid that the camera can scroll, left&right
-var camYExtents = 0.8;	//affects how far outside the current grid that the camera can scroll, up&down
+var camXExtents = 0.8; //affects how far outside the current grid that the this.camera can scroll, left&right
+var camYExtents = 0.1;	//affects how far outside the current grid that the this.camera can scroll, up&down
 var camZ1Extents = 0.2;
 var camZ2Extents = 6.5;
 var camRotateMin = 0.0;
 var camRotateMax = 0.9;
 
-//camera zoom animation
+//this.camera zoom animation
 var camZStart = 15;
 var camZEnd = 5;
 var camZAnimationTime = 2;
 
-//camera pan animation
+//this.camera pan animation
 var camPanAnimationTime = 0.01;
 
 //NON-MODIFIABLE
