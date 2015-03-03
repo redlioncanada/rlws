@@ -15,7 +15,7 @@ app.factory('Cards', function ($http) {
 	return {
 		get: function () {
 			if (cards.length === 0) {
-				$http.get('data/jsontest.php')
+				$http.get('api/content/')
 					.success(function (response) {
 						for (var i = 0, ii = response.length; i < ii; i++) {
 							cards.push(response[i]);

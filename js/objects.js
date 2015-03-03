@@ -143,7 +143,7 @@ var _objects = function() {
 				if (curBoxDepth / 2 + 1 > camMinHeight) camMinHeight = Math.ceil(curBoxDepth / 2 + 1);
 			
 				thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, curBoxDepth );
-				var useColor = colors[Math.round(Math.random())];
+				var useColor = parseInt(curBuilding.hex_color,16);
 				thisbox.material = [
 					new THREE.MeshLambertMaterial( {color: useColor }),
 					new THREE.MeshLambertMaterial( {color: useColor }),
@@ -154,15 +154,15 @@ var _objects = function() {
 				];
 				thisbox.material[4].minFilter = THREE.NearestFilter;
 				thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
-				thisbox.cube.name = buildingDataLength-this.buildingData.length;
+				thisbox.cube.name = curBuilding.id;
 				scene.add( thisbox.cube );
 				thisbox.cube.position.x = -x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool;
 				thisbox.cube.position.y = -y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool;
 				curBuilding.setTDObject(thisbox.cube);
 				objects.push(thisbox.cube);
 
-				this.logMatrix(this.drawMatrix);
-				this.logMatrix(this.dataMatrix);
+				//this.logMatrix(this.drawMatrix);
+				//this.logMatrix(this.dataMatrix);
 				if (br) break;
 			}
 			if (br) break;
@@ -181,6 +181,7 @@ var _objects = function() {
 			this.description = typeof data.description === 'undefined' ? undefined : data.description;
 			this.tags = typeof data.tags === 'undefined' ? undefined : data.tags;
 			this.img = typeof data.img === 'undefined' ? undefined : data.img;
+			this.hex_color = typeof data.hex_color === 'undefined' ? undefined : data.hex_color;
 		}
 		this.TDObject = undefined;
 	};

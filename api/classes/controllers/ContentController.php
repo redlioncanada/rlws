@@ -42,6 +42,7 @@ class ContentController extends BaseController {
         
         switch (count($request->url_elements)) {
             case 1:
+            	shuffle($data);
                 return $data;
             break;
             case 2:
