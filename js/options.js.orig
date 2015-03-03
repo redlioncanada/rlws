@@ -2,10 +2,17 @@
 
 //box vars
 var gridSizex = 1.2; //multiplicative
+<<<<<<< HEAD
 var gridSizey = 1.6; //multiplicative
-var maxX = 10; //maximum x grid elements
-var maxY = 10; //maximum y grid elements
+var maxX = 6; //maximum x grid elements
+var maxY = 6; //maximum y grid elements
 var boxheight = 1.4; //multiplicative
+=======
+var gridSizey = 1.5; //multiplicative
+var buildingsPerRow = 6; //maximum x grid elements
+var buildingsPerColumn = 6; //maximum y grid elements
+var boxheight = 1.3; //multiplicative
+>>>>>>> refactoring
 var boxwidth = 1; //multiplicative
 var jitterX = 0.0; //grid jitter
 var jitterY = 0.0; //grid jitter
@@ -21,7 +28,7 @@ var camZ2Extents = 6.5;
 var camRotateMin = 0.0;
 var camRotateMax = 0.9;
 
-//camera zoom animation
+//this.camera zoom animation
 var camZStart = 15;
 var camZEnd = 5;
 var camZAnimationTime = 2;
