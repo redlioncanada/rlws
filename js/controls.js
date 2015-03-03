@@ -294,7 +294,7 @@ var devMoveHandler = function(event) {
 		// OR Rotation Rate Gamma Changes when Z > 9
 		acc_fromx = camera.position.x;
 		if (Math.abs(acc_arBeta) > 10) {
-			var acc_moveBeta = -acc_arBeta/150;
+			var acc_moveBeta = -acc_arBeta/45;
 			acc_tox = acc_fromx + acc_moveBeta;
 		}
 		camera.position.x += (acc_tox - acc_fromx) / acc_speed;
@@ -304,7 +304,7 @@ var devMoveHandler = function(event) {
 		// AND Y & Z stays the same (ish)
 		acc_fromy = camera.position.y;
 		if (Math.abs(acc_arAlpha) > 10) {
-			var acc_moveAlpha = acc_arAlpha/75;
+			var acc_moveAlpha = acc_arAlpha/25;
 			acc_toy = acc_fromy + acc_moveAlpha;
 		}
 		camera.position.y += (acc_toy - acc_fromy) / acc_speed;
@@ -318,9 +318,9 @@ var devMoveHandler = function(event) {
 	acc_fromtilt = camera.rotation.x;
 	if (acc_az > acc_oldaz + 0.5 || acc_az < acc_oldaz - 0.5) {
 		acc_totilt = (acc_az - 3) * 0.09;
+		acc_oldaz = acc_az;
 	}
 	camera.rotation.x += (acc_totilt - acc_fromtilt) / (acc_speed * 2);
-	acc_oldaz = acc_az;
 	
 	
 };
