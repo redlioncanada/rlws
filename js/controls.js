@@ -128,25 +128,8 @@ function fingerMouseDrag(e) {
 		oldTouchY = yOldMod;
 	}
 	
-<<<<<<< HEAD
-/*
-	if (Math.abs(camera.position.y) <= Math.abs(originY-camY2Extents) && yMod < 0 || // mDOWN = false;
-		Math.abs(camera.position.y) >= Math.abs(originY+camY1Extents) && yMod > 0) //mUP = false;
-	{
-*/
-		animations.CameraMove(undefined, yMod/250);
-/*
-	}
-	if (Math.abs(camera.position.x) <= Math.abs(originX-camX1Extents) && xMod > 0 || // mLEFT = false;
-	Math.abs(camera.position.x) >= Math.abs(originX+camX2Extents) && xMod < 0) // mRIGHT = false;
-	{
-*/
-		animations.CameraMove(-xMod/250, undefined);
-	//}
-=======
 	cameraController.Move(undefined, -yMod/250, undefined, false);
 	cameraController.Move(-xMod/250, undefined, undefined, false);
->>>>>>> refactoring
 }
 
 function fingerMouseUp(e) {
