@@ -2,13 +2,17 @@ var _objects = function() {
 	var self = this;
 	
 	//this.camera Controller - maintains this.camera animation
-	this.cameraController = function(camera) {
+	this.cameraController = function(camera, light) {
 		this.camera = camera;
+		this.light = light;
 		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0};
 		this.origin = {X:0,Y:0};
-	}
+	};
 	
-	this.cameraController.prototype.CenterOnCity = function(city) {
+	this.cameraController.prototype.CenterOnCity = function(city, abs) {
+		if (typeof abs === 'undefined') abs = false;
+		if (city == -1) {console.log('Error (cameraController.CenterOnCity): Tried to Center on an invalid city'); return 0;}
+		
 		//set camera constraints
 		var constraintX1 = city.extents.X1-camXExtents;
 		var constraintY1 = city.extents.Y1-camYExtents;
@@ -18,7 +22,8 @@ var _objects = function() {
 		var constraintZ2 = city.extents.Z2+camZ2Extents;
 		
 		this.SetConstraints(constraintX1, constraintY1, constraintZ1, camRotateMin, constraintX2, constraintY2, constraintZ2, camRotateMax);
-		this.Move(city.midpoint.X, city.midpoint.Y);
+		if (abs) this.Move(city.midpoint.X, city.midpoint.Y)
+		else this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
 	};
 	
@@ -31,49 +36,53 @@ var _objects = function() {
 		if (typeof Y2 !== 'undefined') this.constraints.Y2 = Y2;
 		if (typeof Z2 !== 'undefined') this.constraints.Z2 = Z2;
 		if (typeof R2 !== 'undefined') this.constraints.R2 = R2;
-	}
+	};
 	
 	this.cameraController.prototype.SetOrigin = function(X, Y) {
 		if (typeof X !== 'undefined') this.origin.X = X;
 		if (typeof Y !== 'undefined') this.origin.Y = Y;
-	}
-	
-	this.cameraController.prototype.Pan = function(toX, toY, fromX, fromY, time, abs) {
-		this.PanX(fromX, toX, fromX, fromY, time, abs);
-		this.PanY(fromY, toY, fromX, fromY, time, abs);
-		console.log('Pan: X:'+toX+',Y:'+toY);
 	};
 	
-	this.cameraController.prototype.PanX = function(to, from, time, abs) {
+	this.cameraController.prototype.Pan = function(toX, toY, fromX, fromY, time, abs, constrain) {
+		this.PanX(toX, fromX, time, abs, constrain);
+		this.PanY(toY, fromY, time, abs, constrain);
+		console.log('Pan: X:'+toX+',Y:'+toY);
+	};
+
+	this.cameraController.prototype.PanX = function(to, from, time, abs, constrain) {
 		var _self = this;
 		if (typeof time === 'undefined') time = 0.01;
+		if (typeof constrain === 'undefined') constrain = true;
 		if (typeof abs === 'undefined') abs = false;
 		if (typeof from === 'undefined') from = this.camera.position.x;
 		if (!abs) to = from + to;
 		
-		if (this.HitTestX(to)) {
+		if (this.HitTestX(to) || !constrain) {
 			var t = new TWEEN.Tween( { x : from } )
 				.to( { x : to }, time*1000 )
 				.onUpdate( function() {
 					_self.camera.position.x = this.x;
+					_self.light.position.x = this.x;
 				})
 				.start();
 		}
 		console.log('PanX:'+to);
 	};
 	
-	this.cameraController.prototype.PanY = function(to, from, time, abs) {
+	this.cameraController.prototype.PanY = function(to, from, time, abs, constrain) {
 		var _self = this;
 		if (typeof time === 'undefined') time = 0.01;
+		if (typeof constrain === 'undefined') constrain = true;
 		if (typeof abs === 'undefined') abs = false;
 		if (typeof from === 'undefined') from = this.camera.position.y;
 		if (!abs) to = from + to;
 		
-		if (this.HitTestY(to)) {
+		if (this.HitTestY(to) || !constrain) {
 			var t = new TWEEN.Tween( { y : from } )
 				.to( { y : to }, time*1000 )
 				.onUpdate( function() {
 					_self.camera.position.y = this.y;
+					_self.light.position.y = this.y;
 				})
 				.start();
 		}
@@ -100,7 +109,8 @@ var _objects = function() {
 		}
 	};
 	
-	this.cameraController.prototype.Move = function(X, Y, Z, abs) {
+	this.cameraController.prototype.Move = function(X, Y, Z, abs, constrain) {
+		if (typeof constrain === 'undefined') constrain = true;
 		if (typeof abs === 'undefined') abs = true;
 		if (!abs) {
 			X = this.camera.position.x+X;
@@ -109,20 +119,19 @@ var _objects = function() {
 		}
 		
 		if (typeof X !== 'undefined') {
-			if (this.HitTestX(X) || abs) {
+			if (this.HitTestX(X) || !constrain || abs) {
 				this.camera.position.x = X;
-				light.position.x = X;
+				this.light.position.x = X;
 			}
 		}
 		if (typeof Y !== 'undefined') {
-			console.log(this.HitTestY(Y));
-			if (this.HitTestY(Y) || abs) {
+			if (this.HitTestY(Y) || !constrain || abs) {
 				this.camera.position.y = Y;
-				light.position.y = Y;
+				this.light.position.y = Y;
 			}
 		}
 		if (typeof Z !== 'undefined') {
-			if (this.HitTestZ(Z) || abs) {
+			if (this.HitTestZ(Z) || !constrain || abs) {
 				this.camera.position.z = Z;
 			}
 		}
@@ -169,16 +178,56 @@ var _objects = function() {
 		this.cities = [];
 		this.city = undefined;
 	};
+	
+	this.cityController.prototype.GetCityByTag = function(tag) {
+		if (tag == "default") return -1;
+		for (var index in this.cities) {
+			if (typeof this.cities[index].tag !== 'undefined') {
+				if (this.cities[index].tag == tag) {
+					return this.cities[index];
+				}
+			}
+		}
+		return 0;
+	};
 
-	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, startX, startY, rawData) {
+	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, startX, startY, rawData) {
 		var c = new self.city(buildingsPerRow, buildingsPerColumn, startX, startY, rawData);
+		c.tag = tag;
 		this.cities.push(c);
-		this.city = c
+		c.index = this.cities.length;
+		if (this.cities.length == 1) this.city = c;
+		return c;
 	};
 	
 	this.cityController.prototype.SetCityByIndex = function(index) {
 		if (index <= this.cities.length) this.city = cities[index];
 		else this.city = cities.length;
+	};
+	
+	this.cityController.prototype.SetCityByTag = function(tag) {
+		if (typeof tag === 'string') {
+			for (var index in this.cities) {
+				if (typeof this.cities[index].tag !== 'undefined') {
+					if (this.cities[index].tag == tag) {
+						this.city = this.cities[index];
+						return 1;
+					}
+				}
+			}
+		}
+		return 0;
+	};
+	
+	this.cityController.prototype.SetCity = function(city) {
+		if (typeof city !== 'undefined') {
+			if (city.index && city.index <= this.cities.length) {
+				this.city = this.cities[city.index];
+				return 1;
+			}
+		}
+		console.log('Error (cityController.SetCity): Tried to set a city with an out of range index');
+		return 0;
 	};
 	//End CityController
 
@@ -192,10 +241,12 @@ var _objects = function() {
 			}
 		};
 	
+		this.index = undefined;
+		this.tag = "default";
 		this.buildings = [];
 		this.buildingData = rawData.slice();
 		this.extents = {X1:0,Y1:0,X2:0,Y2:0,Z1:0,Z2:0};
-		this.origin = {X:0,Y:0};
+		this.origin = {X:startX,Y:startY};
 		this.midpoint = {X:0,Y:0};
 		this.buildingsPerRow = buildingsPerRow;
 		this.buildingsPerColumn = buildingsPerColumn;
@@ -279,7 +330,7 @@ var _objects = function() {
 			}
 			if (br) break;
 		}
-		
+
 		this.midpoint.X = (this.extents.X2 + this.extents.X1) / 2;
 		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
 	};

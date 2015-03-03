@@ -12,7 +12,7 @@ var objects = [];
 
 var objs = new _objects();
 var cityController = new objs.cityController();
-var cameraController = new objs.cameraController(camera);
+var cameraController = undefined;
 
 // Render init
 renderer.shadowMapEnabled = true;
@@ -59,6 +59,7 @@ function init3D() {
 	light.position.set(0,0,4);
 	scene.add(light);
 	camera.position.z = camZStart;
+	cameraController = new objs.cameraController(camera, light);
 	
 	//Objects init - city, delay until data is populated
 	initInterval = setInterval(function() {
@@ -66,27 +67,25 @@ function init3D() {
 			clearInterval(initInterval);
 			
 			//spawn city
-			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, 0, 0, glCards);
-			
-			//set camera constraints
-			var constraintX1 = cityController.city.extents.X1-camXExtents;
-			var constraintY1 = cityController.city.extents.Y1-camYExtents;
-			var constraintZ1 = cityController.city.extents.Z1-camZ1Extents;
-			var constraintX2 = cityController.city.extents.X2+camXExtents;
-			var constraintY2 = cityController.city.extents.Y2+camYExtents;
-			var constraintZ2 = cityController.city.extents.Z2+camZ2Extents;
-			cameraController.SetConstraints(constraintX1, constraintY1, constraintZ1, camRotateMin, constraintX2, constraintY2, constraintZ2, camRotateMax);
+			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", 0, 0, glCards);
 			
 			//center camera on city
-			cameraController.CenterOnCity(cityController.city);
+			cameraController.CenterOnCity(cityController.city, true);
 			
 			//zoom camera
 			cameraController.Zoom(camZEnd, undefined, camZAnimationTime, true);
-			
-			console.log(cityController.city.extents);
 		}
 	}, 500);
 	
 	// Start Rendering
 	render();
 }
+
+setTimeout(function() {
+	var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "test", 10, 10, glCards);
+	cityController.SetCity(city);
+	cameraController.CenterOnCity(city);
+	
+	console.log(city.extents);
+	console.log(city.midpoint);
+}, 3000);
