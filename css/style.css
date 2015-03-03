@@ -37,6 +37,7 @@ header form input {
   border: none;
   padding-left: 65px;
   font-size: 40px;
+  outline: none;
 }
 #blackout {
   position: absolute;
@@ -50,11 +51,16 @@ header form input {
 }
 #overlay {
   background: #fffdf2;
-  width: 80%;
   min-height: 100%;
   margin: 20px auto;
 }
-textarea,
-input {
-  outline: none;
+@media (min-width: 920px) {
+  #overlay {
+    width: 900px;
+  }
+}
+@media (max-width: 920px) {
+  #overlay {
+    width: 80%;
+  }
 }

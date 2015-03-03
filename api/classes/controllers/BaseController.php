@@ -16,18 +16,21 @@ class BaseController {
 	
 	public function __construct() {
 		$this->sql = new mysqli('localhost', 'root', 'Burdon68', 'rlcity');
-		if ($sql->connect_error) {
+		if ($this->sql->connect_error) {
 			die("DB Connection Failed");
 		}
 	}
 	
 	protected function get_all() {
 		$return = array();
-		$results = $this->sql->query("SELECT * FROM ".$this->db);
+		$query = "SELECT * FROM `".$this->db."`";
+		$results = $this->sql->query($query);
+		
 		foreach($results as $result) {
-			$id = $result['id'];
-			unset($result['id']);
-			$return[$id] = $result;
+			foreach ($result as &$content) {
+				$content = utf8_encode($content);
+			}
+			$return[] = $result;
 		}
 		return $return;
 	}

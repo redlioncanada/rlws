@@ -22,8 +22,24 @@ class ContentController extends BaseController {
      */
     public function get($request)
     {
+        
         $data = $this->get_content();
-        error_log(print_r($cats, 1));
+        $categories = new CategoriesController();
+        $cats = $categories->get($request);
+        
+        foreach ($data as &$content) {
+	        for ($x = 1; $x < count($cats); $x++) {
+		        if ($cats[$x]['id'] == $content['categories_id']) {
+			        $cats_id = $x;
+			        break;
+			    }
+	        }
+	        $catdata = $cats[$cats_id];
+	        $content['xsize'] = $catdata['xsize'];
+	        $content['ysize'] = $catdata['ysize'];
+	        $content['hex_color'] = $catdata['hex_color'];
+        }
+        
         switch (count($request->url_elements)) {
             case 1:
                 return $data;
@@ -70,7 +86,7 @@ class ContentController extends BaseController {
      *
      * @return array
      */
-    protected function get_categories()
+    protected function get_content()
     {
         return $this->get_all();
     }
