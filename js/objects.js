@@ -159,7 +159,7 @@ var _objects = function() {
 				thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
 				thisbox.cube.name = buildingDataLength-this.buildingData.length;
 				scene.add( thisbox.cube );
-				thisbox.cube.position.x = -x * gridSizex - (((curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool;
+				thisbox.cube.position.x = -x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool;
 				thisbox.cube.position.y = -y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool;
 				curBuilding.setTDObject(thisbox.cube);
 				objects.push(thisbox.cube);
