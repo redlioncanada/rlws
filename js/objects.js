@@ -130,9 +130,9 @@ var _objects = function() {
 				this.drawMatrix.subset(math.index(y-1,maxX-x), Math.max(curBuilding.xsize,curBuilding.ysize));
 			
 				//set the indexes the current item extends into as occupied
-				var i;
 				if (curBuilding.ysize > 1) for (i = 1; i <= curBuilding.xsize; i++) {this.drawMatrix.subset(math.index(y+i-1,maxX-x),Math.max(curBuilding.xsize,curBuilding.ysize));}
 				if (curBuilding.xsize > 1) for (i = 1; i <= curBuilding.ysize; i++) {this.drawMatrix.subset(math.index(y-1,maxX-x+i),Math.max(curBuilding.xsize,curBuilding.ysize));}
+				if (curBuilding.ysize == 2 && curBuilding.xsize == 2) this.drawMatrix.subset(math.index(y,maxX-x+1),2); //hacks r us
 			
 				//set the current data index as displayed/occupied
 				this.dataMatrix.subset(math.index(0, buildingDataLength-this.buildingData.length), Math.max(curBuilding.xsize,curBuilding.ysize));
@@ -164,8 +164,8 @@ var _objects = function() {
 				curBuilding.setTDObject(thisbox.cube);
 				objects.push(thisbox.cube);
 
-				//this.logMatrix(this.drawMatrix);
-				//this.logMatrix(this.dataMatrix);
+				this.logMatrix(this.drawMatrix);
+				this.logMatrix(this.dataMatrix);
 				if (br) break;
 			}
 			if (br) break;
