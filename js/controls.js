@@ -2,22 +2,18 @@
 $(document).keydown(function( event ) {
 	if ( event.which == 38 ) { // UP
 		event.preventDefault();
-		console.log("camy:"+Math.abs(camera.position.y)+",constrain:"+Math.abs(originY+camY1Extents));
 		mUP = true;
 	}
 	if (event.which == 40) { // DOWN
 		event.preventDefault();
-		console.log("camy:"+Math.abs(camera.position.y)+",constrain:"+Math.abs(originY-camY2Extents));
 		mDOWN = true;
 	}
 	if (event.which == 37) { // LEFT
 		event.preventDefault();
-		console.log("camx:"+Math.abs(camera.position.x)+",constrain:"+Math.abs(originX-camX1Extents));
 		mLEFT = true;
 	}
 	if (event.which == 39) { // RIGHT
 		event.preventDefault();
-		console.log("camx:"+Math.abs(camera.position.x)+",constrain:"+Math.abs(originX+camX2Extents));
 		mRIGHT = true;
 	}
 	if (event.which == 34) { // PGDN
@@ -132,6 +128,7 @@ function fingerMouseDrag(e) {
 		oldTouchY = yOldMod;
 	}
 	
+<<<<<<< HEAD
 /*
 	if (Math.abs(camera.position.y) <= Math.abs(originY-camY2Extents) && yMod < 0 || // mDOWN = false;
 		Math.abs(camera.position.y) >= Math.abs(originY+camY1Extents) && yMod > 0) //mUP = false;
@@ -146,6 +143,10 @@ function fingerMouseDrag(e) {
 */
 		animations.CameraMove(-xMod/250, undefined);
 	//}
+=======
+	cameraController.Move(undefined, -yMod/250, undefined, false);
+	cameraController.Move(-xMod/250, undefined, undefined, false);
+>>>>>>> refactoring
 }
 
 function fingerMouseUp(e) {

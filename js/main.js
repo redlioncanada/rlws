@@ -12,40 +12,36 @@ var objects = [];
 
 var objs = new _objects();
 var cityController = new objs.cityController();
-var animations = new objs.animations();
+var cameraController = undefined;
 
 // Render init
-renderer.setSize( window.innerWidth, window.innerHeight -73 );
 renderer.shadowMapEnabled = true;
+resize();
 document.body.appendChild( renderer.domElement );
+$(window).on('resize', resize);
+
+function resize() {
+	renderer.setSize( window.innerWidth, window.innerHeight );	
+}
 
 function render() {
 	requestAnimationFrame( render );
 	TWEEN.update();
 	
-	//constrain camera position
-	if (Math.abs(camera.position.y) >= Math.abs(originY-camY2Extents)) mDOWN = false;
-	if (Math.abs(camera.position.y) <= Math.abs(originY+camY1Extents)) mUP = false;
-	if (Math.abs(camera.position.x) >= Math.abs(originX-camX1Extents)) mLEFT = false;
-	if (Math.abs(camera.position.x) <= Math.abs(originX+camX2Extents)) mRIGHT = false;
-	
 	//apply camera movement
 	if (!overlay) {
-		if (!xMove && mRIGHT) animations.CameraPanX(0.1, undefined, camPanAnimationTime);
-		if (!xMove && mLEFT) animations.CameraPanX(-0.1, undefined, camPanAnimationTime);
-		if (!yMove && mUP) animations.CameraPanY(0.1, undefined, camPanAnimationTime);
-		if (!yMove && mDOWN) animations.CameraPanY(-0.1, undefined, camPanAnimationTime);
-		if (mGOIN) animations.CameraZoom(0.1);
-		if (mGOOUT) animations.CameraZoom(-0.1);
-		//console.log(xMove+","+mLEFT+","+mRIGHT);
-		if (xMove && (mLEFT || mRIGHT)) animations.CameraPanX((xMove/200) * -1, undefined, camPanAnimationTime);
-		if (yMove && (mUP || mDOWN)) animations.CameraPanY(yMove/200, undefined, camPanAnimationTime);
-		if (mROTUP && camera.rotation.x < 0.9) {
-			camera.rotation.x += 0.03;
-		}
-		if (mROTDOWN && camera.rotation.x > 0) {
-			camera.rotation.x -= 0.03;
-		}
+		var newX = xMove ? -(xMove/200) : 0.1;
+		if (mLEFT && !xMove) newX *= -1;
+		var newY = yMove ? yMove/200 : 0.1;
+		if (mDOWN && !yMove) newY *= -1;
+		
+		if (mLEFT || mRIGHT || xMove) cameraController.PanX(newX, undefined, undefined, false);
+		if (mUP || mDOWN || yMove) cameraController.PanY(newY, undefined, undefined, false);
+
+		if (mGOIN) cameraController.Zoom(0.1);
+		if (mGOOUT) cameraController.Zoom(-0.1);
+		if (mROTUP) cameraController.Rotate(0.03, undefined, undefined, false);
+		if (mROTDOWN) cameraController.Rotate(-0.03, undefined, undefined, false);
 		renderer.render( scene, camera );
 	}
 }
@@ -63,39 +59,33 @@ function init3D() {
 	light.position.set(0,0,8);
 	scene.add(light);
 	camera.position.z = camZStart;
+	cameraController = new objs.cameraController(camera, light);
 	
-	//delay building init until data is populated
+	//Objects init - city, delay until data is populated
 	initInterval = setInterval(function() {
 		if (glCards.length > 0) {
-			//center camera to grid
-			var gutterX = gridSizex-boxwidth;
-			var gutterY = gridSizey-boxheight;
-			var gridTotalWidth = maxX * (gridSizex + gutterX);
-			var gridTotalHeight = maxY * (gridSizey + gutterY);
-			camera.position.y = -(gridTotalHeight/2);
-			light.position.y = -(gridTotalHeight/2);
-			camera.position.x = -(gridTotalWidth/2);
-			light.position.x = -(gridTotalWidth/2);
-	
-			//set camera constraints
-			camMinX = -gridTotalWidth-camX1Extents;
-			camMaxX = 0+camX2Extents;
-			camMinY = -gridTotalHeight-camY1Extents;
-			camMaxY = 0+camY2Extents;
-		
-			//set camera origin
-			originX = camera.position.x;
-			originY = camera.position.y;
-	
-			//zoom camera
-			animations.CameraZoom(camZEnd, undefined, camZAnimationTime, true);
-			
 			clearInterval(initInterval);
-			cityController.SpawnCity();
-			setupEventListeners();
+			
+			//spawn city
+			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", 0, 0, glCards);
+			
+			//center camera on city
+			cameraController.CenterOnCity(cityController.city, true);
+			
+			//zoom camera
+			cameraController.Zoom(camZEnd, undefined, camZAnimationTime, true);
 		}
 	}, 500);
 	
 	// Start Rendering
 	render();
 }
+
+setTimeout(function() {
+	var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "test", 10, 10, glCards);
+	cityController.SetCity(city);
+	cameraController.CenterOnCity(city);
+	
+	console.log(city.extents);
+	console.log(city.midpoint);
+}, 3000);
