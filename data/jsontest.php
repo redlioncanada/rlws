@@ -33,7 +33,7 @@ $array = array(
 		'description' => 'TV spot',
 		'tags' => 'tech, strategy',
 		'img' => 'img/tile-4.jpg',
-		'xsize' => 1,
+		'xsize' => 2,
 		'ysize' => 1
 	),
 	array(
@@ -177,7 +177,7 @@ $array = array(
 		'description' => 'TV Spot',
 		'tags' => 'tech, strategy',
 		'img' => 'img/tile-6.jpg',
-		'xsize' => 1,
+		'xsize' => 2,
 		'ysize' => 1
 	),
 	array(
