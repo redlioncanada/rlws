@@ -53,20 +53,17 @@ var _objects = function() {
 		if (!abs) {
 			if (typeof X !== 'undefined') {
 				camera.position.x += X;
-				light.position.x += X;
 			}
 			if (typeof Y !== 'undefined') {
 				camera.position.y += Y;
-				light.position.y += Y;
 			}
 		} else {
 			if (typeof X !== 'undefined') {
 				camera.position.x = X;
-				light.position.x = X;
 			}
 			if (typeof Y !== 'undefined') {
 				camera.position.y = Y;
-				light.position.y = Y;
+				
 			}
 		}
 	};
