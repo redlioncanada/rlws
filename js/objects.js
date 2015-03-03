@@ -9,6 +9,15 @@ var _objects = function() {
 	}
 	
 	this.cameraController.prototype.CenterOnCity = function(city) {
+		//set camera constraints
+		var constraintX1 = city.extents.X1-camXExtents;
+		var constraintY1 = city.extents.Y1-camYExtents;
+		var constraintZ1 = city.extents.Z1-camZ1Extents;
+		var constraintX2 = city.extents.X2+camXExtents;
+		var constraintY2 = city.extents.Y2+camYExtents;
+		var constraintZ2 = city.extents.Z2+camZ2Extents;
+		
+		this.SetConstraints(constraintX1, constraintY1, constraintZ1, camRotateMin, constraintX2, constraintY2, constraintZ2, camRotateMax);
 		this.Move(city.midpoint.X, city.midpoint.Y);
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
 	};
