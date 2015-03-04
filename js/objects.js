@@ -1,6 +1,21 @@
 var _objects = function() {
 	var self = this;
 	
+	this.dataController = function(dataArray) {
+		this.data = [];
+		if (typeof dataArray !== 'undefined') this.SetData(dataArray);
+	};
+	
+	this.dataController.prototype.SetData = function(dataArray) {
+		for (var dataindex = 0; dataindex < dataArray.length; dataindex++) {
+			this.data[parseInt(dataArray[dataindex].id)] = dataArray[dataindex];
+		}
+	};
+	
+	this.dataController.prototype.GetByID = function(id) {
+		return this.data[id];
+	};
+	
 	//this.camera Controller - maintains this.camera animation
 	this.cameraController = function(camera, light) {
 		this.camera = camera;

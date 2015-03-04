@@ -75,8 +75,8 @@ $(document).keyup(function(event) {
 function boxClicked(intersect) {
 	$('#blackout').css({'display':'block'}).animate({'opacity': 1},500);
 	overlay = true;
-	console.log(cityController);
-	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + cityController.buildings[parseInt(intersect.name)].title + "<br>Description: " + cityController.buildings[parseInt(intersect.name)].description + '<br>Image: <img src="' + cityController.buildings[parseInt(intersect.name)].img + '">');
+	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
+	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + clickedBuilding.title + "<br>Description: " + clickedBuilding.description + '<br>Image: <img src="' + clickedBuilding.img + '">');
 	$('#blackout').on('click touchend', function(e) {
 		$(this).animate({'opacity': 0}, 500, function() {
 			$('#blackout').css({'display':'none'});
