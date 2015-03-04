@@ -13,6 +13,7 @@ var objects = [];
 var objs = new _objects();
 var cityController = new objs.cityController();
 var cameraController = null;
+var dataController = new objs.dataController();
 
 // Render init
 renderer.shadowMapEnabled = true;
@@ -65,6 +66,9 @@ function init3D() {
 	initInterval = setInterval(function() {
 		if (glCards.length > 0) {
 			clearInterval(initInterval);
+			
+			//set Data
+			dataController.SetData(glCards);
 			
 			//spawn city
 			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", 0, 0, glCards);
