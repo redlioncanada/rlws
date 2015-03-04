@@ -230,20 +230,6 @@ function setupEventListeners() {
 	}
 }
 
-// Acceleration Vars
-var acc_oldaz = null;
-var acc_az = 0;
-var acc_arAlpha = 0;
-var acc_arBeta = 0;
-var acc_speed = 5;
-
-var acc_fromx = null;
-var acc_tox = null;
-var acc_fromy = null;
-var acc_toy = null;
-var acc_totilt = null;
-var acc_fromtilt = null;
-
 var devMoveHandler = function(event) {
 	// Get Accelerometer Information needed
 	
