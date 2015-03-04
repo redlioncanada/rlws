@@ -74,7 +74,7 @@ function init3D() {
 			dataController.SetData(glCards);
 			
 			//spawn city
-			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", glCards);
+			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", glCards, 2);
 			
 			//center camera on city
 			cameraController.CenterOnCity(cityController.city, true);

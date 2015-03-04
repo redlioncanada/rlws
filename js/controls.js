@@ -207,7 +207,7 @@ function resetPinches() {
 resetPinches();
 
 function setupEventListeners() {
-	console.log("event listeners are initializing...");
+	if (debug) console.log("event listeners are initializing...");
 	var canvases = document.getElementsByTagName('canvas');
 	canvas = canvases[0];
 	

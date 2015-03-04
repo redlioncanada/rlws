@@ -1,6 +1,31 @@
 var _objects = function() {
 	var self = this;
 	
+	//Static Methods
+	this.MultiplyArray = function(m, data) {
+		if (m < 2) return data;
+		var d = data.slice();
+		for (var i = 1; i <= m; i++) {
+			d = d.concat(data);
+		}
+
+		return this.ShuffleArray(d);
+	}
+
+	this.ShuffleArray = function(array) {
+		  var currentIndex = array.length, temporaryValue, randomIndex ;
+		  while (0 !== currentIndex) {
+		    randomIndex = Math.floor(Math.random() * currentIndex);
+		    currentIndex -= 1;
+		    temporaryValue = array[currentIndex];
+		    array[currentIndex] = array[randomIndex];
+		    array[randomIndex] = temporaryValue;
+		  }
+
+		  return array;
+	}
+	//End Static Methods
+
 	//Data Controller - maintains global city data
 	this.dataController = function(dataArray) {
 		this.data = [];
@@ -32,28 +57,32 @@ var _objects = function() {
 		if (city == -1) {console.log('Error (cameraController.CenterOnCity): Tried to Center on an invalid city'); return 0;}
 		
 		//set camera constraints
-		var constraintX1 = city.extents.X1-camXExtents;
-		var constraintY1 = city.extents.Y1-camYExtents;
-		var constraintZ1 = city.extents.Z1-camZ1Extents;
-		var constraintX2 = city.extents.X2+camXExtents;
-		var constraintY2 = city.extents.Y2+camYExtents;
-		var constraintZ2 = city.extents.Z2+camZ2Extents;
+		var constraints = {
+			X1 : city.extents.X1-camXExtents,
+			Y1 : city.extents.Y1-camYExtents,
+			Z1 : city.extents.Z1-camZ1Extents,
+			X2 : city.extents.X2+camXExtents,
+			Y2 : city.extents.Y2+camYExtents,
+			Z2 : city.extents.Z2+camZ2Extents,
+			R1 : camRotateMax,
+			R2 : camRotateMin
+		}
 		
-		this.SetConstraints(constraintX1, constraintY1, constraintZ1, camRotateMin, constraintX2, constraintY2, constraintZ2, camRotateMax);
+		this.SetConstraints(constraints);
 		if (abs) this.Move(city.midpoint.X, city.midpoint.Y);
 		else this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
 	};
 	
-	this.cameraController.prototype.SetConstraints = function(X1, Y1, Z1, R1, X2, Y2, Z2, R2) {
-		if (typeof X1 !== 'undefined') this.constraints.X1 = X1;
-		if (typeof Y1 !== 'undefined') this.constraints.Y1 = Y1;
-		if (typeof Z1 !== 'undefined') this.constraints.Z1 = Z1;
-		if (typeof R1 !== 'undefined') this.constraints.R1 = R1;
-		if (typeof X2 !== 'undefined') this.constraints.X2 = X2;
-		if (typeof Y2 !== 'undefined') this.constraints.Y2 = Y2;
-		if (typeof Z2 !== 'undefined') this.constraints.Z2 = Z2;
-		if (typeof R2 !== 'undefined') this.constraints.R2 = R2;
+	this.cameraController.prototype.SetConstraints = function(constraints) {
+		if (typeof constraints.X1 !== 'undefined') this.constraints.X1 = constraints.X1;
+		if (typeof constraints.Y1 !== 'undefined') this.constraints.Y1 = constraints.Y1;
+		if (typeof constraints.Z1 !== 'undefined') this.constraints.Z1 = constraints.Z1;
+		if (typeof constraints.R1 !== 'undefined') this.constraints.R1 = constraints.R1;
+		if (typeof constraints.X2 !== 'undefined') this.constraints.X2 = constraints.X2;
+		if (typeof constraints.Y2 !== 'undefined') this.constraints.Y2 = constraints.Y2;
+		if (typeof constraints.Z2 !== 'undefined') this.constraints.Z2 = constraints.Z2;
+		if (typeof constraints.R2 !== 'undefined') this.constraints.R2 = constraints.R2;
 	};
 	
 	this.cameraController.prototype.SetOrigin = function(X, Y) {
@@ -64,7 +93,7 @@ var _objects = function() {
 	this.cameraController.prototype.Pan = function(toX, toY, fromX, fromY, time, abs, constrain) {
 		this.PanX(toX, fromX, time, abs, constrain);
 		this.PanY(toY, fromY, time, abs, constrain);
-		console.log('Pan: X:'+toX+',Y:'+toY);
+		if (debug && debugMovement) console.log('Pan: X:'+toX+',Y:'+toY);
 	};
 
 	this.cameraController.prototype.PanX = function(to, from, time, abs, constrain) {
@@ -88,7 +117,7 @@ var _objects = function() {
 				})
 				.start();
 		}
-		console.log('PanX:'+to);
+		if (debug && debugMovement) console.log('PanX:'+to);
 	};
 	
 	this.cameraController.prototype.PanY = function(to, from, time, abs, constrain) {
@@ -112,7 +141,7 @@ var _objects = function() {
 				})
 				.start();
 		}
-		console.log('PanY:'+to);
+		if (debug && debugMovement) console.log('PanY:'+to);
 	};
 	
 	this.cameraController.prototype.Zoom = function(to, from, time, abs, constrain) {
@@ -123,7 +152,7 @@ var _objects = function() {
 		if (typeof from === 'undefined') from = this.camera.position.z;
 		if (!abs) to = from + to;
 		
-		console.log('Zoom: '+to);
+		if (debug && debugMovement) console.log('Zoom: '+to);
 		if ((this.HitTestZ(to) && !this.animating) || !constrain) {
 			if (!constrain) this.animating = true;
 			var t = new TWEEN.Tween( { z : from } )
@@ -166,7 +195,7 @@ var _objects = function() {
 			}
 		}
 		
-		console.log('Move: X:'+X+',Y:'+Y+',Z:'+Z);
+		if (debug && debugMovement) console.log('Move: X:'+X+',Y:'+Y+',Z:'+Z);
 	};
 	
 	this.cameraController.prototype.Rotate = function(X, Y, Z, abs) {
@@ -194,7 +223,7 @@ var _objects = function() {
 				this.camera.rotation.z = Z;
 			}
 		}
-		console.log('Rotate: X:'+X+',Y:'+Y+',Z:'+Z);
+		if (debug && debugMovement) console.log('Rotate: X:'+X+',Y:'+Y+',Z:'+Z);
 	};
 	
 	this.cameraController.prototype.HitTestX = function(X) {return X >= this.constraints.X1 && X <= this.constraints.X2; };
@@ -221,10 +250,39 @@ var _objects = function() {
 		return 0;
 	};
 
-	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, rawData, startX, startY) {
-		var startX = this.cities.length == 0 ? 0 : this.cities.length*this.cities[0].width*cityGutter;
-		var startY = 0;
-		var c = new self.city(buildingsPerRow, buildingsPerColumn, startX, startY, rawData);
+	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, rawData, sizeMultiplier, startX, startY) {
+		if (typeof sizeMultiplier === 'undefined') sizeMultiplier = 1;
+		if (typeof startX === 'undefined') startX = this.cities.length == 0 ? 0 : this.cities.length*this.cities[0].width*cityGutter;
+		if (typeof startY === 'undefined') startY = 0;
+		
+		if (sizeMultiplier > 1) {
+			//multiply the size of the array
+			var newData = self.MultiplyArray(sizeMultiplier, rawData);
+			buildingsPerRow *= sizeMultiplier;
+			buildingsPerColumn *= sizeMultiplier;
+
+			//insert the original ordered array into the new array, preventing duplicates in the center
+			var mXStart = Math.floor((buildingsPerRow*sizeMultiplier)/2 - buildingsPerRow/2);
+			var mXEnd = buildingsPerRow*sizeMultiplier - mXStart;
+			var mYStart = Math.floor((buildingsPerColumn*sizeMultiplier)/2 - buildingsPerColumn/2);
+			var mYEnd = buildingsPerRow*sizeMultiplier - mXStart;
+
+			var cnt = 0, br = false;
+			for (var i = mXStart; i <= mXEnd - 1; i++) {
+				for (var j = mYStart; j <= mYEnd - 1; j++) {
+					newData[i*j] = rawData[cnt];
+					cnt++;
+
+					if (cnt == rawData.length-1) br = true;
+					if (br) break;
+				}
+				if (br) break;
+			}
+
+			rawData = newData;
+		}
+
+		var c = new self.city(buildingsPerRow, buildingsPerColumn, rawData, sizeMultiplier, startX, startY);
 		c.tag = tag;
 		this.cities.push(c);
 		c.index = this.cities.length;
@@ -264,8 +322,9 @@ var _objects = function() {
 	//End CityController
 
 	//City - a collection of buildings
-	this.city = function(buildingPersRow, buildingsPerColumn, startX, startY, rawData) {
+	this.city = function(bpr, bpc, rawData, sizeMultiplier, sX, sY) {
 		this.logMatrix = function(matrix) {
+			if (!debug) return;
 			for (var arr in matrix) {
 				for (var index in arr) {
 					console.log(matrix[arr][index]);
@@ -277,13 +336,13 @@ var _objects = function() {
 		this.tag = "default";
 		this.buildings = [];
 		this.buildingData = rawData.slice();
-		this.extents = {X1:0,Y1:0,X2:-100,Y2:-100,Z1:0,Z2:0};
-		this.origin = {X:startX,Y:startY};
+		this.extents = {X1:undefined,Y1:undefined,X2:undefined,Y2:undefined,Z1:undefined,Z2:undefined};
+		this.origin = {X:sX,Y:sY};
 		this.width = 0;
 		this.height = 0;
 		this.midpoint = {X:0,Y:0};
-		this.buildingsPerRow = buildingsPerRow;
-		this.buildingsPerColumn = buildingsPerColumn;
+		this.buildingsPerRow = bpr;
+		this.buildingsPerColumn = bpc;
 		this.init3D();
 	};
 
@@ -345,17 +404,17 @@ var _objects = function() {
 				thisbox.cube.position.y = this.origin.Y + (-y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool);
 				
 				//console.log(this.extents.X1+","+this.extents.X2+","+this.extents.Y1+","+this.extents.Y2);
-				if (thisbox.cube.position.x + curBoxWidth*1.4 < this.extents.X1) this.extents.X1 = thisbox.cube.position.x + curBoxWidth*1.4;
-				if (thisbox.cube.position.x - curBoxWidth*1.4 > this.extents.X2) this.extents.X2 = thisbox.cube.position.x - curBoxWidth*1.4; 
-				if (thisbox.cube.position.y + curBoxHeight/4 < this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y + curBoxHeight/4;
-				if (thisbox.cube.position.y - curBoxHeight/4 > this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y - curBoxHeight/4; 
-				if (thisbox.cube.position.z - curBoxDepth/2 < this.extents.Z1) this.extents.Z1 = thisbox.cube.position.z + curBoxDepth/3;
+				if (thisbox.cube.position.x + curBoxWidth*1.4 < this.extents.X1 || typeof this.extents.X1 != 'number') this.extents.X1 = thisbox.cube.position.x + curBoxWidth*1.4;
+				if (thisbox.cube.position.x - curBoxWidth*1.4 > this.extents.X2 || typeof this.extents.X2 != 'number') this.extents.X2 = thisbox.cube.position.x - curBoxWidth*1.4; 
+				if (thisbox.cube.position.y + curBoxHeight/4 < this.extents.Y1 || typeof this.extents.Y1 != 'number') this.extents.Y1 = thisbox.cube.position.y + curBoxHeight/4;
+				if (thisbox.cube.position.y - curBoxHeight/4 > this.extents.Y2 || typeof this.extents.Y2 != 'number') this.extents.Y2 = thisbox.cube.position.y - curBoxHeight/4; 
+				if (thisbox.cube.position.z - curBoxDepth/2 < this.extents.Z1 || typeof this.extents.Z1 != 'number') this.extents.Z1 = thisbox.cube.position.z + curBoxDepth/3;
 				
 				curBuilding.SetModel(thisbox.cube);
 				this.buildings[parseInt(curBuilding.id)] = curBuilding;
 				objects.push(thisbox.cube);
 				
-				//this.logMatrix(this.drawMatrix);
+				this.logMatrix(this.drawMatrix);
 				//this.logMatrix(this.dataMatrix);
 				if (br) break;
 			}

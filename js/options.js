@@ -1,5 +1,9 @@
 //MODIFIABLE
 
+//debug
+debug = true;
+debugMovement = false;
+
 //city vars
 var gridSizex = 1.2; //multiplicative
 var gridSizey = 1.6; //multiplicative
