@@ -115,7 +115,6 @@ var _objects = function() {
 		if (!abs) to = from + to;
 		
 		console.log('Zoom: '+to);
-		
 		if (this.HitTestZ(to) || !constrain) {
 			var t = new TWEEN.Tween( { z : from } )
 				.to( { z : to }, time*1000 )
@@ -188,7 +187,7 @@ var _objects = function() {
 	this.cameraController.prototype.HitTestX = function(X) {return X >= this.constraints.X1 && X <= this.constraints.X2; };
 	this.cameraController.prototype.HitTestY = function(Y) {return Y >= this.constraints.Y1 && Y <= this.constraints.Y2; };
 	this.cameraController.prototype.HitTestZ = function(Z) {return Z >= this.constraints.Z1 && Z <= this.constraints.Z2; };
-	this.cameraController.prototype.HitTestR = function(R) {return R >= this.constraints.R1 && Z <= this.constraints.R2; };
+	this.cameraController.prototype.HitTestR = function(R) {return R >= this.constraints.R1 && R <= this.constraints.R2; };
 	//End Camera Controller 
 	
 	//CityController - Maintains cities
@@ -335,8 +334,7 @@ var _objects = function() {
 				if (thisbox.cube.position.x - curBoxWidth*1.4 > this.extents.X2) this.extents.X2 = thisbox.cube.position.x - curBoxWidth*1.4; 
 				if (thisbox.cube.position.y + curBoxHeight/4 < this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y + curBoxHeight/4;
 				if (thisbox.cube.position.y - curBoxHeight/4 > this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y - curBoxHeight/4; 
-				if (thisbox.cube.position.z - curBoxDepth/2 < this.extents.Z1) this.extents.Z1 = thisbox.cube.position.z + curBoxDepth/2;
-				if (thisbox.cube.position.z + curBoxDepth/2 > this.extents.Z2) this.extents.Z2 = thisbox.cube.position.z - curBoxDepth/2; 
+				if (thisbox.cube.position.z - curBoxDepth/2 < this.extents.Z1) this.extents.Z1 = thisbox.cube.position.z + curBoxDepth/3;
 				
 				curBuilding.SetModel(thisbox.cube);
 				this.buildings[parseInt(curBuilding.id)] = curBuilding;
@@ -353,6 +351,7 @@ var _objects = function() {
 		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
 		this.width = Math.abs(this.extents.X1 - this.extents.X2);
 		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
+		this.extents.Z2 = this.extents.Z1 + camZ2Extents;
 	};
 	//End City
 	
