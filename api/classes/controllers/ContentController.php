@@ -24,22 +24,7 @@ class ContentController extends BaseController {
     {
         
         $data = $this->get_content();
-        $categories = new CategoriesController();
-        $cats = $categories->get($request);
-        
-        foreach ($data as &$content) {
-	        for ($x = 1; $x < count($cats); $x++) {
-		        if ($cats[$x]['id'] == $content['categories_id']) {
-			        $cats_id = $x;
-			        break;
-			    }
-	        }
-	        $catdata = $cats[$cats_id];
-	        $content['xsize'] = $catdata['xsize'];
-	        $content['ysize'] = $catdata['ysize'];
-	        $content['hex_color'] = $catdata['hex_color'];
-        }
-        
+                
         switch (count($request->url_elements)) {
             case 1:
             	shuffle($data);
@@ -89,7 +74,18 @@ class ContentController extends BaseController {
      */
     protected function get_content()
     {
-        return $this->get_all();
+        $return = array();
+		$query = "SELECT `".$this->db."`.*, `rl_categories`.`xsize`, `rl_categories`.`ysize`, `rl_categories`.`hex_color` FROM `".$this->db."` JOIN `rl_categories` ON `rl_categories`.`id` = `".$this->db."`.`categories_id`";
+		$results = $this->sql->query($query);
+		
+		foreach($results as $result) {
+			foreach ($result as &$content) {
+				$content = utf8_encode($content);
+			}
+			$return[] = $result;
+		}
+		return $return;
+        
     }
     
     /**
