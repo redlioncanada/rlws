@@ -22,7 +22,9 @@ document.body.appendChild( renderer.domElement );
 $(window).on('resize', resize);
 
 function resize() {
+	camera.aspect = window.innerWidth / window.innerHeight;
 	renderer.setSize( window.innerWidth, window.innerHeight );	
+	camera.updateProjectionMatrix();
 }
 
 function render() {
