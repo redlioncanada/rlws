@@ -255,7 +255,7 @@ var _objects = function() {
 		if (typeof startX === 'undefined') startX = this.cities.length == 0 ? 0 : this.cities.length*this.cities[0].width*cityGutter;
 		if (typeof startY === 'undefined') startY = 0;
 		
-		if (sizeMultiplier > 1) {
+		/*if (sizeMultiplier > 1) {
 			//multiply the size of the array
 			var newData = self.MultiplyArray(sizeMultiplier, rawData);
 			buildingsPerRow *= sizeMultiplier;
@@ -280,7 +280,7 @@ var _objects = function() {
 			}
 
 			rawData = newData;
-		}
+		}*/
 
 		var c = new self.city(buildingsPerRow, buildingsPerColumn, rawData, sizeMultiplier, startX, startY);
 		c.tag = tag;
