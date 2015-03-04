@@ -77,7 +77,7 @@ function init3D() {
 			cameraController.CenterOnCity(cityController.city, true);
 			
 			//zoom camera
-			cameraController.Zoom(camZEnd, undefined, camZAnimationTime, true);
+			cameraController.Zoom(camZEnd, undefined, camZAnimationTime, true, false);
 		}
 	}, 500);
 	
@@ -85,11 +85,11 @@ function init3D() {
 	render();
 }
 
-setTimeout(function() {
+/*setTimeout(function() {
 	var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "test", 10, 10, glCards);
 	cityController.SetCity(city);
 	cameraController.CenterOnCity(city);
 	setupEventListeners();
 	console.log(city.extents);
 	console.log(city.midpoint);
-}, 3000);
+}, 3000);*/

@@ -1,6 +1,7 @@
 var _objects = function() {
 	var self = this;
 	
+	//Data Controller - maintains global city data
 	this.dataController = function(dataArray) {
 		this.data = [];
 		if (typeof dataArray !== 'undefined') this.SetData(dataArray);
@@ -15,8 +16,9 @@ var _objects = function() {
 	this.dataController.prototype.GetByID = function(id) {
 		return this.data[id];
 	};
+	//End Data Controller
 	
-	//this.camera Controller - maintains this.camera animation
+	//Camera Controller - maintains camera animation
 	this.cameraController = function(camera, light) {
 		this.camera = camera;
 		this.light = light;
@@ -104,8 +106,9 @@ var _objects = function() {
 		console.log('PanY:'+to);
 	};
 	
-	this.cameraController.prototype.Zoom = function(to, from, time, abs) {
+	this.cameraController.prototype.Zoom = function(to, from, time, abs, constrain) {
 		var _self = this;
+		if (typeof constrain === 'undefined') constrain = true;
 		if (typeof time === 'undefined') time = 0.01;
 		if (typeof abs === 'undefined') abs = false;
 		if (typeof from === 'undefined') from = this.camera.position.z;
@@ -113,7 +116,7 @@ var _objects = function() {
 		
 		console.log('Zoom: '+to);
 		
-		if (this.HitTestZ(to)) {
+		if (this.HitTestZ(to) || !constrain) {
 			var t = new TWEEN.Tween( { z : from } )
 				.to( { z : to }, time*1000 )
 				.easing( TWEEN.Easing.Cubic.InOut )
@@ -186,7 +189,7 @@ var _objects = function() {
 	this.cameraController.prototype.HitTestY = function(Y) {return Y >= this.constraints.Y1 && Y <= this.constraints.Y2; };
 	this.cameraController.prototype.HitTestZ = function(Z) {return Z >= this.constraints.Z1 && Z <= this.constraints.Z2; };
 	this.cameraController.prototype.HitTestR = function(R) {return R >= this.constraints.R1 && Z <= this.constraints.R2; };
-	//End this.camera Controller 
+	//End Camera Controller 
 	
 	//CityController - Maintains cities
 	this.cityController = function() {
@@ -293,16 +296,12 @@ var _objects = function() {
 			
 				//TODO skip this draw index if the current tile will extend into an occupied index, non-issue if only drawing right/down
 			
-				//set the current draw index as occupied
-				this.drawMatrix.subset(math.index(y-1,this.buildingsPerRow-x), Math.max(curBuilding.xsize,curBuilding.ysize));
-			
-				//set the indexes the current item extends into as occupied
-				var i;
-				if (curBuilding.ysize > 1) for (i = 1; i <= curBuilding.xsize; i++) {this.drawMatrix.subset(math.index(y+i-1,this.buildingsPerRow-x),Math.max(curBuilding.xsize,curBuilding.ysize));}
-				if (curBuilding.xsize > 1) for (i = 1; i <= curBuilding.ysize; i++) {this.drawMatrix.subset(math.index(y-1,this.buildingsPerRow-x+i),Math.max(curBuilding.xsize,curBuilding.ysize));}
-			
-				//set the current data index as displayed/occupied
-				this.dataMatrix.subset(math.index(0, buildingDataLength-this.buildingData.length), Math.max(curBuilding.xsize,curBuilding.ysize));
+				//set the indexes the current item occupies as occupied
+				for (var i = 0; i < curBuilding.xsize; i++) {
+					for (var j = 0; j < curBuilding.ysize; j++) {
+						this.drawMatrix.subset(math.index(y+j-1,this.buildingsPerRow-x+i),Math.max(curBuilding.xsize,curBuilding.ysize));
+					}
+				}
 				this.buildingData.splice(ind, 1);
 			
 				jitterxBool *= -1;
@@ -329,10 +328,11 @@ var _objects = function() {
 				thisbox.cube.position.x = this.origin.X + (-x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool);
 				thisbox.cube.position.y = this.origin.Y + (-y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool);
 				
-				if (thisbox.cube.position.x - curBoxWidth/2 - 2 < this.extents.X1) this.extents.X1 = thisbox.cube.position.x - curBoxWidth/2 - 2;
-				if (thisbox.cube.position.x + curBoxWidth/2 - 2 > this.extents.X2) this.extents.X2 = thisbox.cube.position.x + curBoxWidth/2 - 2; 
-				if (thisbox.cube.position.y - curBoxHeight/2 - 2 < this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y - curBoxHeight/2 - 2;
-				if (thisbox.cube.position.y + curBoxHeight/2 - 2 > this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y + curBoxHeight/2 - 2; 
+				console.log(this.extents.X1+","+this.extents.X2+","+this.extents.Y1+","+this.extents.Y2);
+				if (thisbox.cube.position.x - curBoxWidth/2 < this.extents.X1) this.extents.X1 = thisbox.cube.position.x - curBoxWidth/2;
+				if (thisbox.cube.position.x + curBoxWidth/2 > this.extents.X2) this.extents.X2 = thisbox.cube.position.x + curBoxWidth/2; 
+				if (thisbox.cube.position.y - curBoxHeight/2 < this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y - curBoxHeight/2;
+				if (thisbox.cube.position.y + curBoxHeight/2 > this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y + curBoxHeight/2; 
 				if (thisbox.cube.position.z - curBoxDepth/2 < this.extents.Z1) this.extents.Z1 = thisbox.cube.position.z + curBoxDepth/2;
 				if (thisbox.cube.position.z + curBoxDepth/2 > this.extents.Z2) this.extents.Z2 = thisbox.cube.position.z - curBoxDepth/2; 
 				
@@ -340,7 +340,6 @@ var _objects = function() {
 				this.buildings[parseInt(curBuilding.id)] = curBuilding;
 				objects.push(thisbox.cube);
 				
-
 				//this.logMatrix(this.drawMatrix);
 				//this.logMatrix(this.dataMatrix);
 				if (br) break;
