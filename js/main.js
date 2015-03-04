@@ -12,7 +12,7 @@ var objects = [];
 
 var objs = new _objects();
 var cityController = new objs.cityController();
-var cameraController = undefined;
+var cameraController = null;
 
 // Render init
 renderer.shadowMapEnabled = true;
@@ -85,7 +85,7 @@ setTimeout(function() {
 	var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "test", 10, 10, glCards);
 	cityController.SetCity(city);
 	cameraController.CenterOnCity(city);
-	
+	setupEventListeners();
 	console.log(city.extents);
 	console.log(city.midpoint);
 }, 3000);

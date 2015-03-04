@@ -3,8 +3,8 @@
 //box vars
 var gridSizex = 1.2; //multiplicative
 var gridSizey = 1.6; //multiplicative
-var maxX = 10; //maximum x grid elements
-var maxY = 10; //maximum y grid elements
+var buildingsPerRow = 10; //maximum x grid elements
+var buildingsPerColumn = 10; //maximum y grid elements
 var boxheight = 1.4; //multiplicative
 var boxwidth = 1; //multiplicative
 var jitterX = 0.0; //grid jitter

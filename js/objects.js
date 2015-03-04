@@ -22,7 +22,7 @@ var _objects = function() {
 		var constraintZ2 = city.extents.Z2+camZ2Extents;
 		
 		this.SetConstraints(constraintX1, constraintY1, constraintZ1, camRotateMin, constraintX2, constraintY2, constraintZ2, camRotateMax);
-		if (abs) this.Move(city.midpoint.X, city.midpoint.Y)
+		if (abs) this.Move(city.midpoint.X, city.midpoint.Y);
 		else this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
 	};
@@ -167,10 +167,10 @@ var _objects = function() {
 		console.log('Rotate: X:'+X+',Y:'+Y+',Z:'+Z);
 	};
 	
-	this.cameraController.prototype.HitTestX = function(X) {return X >= this.constraints.X1 && X <= this.constraints.X2; }
-	this.cameraController.prototype.HitTestY = function(Y) {return Y >= this.constraints.Y1 && Y <= this.constraints.Y2; }
-	this.cameraController.prototype.HitTestZ = function(Z) {return Z >= this.constraints.Z1 && Z <= this.constraints.Z2; }
-	this.cameraController.prototype.HitTestR = function(R) {return R >= this.constraints.R1 && Z <= this.constraints.R2; }
+	this.cameraController.prototype.HitTestX = function(X) {return X >= this.constraints.X1 && X <= this.constraints.X2; };
+	this.cameraController.prototype.HitTestY = function(Y) {return Y >= this.constraints.Y1 && Y <= this.constraints.Y2; };
+	this.cameraController.prototype.HitTestZ = function(Z) {return Z >= this.constraints.Z1 && Z <= this.constraints.Z2; };
+	this.cameraController.prototype.HitTestR = function(R) {return R >= this.constraints.R1 && Z <= this.constraints.R2; };
 	//End this.camera Controller 
 	
 	//CityController - Maintains cities
@@ -322,7 +322,9 @@ var _objects = function() {
 				if (thisbox.cube.position.z+curBoxDepth > this.extents.Z2) this.extents.Z2 = thisbox.cube.position.z+curBoxDepth; 
 				
 				curBuilding.SetModel(thisbox.cube);
+				this.buildings[parseInt(curBuilding.id)] = curBuilding;
 				objects.push(thisbox.cube);
+				
 
 				//this.logMatrix(this.drawMatrix);
 				//this.logMatrix(this.dataMatrix);
@@ -330,7 +332,7 @@ var _objects = function() {
 			}
 			if (br) break;
 		}
-
+		
 		this.midpoint.X = (this.extents.X2 + this.extents.X1) / 2;
 		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
 	};

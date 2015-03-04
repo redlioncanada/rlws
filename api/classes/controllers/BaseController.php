@@ -10,12 +10,12 @@ class BaseController {
 	
 	protected $sql;
 	private $server = 'localhost';
-	private $username = 'root';
-	private $password = 'Burdon68';
-	private $dbname = 'rlcity';
+	private $username = 'redlionc_city';
+	private $password = ']sTPTx8TO-]^';
+	private $dbname = 'redlionc_rlcity';
 	
 	public function __construct() {
-		$this->sql = new mysqli('localhost', 'root', 'Burdon68', 'rlcity');
+		$this->sql = new mysqli($this->server, $this->username, $this->password, $this->dbname);
 		if ($this->sql->connect_error) {
 			die("DB Connection Failed");
 		}

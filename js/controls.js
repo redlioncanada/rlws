@@ -75,7 +75,8 @@ $(document).keyup(function(event) {
 function boxClicked(intersect) {
 	$('#blackout').css({'display':'block'}).animate({'opacity': 1},500);
 	overlay = true;
-	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + glCards[parseInt(intersect.name)].title + "<br>Description: " + glCards[parseInt(intersect.name)].description + '<br>Image: <img src="' + glCards[parseInt(intersect.name)].img + '">');
+	console.log(cityController);
+	$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + cityController.buildings[parseInt(intersect.name)].title + "<br>Description: " + cityController.buildings[parseInt(intersect.name)].description + '<br>Image: <img src="' + cityController.buildings[parseInt(intersect.name)].img + '">');
 	$('#blackout').on('click touchend', function(e) {
 		$(this).animate({'opacity': 0}, 500, function() {
 			$('#blackout').css({'display':'none'});
@@ -150,8 +151,8 @@ function fingerMouseUp(e) {
 			vector = new THREE.Vector3( touchX, touchY, 0.5 );
 		}	
 		var raycaster = new THREE.Raycaster();
-		vector.unproject( camera );
-		raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
+		vector.unproject( cameraController.camera );
+		raycaster.set( cameraController.camera.position, vector.sub( cameraController.camera.position ).normalize() );
 		var intersects = raycaster.intersectObjects(objects);
 		
 		if ( intersects.length > 0 ) boxClicked(intersects[0].object);
@@ -203,6 +204,7 @@ function resetPinches() {
 resetPinches();
 
 function setupEventListeners() {
+	console.log("event listeners are initializing...");
 	var canvases = document.getElementsByTagName('canvas');
 	canvas = canvases[0];
 	
