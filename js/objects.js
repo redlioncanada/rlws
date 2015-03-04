@@ -314,12 +314,12 @@ var _objects = function() {
 				thisbox.cube.position.x = this.origin.X + (-x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool);
 				thisbox.cube.position.y = this.origin.Y + (-y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool);
 				
-				if (thisbox.cube.position.x < this.extents.X1) this.extents.X1 = thisbox.cube.position.x;
-				if (thisbox.cube.position.x+curBoxWidth > this.extents.X2) this.extents.X2 = thisbox.cube.position.x+curBoxWidth; 
-				if (thisbox.cube.position.y < this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y;
-				if (thisbox.cube.position.y+curBoxHeight > this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y+curBoxHeight; 
-				if (thisbox.cube.position.z < this.extents.Z1) this.extents.Z1 = thisbox.cube.position.z;
-				if (thisbox.cube.position.z+curBoxDepth > this.extents.Z2) this.extents.Z2 = thisbox.cube.position.z+curBoxDepth; 
+				if (thisbox.cube.position.x - curBoxWidth/2 - 2 < this.extents.X1) this.extents.X1 = thisbox.cube.position.x - curBoxWidth/2 - 2;
+				if (thisbox.cube.position.x + curBoxWidth/2 - 2 > this.extents.X2) this.extents.X2 = thisbox.cube.position.x + curBoxWidth/2 - 2; 
+				if (thisbox.cube.position.y - curBoxHeight/2 - 2 < this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y - curBoxHeight/2 - 2;
+				if (thisbox.cube.position.y + curBoxHeight/2 - 2 > this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y + curBoxHeight/2 - 2; 
+				if (thisbox.cube.position.z - curBoxDepth/2 < this.extents.Z1) this.extents.Z1 = thisbox.cube.position.z + curBoxDepth/2;
+				if (thisbox.cube.position.z + curBoxDepth/2 > this.extents.Z2) this.extents.Z2 = thisbox.cube.position.z - curBoxDepth/2; 
 				
 				curBuilding.SetModel(thisbox.cube);
 				this.buildings[parseInt(curBuilding.id)] = curBuilding;
