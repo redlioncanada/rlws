@@ -263,7 +263,7 @@ var _objects = function() {
 		this.tag = "default";
 		this.buildings = [];
 		this.buildingData = rawData.slice();
-		this.extents = {X1:0,Y1:0,X2:0,Y2:0,Z1:0,Z2:0};
+		this.extents = {X1:0,Y1:0,X2:-100,Y2:-100,Z1:0,Z2:0};
 		this.origin = {X:startX,Y:startY};
 		this.midpoint = {X:0,Y:0};
 		this.buildingsPerRow = buildingsPerRow;
@@ -328,11 +328,11 @@ var _objects = function() {
 				thisbox.cube.position.x = this.origin.X + (-x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool);
 				thisbox.cube.position.y = this.origin.Y + (-y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool);
 				
-				console.log(this.extents.X1+","+this.extents.X2+","+this.extents.Y1+","+this.extents.Y2);
-				if (thisbox.cube.position.x - curBoxWidth/2 < this.extents.X1) this.extents.X1 = thisbox.cube.position.x - curBoxWidth/2;
-				if (thisbox.cube.position.x + curBoxWidth/2 > this.extents.X2) this.extents.X2 = thisbox.cube.position.x + curBoxWidth/2; 
-				if (thisbox.cube.position.y - curBoxHeight/2 < this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y - curBoxHeight/2;
-				if (thisbox.cube.position.y + curBoxHeight/2 > this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y + curBoxHeight/2; 
+				//console.log(this.extents.X1+","+this.extents.X2+","+this.extents.Y1+","+this.extents.Y2);
+				if (thisbox.cube.position.x + curBoxWidth*1.4 < this.extents.X1) this.extents.X1 = thisbox.cube.position.x + curBoxWidth*1.4;
+				if (thisbox.cube.position.x - curBoxWidth*1.4 > this.extents.X2) this.extents.X2 = thisbox.cube.position.x - curBoxWidth*1.4; 
+				if (thisbox.cube.position.y + curBoxHeight/4 < this.extents.Y1) this.extents.Y1 = thisbox.cube.position.y + curBoxHeight/4;
+				if (thisbox.cube.position.y - curBoxHeight/4 > this.extents.Y2) this.extents.Y2 = thisbox.cube.position.y - curBoxHeight/4; 
 				if (thisbox.cube.position.z - curBoxDepth/2 < this.extents.Z1) this.extents.Z1 = thisbox.cube.position.z + curBoxDepth/2;
 				if (thisbox.cube.position.z + curBoxDepth/2 > this.extents.Z2) this.extents.Z2 = thisbox.cube.position.z - curBoxDepth/2; 
 				
@@ -346,7 +346,7 @@ var _objects = function() {
 			}
 			if (br) break;
 		}
-		
+		console.log(this.extents);
 		this.midpoint.X = (this.extents.X2 + this.extents.X1) / 2;
 		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
 	};
