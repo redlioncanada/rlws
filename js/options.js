@@ -1,6 +1,6 @@
 //MODIFIABLE
 
-//box vars
+//city vars
 var gridSizex = 1.2; //multiplicative
 var gridSizey = 1.6; //multiplicative
 var buildingsPerRow = 10; //maximum x grid elements
@@ -9,6 +9,7 @@ var boxheight = 1.4; //multiplicative
 var boxwidth = 1; //multiplicative
 var jitterX = 0.0; //grid jitter
 var jitterY = 0.0; //grid jitter
+var cityGutter = 10;
 var colors = [0xe1251d,0x3ba6c3]; //possible box colors, randomly chosen
 var glCards = [];
 var glCards2 = [];
@@ -25,10 +26,10 @@ var camRotateMax = 0.9;
 var camZStart = 15;
 var camZEnd = 5;
 var camZAnimationTime = 2;
-var camPanToCityAnimationTime = 1;
 
-//this.camera pan animation
+//camera pan animation
 var camPanAnimationTime = 0.01;
+var camPanToCityAnimationTime = 1;
 
 //NON-MODIFIABLE
 var camMinHeight, camMinX, cambuildingsPerRow, camMinY, cambuildingsPerColumn;

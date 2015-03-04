@@ -24,6 +24,7 @@ var _objects = function() {
 		this.light = light;
 		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0};
 		this.origin = {X:0,Y:0};
+		this.animating = false;
 	};
 	
 	this.cameraController.prototype.CenterOnCity = function(city, abs) {
@@ -74,12 +75,16 @@ var _objects = function() {
 		if (typeof from === 'undefined') from = this.camera.position.x;
 		if (!abs) to = from + to;
 		
-		if (this.HitTestX(to) || !constrain) {
+		if ((this.HitTestX(to) && !this.animating) || !constrain) {
+			if (!constrain) this.animating = true;
 			var t = new TWEEN.Tween( { x : from } )
 				.to( { x : to }, time*1000 )
 				.onUpdate( function() {
 					_self.camera.position.x = this.x;
 					_self.light.position.x = this.x;
+				})
+				.onComplete( function() {
+					_self.animating = false;
 				})
 				.start();
 		}
@@ -94,12 +99,16 @@ var _objects = function() {
 		if (typeof from === 'undefined') from = this.camera.position.y;
 		if (!abs) to = from + to;
 		
-		if (this.HitTestY(to) || !constrain) {
+		if ((this.HitTestY(to) && !this.animating) || !constrain) {
+			if (!constrain) this.animating = true;
 			var t = new TWEEN.Tween( { y : from } )
 				.to( { y : to }, time*1000 )
 				.onUpdate( function() {
 					_self.camera.position.y = this.y;
 					_self.light.position.y = this.y;
+				})
+				.onComplete( function() {
+					_self.animating = false;
 				})
 				.start();
 		}
@@ -115,12 +124,16 @@ var _objects = function() {
 		if (!abs) to = from + to;
 		
 		console.log('Zoom: '+to);
-		if (this.HitTestZ(to) || !constrain) {
+		if ((this.HitTestZ(to) && !this.animating) || !constrain) {
+			if (!constrain) this.animating = true;
 			var t = new TWEEN.Tween( { z : from } )
 				.to( { z : to }, time*1000 )
 				.easing( TWEEN.Easing.Cubic.InOut )
 				.onUpdate( function() {
 					_self.camera.position.z = this.z;
+				})
+				.onComplete( function() {
+					_self.animating = false;
 				})
 				.start();
 		}
@@ -136,19 +149,19 @@ var _objects = function() {
 		}
 		
 		if (typeof X !== 'undefined') {
-			if (this.HitTestX(X) || !constrain || abs) {
+			if ((this.HitTestX(X) && !this.animating) || !constrain || abs) {
 				this.camera.position.x = X;
 				this.light.position.x = X;
 			}
 		}
 		if (typeof Y !== 'undefined') {
-			if (this.HitTestY(Y) || !constrain || abs) {
+			if ((this.HitTestY(Y) && !this.animating) || !constrain || abs) {
 				this.camera.position.y = Y;
 				this.light.position.y = Y;
 			}
 		}
 		if (typeof Z !== 'undefined') {
-			if (this.HitTestZ(Z) || !constrain || abs) {
+			if ((this.HitTestZ(Z) && !this.animating) || !constrain || abs) {
 				this.camera.position.z = Z;
 			}
 		}
@@ -165,19 +178,19 @@ var _objects = function() {
 		}
 		
 		if (typeof X !== 'undefined') {
-			if (this.HitTestR(X)) {
+			if (this.HitTestR(X) && !this.animating) {
 				this.camera.rotation.x = X;
 				light.position.x = X;
 			}
 		}
 		if (typeof Y !== 'undefined') {
-			if (this.HitTestR(Y)) {
+			if (this.HitTestR(Y) && !this.animating) {
 				this.camera.rotation.y = Y;
 				light.position.y = Y;
 			}
 		}
 		if (typeof Z !== 'undefined') {
-			if (this.HitTestR(Z)) {
+			if (this.HitTestR(Z) && !this.animating) {
 				this.camera.rotation.z = Z;
 			}
 		}
@@ -208,7 +221,9 @@ var _objects = function() {
 		return 0;
 	};
 
-	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, startX, startY, rawData) {
+	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, rawData, startX, startY) {
+		var startX = this.cities.length == 0 ? 0 : this.cities.length*this.cities[0].width*cityGutter;
+		var startY = 0;
 		var c = new self.city(buildingsPerRow, buildingsPerColumn, startX, startY, rawData);
 		c.tag = tag;
 		this.cities.push(c);

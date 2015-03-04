@@ -72,7 +72,7 @@ function init3D() {
 			dataController.SetData(glCards);
 			
 			//spawn city
-			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", 0, 0, glCards);
+			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", glCards);
 			
 			//center camera on city
 			cameraController.CenterOnCity(cityController.city, true);
@@ -86,8 +86,11 @@ function init3D() {
 	render();
 }
 
-/*setTimeout(function() {
-	var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "test", 10, 10, glCards);
+/*var testa = 0;
+var chuck = setInterval(function() {
+	var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "test", glCards);
+	testa++;
 	cityController.SetCity(city);
 	cameraController.CenterOnCity(city);
+	if (testa == 1) clearInterval(chuck);
 }, 3000);*/
