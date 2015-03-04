@@ -265,6 +265,8 @@ var _objects = function() {
 		this.buildingData = rawData.slice();
 		this.extents = {X1:0,Y1:0,X2:-100,Y2:-100,Z1:0,Z2:0};
 		this.origin = {X:startX,Y:startY};
+		this.width = 0;
+		this.height = 0;
 		this.midpoint = {X:0,Y:0};
 		this.buildingsPerRow = buildingsPerRow;
 		this.buildingsPerColumn = buildingsPerColumn;
@@ -346,9 +348,11 @@ var _objects = function() {
 			}
 			if (br) break;
 		}
-		console.log(this.extents);
+
 		this.midpoint.X = (this.extents.X2 + this.extents.X1) / 2;
 		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
+		this.width = Math.abs(this.extents.X1 - this.extents.X2);
+		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
 	};
 	//End City
 	

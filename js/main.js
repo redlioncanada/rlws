@@ -61,7 +61,8 @@ function init3D() {
 	scene.add(light);
 	camera.position.z = camZStart;
 	cameraController = new objs.cameraController(camera, light);
-	
+	setupEventListeners();
+
 	//Objects init - city, delay until data is populated
 	initInterval = setInterval(function() {
 		if (glCards.length > 0) {
@@ -85,11 +86,8 @@ function init3D() {
 	render();
 }
 
-/*setTimeout(function() {
+setTimeout(function() {
 	var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "test", 10, 10, glCards);
 	cityController.SetCity(city);
 	cameraController.CenterOnCity(city);
-	setupEventListeners();
-	console.log(city.extents);
-	console.log(city.midpoint);
-}, 3000);*/
+}, 3000);
