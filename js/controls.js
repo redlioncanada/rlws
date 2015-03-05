@@ -129,8 +129,7 @@ function fingerMouseDrag(e) {
 		oldTouchY = yOldMod;
 	}
 	
-	cameraController.Move(undefined, -yMod/250, undefined, false);
-	cameraController.Move(-xMod/250, undefined, undefined, false);
+	cameraController.Move(-xMod/250, -yMod/250, undefined, false);
 }
 
 function fingerMouseUp(e) {
