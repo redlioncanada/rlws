@@ -366,15 +366,31 @@ var _objects = function() {
 				var curBuilding = new self.building(this.buildingData[ind]);
 				if (typeof curBuilding === 'undefined') {br = true; break;}
 			
-				//if the current draw matrix index is occupied, skip this index
-				if (this.drawMatrix.subset(math.index(y-1,this.buildingsPerRow-x)) > 0) continue;
-			
-				//TODO skip this draw index if the current tile will extend into an occupied index, non-issue if only drawing right/down
+				//skip this draw index if the current tile will extend into an occupied index
+				var _br = false, cont = false;
+				for (var i = 0; i < curBuilding.xsize; i++) {
+					for (var j = 0; j < curBuilding.ysize; j++) {
+						if (y+j-1 < this.buildingsPerColumn && this.buildingsPerRow-x+i < this.buildingsPerRow) {
+							if (this.drawMatrix.subset(math.index(y+j-1,this.buildingsPerRow-x+i)) > 0) {
+								console.log("found tile extending into occupied index");
+								cont = true;
+								_br = true;
+							}
+						} else {
+							_br = true;
+						}
+						if (_br) break;
+					}
+					if (_br) break;
+				}
+				if (cont) continue;
 			
 				//set the indexes the current item occupies as occupied
 				for (var i = 0; i < curBuilding.xsize; i++) {
 					for (var j = 0; j < curBuilding.ysize; j++) {
-						this.drawMatrix.subset(math.index(y+j-1,this.buildingsPerRow-x+i),Math.max(curBuilding.xsize,curBuilding.ysize));
+						if (y+j-1 < this.buildingsPerColumn && this.buildingsPerRow-x+i < this.buildingsPerRow) {
+							this.drawMatrix.subset(math.index(y+j-1,this.buildingsPerRow-x+i),Math.max(curBuilding.xsize,curBuilding.ysize));
+						}
 					}
 				}
 				this.buildingData.splice(ind, 1);
