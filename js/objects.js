@@ -63,8 +63,8 @@ var _objects = function() {
 			X2 : city.extents.X2+camXExtents,
 			Y2 : city.extents.Y2+camYExtents,
 			Z2 : city.extents.Z2+camZ2Extents,
-			R1 : camRotateMax,
-			R2 : camRotateMin
+			R1 : camRotateMin,
+			R2 : camRotateMax
 		};
 		
 		this.SetConstraints(constraints);
@@ -194,28 +194,32 @@ var _objects = function() {
 	};
 	
 	this.cameraController.prototype.Rotate = function(X, Y, Z, abs) {
+		
 		if (typeof abs === 'undefined') abs = true;
 		if (!abs) {
-			X = this.camera.position.x+X;
-			Y = this.camera.position.x+Y;
-			Z = this.camera.position.x+Z;
+			X = this.camera.rotation.x+X;
+			Y = this.camera.rotation.y+Y;
+			Z = this.camera.rotation.z+Z;
 		}
 		
-		if (typeof X !== 'undefined') {
+		if (typeof X !== 'undefined' || !isNaN(X)) {
+			console.log("Hit Test " + this.HitTestR(X) + " move requested: " + X);
 			if (this.HitTestR(X) && !this.animating) {
 				this.camera.rotation.x = X;
 			}
 		}
-		if (typeof Y !== 'undefined') {
+		if (typeof Y !== 'undefined' || !isNaN(Y)) {
 			if (this.HitTestR(Y) && !this.animating) {
 				this.camera.rotation.y = Y;
 			}
 		}
-		if (typeof Z !== 'undefined') {
+		if (typeof Z !== 'undefined' || !isNaN(Z)) {
 			if (this.HitTestR(Z) && !this.animating) {
 				this.camera.rotation.z = Z;
 			}
 		}
+		
+		
 		if (debug && debugMovement) console.log('Rotate: X:'+X+',Y:'+Y+',Z:'+Z);
 	};
 	
