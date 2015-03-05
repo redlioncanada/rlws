@@ -10,20 +10,20 @@ var _objects = function() {
 		}
 
 		return this.ShuffleArray(d);
-	}
+	};
 
 	this.ShuffleArray = function(array) {
-		  var currentIndex = array.length, temporaryValue, randomIndex ;
-		  while (0 !== currentIndex) {
-		    randomIndex = Math.floor(Math.random() * currentIndex);
-		    currentIndex -= 1;
-		    temporaryValue = array[currentIndex];
-		    array[currentIndex] = array[randomIndex];
-		    array[randomIndex] = temporaryValue;
-		  }
+		var currentIndex = array.length, temporaryValue, randomIndex ;
+		while (0 !== currentIndex) {
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		}
 
-		  return array;
-	}
+		return array;
+	};
 	//End Static Methods
 
 	//Data Controller - maintains global city data
@@ -66,7 +66,7 @@ var _objects = function() {
 			Z2 : city.extents.Z2+camZ2Extents,
 			R1 : camRotateMax,
 			R2 : camRotateMin
-		}
+		};
 		
 		this.SetConstraints(constraints);
 		if (abs) this.Move(city.midpoint.X, city.midpoint.Y);
@@ -252,7 +252,7 @@ var _objects = function() {
 
 	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, rawData, sizeMultiplier, startX, startY) {
 		if (typeof sizeMultiplier === 'undefined') sizeMultiplier = 1;
-		if (typeof startX === 'undefined') startX = this.cities.length == 0 ? 0 : this.cities.length*this.cities[0].width*cityGutter;
+		if (typeof startX === 'undefined') startX = this.cities.length === 0 ? 0 : this.cities.length*this.cities[0].width*cityGutter;
 		if (typeof startY === 'undefined') startY = 0;
 		
 		/*if (sizeMultiplier > 1) {
@@ -404,12 +404,28 @@ var _objects = function() {
 			
 				thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, curBoxDepth );
 				var useColor = parseInt(curBuilding.hex_color,16);
+				
+				var tex = new THREE.ImageUtils.loadTexture( curBuilding.img );
+				tex.wrapS = THREE.RepeatWrapping;
+				tex.wrapT = THREE.RepeatWrapping;
+				var repeatx;
+				var repeaty;
+				if (curBuilding.xsize == 1) tex.repeat.x = 400/512;
+				else if (curBuilding.xsize == 2) tex.repeat.x = 692/1024;
+				if (curBuilding.ysize == 1) tex.repeat.y = 435/512;
+				else if (curBuilding.ysize == 2) tex.repeat.y = 970/1024;
+				tex.offset.y = 1.0 - tex.repeat.y;
+				
+				//tex.repeat.y = 100 / 2000;
+				//tex.offset.x = ( 300 / 100 ) * tex.repeat.x;
+				//tex.offset.y = ( 400 / 100 ) * tex.repeat.y;
+				
 				thisbox.material = [
 					new THREE.MeshLambertMaterial( {color: useColor }),
 					new THREE.MeshLambertMaterial( {color: useColor }),
 					new THREE.MeshLambertMaterial( {color: useColor }),
 					new THREE.MeshLambertMaterial( {color: useColor }),
-					new THREE.MeshLambertMaterial( {map: THREE.ImageUtils.loadTexture(curBuilding.img)}),
+					new THREE.MeshLambertMaterial( {map: tex}),
 					new THREE.MeshLambertMaterial( {color: useColor })
 				];
 				thisbox.material[4].minFilter = THREE.NearestFilter;
@@ -430,7 +446,7 @@ var _objects = function() {
 				this.buildings[parseInt(curBuilding.id)] = curBuilding;
 				objects.push(thisbox.cube);
 				
-				this.logMatrix(this.drawMatrix);
+				//this.logMatrix(this.drawMatrix);
 				//this.logMatrix(this.dataMatrix);
 				if (br) break;
 			}
