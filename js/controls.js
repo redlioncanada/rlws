@@ -101,6 +101,8 @@ function fingerMouseDown(e) {
 		oldTouchY = e.clientY;
 	}
 	mTouchDown = true;
+	didSingleClick = true;
+	mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
 	canvas.addEventListener('mousemove', fingerMouseDrag);
 }
 
@@ -128,18 +130,22 @@ function fingerMouseDrag(e) {
 		yMove = yMod;
 		oldTouchY = yOldMod;
 	}
-	
-	cameraController.Move(-xMod/250, -yMod/250, undefined, false);
+
+	yMod = yMod == 0 ? undefined : yMod / 250;
+	xMod = xMod == 0 ? undefined : -xMod / 250;
+	cameraController.Move(xMod, yMod, undefined, false);
+
 }
 
 function fingerMouseUp(e) {
 	e.preventDefault();
+	clearTimeout(mouseDownTimeout);
 	
 	canvas.removeEventListener('mousemove', fingerMouseDrag);
 	
 	var touchX, touchY, vector;
 	
-	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched) {
+	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched && didSingleClick) {
 		if (isMobile) {
 			touchX = ( e.pageX / window.innerWidth ) * 2 - 1;
 			touchY = -( e.pageY / window.innerHeight ) * 2 + 1;
@@ -167,10 +173,15 @@ function fingerMouseUp(e) {
 	pinched = false;
 }
 
+onMouseLeftBrowserWindow(function(e) {
+	didSingleClick = false;
+	clearTimeout(mouseDownTimeout);
+	fingerMouseUp(e);
+});
+
 function zoomHandler(e) {
 	var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
 	cameraController.Zoom(delta)
-	//if ((camera.position.z > camMinHeight && delta > 0) || (camera.position.z < camMaxHeight && delta < 0)) camera.position.z -= delta;
 }
 
 function resetPinches() {
@@ -186,12 +197,6 @@ function resetPinches() {
 		oldScale = e.scale;
 
 		cameraController.Zoom(delta > 0 ? 0.1 : -0.1);
-		/*if (camera.position.z < camMaxHeight && delta < 0) {
-			camera.position.z += 0.1;
-		}
-		else if (camera.position.z > camMinHeight && delta > 0) {
-			camera.position.z -= 0.1;
-		}*/
 	});
 	
 	$(document).on("pinchend", function(e) {
@@ -285,8 +290,6 @@ var devMoveHandler = function(event) {
 			var acc_moveBeta = -acc_arBeta/45;
 			acc_tox = acc_fromx + acc_moveBeta;
 		}
-		//camera.position.x += (acc_tox - acc_fromx) / acc_speed;
-		cameraController.Move((acc_tox - acc_fromx) / acc_speed, undefined, undefined, false);
 
 		// Move Up and Down
 		// Rotation Rate Alpha changes
@@ -296,8 +299,8 @@ var devMoveHandler = function(event) {
 			var acc_moveAlpha = acc_arAlpha/25;
 			acc_toy = acc_fromy + acc_moveAlpha;
 		}
-		//camera.position.y += (acc_toy - acc_fromy) / acc_speed;
-		cameraController.Move(undefined, (acc_toy - acc_fromy) / acc_speed, undefined, false);
+
+		cameraController.Move((acc_tox - acc_fromx) / acc_speed, (acc_toy - acc_fromy) / acc_speed, undefined, false);
 	}
 	
 	// ay/az controls the tilt of the "city"
@@ -310,7 +313,29 @@ var devMoveHandler = function(event) {
 		acc_totilt = (acc_az - 3) * 0.09;
 		acc_oldaz = acc_az;
 	}
-	//camera.rotation.x += (acc_totilt - acc_fromtilt) / (acc_speed * 2);
+
 	cameraController.Rotate((acc_totilt - acc_fromtilt) / (acc_speed * 2), undefined, undefined, false)
 	
 };
+
+function onMouseLeftBrowserWindow(fn) {
+	addEvent(document, "mouseout", function(e) {
+	    e = e ? e : window.event;
+	    var from = e.relatedTarget || e.toElement;
+	    if (!from || from.nodeName == "HTML") {
+	        fn(e);
+	    }
+	});
+}
+
+function addEvent(obj, evt, fn) {
+    if (obj.addEventListener) {
+        obj.addEventListener(evt, fn, false);
+    }
+    else if (obj.attachEvent) {
+        obj.attachEvent("on" + evt, fn);
+    }
+}
+
+
+

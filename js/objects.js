@@ -173,8 +173,8 @@ var _objects = function() {
 		if (typeof abs === 'undefined') abs = true;
 		if (!abs) {
 			X = this.camera.position.x+X;
-			Y = this.camera.position.x+Y;
-			Z = this.camera.position.x+Z;
+			Y = this.camera.position.y+Y;
+			Z = this.camera.position.z+Z;
 		}
 		
 		if (typeof X !== 'undefined') {

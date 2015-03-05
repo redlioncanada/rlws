@@ -35,6 +35,11 @@ var camZAnimationTime = 2;
 var camPanAnimationTime = 0.01;
 var camPanToCityAnimationTime = 1;
 
+//movement
+var singleClickTimeout = 1; //in seconds
+
+
+
 //NON-MODIFIABLE
 var camMinHeight, camMinX, cambuildingsPerRow, camMinY, cambuildingsPerColumn;
 var originX, originY;
@@ -62,6 +67,8 @@ var overlay = false;
 var oldScale = 0;
 var pinched = false;
 var canvas;
+var mouseDownTimeout;
+var didSingleClick = false;
 
 // Acceleration Vars
 var acc_oldaz = null;
