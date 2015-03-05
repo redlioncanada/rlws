@@ -37,9 +37,8 @@ function render() {
 		if (mLEFT && !xMove) newX *= -1;
 		var newY = yMove ? yMove/200 : 0.1;
 		if (mDOWN && !yMove) newY *= -1;
-		
-		if (mLEFT || mRIGHT || xMove) cameraController.PanX(newX, undefined, undefined, false);
-		if (mUP || mDOWN || yMove) cameraController.PanY(newY, undefined, undefined, false);
+		if (mLEFT || mRIGHT) cameraController.PanX(newX, undefined, undefined, false);
+		if (mUP || mDOWN) cameraController.PanY(newY, undefined, undefined, false);
 
 		if (mGOIN) cameraController.Zoom(0.1);
 		if (mGOOUT) cameraController.Zoom(-0.1);
