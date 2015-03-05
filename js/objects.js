@@ -46,7 +46,6 @@ var _objects = function() {
 	//Camera Controller - maintains camera animation
 	this.cameraController = function(camera, light) {
 		this.camera = camera;
-		this.light = light;
 		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0};
 		this.origin = {X:0,Y:0};
 		this.animating = false;
@@ -110,7 +109,6 @@ var _objects = function() {
 				.to( { x : to }, time*1000 )
 				.onUpdate( function() {
 					_self.camera.position.x = this.x;
-					_self.light.position.x = this.x;
 				})
 				.onComplete( function() {
 					_self.animating = false;
@@ -134,7 +132,6 @@ var _objects = function() {
 				.to( { y : to }, time*1000 )
 				.onUpdate( function() {
 					_self.camera.position.y = this.y;
-					_self.light.position.y = this.y;
 				})
 				.onComplete( function() {
 					_self.animating = false;
@@ -180,13 +177,11 @@ var _objects = function() {
 		if (typeof X !== 'undefined') {
 			if ((this.HitTestX(X) && !this.animating) || !constrain || abs) {
 				this.camera.position.x = X;
-				this.light.position.x = X;
 			}
 		}
 		if (typeof Y !== 'undefined') {
 			if ((this.HitTestY(Y) && !this.animating) || !constrain || abs) {
 				this.camera.position.y = Y;
-				this.light.position.y = Y;
 			}
 		}
 		if (typeof Z !== 'undefined') {
@@ -410,10 +405,10 @@ var _objects = function() {
 				tex.wrapT = THREE.RepeatWrapping;
 				var repeatx;
 				var repeaty;
-				if (curBuilding.xsize == 1) tex.repeat.x = 400/512;
-				else if (curBuilding.xsize == 2) tex.repeat.x = 692/1024;
+				if (curBuilding.xsize == 1) tex.repeat.x = 358/512;
+				else if (curBuilding.xsize == 2) tex.repeat.x = 691/1024;
 				if (curBuilding.ysize == 1) tex.repeat.y = 435/512;
-				else if (curBuilding.ysize == 2) tex.repeat.y = 970/1024;
+				else if (curBuilding.ysize == 2) tex.repeat.y = 947/1024;
 				tex.offset.y = 1.0 - tex.repeat.y;
 				
 				//tex.repeat.y = 100 / 2000;

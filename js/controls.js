@@ -131,8 +131,8 @@ function fingerMouseDrag(e) {
 		oldTouchY = yOldMod;
 	}
 
-	yMod = yMod == 0 ? undefined : yMod / 250;
-	xMod = xMod == 0 ? undefined : -xMod / 250;
+	yMod = yMod === 0 ? undefined : yMod / 250;
+	xMod = xMod === 0 ? undefined : -xMod / 250;
 	cameraController.Move(xMod, yMod, undefined, false);
 
 }
@@ -181,7 +181,7 @@ onMouseLeftBrowserWindow(function(e) {
 
 function zoomHandler(e) {
 	var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
-	cameraController.Zoom(delta)
+	cameraController.Zoom(-delta * 2);
 }
 
 function resetPinches() {
@@ -314,17 +314,17 @@ var devMoveHandler = function(event) {
 		acc_oldaz = acc_az;
 	}
 
-	cameraController.Rotate((acc_totilt - acc_fromtilt) / (acc_speed * 2), undefined, undefined, false)
+	cameraController.Rotate((acc_totilt - acc_fromtilt) / (acc_speed * 2), undefined, undefined, false);
 	
 };
 
 function onMouseLeftBrowserWindow(fn) {
 	addEvent(document, "mouseout", function(e) {
-	    e = e ? e : window.event;
-	    var from = e.relatedTarget || e.toElement;
-	    if (!from || from.nodeName == "HTML") {
-	        fn(e);
-	    }
+		e = e ? e : window.event;
+		var from = e.relatedTarget || e.toElement;
+		if (!from || from.nodeName == "HTML") {
+			fn(e);
+		}
 	});
 }
 

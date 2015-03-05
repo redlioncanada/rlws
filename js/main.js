@@ -5,7 +5,8 @@ var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHe
 var scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2( 0xfffdf2, 0.18 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
-var light = null;
+var hemilight = null;
+var lightintensity = 40;
 
 var initInterval;
 var objects = [];
@@ -22,8 +23,9 @@ document.body.appendChild( renderer.domElement );
 $(window).on('resize', resize);
 
 function resize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	renderer.setSize( window.innerWidth, window.innerHeight );	
+	// 76 pixels subtracted for the header bar
+	camera.aspect = window.innerWidth / ( window.innerHeight - 76 );
+	renderer.setSize( window.innerWidth, window.innerHeight - 76 );
 	camera.updateProjectionMatrix();
 }
 
@@ -51,15 +53,16 @@ function render() {
 function init3D() {
 	// Objects init - plane (ground)
 	var geometry = new THREE.PlaneBufferGeometry( 100, 100 );
-	var material = new THREE.MeshPhongMaterial( {color: 0xfffdf2, side: THREE.DoubleSide} );
+	var material = new THREE.MeshBasicMaterial( {color: 0xfffdf2, side: THREE.DoubleSide} );
 	var plane = new THREE.Mesh( geometry, material );
 	scene.add( plane );
 	plane.position.z = -0.2;
 	
-	// Objects init - camera light
-	light = new THREE.PointLight(0xffffff, 1, 100);
-	light.position.set(0,0,8);
-	scene.add(light);
+	// Objects init - camera & light
+	
+	hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 1.1);
+	scene.add(hemilight);
+	
 	camera.position.z = camZStart;
 	cameraController = new objs.cameraController(camera, light);
 	setupEventListeners();
@@ -80,6 +83,7 @@ function init3D() {
 			
 			//zoom camera
 			cameraController.Zoom(camZEnd, undefined, camZAnimationTime, true, false);
+
 		}
 	}, 500);
 	
