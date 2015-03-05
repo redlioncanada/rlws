@@ -44,7 +44,7 @@ var _objects = function() {
 	//End Data Controller
 	
 	//Camera Controller - maintains camera animation
-	this.cameraController = function(camera, light) {
+	this.cameraController = function(camera) {
 		this.camera = camera;
 		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0};
 		this.origin = {X:0,Y:0};
@@ -204,13 +204,11 @@ var _objects = function() {
 		if (typeof X !== 'undefined') {
 			if (this.HitTestR(X) && !this.animating) {
 				this.camera.rotation.x = X;
-				light.position.x = X;
 			}
 		}
 		if (typeof Y !== 'undefined') {
 			if (this.HitTestR(Y) && !this.animating) {
 				this.camera.rotation.y = Y;
-				light.position.y = Y;
 			}
 		}
 		if (typeof Z !== 'undefined') {

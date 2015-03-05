@@ -64,7 +64,7 @@ function init3D() {
 	scene.add(hemilight);
 	
 	camera.position.z = camZStart;
-	cameraController = new objs.cameraController(camera, light);
+	cameraController = new objs.cameraController(camera);
 	setupEventListeners();
 
 	//Objects init - city, delay until data is populated

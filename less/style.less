@@ -2,7 +2,14 @@
 @lightgrey: #C9C8BF;
 @lionred: #e32526;
 
-body { margin: 0; }
+body { 
+	margin: 0; 
+	font-family: "fira-sans",sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 15px;
+}
 canvas { 
 	width: 100%; 
 	margin-top: 73px;
@@ -19,11 +26,10 @@ header {
 	#launchAbout {
 		float: left;
 		color: @lionred;
-		font-family: Helvetica;
-		font-size: 14px;
 		text-decoration: none;
 		display: block;
 		margin: 14px 20px;
+		line-height: 15px;
 	}
 	form {
 		float: left;
@@ -60,4 +66,83 @@ header {
 	}
 	min-height: 100%;
 	margin: 20px auto;
+	
+	#work-overlay {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		min-height: 100%;
+		
+		header {
+			background: #e0280a;
+			color: white;
+			min-height: 200px;
+			padding: 30px 20px;
+			position: relative;
+			width: 860px;
+			
+			h2 {
+				font-weight: 700;
+				font-size: 25px;
+				text-transform: uppercase;
+				margin: 0;
+				padding: 0;
+			}
+			
+			h1 {
+				position: absolute;
+				bottom: 0;
+				left: 20px;
+				width: 50%;
+				font-size: 50px;
+				line-height: 55px;
+			}
+			
+			button.close {
+				background: url('../img/close-btn.png') no-repeat center center;
+				width: 32px;
+				height: 32px;
+				float: right;
+				border: none;
+				outline: none;
+			}
+			
+			.social-btns {
+				position: absolute;
+				bottom: 30px;
+				right: 20px;
+				
+				img {
+					margin-left: 4px;
+				}
+			}
+		}
+		
+		#description {
+			p {
+				width: 620px;
+				margin: 40px 20px 40px 40px;
+				float: left;
+			}
+			.datecat {
+				font-weight: 700;
+				width: 180px;
+				margin: 40px 0 0 0;
+				float: right;
+				text-transform: uppercase;
+			}
+		}
+		
+		.videobox {
+			background: black;
+			clear: both;
+			padding: 40px 0;
+			
+			iframe {
+				margin: 0 auto;
+				display: block;
+			}
+		}
+	}
+	
 }

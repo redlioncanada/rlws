@@ -1,5 +1,10 @@
 body {
   margin: 0;
+  font-family: "fira-sans", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 15px;
 }
 canvas {
   width: 100%;
@@ -19,11 +24,10 @@ header img {
 header #launchAbout {
   float: left;
   color: #e32526;
-  font-family: Helvetica;
-  font-size: 14px;
   text-decoration: none;
   display: block;
   margin: 14px 20px;
+  line-height: 15px;
 }
 header form {
   float: left;
@@ -63,4 +67,70 @@ header form input {
   #overlay {
     width: 80%;
   }
+}
+#overlay #work-overlay {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+#overlay #work-overlay header {
+  background: #e0280a;
+  color: white;
+  min-height: 200px;
+  padding: 30px 20px;
+  position: relative;
+  width: 860px;
+}
+#overlay #work-overlay header h2 {
+  font-weight: 700;
+  font-size: 25px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+}
+#overlay #work-overlay header h1 {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  width: 50%;
+  font-size: 50px;
+  line-height: 55px;
+}
+#overlay #work-overlay header button.close {
+  background: url('../img/close-btn.png') no-repeat center center;
+  width: 32px;
+  height: 32px;
+  float: right;
+  border: none;
+  outline: none;
+}
+#overlay #work-overlay header .social-btns {
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+}
+#overlay #work-overlay header .social-btns img {
+  margin-left: 4px;
+}
+#overlay #work-overlay #description p {
+  width: 620px;
+  margin: 40px 20px 40px 40px;
+  float: left;
+}
+#overlay #work-overlay #description .datecat {
+  font-weight: 700;
+  width: 180px;
+  margin: 40px 0 0 0;
+  float: right;
+  text-transform: uppercase;
+}
+#overlay #work-overlay .videobox {
+  background: black;
+  clear: both;
+  padding: 40px 0;
+}
+#overlay #work-overlay .videobox iframe {
+  margin: 0 auto;
+  display: block;
 }
