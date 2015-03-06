@@ -2,7 +2,7 @@
 
 //debug
 debug = true;
-debugMovement = false;
+debugMovement = true;
 debugGrid = false;
 
 //city vars
@@ -10,8 +10,10 @@ var gridSizex = 1.2; //multiplicative
 var gridSizey = 1.6; //multiplicative
 var buildingsPerRow = 10; //maximum x grid elements
 var buildingsPerColumn = 10; //maximum y grid elements
+var buildingHeightVariance = 3;
 var boxheight = 1.4; //multiplicative
 var boxwidth = 1; //multiplicative
+var boxdepth = 3; //multiplicative
 var jitterX = 0.0; //grid jitter
 var jitterY = 0.0; //grid jitter
 var cityGutter = 10;
@@ -22,14 +24,14 @@ var glCards2 = [];
 //cam vars
 var camXExtents = 2; //affects how far outside the current grid that the this.camera can scroll, left&right
 var camYExtents = 2;	//affects how far outside the current grid that the this.camera can scroll, up&down
-var camZ1Extents = -3.5;
-var camZ2Extents = 5;
+var camZ1Extents = -7.5;
+var camZ2Extents = 8;
 var camRotateMin = 0.0;
 var camRotateMax = 0.9;
 
 //camera zoom animation
-var camZStart = 15;
-var camZEnd = 5;
+var camZStart = 2; //multiplied with the highest building depth
+var camZEnd = 1.1;
 var camZAnimationTime = 2;
 
 //camera pan animation

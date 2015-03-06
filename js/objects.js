@@ -233,7 +233,6 @@ var _objects = function() {
 		}
 		
 		if (typeof X !== 'undefined' && !isNaN(X)) {
-			console.log("Hit Test " + this.HitTestR(X) + " move requested: " + X);
 			if (this.HitTestR(X) && !this.animating) {
 				this.camera.rotation.x = X;
 			}
@@ -283,14 +282,14 @@ var _objects = function() {
 		if (typeof startX === 'undefined') startX = this.cities.length === 0 ? 0 : this.cities.length*this.cities[0].width*cityGutter;
 		if (typeof startY === 'undefined') startY = 0;
 		
-		/*if (sizeMultiplier > 1) {
+		if (sizeMultiplier > 1) {
 			//multiply the size of the array
 			var newData = self.MultiplyArray(sizeMultiplier, rawData);
 			buildingsPerRow *= sizeMultiplier;
 			buildingsPerColumn *= sizeMultiplier;
 
 			//insert the original ordered array into the new array, preventing duplicates in the center
-			var mXStart = Math.floor((buildingsPerRow*sizeMultiplier)/2 - buildingsPerRow/2);
+			/*var mXStart = Math.floor((buildingsPerRow*sizeMultiplier)/2 - buildingsPerRow/2);
 			var mXEnd = buildingsPerRow*sizeMultiplier - mXStart;
 			var mYStart = Math.floor((buildingsPerColumn*sizeMultiplier)/2 - buildingsPerColumn/2);
 			var mYEnd = buildingsPerRow*sizeMultiplier - mXStart;
@@ -305,10 +304,10 @@ var _objects = function() {
 					if (br) break;
 				}
 				if (br) break;
-			}
+			}*/
 
 			rawData = newData;
-		}*/
+		}
 
 		var c = new self.city(buildingsPerRow, buildingsPerColumn, dataController, rawData, sizeMultiplier, startX, startY);
 		c.tag = tag;
@@ -401,7 +400,7 @@ var _objects = function() {
 					for (var j = 0; j < curBuilding.ysize; j++) {
 						if (y+j-1 < this.buildingsPerColumn && this.buildingsPerRow-x+i < this.buildingsPerRow) {
 							if (this.drawMatrix.subset(math.index(y+j-1,this.buildingsPerRow-x+i)) > 0) {
-								console.log("found tile extending into occupied index");
+								if (debug && debugGrid) console.log("found tile extending into occupied index");
 								cont = true;
 								_br = true;
 							}
@@ -428,7 +427,7 @@ var _objects = function() {
 				jitteryBool *= -1;
 				var curBoxHeight = (gutterY*(curBuilding.ysize-1)) + boxheight*curBuilding.ysize;
 				var curBoxWidth = (gutterX*(curBuilding.xsize-1)) + boxwidth*curBuilding.xsize;
-				var curBoxDepth = (Math.random() * 3) + 1;
+				var curBoxDepth = (Math.random() * buildingHeightVariance) + 1*boxdepth*10;
 				if (curBoxDepth / 2 + 1 > camMinHeight) camMinHeight = Math.ceil(curBoxDepth / 2 + 1);
 			
 				thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, curBoxDepth );
@@ -440,7 +439,6 @@ var _objects = function() {
 				thisbox.cube.position.x = this.origin.X + (-x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool);
 				thisbox.cube.position.y = this.origin.Y + (-y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool);
 				
-				//console.log(this.extents.X1+","+this.extents.X2+","+this.extents.Y1+","+this.extents.Y2);
 				if (thisbox.cube.position.x + curBoxWidth*1.4 < this.extents.X1 || typeof this.extents.X1 != 'number') this.extents.X1 = thisbox.cube.position.x + curBoxWidth*1.4;
 				if (thisbox.cube.position.x - curBoxWidth*1.4 > this.extents.X2 || typeof this.extents.X2 != 'number') this.extents.X2 = thisbox.cube.position.x - curBoxWidth*1.4; 
 				if (thisbox.cube.position.y + curBoxHeight/4 < this.extents.Y1 || typeof this.extents.Y1 != 'number') this.extents.Y1 = thisbox.cube.position.y + curBoxHeight/4;

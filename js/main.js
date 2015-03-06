@@ -52,7 +52,7 @@ function render() {
 
 function init3D() {
 	// Objects init - plane (ground)
-	var geometry = new THREE.PlaneBufferGeometry( 100, 100 );
+	var geometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
 	var material = new THREE.MeshBasicMaterial( {color: 0xfffdf2, side: THREE.DoubleSide} );
 	var plane = new THREE.Mesh( geometry, material );
 	scene.add( plane );
@@ -63,7 +63,6 @@ function init3D() {
 	hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 1.1);
 	scene.add(hemilight);
 	
-	camera.position.z = camZStart;
 	cameraController = new objs.cameraController(camera);
 	setupEventListeners();
 
@@ -76,13 +75,14 @@ function init3D() {
 			dataController.SetData(glCards);
 			
 			//spawn city
-			cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", glCards, 2);
-			
+			var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", glCards, 4);
+			camera.position.z = city.extents.Z2 * camZStart;
+
 			//center camera on city
 			cameraController.CenterOnCity(cityController.city, true);
 			
 			//zoom camera
-			cameraController.Zoom(camZEnd, undefined, camZAnimationTime, true, false);
+			cameraController.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false);
 
 		}
 	}, 500);
