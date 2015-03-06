@@ -1,7 +1,8 @@
 var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
 
 // Three.JS/WebGL init vars
-var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
+var canvasDiv = $('#canvas');
+var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height(), 1, 10000 );
 var scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2( 0xfffdf2, 0.18 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
@@ -19,13 +20,12 @@ var cameraController = null;
 // Render init
 renderer.shadowMapEnabled = true;
 resize();
-document.body.appendChild( renderer.domElement );
+$(canvasDiv).append( renderer.domElement );
 $(window).on('resize', resize);
 
 function resize() {
-	// 76 pixels subtracted for the header bar
-	camera.aspect = window.innerWidth / ( window.innerHeight - 76 );
-	renderer.setSize( window.innerWidth, window.innerHeight - 76 );
+	camera.aspect = canvasDiv.width() / canvasDiv.height();
+	renderer.setSize(canvasDiv.width(), canvasDiv.height());
 	camera.updateProjectionMatrix();
 }
 

@@ -451,8 +451,8 @@ var _objects = function() {
 				this.buildings[parseInt(curBuilding.id)] = curBuilding;
 				objects.push(thisbox.cube);
 				
-				//this.logMatrix(this.drawMatrix);
-				//this.logMatrix(this.dataMatrix);
+				if (debug && debugGrid) this.logMatrix(this.drawMatrix);
+				if (debug && debugGrid) this.logMatrix(this.dataMatrix);
 				if (br) break;
 			}
 			if (br) break;

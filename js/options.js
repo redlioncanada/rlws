@@ -2,7 +2,8 @@
 
 //debug
 debug = true;
-debugMovement = true;
+debugMovement = false;
+debugGrid = false;
 
 //city vars
 var gridSizex = 1.2; //multiplicative
