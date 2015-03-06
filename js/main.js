@@ -12,9 +12,9 @@ var initInterval;
 var objects = [];
 
 var objs = new _objects();
-var cityController = new objs.cityController();
-var cameraController = null;
 var dataController = new objs.dataController();
+var cityController = new objs.cityController(dataController);
+var cameraController = null;
 
 // Render init
 renderer.shadowMapEnabled = true;

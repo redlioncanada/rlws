@@ -29,8 +29,38 @@ var _objects = function() {
 	//Data Controller - maintains global city data
 	this.dataController = function(dataArray) {
 		this.data = [];
+		this.materials = {c:{},t:{}};
+		this.textures = {};
 		if (typeof dataArray !== 'undefined') this.SetData(dataArray);
 	};
+
+	this.dataController.prototype.GetTexture = function(b) {
+		if (!(b.img in this.textures)) {
+			this.textures[b.img] = new THREE.ImageUtils.loadTexture( b.img );
+			this.textures[b.img].wrapS = THREE.RepeatWrapping;
+			this.textures[b.img].wrapT = THREE.RepeatWrapping;
+		}
+		var t = this.textures[b.img];
+		if (b.xsize == 1) t.repeat.x = 358/512;
+		else if (b.xsize == 2) t.repeat.x = 691/1024;
+		if (b.ysize == 1) t.repeat.y = 435/512;
+		else if (b.ysize == 2) t.repeat.y = 947/1024;
+		t.offset.y = 1.0 - t.repeat.y;
+		return t;
+	}
+
+	this.dataController.prototype.GetMaterial = function(building, color) {
+		//check for color and/or img existing
+		var t = this.GetTexture(building);
+		if (!(color in this.materials.c)) this.materials.c[color] = new THREE.MeshLambertMaterial( { color: color });
+		if (!(building.img in this.materials.t)) this.materials.t[building.img] = new THREE.MeshLambertMaterial( { map: t });
+		
+		var cM = this.materials.c[color];
+		var tM = this.materials.t[building.img];
+		var m = [cM,cM,cM,cM,tM,cM]
+		m[4].minFilter = THREE.NearestFilter;
+		return m;
+	}
 	
 	this.dataController.prototype.SetData = function(dataArray) {
 		for (var dataindex = 0; dataindex < dataArray.length; dataindex++) {
@@ -230,9 +260,10 @@ var _objects = function() {
 	//End Camera Controller 
 	
 	//CityController - Maintains cities
-	this.cityController = function() {
+	this.cityController = function(d) {
 		this.cities = [];
 		this.city = undefined;
+		this.dataController = d;
 	};
 	
 	this.cityController.prototype.GetCityByTag = function(tag) {
@@ -279,7 +310,7 @@ var _objects = function() {
 			rawData = newData;
 		}*/
 
-		var c = new self.city(buildingsPerRow, buildingsPerColumn, rawData, sizeMultiplier, startX, startY);
+		var c = new self.city(buildingsPerRow, buildingsPerColumn, dataController, rawData, sizeMultiplier, startX, startY);
 		c.tag = tag;
 		this.cities.push(c);
 		c.index = this.cities.length;
@@ -319,7 +350,7 @@ var _objects = function() {
 	//End CityController
 
 	//City - a collection of buildings
-	this.city = function(bpr, bpc, rawData, sizeMultiplier, sX, sY) {
+	this.city = function(bpr, bpc, dC, rawData, sizeMultiplier, sX, sY) {
 		this.logMatrix = function(matrix) {
 			if (!debug) return;
 			for (var arr in matrix) {
@@ -340,6 +371,7 @@ var _objects = function() {
 		this.midpoint = {X:0,Y:0};
 		this.buildingsPerRow = bpr;
 		this.buildingsPerColumn = bpc;
+		this.dataRef = dC;
 		this.init3D();
 	};
 
@@ -401,31 +433,7 @@ var _objects = function() {
 			
 				thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, curBoxDepth );
 				var useColor = parseInt(curBuilding.hex_color,16);
-				
-				var tex = new THREE.ImageUtils.loadTexture( curBuilding.img );
-				tex.wrapS = THREE.RepeatWrapping;
-				tex.wrapT = THREE.RepeatWrapping;
-				var repeatx;
-				var repeaty;
-				if (curBuilding.xsize == 1) tex.repeat.x = 358/512;
-				else if (curBuilding.xsize == 2) tex.repeat.x = 691/1024;
-				if (curBuilding.ysize == 1) tex.repeat.y = 435/512;
-				else if (curBuilding.ysize == 2) tex.repeat.y = 947/1024;
-				tex.offset.y = 1.0 - tex.repeat.y;
-				
-				//tex.repeat.y = 100 / 2000;
-				//tex.offset.x = ( 300 / 100 ) * tex.repeat.x;
-				//tex.offset.y = ( 400 / 100 ) * tex.repeat.y;
-				
-				thisbox.material = [
-					new THREE.MeshLambertMaterial( {color: useColor }),
-					new THREE.MeshLambertMaterial( {color: useColor }),
-					new THREE.MeshLambertMaterial( {color: useColor }),
-					new THREE.MeshLambertMaterial( {color: useColor }),
-					new THREE.MeshLambertMaterial( {map: tex}),
-					new THREE.MeshLambertMaterial( {color: useColor })
-				];
-				thisbox.material[4].minFilter = THREE.NearestFilter;
+				thisbox.material = this.dataRef.GetMaterial(curBuilding, useColor);
 				thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
 				thisbox.cube.name = curBuilding.id;
 				scene.add( thisbox.cube );
