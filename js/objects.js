@@ -413,6 +413,8 @@ var _objects = function() {
 				else if (curBuilding.ysize == 2) tex.repeat.y = 947/1024;
 				tex.offset.y = 1.0 - tex.repeat.y;
 				
+				if (curBuilding.xsize == 1 && curBuilding.ysize == 1) tex.repeat.x = 306/512;
+				
 				//tex.repeat.y = 100 / 2000;
 				//tex.offset.x = ( 300 / 100 ) * tex.repeat.x;
 				//tex.offset.y = ( 400 / 100 ) * tex.repeat.y;
