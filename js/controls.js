@@ -201,7 +201,7 @@ function resetPinches() {
 		var delta = e.scale - oldScale;
 		oldScale = e.scale;
 
-		cameraController.Zoom(delta > 0 ? 0.1 : -0.1);
+		cameraController.Zoom(delta > 0 ? -0.4 : 0.4);
 	});
 	
 	$(document).on("pinchend", function(e) {
