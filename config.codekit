@@ -74,15 +74,6 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/css\/style.css": {
-		"fileType": 16,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/css\/style.css",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/data\/jsontest.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -198,6 +189,17 @@
 		"initialSize": 1256,
 		"inputAbbreviatedPath": "\/img\/close-btn.png",
 		"outputAbbreviatedPath": "\/img\/close-btn.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/cloud.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 58580,
+		"inputAbbreviatedPath": "\/img\/cloud.png",
+		"outputAbbreviatedPath": "\/img\/cloud.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -961,6 +963,72 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/work\/asus\/road-trip-desktop-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 186590,
+		"inputAbbreviatedPath": "\/img\/work\/asus\/road-trip-desktop-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/asus\/road-trip-desktop-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/asus\/road-trip-desktop-2.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 115794,
+		"inputAbbreviatedPath": "\/img\/work\/asus\/road-trip-desktop-2.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/asus\/road-trip-desktop-2.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/asus\/road-trip-desktop-3.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 133096,
+		"inputAbbreviatedPath": "\/img\/work\/asus\/road-trip-desktop-3.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/asus\/road-trip-desktop-3.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/asus\/road-trip-desktop-4.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 123034,
+		"inputAbbreviatedPath": "\/img\/work\/asus\/road-trip-desktop-4.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/asus\/road-trip-desktop-4.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/asus\/road-trip-digital-tile.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 45126,
+		"inputAbbreviatedPath": "\/img\/work\/asus\/road-trip-digital-tile.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/asus\/road-trip-digital-tile.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/asus\/road-trip-mobile.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 113758,
+		"inputAbbreviatedPath": "\/img\/work\/asus\/road-trip-mobile.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/asus\/road-trip-mobile.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/work\/asus\/road-trip-tile.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
@@ -968,6 +1036,50 @@
 		"initialSize": 14651,
 		"inputAbbreviatedPath": "\/img\/work\/asus\/road-trip-tile.jpg",
 		"outputAbbreviatedPath": "\/img\/work\/asus\/road-trip-tile.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/coa\/coa-print-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 195753,
+		"inputAbbreviatedPath": "\/img\/work\/coa\/coa-print-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/coa\/coa-print-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/coa\/coa-print-2.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 212375,
+		"inputAbbreviatedPath": "\/img\/work\/coa\/coa-print-2.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/coa\/coa-print-2.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/coa\/coa-print-3.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 240994,
+		"inputAbbreviatedPath": "\/img\/work\/coa\/coa-print-3.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/coa\/coa-print-3.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/coa\/coa-print-4.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 172086,
+		"inputAbbreviatedPath": "\/img\/work\/coa\/coa-print-4.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/coa\/coa-print-4.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -983,6 +1095,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/work\/focusyl\/desktop-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 95092,
+		"inputAbbreviatedPath": "\/img\/work\/focusyl\/desktop-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/focusyl\/desktop-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/work\/focusyl\/promotion-tile.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
@@ -994,6 +1117,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/work\/itravel\/stop-pretending-print-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 115307,
+		"inputAbbreviatedPath": "\/img\/work\/itravel\/stop-pretending-print-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/itravel\/stop-pretending-print-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/work\/itravel\/stop-pretending-tile.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
@@ -1001,6 +1135,17 @@
 		"initialSize": 15739,
 		"inputAbbreviatedPath": "\/img\/work\/itravel\/stop-pretending-tile.jpg",
 		"outputAbbreviatedPath": "\/img\/work\/itravel\/stop-pretending-tile.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/jenn-air\/dinner-party-print-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 86861,
+		"inputAbbreviatedPath": "\/img\/work\/jenn-air\/dinner-party-print-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/jenn-air\/dinner-party-print-1.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1023,6 +1168,28 @@
 		"initialSize": 15588,
 		"inputAbbreviatedPath": "\/img\/work\/jenn-air\/dinner-party-video-tile.jpg",
 		"outputAbbreviatedPath": "\/img\/work\/jenn-air\/dinner-party-video-tile.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/jenn-air\/luxury-digital-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 194419,
+		"inputAbbreviatedPath": "\/img\/work\/jenn-air\/luxury-digital-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/jenn-air\/luxury-digital-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/jenn-air\/luxury-digital-2.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 118791,
+		"inputAbbreviatedPath": "\/img\/work\/jenn-air\/luxury-digital-2.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/jenn-air\/luxury-digital-2.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1060,6 +1227,39 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/work\/joe-boxer\/rebrand-print-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 158766,
+		"inputAbbreviatedPath": "\/img\/work\/joe-boxer\/rebrand-print-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/joe-boxer\/rebrand-print-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/joe-boxer\/rebrand-print-2.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 129255,
+		"inputAbbreviatedPath": "\/img\/work\/joe-boxer\/rebrand-print-2.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/joe-boxer\/rebrand-print-2.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/joe-boxer\/rebrand-print-3.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 136055,
+		"inputAbbreviatedPath": "\/img\/work\/joe-boxer\/rebrand-print-3.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/joe-boxer\/rebrand-print-3.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/work\/joe-boxer\/rebrand-print-tile.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
@@ -1071,6 +1271,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/work\/kitchenaid\/cftc-digital-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 339335,
+		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/cftc-digital-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/cftc-digital-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/work\/kitchenaid\/cftc-digital-tile.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
@@ -1078,6 +1289,17 @@
 		"initialSize": 18655,
 		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/cftc-digital-tile.jpg",
 		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/cftc-digital-tile.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/kitchenaid\/cftc-print-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 271447,
+		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/cftc-print-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/cftc-print-1.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1100,6 +1322,72 @@
 		"initialSize": 17448,
 		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/cftc-social-tile.jpg",
 		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/cftc-social-tile.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/kitchenaid\/declare-digital-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 356440,
+		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/kitchenaid\/declare-digital-2.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 150000,
+		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-2.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-2.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/kitchenaid\/declare-digital-3.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 164708,
+		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-3.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-3.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/kitchenaid\/declare-digital-4.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 174405,
+		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-4.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-4.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/kitchenaid\/declare-digital-5.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 131437,
+		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-5.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-5.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/kitchenaid\/declare-digital-6.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 129913,
+		"inputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-6.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/kitchenaid\/declare-digital-6.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1170,6 +1458,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/work\/kraft\/expert-print-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 127781,
+		"inputAbbreviatedPath": "\/img\/work\/kraft\/expert-print-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/kraft\/expert-print-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/work\/kraft\/expert-print-tile.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
@@ -1199,6 +1498,17 @@
 		"initialSize": 17405,
 		"inputAbbreviatedPath": "\/img\/work\/maytag\/better-video-tile.jpg",
 		"outputAbbreviatedPath": "\/img\/work\/maytag\/better-video-tile.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/maytag\/man-digital-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 159169,
+		"inputAbbreviatedPath": "\/img\/work\/maytag\/man-digital-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/maytag\/man-digital-1.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1236,68 +1546,13 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/img\/work\/print crops\/tile-_0003s_0002_Metro_iTravel.jpg": {
+	"\/img\/work\/rgc\/perseverance-digital-1.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 115605,
-		"inputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0003s_0002_Metro_iTravel.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0003s_0002_Metro_iTravel.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/print crops\/tile-_0004s_0000_JA DINNER PARTY_BLIPPAR.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 91925,
-		"inputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0004s_0000_JA DINNER PARTY_BLIPPAR.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0004s_0000_JA DINNER PARTY_BLIPPAR.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/print crops\/tile-_0006s_0000s_0000_CFTC_MenuInsert.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 273255,
-		"inputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0006s_0000s_0000_CFTC_MenuInsert.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0006s_0000s_0000_CFTC_MenuInsert.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/print crops\/tile-_0007s_0000_KRA_13_M_100.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 128072,
-		"inputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0007s_0000_KRA_13_M_100.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0007s_0000_KRA_13_M_100.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/print crops\/tile-_0010s_0001s_0000_RGC-easy-to-spot-poster2.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 95416,
-		"inputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0010s_0001s_0000_RGC-easy-to-spot-poster2.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0010s_0001s_0000_RGC-easy-to-spot-poster2.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/print crops\/tile-_0010s_0001s_0001_RGC-easy-to-spot-poster.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 97213,
-		"inputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0010s_0001s_0001_RGC-easy-to-spot-poster.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/print crops\/tile-_0010s_0001s_0001_RGC-easy-to-spot-poster.jpg",
+		"initialSize": 519276,
+		"inputAbbreviatedPath": "\/img\/work\/rgc\/perseverance-digital-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/rgc\/perseverance-digital-1.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1335,6 +1590,28 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/work\/rgc\/pgpw-print-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 95178,
+		"inputAbbreviatedPath": "\/img\/work\/rgc\/pgpw-print-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/rgc\/pgpw-print-1.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/rgc\/pgpw-print-2.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 97316,
+		"inputAbbreviatedPath": "\/img\/work\/rgc\/pgpw-print-2.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/rgc\/pgpw-print-2.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/work\/rgc\/pgpw-radio-tile.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
@@ -1364,6 +1641,17 @@
 		"initialSize": 18610,
 		"inputAbbreviatedPath": "\/img\/work\/shangri-la\/bosk-digital-tile.jpg",
 		"outputAbbreviatedPath": "\/img\/work\/shangri-la\/bosk-digital-tile.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/work\/shangri-la\/bosk-print-1.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 71373,
+		"inputAbbreviatedPath": "\/img\/work\/shangri-la\/bosk-print-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/shangri-la\/bosk-print-1.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1401,101 +1689,13 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/img\/work\/tile-_0001s_0000_1_4.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 195753,
-		"inputAbbreviatedPath": "\/img\/work\/tile-_0001s_0000_1_4.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/tile-_0001s_0000_1_4.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/tile-_0001s_0001_2_1.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 212375,
-		"inputAbbreviatedPath": "\/img\/work\/tile-_0001s_0001_2_1.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/tile-_0001s_0001_2_1.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/tile-_0001s_0002_3_2.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 240994,
-		"inputAbbreviatedPath": "\/img\/work\/tile-_0001s_0002_3_2.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/tile-_0001s_0002_3_2.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/tile-_0001s_0003_4_3.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 172086,
-		"inputAbbreviatedPath": "\/img\/work\/tile-_0001s_0003_4_3.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/tile-_0001s_0003_4_3.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/tile-_0005s_0000_JoeBoxer_Posters_Layouts3.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 158766,
-		"inputAbbreviatedPath": "\/img\/work\/tile-_0005s_0000_JoeBoxer_Posters_Layouts3.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/tile-_0005s_0000_JoeBoxer_Posters_Layouts3.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/tile-_0005s_0001_JoeBoxer_Posters_Layouts2.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 129255,
-		"inputAbbreviatedPath": "\/img\/work\/tile-_0005s_0001_JoeBoxer_Posters_Layouts2.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/tile-_0005s_0001_JoeBoxer_Posters_Layouts2.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/tile-_0005s_0002_JoeBoxer_Posters_Layouts.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 136055,
-		"inputAbbreviatedPath": "\/img\/work\/tile-_0005s_0002_JoeBoxer_Posters_Layouts.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/tile-_0005s_0002_JoeBoxer_Posters_Layouts.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/tile-_0011s_0002_BOSK_VERTICAL.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 71373,
-		"inputAbbreviatedPath": "\/img\/work\/tile-_0011s_0002_BOSK_VERTICAL.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/tile-_0011s_0002_BOSK_VERTICAL.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
-	"\/img\/work\/tile-_0012s_0000_SoundCommunication2.jpg": {
+	"\/img\/work\/sound-communications\/print-1.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"initialSize": 41635,
-		"inputAbbreviatedPath": "\/img\/work\/tile-_0012s_0000_SoundCommunication2.jpg",
-		"outputAbbreviatedPath": "\/img\/work\/tile-_0012s_0000_SoundCommunication2.jpg",
+		"inputAbbreviatedPath": "\/img\/work\/sound-communications\/print-1.jpg",
+		"outputAbbreviatedPath": "\/img\/work\/sound-communications\/print-1.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1533,15 +1733,6 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/index.html": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/index.html",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/js\/app.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -1570,17 +1761,6 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/fuse.min.js",
 		"outputAbbreviatedPath": "\/js\/min\/fuse.min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/js\/main.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/main.js",
-		"outputAbbreviatedPath": "\/js\/min\/main-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -1652,28 +1832,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/js\/objects.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/objects.js",
-		"outputAbbreviatedPath": "\/js\/min\/objects-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/js\/options.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/options.js",
-		"outputAbbreviatedPath": "\/js\/min\/options-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/js\/overlay.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -1696,31 +1854,20 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/less\/style.less": {
-		"allowInsecureImports": 0,
-		"createSourceMap": 0,
-		"disableJavascript": 0,
-		"fileType": 1,
-		"ieCompatibility": 1,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/less\/style.less",
-		"outputAbbreviatedPath": "\/css\/style.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"relativeURLS": 0,
-		"shouldRunAutoprefixer": 0,
-		"shouldRunBless": 0,
-		"strictImports": 0,
-		"strictMath": 0,
-		"strictUnits": 0
-		},
 	"\/templates\/fetchdata.php": {
 		"fileType": 8192,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fetchdata.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/people.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/people.php",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
