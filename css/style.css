@@ -157,3 +157,13 @@ header form #searchCancel {
   margin: 0 auto;
   display: block;
 }
+#overlay #people-overlay {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+#overlay #people-overlay header {
+  color: white;
+  height: 435px;
+}
