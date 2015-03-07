@@ -95,7 +95,7 @@ function init3D() {
 }
 
 function SpawnCity(tag) {
-	if (tag == "home") {
+	if (tag == homeKeyword) {
 		var city = cityController.GetCityByID(0);
 	} else {
 		if (!cityController.CityIsSpawned(tag)) {

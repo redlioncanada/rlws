@@ -2,8 +2,11 @@
 
 //debug
 debug = true;
-debugMovement = true;
+debugMovement = false;
 debugGrid = false;
+
+//search
+var homeKeyword = "home";
 
 //city vars
 var gridSizex = 1.2; //multiplicative

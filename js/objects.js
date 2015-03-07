@@ -289,7 +289,6 @@ var _objects = function() {
 			var newData = self.MultiplyArray(sizeMultiplier, rawData);
 			buildingsPerRow *= sizeMultiplier;
 			buildingsPerColumn *= sizeMultiplier;
-			console.log(buildingsPerRow+","+buildingsPerColumn);
 
 			//insert the original ordered array into the new array, preventing duplicates in the center
 			/*var mXStart = Math.floor((buildingsPerRow*sizeMultiplier)/2 - buildingsPerRow/2);
