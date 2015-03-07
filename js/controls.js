@@ -73,22 +73,9 @@ $(document).keyup(function(event) {
 
 // Box Clicked Function
 function boxClicked(intersect) {
-	$('#blackout').css({'display':'block'}).animate({'opacity': 1},500);
-	overlay = true;
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
-	$.ajax({ url: clickedBuilding.filename + '?id=' + clickedBuilding.id, cache: false })
-	.done(function( html ) {
-		$( "#overlay" ).html( html );
-		$('button.close').on('click touchend', function(e) {
-			$('#blackout').animate({'opacity': 0}, 500, function() {
-				$('#blackout').css({'display':'none'});
-				$( "#overlay" ).html('');
-				overlay = false;
-			});
-			$(this).unbind('click');
-		});
-	});
-	//$('#overlay').html('box clicked: ' + intersect.name + "<br>Content title: " + clickedBuilding.title + "<br>Description: " + clickedBuilding.description + '<br>Image: <img src="' + clickedBuilding.img + '">');
+	var newdoctitle = clickedBuilding.title + " - " + clickedBuilding.description + " || Red Lion {REDEFINE}";
+	window.history.pushState({"pageTitle":newdoctitle}, newdoctitle, "/#/" + clickedBuilding.slug + "/" + clickedBuilding.type);
 }
 
 function fingerMouseDown(e) {
