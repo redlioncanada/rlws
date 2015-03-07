@@ -178,12 +178,6 @@ function fingerMouseUp(e) {
 	pinched = false;
 }
 
-onMouseLeftBrowserWindow(function(e) {
-	didSingleClick = false;
-	clearTimeout(mouseDownTimeout);
-	fingerMouseUp(e);
-});
-
 function zoomHandler(e) {
 	var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
 	cameraController.Zoom(-delta * 2);
@@ -240,6 +234,12 @@ function setupEventListeners() {
 	if (window.DeviceMotionEvent) {
 		window.addEventListener('devicemotion', devMoveHandler, false);
 	}
+
+	onMouseLeftBrowserWindow(function(e) {
+		didSingleClick = false;
+		clearTimeout(mouseDownTimeout);
+		fingerMouseUp(e);
+	});
 }
 
 // Acceleration Vars

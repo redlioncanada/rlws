@@ -20,10 +20,7 @@ var cloudRenderer = new objs.clouds();
 
 // Render init
 renderer.shadowMapEnabled = true;
-resize();
-$(canvasDiv).append( renderer.domElement );
 $(window).on('resize', resize);
-
 function resize() {
 	camera.aspect = canvasDiv.width() / canvasDiv.height();
 	renderer.setSize(canvasDiv.width(), canvasDiv.height());
@@ -52,46 +49,53 @@ function render() {
 }
 
 function init3D() {
-	// Objects init - plane (ground)
-	var geometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
-	var material = new THREE.MeshBasicMaterial( {color: 0xfffdf2, side: THREE.DoubleSide} );
-	var plane = new THREE.Mesh( geometry, material );
-	scene.add( plane );
-	plane.position.z = -0.2;
-	
-	// Objects init - camera & light
-	hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 1.1);
-	scene.add(hemilight);
-	cameraController = new objs.cameraController(camera);
+	if (Detector.webgl) {
+		resize();
+		
+		// Objects init - plane (ground)
+		var geometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
+		var material = new THREE.MeshBasicMaterial( {color: 0xfffdf2, side: THREE.DoubleSide} );
+		var plane = new THREE.Mesh( geometry, material );
+		scene.add( plane );
+		plane.position.z = -0.2;
+		
+		// Objects init - camera & light
+		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 1.1);
+		scene.add(hemilight);
+		cameraController = new objs.cameraController(camera);
 
-	// Controls init
-	setupEventListeners();
+		// Controls init
+		setupEventListeners();
 
-	//Objects init - city, delay until data is populated
-	initInterval = setInterval(function() {
-		if (glCards.length > 0) {
-			clearInterval(initInterval);
-			
-			//set Data
-			dataController.SetData(glCards);
-			
-			//spawn city
-			var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", glCards, 2);
-			camera.position.z = city.extents.Z2 * camZStart;
+		//Objects init - city, delay until data is populated
+		initInterval = setInterval(function() {
+			if (glCards.length > 0) {
+				clearInterval(initInterval);
+				
+				//banish the loading screen to the netherrealms
+				$('#loading').fadeOut();
 
-			//Objects init - clouds
-			//cloudRenderer.Render(city.extents);
+				//set Data
+				dataController.SetData(glCards);
+				
+				//spawn city
+				var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", glCards, 2);
+				camera.position.z = city.extents.Z2 * camZStart;
 
-			//center camera on city
-			cameraController.CenterOnCity(cityController.city, true);
-			
-			//zoom camera
-			cameraController.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false);
-		}
-	}, 500);
-	
-	// Start Rendering
-	render();
+				//Objects init - clouds
+				//cloudRenderer.Render(city.extents);
+
+				//center camera on city
+				cameraController.CenterOnCity(cityController.city, true);
+				
+				//zoom camera
+				cameraController.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false);
+			}
+		}, 500);
+		
+		// Start Rendering
+		render();
+	}
 }
 
 function SpawnCity(tag) {
