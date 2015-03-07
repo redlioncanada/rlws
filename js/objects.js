@@ -29,6 +29,7 @@ var _objects = function() {
 	//Data Controller - maintains global city data
 	this.dataController = function(dataArray) {
 		this.data = [];
+		this.rawData = [];
 		this.materials = {c:{},t:{}};
 		this.textures = {};
 		if (typeof dataArray !== 'undefined') this.SetData(dataArray);
@@ -66,11 +67,22 @@ var _objects = function() {
 		for (var dataindex = 0; dataindex < dataArray.length; dataindex++) {
 			this.data[parseInt(dataArray[dataindex].id)] = dataArray[dataindex];
 		}
+		this.rawData = dataArray;
+		this.fuse = new Fuse(this.rawData, {keys: ['tags']});
+		this.fuseId = new Fuse(this.rawData, {keys: ['tags'], id: 'tags'});
 	};
 	
 	this.dataController.prototype.GetByID = function(id) {
 		return this.data[id];
 	};
+
+	this.dataController.prototype.GetAllWithTag = function(tag) {
+		return this.fuse.search(tag);
+	}
+
+	this.dataController.prototype.GetIdsWithTag = function(tag) {
+		return this.fuseId.search(tag);
+	}
 	//End Data Controller
 	
 	//Camera Controller - maintains camera animation
@@ -264,18 +276,6 @@ var _objects = function() {
 		this.city = undefined;
 		this.dataController = d;
 	};
-	
-	this.cityController.prototype.GetCityByTag = function(tag) {
-		if (tag == "default") return -1;
-		for (var index in this.cities) {
-			if (typeof this.cities[index].tag !== 'undefined') {
-				if (this.cities[index].tag == tag) {
-					return this.cities[index];
-				}
-			}
-		}
-		return 0;
-	};
 
 	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, rawData, sizeMultiplier, startX, startY) {
 		if (typeof sizeMultiplier === 'undefined') sizeMultiplier = 1;
@@ -287,6 +287,7 @@ var _objects = function() {
 			var newData = self.MultiplyArray(sizeMultiplier, rawData);
 			buildingsPerRow *= sizeMultiplier;
 			buildingsPerColumn *= sizeMultiplier;
+			console.log(buildingsPerRow+","+buildingsPerColumn);
 
 			//insert the original ordered array into the new array, preventing duplicates in the center
 			/*var mXStart = Math.floor((buildingsPerRow*sizeMultiplier)/2 - buildingsPerRow/2);
@@ -316,26 +317,7 @@ var _objects = function() {
 		if (this.cities.length == 1) this.city = c;
 		return c;
 	};
-	
-	this.cityController.prototype.SetCityByIndex = function(index) {
-		if (index <= this.cities.length) this.city = cities[index];
-		else this.city = cities.length;
-	};
-	
-	this.cityController.prototype.SetCityByTag = function(tag) {
-		if (typeof tag === 'string') {
-			for (var index in this.cities) {
-				if (typeof this.cities[index].tag !== 'undefined') {
-					if (this.cities[index].tag == tag) {
-						this.city = this.cities[index];
-						return 1;
-					}
-				}
-			}
-		}
-		return 0;
-	};
-	
+
 	this.cityController.prototype.SetCity = function(city) {
 		if (typeof city !== 'undefined') {
 			if (city.index && city.index <= this.cities.length) {
@@ -346,6 +328,40 @@ var _objects = function() {
 		console.log('Error (cityController.SetCity): Tried to set a city with an out of range index');
 		return 0;
 	};
+
+	this.cityController.prototype.CityIsSpawned = function(tag) {
+		return this.GetCityByTag(tag) != 0;
+	}
+	
+	this.cityController.prototype.SetCityByIndex = function(index) {
+		if (index <= this.cities.length) this.city = cities[index];
+		else this.city = cities.length;
+	};
+	
+	this.cityController.prototype.SetCityByTag = function(tag) {
+		var city = this.GetCityByTag(tag);
+		if (city) {this.city = city; return 1;}
+		return 0;
+	};
+
+	this.cityController.prototype.GetCityByID = function(id) {
+		if (id < this.cities.length) return this.cities[id];
+		else return city;
+	}
+
+	this.cityController.prototype.GetCityByTag = function(tag) {
+		if (tag == "default") return 0;
+		if (typeof tag === 'string') {
+			for (var index in this.cities) {
+				if (typeof this.cities[index].tag !== 'undefined') {
+					if (this.cities[index].tag == tag) {
+						return this.cities[index];
+					}
+				}
+			}
+		}
+		return 0;
+	}
 	//End CityController
 
 	//City - a collection of buildings
@@ -483,4 +499,56 @@ var _objects = function() {
 		this.model = obj;
 	};
 	//End Building
+
+	//Cloud renderer
+	this.clouds = function() {}
+	this.clouds.prototype.Render = function(extents) {
+			var mesh, geometry, material;
+			init();
+
+			function init() {
+				geometry = new THREE.Geometry();
+
+				var texture = THREE.ImageUtils.loadTexture( 'simg/cloud.png', null );
+				texture.magFilter = THREE.LinearMipMapLinearFilter;
+				texture.minFilter = THREE.LinearMipMapLinearFilter;
+				material = new THREE.ShaderMaterial( {
+					uniforms: {
+						"map": { type: "t", value: texture },
+						"fogColor" : { type: "c", value: 0x4584b4},
+						"fogNear" : { type: "f", value: - 100 },
+						"fogFar" : { type: "f", value: 3000 },
+					},
+					vertexShader: document.getElementById( 'vs' ).textContent,
+					fragmentShader: document.getElementById( 'fs' ).textContent,
+					depthWrite: false,
+					depthTest: false,
+					transparent: true
+				} );
+
+				var plane = new THREE.Mesh( new THREE.PlaneGeometry( 64, 64 ) );
+				for ( var i = 0; i < 200; i++ ) {
+					plane.position.x = Math.random() * 1000 - 500;
+					//plane.position.x = (extents.X1 - extents.X2) / 2;
+					//plane.position.x = camera.position.x;
+					plane.position.y = - Math.random() * Math.random() * 200 - 15;
+					//plane.position.y = (extents.Y1 - extents.Y2) / 2;
+					//plane.position.y = camera.position.y;
+					//plane.position.z = (extents.Z2*camZStart - extents.Z1) * 0.8 - i;
+
+					plane.rotation.z = Math.random() * Math.Pi;
+					plane.scale.x = plane.scale.y = Math.random() * Math.random() * 1.5 + 0.5;
+					THREE.GeometryUtils.merge( geometry, plane );
+				console.log(plane.position.z);
+				}
+
+				mesh = new THREE.Mesh( geometry, material );
+				scene.add( mesh );
+
+				mesh = new THREE.Mesh( geometry, material );
+				mesh.position.z = - 200;
+				scene.add( mesh );
+			}
+	}
+	//End cloud renderer
 };

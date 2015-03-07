@@ -11,12 +11,13 @@ var gridSizey = 1.6; //multiplicative
 var buildingsPerRow = 10; //maximum x grid elements
 var buildingsPerColumn = 10; //maximum y grid elements
 var buildingHeightVariance = 3;
+var maxSpawnedCities = 10;
 var boxheight = 1.4; //multiplicative
 var boxwidth = 1; //multiplicative
 var boxdepth = 3; //multiplicative
 var jitterX = 0.0; //grid jitter
 var jitterY = 0.0; //grid jitter
-var cityGutter = 10;
+var cityGutter = 4;
 var colors = [0xe1251d,0x3ba6c3]; //possible box colors, randomly chosen
 var glCards = [];
 var glCards2 = [];
@@ -30,9 +31,9 @@ var camRotateMin = 0.0;
 var camRotateMax = 0.9;
 
 //camera zoom animation
-var camZStart = 2; //multiplied with the highest building depth
+var camZStart = 20; //multiplied with the highest building depth
 var camZEnd = 1.1;
-var camZAnimationTime = 2;
+var camZAnimationTime = 5;
 
 //camera pan animation
 var camPanAnimationTime = 0.01;

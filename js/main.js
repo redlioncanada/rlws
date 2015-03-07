@@ -1,21 +1,22 @@
 var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
+var fuse; //search library
 
 // Three.JS/WebGL init vars
 var canvasDiv = $('#canvas');
 var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height(), 1, 10000 );
 var scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2( 0xfffdf2, 0.18 );
+scene.fog = new THREE.FogExp2( 0xfffdf2, 0.12 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
 var hemilight = null;
 var lightintensity = 40;
 
 var initInterval;
 var objects = [];
-
 var objs = new _objects();
 var dataController = new objs.dataController();
 var cityController = new objs.cityController(dataController);
 var cameraController = null;
+var cloudRenderer = new objs.clouds();
 
 // Render init
 renderer.shadowMapEnabled = true;
@@ -52,18 +53,18 @@ function render() {
 
 function init3D() {
 	// Objects init - plane (ground)
-	var geometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
+	var geometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
 	var material = new THREE.MeshBasicMaterial( {color: 0xfffdf2, side: THREE.DoubleSide} );
 	var plane = new THREE.Mesh( geometry, material );
 	scene.add( plane );
 	plane.position.z = -0.2;
 	
 	// Objects init - camera & light
-	
 	hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 1.1);
 	scene.add(hemilight);
-	
 	cameraController = new objs.cameraController(camera);
+
+	// Controls init
 	setupEventListeners();
 
 	//Objects init - city, delay until data is populated
@@ -75,15 +76,17 @@ function init3D() {
 			dataController.SetData(glCards);
 			
 			//spawn city
-			var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", glCards, 4);
+			var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "", glCards, 2);
 			camera.position.z = city.extents.Z2 * camZStart;
+
+			//Objects init - clouds
+			//cloudRenderer.Render(city.extents);
 
 			//center camera on city
 			cameraController.CenterOnCity(cityController.city, true);
 			
 			//zoom camera
 			cameraController.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false);
-
 		}
 	}, 500);
 	
@@ -91,11 +94,18 @@ function init3D() {
 	render();
 }
 
-/*var testa = 0;
-var chuck = setInterval(function() {
-	var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, "test", glCards);
-	testa++;
+function SpawnCity(tag) {
+	if (tag == "home") {
+		var city = cityController.GetCityByID(0);
+	} else {
+		if (!cityController.CityIsSpawned(tag)) {
+			var data = dataController.GetAllWithTag(tag);
+			var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, tag, data);
+		} else {
+			var city = cityController.GetCityByTag(tag);
+		}
+	}
 	cityController.SetCity(city);
 	cameraController.CenterOnCity(city);
-	if (testa == 1) clearInterval(chuck);
-}, 3000);*/
+	return 1;
+}
