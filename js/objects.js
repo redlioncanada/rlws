@@ -46,9 +46,11 @@ var _objects = function() {
 		else if (b.xsize == 2) t.repeat.x = 691/1024;
 		if (b.ysize == 1) t.repeat.y = 435/512;
 		else if (b.ysize == 2) t.repeat.y = 947/1024;
+		if (b.xsize == 1 && b.ysize == 1) t.repeat.x = 306/512;
+		
 		t.offset.y = 1.0 - t.repeat.y;
 		return t;
-	}
+	};
 
 	this.dataController.prototype.GetMaterial = function(building, color) {
 		//check for color and/or img existing
@@ -58,10 +60,10 @@ var _objects = function() {
 		
 		var cM = this.materials.c[color];
 		var tM = this.materials.t[building.img];
-		var m = [cM,cM,cM,cM,tM,cM]
+		var m = [cM,cM,cM,cM,tM,cM];
 		m[4].minFilter = THREE.NearestFilter;
 		return m;
-	}
+	};
 	
 	this.dataController.prototype.SetData = function(dataArray) {
 		for (var dataindex = 0; dataindex < dataArray.length; dataindex++) {

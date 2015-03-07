@@ -1,5 +1,4 @@
 var glCards = [];
-console.log('app.js loaded');
 
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', []);
@@ -30,3 +29,43 @@ app.factory('Cards', function ($http) {
 		}
 	};
 });
+
+/*
+app.directive('overlayItem', function ($compile) {
+	var workTemplate = 'templates/work.html';
+	var peopleTemplate = 'templates/people.html';
+	var clientTemplate = 'templates/client.html';
+	var newsTemplate = 'templates/news.html';
+	
+	var getTemplate = function(contentType) {
+		var template = null;
+		
+		switch (contentType) {
+			case 'work':
+				template = workTemplate;
+			break;
+			case 'people':
+				template = peopleTemplate;
+			break;
+			case 'client':
+				template = clientTemplate;
+			break;
+			case 'news':
+				template = newsTemplate;
+			break;
+		}
+	}
+	
+	var linker = function(scope, element, attrs) {
+		element.html()
+	}
+	
+	return {
+		restrict: "E",
+		link: linker,
+		scope: {
+			content:"="
+		}
+	};
+});
+*/
