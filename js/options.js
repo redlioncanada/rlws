@@ -31,9 +31,9 @@ var camRotateMin = 0.0;
 var camRotateMax = 0.9;
 
 //camera zoom animation
-var camZStart = 20; //multiplied with the highest building depth
+var camZStart = 10; //multiplied with the highest building depth
 var camZEnd = 1.1;
-var camZAnimationTime = 5;
+var camZAnimationTime = 3;
 
 //camera pan animation
 var camPanAnimationTime = 0.01;
