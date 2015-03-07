@@ -217,20 +217,20 @@ var _objects = function() {
 			Y = this.camera.position.y+Y;
 			Z = this.camera.position.z+Z;
 		}
-		
+
 		if (typeof X !== 'undefined' && !isNaN(X)) {
 			if ((this.HitTestX(X) && !this.animating) || !constrain || abs) {
-				this.camera.position.x = X;
+				this.camera.position.x = X - X*frameTime;
 			}
 		}
 		if (typeof Y !== 'undefined' && !isNaN(Y)) {
 			if ((this.HitTestY(Y) && !this.animating) || !constrain || abs) {
-				this.camera.position.y = Y;
+				this.camera.position.y = Y - Y*frameTime;
 			}
 		}
 		if (typeof Z !== 'undefined' && !isNaN(Z)) {
 			if ((this.HitTestZ(Z) && !this.animating) || !constrain || abs) {
-				this.camera.position.z = Z;
+				this.camera.position.z = Z - Z*frameTime;
 			}
 		}
 		
@@ -245,20 +245,20 @@ var _objects = function() {
 			Y = this.camera.rotation.y+Y;
 			Z = this.camera.rotation.z+Z;
 		}
-		
+
 		if (typeof X !== 'undefined' && !isNaN(X)) {
 			if (this.HitTestR(X) && !this.animating) {
-				this.camera.rotation.x = X;
+				this.camera.rotation.x = X - X*frameTime;
 			}
 		}
 		if (typeof Y !== 'undefined' && !isNaN(Y)) {
 			if (this.HitTestR(Y) && !this.animating) {
-				this.camera.rotation.y = Y;
+				this.camera.rotation.y = Y - Y*frametime;
 			}
 		}
 		if (typeof Z !== 'undefined' && !isNaN(Z)) {
 			if (this.HitTestR(Z) && !this.animating) {
-				this.camera.rotation.z = Z;
+				this.camera.rotation.z = Z - Z*frameTime;
 			}
 		}
 		
@@ -351,7 +351,6 @@ var _objects = function() {
 	}
 
 	this.cityController.prototype.GetCityByTag = function(tag) {
-		if (tag == "default") return 0;
 		if (typeof tag === 'string') {
 			for (var index in this.cities) {
 				if (typeof this.cities[index].tag !== 'undefined') {

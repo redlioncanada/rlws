@@ -1,6 +1,6 @@
 //search start
 $('#searchCancel').on('click', function(e) {
-	SpawnCity("home");
+	SpawnAndGoToCity("home");
 	$('#searchCancel').animate({'opacity':'0'},400,function(){$(this).css('display','none')});
 });
 $('#searchTerm').on('keydown', function(e) {
@@ -12,7 +12,7 @@ $('#searchTerm').on('keydown', function(e) {
 	}
 	if (e.keyCode == 13 && $(this).val().length) {	//enter
 		if ($('#cachedTerm').val().length) {	//search returned results
-			var result = SpawnCity(val);
+			var result = SpawnAndGoToCity(val);
 			if (result && val != homeKeyword) {
 				$('#searchCancel').css('display','block').animate({'opacity':'1'},400);
 			} else if (result && val == homeKeyword) {

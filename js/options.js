@@ -90,3 +90,8 @@ var acc_fromy = null;
 var acc_toy = null;
 var acc_totilt = null;
 var acc_fromtilt = null;
+
+// Physics vars
+var totalTime = 0;
+var currentTime = new Date().getTime() / 1000;
+var frameTime = 0;
