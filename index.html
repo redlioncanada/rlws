@@ -83,6 +83,8 @@
 					var result = SpawnCity(val);
 					if (result && val != homeKeyword) {
 						$('#searchCancel').css('display','block').animate({'opacity':'1'},400);
+					} else if (result && val == homeKeyword) {
+						$('#searchCancel').animate({'opacity':'0'},400,function(){$(this).css('display','none')});
 					}
 					$('#cachedTerm').val('');
 					$(this).val('');
