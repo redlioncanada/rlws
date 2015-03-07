@@ -28,7 +28,9 @@ header {
 	z-index: 100; 
 	background: @background;
 	
-	img { float: right; }
+	#logo { 
+		float: right; 
+	}
 	#launchAbout {
 		float: left;
 		color: @lionred;
@@ -38,12 +40,13 @@ header {
 		line-height: 15px;
 	}
 	form {
+		z-index: 1;
 		float: left;
 		margin: 0;
 		width: 60%;
 		input {
 			height: 73px;
-			width: 100%;
+			width: 65%;
 			max-width: 1050px;
 			border: none;
 			padding-left: 65px;
