@@ -19,7 +19,5 @@
 		</div>
 	</div>
 	
-	<div class="videobox">
-		<iframe src="https://player.vimeo.com/video/121403212" width="760" height="427" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-	</div>
+	<?=$data->content?>
 </div>
