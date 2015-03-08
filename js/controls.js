@@ -76,16 +76,8 @@ function boxClicked(intersect) {
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
 	var newdoctitle = clickedBuilding.title + " - " + clickedBuilding.description + " || " + pageTitle;
 	document.title = newdoctitle;
-	window.history.pushState({"pageTitle":newdoctitle}, newdoctitle, "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type);
+	window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
 }
-
-window.onpopstate = function(e){
-    if(e.state){
-        document.title = e.state.pageTitle;
-    } else {
-		document.title = pageTitle;
-    }
-};
 
 function fingerMouseDown(e) {
 	e.preventDefault();
