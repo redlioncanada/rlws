@@ -5,7 +5,7 @@ var app = angular.module('redLion', ['ngRoute']);
 //
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/grid', {
-		template: '<h1>HELLO ITS WORKING!!!!!</h1>',
+		template: '',
 		controller: 'GridControler'
 	}).
 	when('/work/:campaignID/:subSection', {
@@ -39,72 +39,48 @@ app.controller('WorkCtrl', ['$scope', '$routeParams',
 	}
 ]);
   
-app.controller('PeopleCtrl', ['$scope', '$routeParams', 'People', 'Person', '$filter',
-	function($scope, $routeParams, People, Person, $filter) {
-		$scope.people = People.get();
-		$scope.selperson = Person.get($routeParams.staffID);
+app.controller('PeopleCtrl', ['$scope', '$routeParams', '$http', '$animate',
+	function($scope, $routeParams, $http, $animate) {
+		$scope.people = [];
 		console.log("Person Slug = " +$routeParams.staffID);
+		
+		$scope.go = function ( path ) {
+			$location.path( path );
+		};
+		
+		$http.get('http://redlioncanada.com/api/content/type/people')
+			.success(function (response) {
+				for (var i = 0; i < response.length; i++) {
+					$scope.people.push(response[i]);
+					if (response[i].slug == $routeParams.staffID) {
+						$scope.selperson = response[i];
+					}
+				}
+			})
+			.error(function (err) {
+				alert('ERROR: ' + err);
+			});
 	}
 ]);
 
-app.directive('peopleImage', function() {
-	return function(scope, element, attrs) {
-		var img = "img/staff/" + attrs.peopleImage + "-" + attrs.type + ".jpg";
-		element.attr("src", img);
-	};
-});
-
-app.filter('getPersonBySlug', function() {
-	return function(input, slug) {
-		for (var i=0; i<input.length; i++) {
-			console.log(input[i]);
-			if (input[i].slug == slug) {
-				return input[i];
-			}
-		}
-		return 'oops';
-	};
-});
-
-app.factory("Person", function($http) {
-	var person = null;
-	
+app.directive('peopleTile', function() {
 	return {
-		get: function(slug) {
-			if (person === null) {
-				$http.get('http://redlioncanada.com/api/content/slug/'+slug)
-					.success(function (response) {
-						person = response[0];
-					})
-					.error(function (err) {
-						alert('ERROR: ' + err);
-					});
-			}
-			return person;
-		}
+		template: function (element, attrs) {
+			return '<img src="img/staff/' + attrs.peopleTile + '-tile.jpg" class="under">' +
+			'<img src="img/staff/' + attrs.peopleTile + '-tile-red.jpg" class="cover">';
+		},
+		link: function(scope, element, attrs) {
+            element
+                .on('mouseenter',function() {
+                    element.children('img.cover').addClass('hovered');
+                })
+                .on('mouseleave',function() {
+                    element.children('img.cover').removeClass('hovered');
+                });
+        }
 	};
 });
 
-app.factory("People", function($http) {
-	var people = [];
-	
-	return {
-		get: function() {
-			if (people.length === 0) {
-				$http.get('http://redlioncanada.com/api/content/type/people')
-					.success(function (response) {
-						for (var i = 0; i < response.length; i++) {
-							people.push(response[i]);
-						}
-					})
-					.error(function (err) {
-						alert('ERROR: ' + err);
-					});
-			}
-			return people;
-		}
-	};
-});
 //
 app.factory('Cards', function ($http) {
 	var cards = [];
