@@ -154,7 +154,7 @@ function fingerMouseUp(e) {
 		if ( intersects.length > 0 ) {
 			if (typeof intersects[0] !=='undefined') {
 				if (typeof intersects[0].face !== 'undefined') {
-					if (intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
+					if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
 				}
 			}
 		}
