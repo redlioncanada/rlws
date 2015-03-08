@@ -75,8 +75,17 @@ $(document).keyup(function(event) {
 function boxClicked(intersect) {
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
 	var newdoctitle = clickedBuilding.title + " - " + clickedBuilding.description + " || Red Lion {REDEFINE}";
+	document.title = newdoctitle;
 	window.history.pushState({"pageTitle":newdoctitle}, newdoctitle, "/#/" + clickedBuilding.slug + "/" + clickedBuilding.type);
 }
+
+window.onpopstate = function(e){
+    if(e.state){
+        document.title = e.state.pageTitle;
+    } else {
+	    document.title = "Red Lion {REDEFINE}";
+    }
+};
 
 function fingerMouseDown(e) {
 	e.preventDefault();
