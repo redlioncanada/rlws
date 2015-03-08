@@ -5,6 +5,8 @@ var fuse; //search library
 var canvasDiv = $('#canvas');
 var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height(), 1, 10000 );
 var scene = new THREE.Scene();
+var mouse = new THREE.Vector2(), intersected;
+var raycaster = new THREE.Raycaster();
 scene.fog = new THREE.FogExp2( 0xfffdf2, 0.12 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
 var hemilight = null;

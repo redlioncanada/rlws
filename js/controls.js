@@ -109,6 +109,7 @@ function fingerMouseDown(e) {
 
 function fingerMouseDrag(e) {
 	e.preventDefault();
+	mouseMove(e);
 	var xMod, yMod, xOldMod, yOldMod;
 	if (isMobile) { 
 		var touch = e.touches[0];
@@ -141,27 +142,15 @@ function fingerMouseDrag(e) {
 function fingerMouseUp(e) {
 	e.preventDefault();
 	clearTimeout(mouseDownTimeout);
-	
 	canvas.removeEventListener('mousemove', fingerMouseDrag);
 	
 	var touchX, touchY, vector;
 	
-	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched && didSingleClick) {
-		if (isMobile) {
-			touchX = ( e.pageX / window.innerWidth ) * 2 - 1;
-			touchY = -( e.pageY / window.innerHeight ) * 2 + 1;
-			vector = new THREE.Vector3( touchX, touchY, 0.5 );		
-		} else {	
-			touchX = ( e.clientX / window.innerWidth ) * 2 - 1;
-			touchY = -( e.clientY / window.innerHeight ) * 2 + 1;
-			vector = new THREE.Vector3( touchX, touchY, 0.5 );
-		}	
-		var raycaster = new THREE.Raycaster();
-		vector.unproject( cameraController.camera );
-		raycaster.set( cameraController.camera.position, vector.sub( cameraController.camera.position ).normalize() );
-		var intersects = raycaster.intersectObjects(objects);
-		
-		if ( intersects.length > 0 ) boxClicked(intersects[0].object);
+	if (!pinched && didSingleClick) {
+		raycaster.setFromCamera(mouse, camera);
+		var intersects = raycaster.intersectObjects(scene.children);
+		if ( intersects.length > 0 && (intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
+		console.log(intersects[0].face);
 	}
 	xMove = 0;
 	yMove = 0;
@@ -172,6 +161,13 @@ function fingerMouseUp(e) {
 	mTouchDown = false;
 	oldScale = 0;
 	pinched = false;
+}
+
+function mouseMove(e) {
+	e.preventDefault();
+	var headerHeight = $('header').height();
+	mouse.x = (e.clientX / $(canvasDiv).width()) * 2 - 1;
+	mouse.y = - ((e.clientY - headerHeight) / $(canvasDiv).height()) * 2 + 1;
 }
 
 function zoomHandler(e) {
@@ -206,7 +202,6 @@ function resetPinches() {
 resetPinches();
 
 function setupEventListeners() {
-	if (debug) console.log("event listeners are initializing...");
 	var canvases = document.getElementsByTagName('canvas');
 	canvas = canvases[0];
 	
@@ -225,6 +220,7 @@ function setupEventListeners() {
 	canvas.addEventListener("mousewheel", zoomHandler);
 	// Mouse Wheel Zoom (Firefox)
 	canvas.addEventListener("DOMMouseScroll", zoomHandler);
+	canvas.addEventListener("mousemove", mouseMove);
 	
 	// Check if Acceleromoter is present and start event listener
 	if (window.DeviceMotionEvent) {
