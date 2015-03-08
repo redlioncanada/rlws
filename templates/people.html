@@ -1,32 +1,18 @@
-<html ng-app="myApp">
-	<head>
-		<title>Red Lion {REDEFINE}</title>
-		<link rel="stylesheet" href="../css/style.css?v=1.0">
-	</head>
-	<body ng-controller="CardTestController" style="background-color: #000000">
-		<div id="overlay">
-			<div id="people-overlay">
-				<header>
-					<h2>Bios</h2>
-					<button class="close">&nbsp;</button>
-					<div id="bio">
-						<h1>Shannon Murphy</h1>
-						<p class="subtitle">Copywriter</p>
-						<p class="description">Butcher Kickstarter seitan Intelligentsia next level heirloom. Cornhole paleo photo booth, synth taxidermy raw denim bespoke bitters selfies cardigan. Craft beer fanny pack put a bird on it, Etsy art party Austin shabby chic selvage sriracha migas American Apparel Pitchfork sustainable. McSweeney's pork belly tofu, fanny pack tattooed synth taxidermy PBR&B pour-over art party cronut. Meditation retro dreamcatcher, literally cred fashion axe church-key XOXO. Brooklyn Pitchfork Vice, hella disrupt Shoreditch XOXO. Jean shorts Austin mixtape, 90's craft beer photo booth messenger bag readymade Echo Park hella.</p>
-					</div>
-					<img src="../img/staff/shannon-header.jpg" />
-				</header>
-				<ul id="people-list">
-					<li >
-						<img src="../img/staff/shannon-tile.jpg" class="under">
-						<img src="../img/staff/shannon-tile-red.jpg" class="cover">
-					</li>
-				</div>
-			</div>
+<div id="people-overlay">
+	<header ng-controller="PeopleCtrl">
+		<h2>Bios</h2>
+		<button class="close">&nbsp;</button>
+		<div id="bio">
+			<h1>{{selperson.title}}</h1>
+			<p class="subtitle">{{selperson.description}}</p>
+			<p class="description">{{selperson.content}}</p>
 		</div>
-		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-		<script src="../js/overlay.js"></script>
-		<script src="//use.typekit.net/ngi3tcl.js"></script>
-		<script>try{Typekit.load();}catch(e){}</script>
-	</body>
-</html>
+		<img src="{{selected.header_img}}" />
+	</header>
+	<ul id="people-list">
+		<li ng-repeat="person in people">
+			<img people-image="{{person.slug}}" data-type="tile" src="" class="under">
+			<img people-image="{{person.slug}}" data-type="tile-red" src="" class="cover">
+		</li>
+	</div>
+</div>
