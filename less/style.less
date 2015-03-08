@@ -85,6 +85,7 @@ header {
 	background: white;
 	height: 100%;
 }
+
 #blackout {
 	position: absolute;
 	width: 100%;
@@ -94,7 +95,47 @@ header {
 	display: none;
 	opacity: 0;
 	overflow: scroll;
+	
+	&.ng-enter {
+		-webkit-transition:0.5s linear all;
+		-moz-transition:0.5s linear all;
+		-o-transition:0.5s linear all;
+		transition:0.5s linear all;
+		display: block;
+	}
+
+	&.ng-enter.ng-enter-active{
+		opacity:1;
+	}
+
+	&.ng-leave {
+		-webkit-animation:0.5s rl_animation;
+		-moz-animation:0.5s rl_animation;
+		-o-animation:0.5s rl_animation;
+		animation:0.5s rl_animation;
+	}
 }
+
+@keyframes rl_animation {
+	from { opacity:1; }
+	to { opacity:0; }
+}
+
+@-webkit-keyframes rl_animation {
+	from { opacity:1; }
+	to { opacity:0; display: none; }
+}
+
+@-moz-keyframes rl_animation {
+	from { opacity:1; }
+	to { opacity:0; display: none; }
+}
+
+@-o-keyframes rl_animation {
+	from { opacity:1; }
+	to { opacity:0; display: none; }
+}
+
 #overlay {
 	background: @background;
 	@media (min-width: 920px) {
@@ -212,7 +253,7 @@ header {
 			#bio {
 				position: absolute;
 				left: 20px;
-				top: 50%;
+				top: 55%;
 				transform: translateY(-50%);
 				z-index: 110;
 				width: 330px;
@@ -235,7 +276,8 @@ header {
 				}
 			}
 			
-			button.close {
+			.close {
+				display: block;
 				background: url('../img/close-btn.png') no-repeat center center;
 				width: 32px;
 				height: 32px;
@@ -246,6 +288,7 @@ header {
 				border: none;
 				outline: none;
 				z-index: 110;
+				text-decoration: none;
 			}
 			
 			img {
@@ -270,13 +313,22 @@ header {
 				display: inline-block;
 				text-indent: 0;
 				
+				a {
+					display: block;
+					position: absolute;
+					z-index: 111;
+					width: 225px;
+					height: 262px;
+					text-decoration: none;
+					color: #f8220d;
+				}
+				
 				img.cover {
 					position: absolute;
 					top: 0;
 					left: 0;
 					opacity: 1;
-					clip: rect(0px, 225px, 262px, 0px);
-					border: none;
+					clip: rect(0px, 225px, 263px, 0px);
 					transition: all 0.7s ease-in-out;
 					
 					&.hovered {

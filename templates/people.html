@@ -1,18 +1,19 @@
+<div id="overlay">
 <div id="people-overlay">
 	<header ng-controller="PeopleCtrl">
 		<h2>Bios</h2>
-		<button class="close">&nbsp;</button>
+		<a class="close" href="#/grid">&nbsp;</a>
 		<div id="bio">
 			<h1>{{selperson.title}}</h1>
 			<p class="subtitle">{{selperson.description}}</p>
 			<p class="description">{{selperson.content}}</p>
 		</div>
-		<img src="{{selected.header_img}}" />
+		<img src="{{selperson.header_img}}" />
 	</header>
 	<ul id="people-list">
 		<li ng-repeat="person in people">
-			<img people-image="{{person.slug}}" data-type="tile" src="" class="under">
-			<img people-image="{{person.slug}}" data-type="tile-red" src="" class="cover">
+			<a href="#/people/{{person.slug}}" people-tile="{{person.slug}}"></a>
 		</li>
-	</div>
+	</ul>
+</div>
 </div>

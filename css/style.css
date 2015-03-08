@@ -87,6 +87,57 @@ header form #searchCancel {
   opacity: 0;
   overflow: scroll;
 }
+#blackout.ng-enter {
+  -webkit-transition: 0.5s linear all;
+  -moz-transition: 0.5s linear all;
+  -o-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+  display: block;
+}
+#blackout.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+#blackout.ng-leave {
+  -webkit-animation: 0.5s rl_animation;
+  -moz-animation: 0.5s rl_animation;
+  -o-animation: 0.5s rl_animation;
+  animation: 0.5s rl_animation;
+}
+@keyframes rl_animation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes rl_animation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
+@-moz-keyframes rl_animation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
+@-o-keyframes rl_animation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
 #overlay {
   background: #fffdf2;
   min-height: 100%;
@@ -195,7 +246,7 @@ header form #searchCancel {
 #overlay #people-overlay header #bio {
   position: absolute;
   left: 20px;
-  top: 50%;
+  top: 55%;
   transform: translateY(-50%);
   z-index: 110;
   width: 330px;
@@ -214,7 +265,8 @@ header form #searchCancel {
 #overlay #people-overlay header #bio p.description {
   font-weight: 500;
 }
-#overlay #people-overlay header button.close {
+#overlay #people-overlay header .close {
+  display: block;
   background: url('../img/close-btn.png') no-repeat center center;
   width: 32px;
   height: 32px;
@@ -225,6 +277,7 @@ header form #searchCancel {
   border: none;
   outline: none;
   z-index: 110;
+  text-decoration: none;
 }
 #overlay #people-overlay header img {
   position: absolute;
@@ -246,13 +299,21 @@ header form #searchCancel {
   display: inline-block;
   text-indent: 0;
 }
+#overlay #people-overlay ul#people-list li a {
+  display: block;
+  position: absolute;
+  z-index: 111;
+  width: 225px;
+  height: 262px;
+  text-decoration: none;
+  color: #f8220d;
+}
 #overlay #people-overlay ul#people-list li img.cover {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 1;
-  clip: rect(0px, 225px, 262px, 0px);
-  border: none;
+  clip: rect(0px, 225px, 263px, 0px);
   transition: all 0.7s ease-in-out;
 }
 #overlay #people-overlay ul#people-list li img.cover.hovered {
