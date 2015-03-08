@@ -252,12 +252,12 @@ var acc_fromtilt = null;
 var devMoveHandler = function(event) {
 	// Get Accelerometer Information needed
 	
-	if (acc_fromx === null) acc_fromx = cameraController.camera.position.x;
-	if (acc_tox === null) acc_tox= cameraController.camera.position.x;
-	if (acc_fromy === null) acc_fromy = cameraController.camera.position.y;
-	if (acc_toy === null) acc_toy = cameraController.camera.position.y;
-	if (acc_totilt === null) acc_totilt = cameraController.camera.rotation.x;
-	if (acc_fromtilt === null) acc_fromtilt = cameraController.camera.rotation.x;
+	if (acc_fromx === null) acc_fromx = camera.position.x;
+	if (acc_tox === null) acc_tox= camera.position.x;
+	if (acc_fromy === null) acc_fromy = camera.position.y;
+	if (acc_toy === null) acc_toy = camera.position.y;
+	if (acc_totilt === null) acc_totilt = camera.rotation.x;
+	if (acc_fromtilt === null) acc_fromtilt = camera.rotation.x;
 	
 	var rR = event.rotationRate;
 	if (rR !== null) {
@@ -277,8 +277,8 @@ var devMoveHandler = function(event) {
 	}
 	
 	if (mTouchDown) {
-		acc_toy = acc_fromy = cameraController.camera.position.y;
-		acc_tox = acc_fromx = cameraController.camera.position.x;
+		acc_toy = acc_fromy = camera.position.y;
+		acc_tox = acc_fromx = camera.position.x;
 	} else {
 		// Move Left & Right
 		// Rotation Rate Beta changes
@@ -288,7 +288,8 @@ var devMoveHandler = function(event) {
 			var acc_moveBeta = -acc_arBeta/45;
 			acc_tox = acc_fromx + acc_moveBeta;
 		}
-
+		camera.position.x += (acc_tox - acc_fromx) / acc_speed;
+		
 		// Move Up and Down
 		// Rotation Rate Alpha changes
 		// AND Y & Z stays the same (ish)
@@ -297,7 +298,7 @@ var devMoveHandler = function(event) {
 			var acc_moveAlpha = acc_arAlpha/25;
 			acc_toy = acc_fromy + acc_moveAlpha;
 		}
-		cameraController.Move((acc_tox - acc_fromx) / acc_speed, (acc_toy - acc_fromy) / acc_speed, undefined, false);
+		camera.position.y += (acc_toy - acc_fromy) / acc_speed;
 	}
 	
 	// ay/az controls the tilt of the "city"
@@ -310,7 +311,8 @@ var devMoveHandler = function(event) {
 		acc_totilt = (acc_az - 3) * 0.09;
 		acc_oldaz = acc_az;
 	}
-	cameraController.Rotate((acc_totilt - acc_fromtilt) / (acc_speed * 2), undefined, undefined, false);
+	camera.rotation.x += (acc_totilt - acc_fromtilt) / (acc_speed * 2);
+	
 	
 };
 

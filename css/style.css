@@ -14,6 +14,7 @@ body {
 #canvas {
   height: 100%;
   z-index: 1;
+  width: 100%;
 }
 #canvas canvas {
   width: 100%;
@@ -73,7 +74,7 @@ header form #searchCancel {
   cursor: pointer;
 }
 #loading {
-  color: white;
+  background: white;
   height: 100%;
 }
 #blackout {
