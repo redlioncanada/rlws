@@ -137,14 +137,24 @@ function fingerMouseUp(e) {
 	canvas.removeEventListener('mousemove', fingerMouseDrag);
 	
 	var touchX, touchY, vector;
-	
-	if (!pinched && didSingleClick) {
+	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched && didSingleClick) {
+		if (isMobile) {
+			touchX = ( e.pageX / window.innerWidth ) * 2 - 1;
+			touchY = -( e.pageY / window.innerHeight ) * 2 + 1;
+			vector = new THREE.Vector3( touchX, touchY, 0.5 );		
+		} else {	
+			touchX = ( e.clientX / window.innerWidth ) * 2 - 1;
+			touchY = -( e.clientY / window.innerHeight ) * 2 + 1;
+			vector = new THREE.Vector3( touchX, touchY, 0.5 );
+		}	
+
 		raycaster.setFromCamera(mouse, camera);
 		var intersects = raycaster.intersectObjects(scene.children);
 		if ( intersects.length > 0 && (intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
 	}
 	xMove = 0;
 	yMove = 0;
+	didSingleClick = false;
 	mUP = false;
 	mDOWN = false;
 	mRIGHT = false;
@@ -287,7 +297,6 @@ var devMoveHandler = function(event) {
 			var acc_moveAlpha = acc_arAlpha/25;
 			acc_toy = acc_fromy + acc_moveAlpha;
 		}
-
 		cameraController.Move((acc_tox - acc_fromx) / acc_speed, (acc_toy - acc_fromy) / acc_speed, undefined, false);
 	}
 	
@@ -301,7 +310,6 @@ var devMoveHandler = function(event) {
 		acc_totilt = (acc_az - 3) * 0.09;
 		acc_oldaz = acc_az;
 	}
-
 	cameraController.Rotate((acc_totilt - acc_fromtilt) / (acc_speed * 2), undefined, undefined, false);
 	
 };
