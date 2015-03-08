@@ -76,7 +76,7 @@ function boxClicked(intersect) {
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
 	var newdoctitle = clickedBuilding.title + " - " + clickedBuilding.description + " || Red Lion {REDEFINE}";
 	document.title = newdoctitle;
-	window.history.pushState({"pageTitle":newdoctitle}, newdoctitle, "/#/" + clickedBuilding.slug + "/" + clickedBuilding.type);
+	window.history.pushState({"pageTitle":newdoctitle}, newdoctitle, "#/" + clickedBuilding.slug + "/" + clickedBuilding.type);
 }
 
 window.onpopstate = function(e){
