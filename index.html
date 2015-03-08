@@ -1,4 +1,4 @@
-<html ng-app="myApp">
+<html ng-app="redLion">
 	<head>
 		<title>Red Lion {REDEFINE}</title>
 		<link rel="stylesheet" href="css/style.css?v=1.0">
@@ -15,7 +15,8 @@
 			</form>
 		</header>
 		<div id="controls"></div>
-		<div id="blackout">
+		<div ng-view ></div>
+        <div id="blackout">
 			<div id="overlay"></div>
 		</div>
 		<div id="loading"></div>
@@ -57,7 +58,9 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>
 		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 		<script src="js/min/pinch.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+		<script src="js/required/angular.min.js"></script>
+        <script src="js/required/angular-route.min.js"></script>
+        <script src="js/required/angular-resource.min.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/mathjs/1.3.0/math.min.js"></script>
 		<script src="js/detector.js"></script>
 		<script src="js/tween.min.js"></script>

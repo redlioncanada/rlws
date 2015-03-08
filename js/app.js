@@ -1,13 +1,41 @@
 var glCards = [];
 
 // Declare app level module which depends on views, and components
-var app = angular.module('myApp', []);
-
+var app = angular.module('redLion', ['ngRoute']);
+//
+app.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/grid', {
+        template: '<h1>HELLO ITS WORKING!!!!!</h1>',
+        controller: 'GridControler'
+      }).
+      when('/work/:campaignID/:subSection', {
+        templateUrl: 'templates/work.html',
+        controller: 'WorkCtrl'
+      }).
+      otherwise({
+        redirectTo: '/grid'
+      });
+  }]);
+//
 app.controller('CardTestController', function ($scope, Cards, filterFilter) {
 	$scope.cards = Cards.get();
 	init3D();
 });
-
+//
+app.controller('GridControler', function ($scope) {
+	console.log("grid connection");
+});
+//
+app.controller('WorkCtrl', ['$scope', '$routeParams',
+  function($scope, $routeParams) {
+    $scope.campaignID = $routeParams.campaignID;
+    $scope.startSection = $routeParams.subSection;
+    console.log("Campaign ID = " + $scope.campaignID);
+    console.log("subSection = " + $scope.startSection);
+  }]);
+//
 app.factory('Cards', function ($http) {
 	var cards = [];
 
