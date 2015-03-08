@@ -74,16 +74,16 @@ $(document).keyup(function(event) {
 // Box Clicked Function
 function boxClicked(intersect) {
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
-	var newdoctitle = clickedBuilding.title + " - " + clickedBuilding.description + " || Red Lion {REDEFINE}";
+	var newdoctitle = clickedBuilding.title + " - " + clickedBuilding.description + " || " + pageTitle;
 	document.title = newdoctitle;
-	window.history.pushState({"pageTitle":newdoctitle}, newdoctitle, "#/" + clickedBuilding.slug + "/" + clickedBuilding.type);
+	window.history.pushState({"pageTitle":newdoctitle}, newdoctitle, "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type);
 }
 
 window.onpopstate = function(e){
     if(e.state){
         document.title = e.state.pageTitle;
     } else {
-	    document.title = "Red Lion {REDEFINE}";
+		document.title = pageTitle;
     }
 };
 

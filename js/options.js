@@ -8,6 +8,8 @@ debugGrid = false;
 //search
 var homeKeyword = "home";
 
+var pageTitle = "Red Lion {REDEFINE}";
+
 //city vars
 var gridSizex = 1.2; //multiplicative
 var gridSizey = 1.6; //multiplicative
