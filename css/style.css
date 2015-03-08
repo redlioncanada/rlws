@@ -1,1 +1,198 @@
-body{overflow:hidden;margin:0;font-family:"fira-sans",sans-serif;font-style:normal;font-weight:500;font-size:14px;line-height:15px}#canvas{height:100%;z-index:1}#canvas canvas{width:100%;height:100%}header{top:0;width:100%;height:73px;z-index:100;background:#fffdf2}header #logo{float:right}header #launchAbout{float:left;color:#e32526;text-decoration:none;display:block;margin:14px 20px;line-height:15px}header form{z-index:1;float:left;margin:0;width:60%}header form input{height:73px;width:65%;max-width:1050px;border:0;padding-left:65px;font-size:40px;outline:0;position:absolute;background-color:transparent;z-index:1}header form input#searchTerm{background:url('../img/search.png') no-repeat left 10px center}header form input#cachedTerm{margin-left:65px;padding-left:0;z-index:0;color:d4d4d4}header form #searchCancel{opacity:0;right:40%;top:19px;position:absolute;z-index:3;cursor:pointer}#loading{color:#fff;height:100%}#blackout{position:absolute;width:100%;height:100%;z-index:105;background:rgba(0,0,0,.6);display:none;opacity:0;overflow:scroll}#overlay{background:#fffdf2;min-height:100%;margin:20px auto}@media (min-width: 920px){#overlay{ width:900px}}@media (max-width: 920px){#overlay{ width:80%}}#overlay #work-overlay{margin:0;padding:0;width:100%;min-height:100%}#overlay #work-overlay header{background:#e0280a;color:#fff;min-height:200px;padding:30px 20px;position:relative;width:860px}#overlay #work-overlay header h2{font-weight:700;font-size:25px;text-transform:uppercase;margin:0;padding:0}#overlay #work-overlay header h1{position:absolute;bottom:0;left:20px;width:50%;font-size:50px;line-height:55px}#overlay #work-overlay header button.close{background:url('../img/close-btn.png') no-repeat center center;width:32px;height:32px;float:right;border:0;outline:0}#overlay #work-overlay header .social-btns{position:absolute;bottom:30px;right:20px}#overlay #work-overlay header .social-btns img{margin-left:4px}#overlay #work-overlay #description p{width:620px;margin:40px 20px 40px 40px;float:left}#overlay #work-overlay #description .datecat{font-weight:700;width:180px;margin:40px 0 0 0;float:right;text-transform:uppercase}#overlay #work-overlay .videobox{background:#000;clear:both;padding:40px 0}#overlay #work-overlay .videobox iframe{margin:0 auto;display:block}#overlay #people-overlay{margin:0;padding:0;width:100%;min-height:100%}#overlay #people-overlay header{color:#fff;height:435px}
+body {
+  overflow: hidden;
+  margin: 0;
+  font-family: "fira-sans", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 15px;
+}
+#canvas {
+  height: 100%;
+  z-index: 1;
+}
+#canvas canvas {
+  width: 100%;
+  height: 100%;
+}
+header {
+  top: 0;
+  width: 100%;
+  height: 73px;
+  z-index: 100;
+  background: #fffdf2;
+}
+header #logo {
+  float: right;
+}
+header #launchAbout {
+  float: left;
+  color: #e32526;
+  text-decoration: none;
+  display: block;
+  margin: 14px 20px;
+  line-height: 15px;
+}
+header form {
+  z-index: 1;
+  float: left;
+  margin: 0;
+  width: 60%;
+}
+header form input {
+  height: 73px;
+  width: 65%;
+  max-width: 1050px;
+  border: none;
+  padding-left: 65px;
+  font-size: 40px;
+  outline: none;
+  position: absolute;
+  background-color: transparent;
+  z-index: 1;
+}
+header form input#searchTerm {
+  background: url('../img/search.png') no-repeat left 10px center;
+}
+header form input#cachedTerm {
+  margin-left: 65px;
+  padding-left: 0px;
+  z-index: 0;
+  color: d4d4d4;
+}
+header form #searchCancel {
+  opacity: 0;
+  right: 40%;
+  top: 19px;
+  position: absolute;
+  z-index: 3;
+  cursor: pointer;
+}
+#loading {
+  color: white;
+  height: 100%;
+}
+#blackout {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 105;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  opacity: 0;
+  overflow: scroll;
+}
+#overlay {
+  background: #fffdf2;
+  min-height: 100%;
+  margin: 20px auto;
+}
+@media (min-width: 920px) {
+  #overlay {
+    width: 900px;
+  }
+}
+@media (max-width: 920px) {
+  #overlay {
+    width: 80%;
+  }
+}
+#overlay #work-overlay {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+#overlay #work-overlay header {
+  background: #e0280a;
+  color: white;
+  min-height: 200px;
+  padding: 30px 20px;
+  position: relative;
+  width: 860px;
+}
+#overlay #work-overlay header h2 {
+  font-weight: 700;
+  font-size: 25px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+}
+#overlay #work-overlay header h1 {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  width: 50%;
+  font-size: 50px;
+  line-height: 55px;
+}
+#overlay #work-overlay header button.close {
+  background: url('../img/close-btn.png') no-repeat center center;
+  width: 32px;
+  height: 32px;
+  float: right;
+  border: none;
+  outline: none;
+}
+#overlay #work-overlay header .social-btns {
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+}
+#overlay #work-overlay header .social-btns img {
+  margin-left: 4px;
+}
+#overlay #work-overlay #description p {
+  width: 620px;
+  margin: 40px 20px 40px 40px;
+  float: left;
+}
+#overlay #work-overlay #description .datecat {
+  font-weight: 700;
+  width: 180px;
+  margin: 40px 0 0 0;
+  float: right;
+  text-transform: uppercase;
+}
+#overlay #work-overlay .videobox {
+  background: black;
+  clear: both;
+  padding: 40px 0;
+}
+#overlay #work-overlay .videobox iframe {
+  margin: 0 auto;
+  display: block;
+}
+#overlay #people-overlay {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+#overlay #people-overlay header {
+  color: white;
+  height: 435px;
+}
+#overlay #people-overlay header h2 {
+  font-weight: 700;
+  font-size: 25px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+}
+#overlay #people-overlay header h1 {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  width: 50%;
+  font-size: 50px;
+  line-height: 55px;
+}
+#overlay #people-overlay header button.close {
+  background: url('../img/close-btn.png') no-repeat center center;
+  width: 32px;
+  height: 32px;
+  float: right;
+  border: none;
+  outline: none;
+}
