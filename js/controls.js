@@ -150,7 +150,6 @@ function fingerMouseUp(e) {
 		raycaster.setFromCamera(mouse, camera);
 		var intersects = raycaster.intersectObjects(scene.children);
 		if ( intersects.length > 0 && (intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
-		console.log(intersects[0].face);
 	}
 	xMove = 0;
 	yMove = 0;
