@@ -83,25 +83,23 @@ header form #searchCancel {
   height: 100%;
   z-index: 105;
   background: rgba(0, 0, 0, 0.6);
-  display: none;
-  opacity: 0;
   overflow: scroll;
 }
-#blackout.ng-enter {
-  -webkit-transition: 0.5s linear all;
-  -moz-transition: 0.5s linear all;
-  -o-transition: 0.5s linear all;
-  transition: 0.5s linear all;
+#overlay-container.ng-enter {
+  -webkit-transition: 3s linear all;
+  -moz-transition: 3s linear all;
+  -o-transition: 3s linear all;
+  transition: 3s linear all;
   display: block;
 }
-#blackout.ng-enter.ng-enter-active {
+#overlay-container.ng-enter.ng-enter-active {
   opacity: 1;
 }
-#blackout.ng-leave {
-  -webkit-animation: 0.5s rl_animation;
-  -moz-animation: 0.5s rl_animation;
-  -o-animation: 0.5s rl_animation;
-  animation: 0.5s rl_animation;
+#overlay-container.ng-leave {
+  -webkit-animation: 3s rl_animation;
+  -moz-animation: 3s rl_animation;
+  -o-animation: 3s rl_animation;
+  animation: 3s rl_animation;
 }
 @keyframes rl_animation {
   from {

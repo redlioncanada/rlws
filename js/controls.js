@@ -133,6 +133,7 @@ function fingerMouseDrag(e) {
 
 function fingerMouseUp(e) {
 	e.preventDefault();
+	mTouchDown = false;
 	clearTimeout(mouseDownTimeout);
 	canvas.removeEventListener('mousemove', fingerMouseDrag);
 	
@@ -166,7 +167,6 @@ function fingerMouseUp(e) {
 	mDOWN = false;
 	mRIGHT = false;
 	mDOWN = false;
-	mTouchDown = false;
 	oldScale = 0;
 	pinched = false;
 }

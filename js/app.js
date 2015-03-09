@@ -5,7 +5,7 @@ var app = angular.module('redLion', ['ngRoute']);
 //
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/grid', {
-		template: '',
+		template: ' ',
 		controller: 'GridControler'
 	}).
 	when('/work/:campaignID/:subSection', {
