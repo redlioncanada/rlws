@@ -31,6 +31,7 @@ function resize() {
 
 function render() {
 	requestAnimationFrame( render );
+	cameraController.Render();
 	TWEEN.update();
 	
 	var newTime = new Date().getTime() / 1000;
@@ -69,7 +70,7 @@ function init3D() {
 		// Objects init - camera & light
 		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 1.1);
 		scene.add(hemilight);
-		cameraController = new objs.cameraController(camera);
+		cameraController = new objs.cameraController(renderer,scene,camera);
 
 		// Controls init
 		setupEventListeners();
