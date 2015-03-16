@@ -450,6 +450,8 @@ var _objects = function() {
 				var useColor = parseInt(curBuilding.hex_color,16);
 				thisbox.material = this.dataRef.GetMaterial(curBuilding, useColor);
 				thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
+				thisbox.cube.castShadow = true;
+				thisbox.cube.receiveShadow = true;
 				thisbox.cube.name = curBuilding.id;
 				scene.add( thisbox.cube );
 				thisbox.cube.position.x = this.origin.X + (-x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool);
