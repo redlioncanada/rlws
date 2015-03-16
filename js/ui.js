@@ -62,7 +62,15 @@ $('#searchTerm').on('input', function(e) {
 if (Detector.webgl) {
 	$(canvasDiv).append( renderer.domElement );
 } else {
-	function _webGLResizeAnon(){$(e).css('padding-top',($('#loading').height()/2-$(e).height()/2-50)+"px")}
+	function _webGLResizeAnon(){$(e).css('padding-top',($('#loading').height()/2-$(e).height()/2-60)+"px")}
+	//add background logo
+	$('#loading').css({
+		'background-image':'url("./img/rl_wordmark_transparent.png")',
+		'background-repeat':'no-repeat',
+		'background-position':'center center',
+		'background-attachment':'fixed'
+	});
+	//add web gl message
 	var e = Detector.addGetWebGLMessage({parent:$('#loading')});
 	$(window).on('resize',_webGLResizeAnon);
 	_webGLResizeAnon();
