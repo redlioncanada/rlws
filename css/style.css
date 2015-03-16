@@ -6,6 +6,7 @@ body {
   font-weight: 500;
   font-size: 14px;
   line-height: 15px;
+  background: #fffdf2;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
   -o-font-smoothing: antialiased;
@@ -74,7 +75,8 @@ header form #searchCancel {
   cursor: pointer;
 }
 #loading {
-  background: white;
+  background-color: #fffdf2;
+  background: url("../img/rl_wordmark_transparent.png") no-repeat center center fixed;
   height: 100%;
 }
 #blackout {
@@ -245,7 +247,7 @@ header form #searchCancel {
   position: absolute;
   left: 20px;
   top: 55%;
-  transform: translateY(-50%);
+  transform: translatey(-50%);
   z-index: 110;
   width: 330px;
 }

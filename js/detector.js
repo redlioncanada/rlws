@@ -18,11 +18,11 @@ var Detector = {
 		element.style.fontSize = '14px';
 		element.style.fontWeight = 'normal';
 		element.style.textAlign = 'center';
-		element.style.background = '#fff';
 		element.style.color = '#e32526';
 		element.style.padding = '1.5em';
 		element.style.width = '400px';
-		element.style.margin = '5em auto 0';
+		element.style.margin = '0 auto';
+		element.style.paddingTop = '37%';
 		element.style.opacity = '0';
 		element.style.display = 'none';
 
