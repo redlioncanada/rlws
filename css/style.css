@@ -91,7 +91,8 @@ header form #searchCancel {
   background: rgba(0, 0, 0, 0.6);
   display: none;
   opacity: 0;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   padding-top: 50px;
 }
 .close {
@@ -110,8 +111,9 @@ header form #searchCancel {
 }
 #overlay {
   background: #fffdf2;
-  min-height: 100%;
+  min-height: 110%;
   margin: 20px auto;
+  padding-bottom: 70px;
 }
 @media (min-width: 920px) {
   #overlay {
@@ -172,14 +174,31 @@ header form #searchCancel {
   float: right;
   text-transform: uppercase;
 }
+#overlay #work-overlay .clear {
+  height: 1px;
+  clear: both;
+  font-size: 1px;
+}
 #overlay #work-overlay .videobox {
   background: black;
-  clear: both;
   padding: 40px 0;
 }
 #overlay #work-overlay .videobox iframe {
   margin: 0 auto;
   display: block;
+}
+#overlay #work-overlay .otherbox {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  border-top: 4px solid #eee;
+}
+#overlay #work-overlay .print-item,
+#overlay #work-overlay .digital-item {
+  text-align: center;
+}
+#overlay #work-overlay .print-item img,
+#overlay #work-overlay .digital-item img {
+  margin: 0 auto;
 }
 #overlay #people-overlay {
   margin: 0;

@@ -99,7 +99,8 @@ header {
 	background: rgba(0,0,0,0.6);
 	display: none;
 	opacity: 0;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 	padding-top: 50px;
 }
 
@@ -126,8 +127,9 @@ header {
 	@media (max-width: 920px) {
 		width: 80%;	
 	}
-	min-height: 100%;
+	min-height: 110%;
 	margin: 20px auto;
+	padding-bottom: 70px;
 	
 	#work-overlay {
 		margin: 0;
@@ -186,14 +188,33 @@ header {
 			}
 		}
 		
+		.clear {
+			height: 1px;
+			clear: both;
+			font-size: 1px;
+		}
+		
 		.videobox {
 			background: black;
-			clear: both;
 			padding: 40px 0;
 			
 			iframe {
 				margin: 0 auto;
 				display: block;
+			}
+		}
+		
+		.otherbox {
+			padding-top: 60px;
+			padding-bottom: 60px;
+			border-top: 4px solid #eee;
+		}
+		
+		.print-item, .digital-item {
+			text-align: center;
+			
+			img {
+				margin: 0 auto;
 			}
 		}
 	}

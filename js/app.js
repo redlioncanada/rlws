@@ -31,8 +31,8 @@ app.controller('GridControler', function ($scope) {
 	console.log("grid connection");
 });
 //
-app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce',
-	function($scope, $routeParams, $sce) {
+app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout',
+	function($scope, $routeParams, $sce, $timeout) {
 		$scope.campaignID = $routeParams.campaignID;
 		$scope.startSection = $routeParams.subSection;
 		
@@ -47,8 +47,35 @@ app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce',
 		console.log($scope.work);
 		
 		closeButtonStart();
+		
+		var soptions = {
+			dots: true,
+			infinite: true,
+			speed: 500,
+			slidesToShow: 1,
+			adaptiveHeight: true,
+			cssEase: 'easeInOut'
+		};
+		if ($scope.work.print_comsep[0] !== '') {
+			$timeout(function() {
+				$('.printwork').slick(soptions);
+			}, 500);
+		}
+		if ($scope.work.digital_comsep[0] !== '') {
+			$timeout(function() {
+				$('.digitalwork').slick(soptions);
+			}, 500);
+		}
+/*
+		if ($scope.work.audio_comsep[0] !== '') {
+			$timeout(function() {
+				$('.printwork').slick(soptions);
+			});
+		}
+*/
 	}
 ]);
+
   
 app.controller('PeopleCtrl', ['$scope', '$routeParams', '$http', '$animate',
 	function($scope, $routeParams, $http, $animate) {

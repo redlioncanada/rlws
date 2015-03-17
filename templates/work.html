@@ -19,8 +19,38 @@
 		</div>
 	</div>
 	
+	<div class="clear">&nbsp;</div>
+	
 	<div class="videobox" ng-repeat="video in work.video_comsep" ng-show="work.video_comsep[0] !== ''">
 		<iframe ng-src="{{video}}" width="760" height="427" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 	</div>
+	
+	<div class="otherbox" ng-show="work.print_comsep[0] !== ''">
+		<div class="printwork">
+			<div ng-repeat="print in work.print_comsep" class="print-item">
+				<img ng-src="{{print}}">
+			</div>
+		</div>
+	</div>
+	
+	<div class="otherbox" ng-show="work.digital_comsep[0] !== ''">
+		<div class="digitalwork">
+			<div ng-repeat="digital in work.digital_comsep" class="digital-item">
+				<img ng-src="{{digital}}">
+			</div>
+		</div>
+	</div>
+	
+<!--
+	<div class="otherbox">
+		<div class="audiowork" ng-show="work.audio_comsep[0] !== ''">
+			<div ng-repeat="print in work.audio_comsep" class="print-item">
+				<img ng-src="{{print}}">
+			</div>
+		</div>
+	</div>
+-->
+	
+	<div class="clear">&nbsp;</div>
 	
 </div>
