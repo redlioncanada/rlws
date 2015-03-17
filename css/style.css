@@ -30,6 +30,8 @@ header {
 }
 header #logo {
   float: right;
+  height: 58px;
+  padding: 8px;
 }
 header #launchAbout {
   float: left;
@@ -76,8 +78,10 @@ header form #searchCancel {
 }
 #loading {
   background-color: #fffdf2;
-  background: url("../img/rl_wordmark_transparent.png") no-repeat center center fixed;
   height: 100%;
+}
+.loading-logo {
+  background: url("../img/rl_wordmark_transparent.png") no-repeat center center fixed;
 }
 #blackout {
   position: absolute;
