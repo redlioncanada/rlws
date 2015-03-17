@@ -93,51 +93,25 @@ header {
 	height: 100%;
 	z-index: 105;
 	background: rgba(0,0,0,0.6);
-	//display: none;
-	//opacity: 0;
+	display: none;
+	opacity: 0;
 	overflow: scroll;
+	padding-top: 50px;
 }
 
-#overlay-container {
-	
-	&.ng-enter {
-		-webkit-transition:3s linear all;
-		-moz-transition:3s linear all;
-		-o-transition:3s linear all;
-		transition:3s linear all;
-		display: block;
-	}
-
-	&.ng-enter.ng-enter-active{
-		opacity:1;
-	}
-
-	&.ng-leave {
-		-webkit-animation:3s rl_animation;
-		-moz-animation:3s rl_animation;
-		-o-animation:3s rl_animation;
-		animation:3s rl_animation;
-	}
-}
-
-@keyframes rl_animation {
-	from { opacity:1; }
-	to { opacity:0; }
-}
-
-@-webkit-keyframes rl_animation {
-	from { opacity:1; }
-	to { opacity:0; display: none; }
-}
-
-@-moz-keyframes rl_animation {
-	from { opacity:1; }
-	to { opacity:0; display: none; }
-}
-
-@-o-keyframes rl_animation {
-	from { opacity:1; }
-	to { opacity:0; display: none; }
+.close {
+	display: block;
+	background: url('../img/close-btn.png') no-repeat center center;
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: 30px;
+	right: 20px;
+	border: none;
+	outline: none;
+	z-index: 110;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 #overlay {
@@ -180,17 +154,6 @@ header {
 				width: 50%;
 				font-size: 50px;
 				line-height: 55px;
-			}
-			
-			button.close {
-				background: url('../img/close-btn.png') no-repeat center center;
-				width: 32px;
-				height: 32px;
-				border: none;
-				outline: none;
-				position: absolute;
-				top: 30px;
-				right: 20px;
 			}
 			
 			.social-btns {

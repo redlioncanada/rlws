@@ -74,9 +74,13 @@ $(document).keyup(function(event) {
 // Box Clicked Function
 function boxClicked(intersect) {
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
-	var newdoctitle = clickedBuilding.title + " - " + clickedBuilding.description + " || " + pageTitle;
-	document.title = newdoctitle;
+	boxid = parseInt(intersect.name);
 	window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
+	if (clickedBuilding.js_trigger === '') {
+		$('#blackout').css({'display':'block'});
+		$('#blackout').animate({"opacity":1, 'padding-top': 0}, 1000, "easeOutCubic");
+	}
+	
 }
 
 function fingerMouseDown(e) {

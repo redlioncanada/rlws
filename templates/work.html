@@ -1,8 +1,8 @@
 <div id="work-overlay">
 	<header>
 		<button class="close">&nbsp;</button>
-		<h2>{{brand}}</h2>
-		<h1>{{campaign}}</h1>
+		<h2>{{work.title}}</h2>
+		<h1>{{work.subtitle}}</h1>
 		<div class="social-btns">
 			<img src="img/twitter.png" alt="Twitter">
 			<img src="img/gplus.png" alt="Google Plus">
@@ -12,10 +12,15 @@
 	</header>
 	
 	<div id="description">
-		<p>{{description}}</p>
+		<p>{{work.description}}</p>
 		<div class="datecat">
-			{date}
+			{{work.date_launched | date:'MMMM yyyy'}} <br>
+			{{work.tags}}
 		</div>
+	</div>
+	
+	<div class="videobox" ng-repeat="video in work.video_comsep" ng-show="work.video_comsep[0] !== ''">
+		<iframe ng-src="{{video}}" width="760" height="427" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 	</div>
 	
 </div>

@@ -1,4 +1,5 @@
 var glCards = [];
+var boxid;
 
 // Declare app level module which depends on views, and components
 var app = angular.module('redLion', ['ngRoute']);
@@ -30,12 +31,22 @@ app.controller('GridControler', function ($scope) {
 	console.log("grid connection");
 });
 //
-app.controller('WorkCtrl', ['$scope', '$routeParams',
-	function($scope, $routeParams) {
+app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce',
+	function($scope, $routeParams, $sce) {
 		$scope.campaignID = $routeParams.campaignID;
 		$scope.startSection = $routeParams.subSection;
+		
+		$scope.work = dataController.GetByID(boxid);
+		$scope.work.date_launched = Date.parse($scope.work.date_launched);
+		var videos = $scope.work.video_comsep;
+		for (var vids = 0; vids < videos.length; vids++) {
+			$scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]);
+		}
 		console.log("Campaign ID = " + $scope.campaignID);
 		console.log("subSection = " + $scope.startSection);
+		console.log($scope.work);
+		
+		closeButtonStart();
 	}
 ]);
   
@@ -44,9 +55,7 @@ app.controller('PeopleCtrl', ['$scope', '$routeParams', '$http', '$animate',
 		$scope.people = [];
 		console.log("Person Slug = " +$routeParams.staffID);
 		
-		$scope.go = function ( path ) {
-			$location.path( path );
-		};
+		closeButtonStart();
 		
 		$http.get('http://redlioncanada.com/api/content/type/people')
 			.success(function (response) {
@@ -104,55 +113,12 @@ app.factory('Cards', function ($http) {
 	};
 });
 
-/*
-app.directive('overlayItem', function ($compile) {
-	var workTemplate = 'templates/work.html';
-	var peopleTemplate = 'templates/people.html';
-	var clientTemplate = 'templates/client.html';
-	var newsTemplate = 'templates/news.html';
-	
-	var getTemplate = function(contentType) {
-		var template = null;
-		
-		switch (contentType) {
-			case 'work':
-				template = workTemplate;
-			break;
-			case 'people':
-				template = peopleTemplate;
-			break;
-			case 'client':
-				template = clientTemplate;
-			break;
-			case 'news':
-				template = newsTemplate;
-			break;
-		}
-	}
-	
-	var linker = function(scope, element, attrs) {
-		element.html()
-	}
-	
-	return {
-		restrict: "E",
-		link: linker,
-		scope: {
-			content:"="
-		}
-	};
-});
-*/
-
-var countObj = function(a) {
-	var count = 0;
-	var i;
-	
-	for (i in a) {
-		if (a.hasOwnProperty(i)) {
-			count++;
-		}
-	}
-	
-	return count;
+var closeButtonStart = function() {
+	$('.close').on('click', function(e) {
+		e.preventDefault();
+		$('#blackout').animate({"opacity":0, 'padding-top': 50}, 1000, "easeInCubic", function() {
+			$(this).css({'display':'none'});
+			window.location.href = "#/grid";
+		});
+	});
 };
