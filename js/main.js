@@ -3,7 +3,7 @@ var fuse; //search library
 
 // Three.JS/WebGL init vars
 var canvasDiv = $('#canvas');
-var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height(), 1, 10000 );
+var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height(), 1, 100 );
 var scene = new THREE.Scene();
 var mouse = new THREE.Vector2(), intersected;
 var raycaster = new THREE.Raycaster();
