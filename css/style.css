@@ -47,6 +47,11 @@ header form {
   margin: 0;
   width: 60%;
 }
+@media (max-width: 900px) {
+  header form {
+    display: none;
+  }
+}
 header form input {
   height: 73px;
   width: 65%;
@@ -110,19 +115,19 @@ header form #searchCancel {
   cursor: pointer;
 }
 #overlay {
-  background: #fffdf2;
+  background: white;
   min-height: 110%;
   margin: 20px auto;
-  padding-bottom: 70px;
+  padding-bottom: 20px;
 }
-@media (min-width: 920px) {
+@media (min-width: 900px) {
   #overlay {
     width: 900px;
   }
 }
-@media (max-width: 920px) {
+@media (max-width: 900px) {
   #overlay {
-    width: 80%;
+    width: 100%;
   }
 }
 #overlay #work-overlay {
@@ -135,9 +140,7 @@ header form #searchCancel {
   background: #e0280a;
   color: white;
   min-height: 200px;
-  padding: 30px 20px;
   position: relative;
-  width: 860px;
 }
 #overlay #work-overlay header h2 {
   font-weight: 700;
@@ -145,6 +148,14 @@ header form #searchCancel {
   text-transform: uppercase;
   margin: 0;
   padding: 0;
+  top: 30px;
+  left: 20px;
+  position: absolute;
+}
+@media (max-width: 900px) {
+  #overlay #work-overlay header h2 {
+    font-size: 20px;
+  }
 }
 #overlay #work-overlay header h1 {
   position: absolute;
@@ -153,6 +164,11 @@ header form #searchCancel {
   width: 50%;
   font-size: 50px;
   line-height: 55px;
+}
+@media (max-width: 900px) {
+  #overlay #work-overlay header h1 {
+    font-size: 30px;
+  }
 }
 #overlay #work-overlay header .social-btns {
   position: absolute;
@@ -167,12 +183,23 @@ header form #searchCancel {
   margin: 40px 20px 40px 40px;
   float: left;
 }
+@media (max-width: 900px) {
+  #overlay #work-overlay #description p {
+    width: auto;
+    margin: 5%;
+  }
+}
 #overlay #work-overlay #description .datecat {
   font-weight: 700;
   width: 180px;
   margin: 40px 0 0 0;
   float: right;
   text-transform: uppercase;
+}
+@media (max-width: 900px) {
+  #overlay #work-overlay #description .datecat {
+    display: none;
+  }
 }
 #overlay #work-overlay .clear {
   height: 1px;
@@ -199,6 +226,7 @@ header form #searchCancel {
 #overlay #work-overlay .print-item img,
 #overlay #work-overlay .digital-item img {
   margin: 0 auto;
+  max-width: 95%;
 }
 #overlay #people-overlay {
   margin: 0;
@@ -303,4 +331,73 @@ header form #searchCancel {
   position: absolute;
   top: 0;
   left: 0;
+}
+.player {
+  height: 200px;
+  background: url('../img/radio-tower.png') no-repeat left 5% center;
+  position: relative;
+}
+@media (max-width: 700px) {
+  .player {
+    background: url('../img/radio-tower.png') no-repeat left -5% center;
+  }
+}
+.player .controlbox {
+  border: rgba(175, 182, 185, 0.5) solid 1px;
+  width: 55%;
+  height: 16px;
+  position: absolute;
+  background: white;
+  right: 10%;
+  bottom: 25px;
+  border-radius: 8px;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  padding: 24px 20px 24px 28px;
+}
+.player .controlbox img {
+  opacity: 0.5;
+  cursor: pointer;
+  cursor: hand;
+}
+.player .controlbox img:hover {
+  opacity: 1;
+}
+.player .controlbox .meter {
+  height: 5px;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  background: #e6e5e5;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+  width: 62%;
+  display: inline-block;
+}
+@media (max-width: 920px) {
+  .player .controlbox .meter {
+    top: 50%;
+    left: 25%;
+    width: 50%;
+  }
+}
+@media (max-width: 700px) {
+  .player .controlbox .meter {
+    display: none;
+  }
+}
+.player .controlbox .meter > span {
+  display: block;
+  height: 100%;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+  position: relative;
+  overflow: hidden;
+  background: #afb6b9;
+}
+.player .controlbox .time-readout {
+  float: right;
+  color: #afb6b9;
+  padding-top: 2px;
 }

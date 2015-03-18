@@ -39,8 +39,9 @@ app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout',
 		$scope.work = dataController.GetByID(boxid);
 		$scope.work.date_launched = Date.parse($scope.work.date_launched);
 		var videos = $scope.work.video_comsep;
+		
 		for (var vids = 0; vids < videos.length; vids++) {
-			$scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]);
+			if ($scope.work.video_comsep[vids] !== '') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]);
 		}
 		console.log("Campaign ID = " + $scope.campaignID);
 		console.log("subSection = " + $scope.startSection);
@@ -54,7 +55,7 @@ app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout',
 			speed: 500,
 			slidesToShow: 1,
 			adaptiveHeight: true,
-			cssEase: 'easeInOut'
+			//cssEase: 'easeInOut'
 		};
 		if ($scope.work.print_comsep[0] !== '') {
 			$timeout(function() {
@@ -148,4 +149,64 @@ var closeButtonStart = function() {
 			window.location.href = "#/grid";
 		});
 	});
+};
+
+var audioPlayerStart = function() {
+	var audioplayers = document.getElementsByClassName('audio_file');
+	
+	$('.play-pause-btn').click(function() {
+		var audioplayer = $(this).siblings('audio').get(0);
+		if (audioplayer.paused) {
+			audioplayer.play();
+			$(this).attr('src', 'img/pause-btn.gif');
+		} else {
+			audioplayer.pause();
+			$(this).attr('src', 'img/play-btn.gif');
+		}
+	});
+	
+	$('.rwd-btn').click(function() {
+		var audioplayer = $(this).siblings('audio').get(0);
+		audioplayer.currentTime = 0;
+	});
+	
+	$('.ffwd-btn').click(function() {
+		var audioplayer = $(this).siblings('audio').get(0);
+		audioplayer.currentTime += 5;
+	});
+					
+	for (var aps = 0; aps < audioplayers.length; aps++) {
+		var media = audioplayers[aps];
+		
+		setTimeout(audioLoadTimeout, 200, media);
+		
+		media.addEventListener('timeupdate', function(e) {
+			var playbar = $(media).siblings('div.meter')[0];
+			var progressbar = $(playbar).children('span')[0];
+			var percentComplete = media.currentTime / media.duration * 100;
+			$(progressbar).css('width', percentComplete + "%");
+			
+			var timediv = $(media).siblings('.time-readout')[0];
+			var audioCurTime = $(timediv).children('.audioCurrent')[0];
+			$(audioCurTime).text(getMinSec(media.currentTime));
+		}, false);
+		
+		media.addEventListener('ended', function(e) {
+			media.pause();
+		}, false);
+	}
+
+};
+
+var audioLoadTimeout = function(media) {
+	var timediv = $(media).siblings('.time-readout')[0];
+	var audioDurTime = $(timediv).children('.audioTotal')[0];
+	$(audioDurTime).text(getMinSec(media.duration));
+};
+
+var getMinSec = function (time) {
+	var minutes = Math.floor(time / 60);
+	var seconds = parseInt(time - minutes * 60);
+	if (seconds < 10) seconds = "0" + seconds;
+	return minutes + ":" + seconds;
 };

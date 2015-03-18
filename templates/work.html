@@ -41,15 +41,24 @@
 		</div>
 	</div>
 	
-<!--
 	<div class="otherbox">
 		<div class="audiowork" ng-show="work.audio_comsep[0] !== ''">
-			<div ng-repeat="print in work.audio_comsep" class="print-item">
-				<img ng-src="{{print}}">
+			<div ng-repeat="audio in work.audio_comsep" class="player">
+				<div class="controlbox">
+					<img src="img/rwd.gif" class="rwd-btn">
+					<img src="img/play-btn.gif" class="play-pause-btn">
+					<img src="img/ffwd-btn.gif" class="ffwd-btn">
+					<div class="meter">
+						<span style="width: 1%"></span>
+					</div>
+					<div class="time-readout">
+						<span class="audioCurrent">0:00</span> / <span class="audioTotal">0:00</span>
+					</div>
+					<audio src="overworld.mp3" class="audio_file"></audio>
+				</div>
 			</div>
 		</div>
 	</div>
--->
 	
 	<div class="clear">&nbsp;</div>
 	

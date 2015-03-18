@@ -53,6 +53,9 @@ header {
 		float: left;
 		margin: 0;
 		width: 60%;
+		@media (max-width: 900px) {
+			display: none;
+		}
 		input {
 			height: 73px;
 			width: 65%;
@@ -120,16 +123,16 @@ header {
 }
 
 #overlay {
-	background: @background;
-	@media (min-width: 920px) {
+	background: white;
+	@media (min-width: 900px) {
 		width: 900px;
 	}
-	@media (max-width: 920px) {
-		width: 80%;	
+	@media (max-width: 900px) {
+		width: 100%;	
 	}
 	min-height: 110%;
 	margin: 20px auto;
-	padding-bottom: 70px;
+	padding-bottom: 20px;
 	
 	#work-overlay {
 		margin: 0;
@@ -141,9 +144,7 @@ header {
 			background: #e0280a;
 			color: white;
 			min-height: 200px;
-			padding: 30px 20px;
 			position: relative;
-			width: 860px;
 			
 			h2 {
 				font-weight: 700;
@@ -151,6 +152,12 @@ header {
 				text-transform: uppercase;
 				margin: 0;
 				padding: 0;
+				top: 30px;
+				left: 20px;
+				position: absolute;
+				@media (max-width: 900px) {
+					font-size: 20px;
+				}
 			}
 			
 			h1 {
@@ -160,6 +167,9 @@ header {
 				width: 50%;
 				font-size: 50px;
 				line-height: 55px;
+				@media (max-width: 900px) {
+					font-size: 30px;
+				}
 			}
 			
 			.social-btns {
@@ -178,6 +188,10 @@ header {
 				width: 620px;
 				margin: 40px 20px 40px 40px;
 				float: left;
+				@media (max-width: 900px) {
+					width: auto;
+					margin: 5%;
+				}
 			}
 			.datecat {
 				font-weight: 700;
@@ -185,6 +199,9 @@ header {
 				margin: 40px 0 0 0;
 				float: right;
 				text-transform: uppercase;
+				@media (max-width: 900px) {
+					display: none;
+				}
 			}
 		}
 		
@@ -215,6 +232,7 @@ header {
 			
 			img {
 				margin: 0 auto;
+				max-width: 95%;
 			}
 		}
 	}
@@ -336,6 +354,75 @@ header {
 				}
 			}
 		}
+	}	
+}
+
+.player {
+	height: 200px;
+	background: url('../img/radio-tower.png') no-repeat left 5% center;
+	position: relative;
+	@media (max-width: 700px) {
+		background: url('../img/radio-tower.png') no-repeat left -5% center;
 	}
 	
+	.controlbox {
+		border: rgba(175,182,185,0.5) solid 1px;
+		width: 55%;
+		height: 16px;
+		position: absolute;
+		background: white;
+		right: 10%;
+		bottom: 25px;
+		border-radius: 8px;
+		box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+		padding: 24px 20px 24px 28px;
+		
+		img {
+			opacity: 0.5;
+			cursor: pointer;
+			cursor: hand;
+			
+			&:hover {
+				opacity: 1;
+			}
+		}
+					
+		.meter {
+			height: 5px;
+			position: absolute;
+			top: 50%;
+			left: 20%;
+			background: #e6e5e5;
+			-moz-border-radius: 7px;
+			-webkit-border-radius: 7px;
+			border-radius: 7px;
+			width: 62%;
+			display: inline-block;
+			@media (max-width: 920px) {
+				top: 50%;
+				left: 25%;
+				width: 50%;
+			}
+			@media (max-width: 700px) {
+				display: none;
+			}
+			
+			& > span {
+				display: block;
+				height: 100%;
+				-moz-border-radius: 7px;
+				-webkit-border-radius: 7px;
+				border-radius: 7px;
+				position: relative;
+				overflow: hidden;
+				background: #afb6b9;
+			}
+		}
+		
+		.time-readout {
+			float: right;
+			color: rgba(175,182,185,1);
+			padding-top: 2px;
+		}
+	}
 }

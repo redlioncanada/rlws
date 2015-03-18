@@ -97,6 +97,10 @@ function fingerMouseDown(e) {
 		oldTouchX = e.clientX;
 		oldTouchY = e.clientY;
 	}
+	
+	if (isMobile) {
+		mouseMove(e);	
+	}
 	mTouchDown = true;
 	didSingleClick = true;
 	mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
@@ -143,16 +147,6 @@ function fingerMouseUp(e) {
 	
 	var touchX, touchY, vector;
 	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched && didSingleClick) {
-		if (isMobile) {
-			touchX = ( e.pageX / window.innerWidth ) * 2 - 1;
-			touchY = -( e.pageY / window.innerHeight ) * 2 + 1;
-			vector = new THREE.Vector3( touchX, touchY, 0.5 );		
-		} else {	
-			touchX = ( e.clientX / window.innerWidth ) * 2 - 1;
-			touchY = -( e.clientY / window.innerHeight ) * 2 + 1;
-			vector = new THREE.Vector3( touchX, touchY, 0.5 );
-		}	
-
 		raycaster.setFromCamera(mouse, camera);
 		var intersects = raycaster.intersectObjects(scene.children);
 
@@ -178,8 +172,13 @@ function fingerMouseUp(e) {
 function mouseMove(e) {
 	e.preventDefault();
 	var headerHeight = $('header').height();
-	mouse.x = (e.clientX / $(canvasDiv).width()) * 2 - 1;
-	mouse.y = - ((e.clientY - headerHeight) / $(canvasDiv).height()) * 2 + 1;
+	if (isMobile) {
+		mouse.x = (e.touches[0].pageX / $(canvasDiv).width()) * 2 - 1;
+		mouse.y = - ((e.touches[0].pageY - headerHeight) / $(canvasDiv).height()) * 2 + 1;
+	} else {
+		mouse.x = (e.clientX / $(canvasDiv).width()) * 2 - 1;
+		mouse.y = - ((e.clientY - headerHeight) / $(canvasDiv).height()) * 2 + 1;
+	}
 }
 
 function zoomHandler(e) {
