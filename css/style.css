@@ -1,3 +1,12 @@
+p,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  padding: 0;
+  margin: 0;
+}
 body {
   overflow: hidden;
   margin: 0;
@@ -80,6 +89,52 @@ header form #searchCancel {
   position: absolute;
   z-index: 3;
   cursor: pointer;
+}
+.menu-item {
+  width: 380px;
+  position: absolute;
+  background: #fffdf2;
+  left: 30px;
+  top: 74px;
+  color: #e32526;
+}
+.menu-item h4 {
+  text-decoration: underline;
+}
+.menu-item > div {
+  padding: 20px;
+}
+.menu-item #map-canvas {
+  margin: 0 25px 0 25px;
+  height: 200px;
+  display: block;
+}
+.menu-item .menu-item-header {
+  height: 100px;
+  padding-top: 10px;
+}
+.menu-item .menu-item-header h4,
+.menu-item .menu-item-header p {
+  margin-top: 3px;
+}
+.menu-item .menu-item-header h4 {
+  margin-bottom: 6px;
+}
+.menu-item .menu-item-header > div {
+  margin-top: 10px;
+}
+.menu-item .menu-item-footer img {
+  width: 100%;
+}
+.menu-item#contact .menu-item-header div {
+  width: 50%;
+}
+.menu-item#contact .menu-item-header div:first-child {
+  float: left;
+}
+.menu-item#contact .menu-item-header div:nth-child(2),
+.menu-item#contact .menu-item-header div:last-child {
+  float: right;
 }
 #loading {
   background-color: #fffdf2;
@@ -254,7 +309,7 @@ header form #searchCancel {
   position: absolute;
   left: 20px;
   top: 55%;
-  transform: translateY(-50%);
+  transform: translatey(-50%);
   z-index: 110;
   width: 330px;
 }
@@ -386,7 +441,7 @@ header form #searchCancel {
     display: none;
   }
 }
-.player .controlbox .meter > span {
+.player .controlbox .meter  > span {
   display: block;
   height: 100%;
   -moz-border-radius: 7px;

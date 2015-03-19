@@ -3,6 +3,10 @@
 @lightgrey: #e0280a;
 @lionred: #e32526;
 
+p,h1,h2,h3,h4,h5 {
+	padding: 0;
+	margin: 0;
+}
 body {
 	overflow: hidden; 
 	margin: 0; 
@@ -84,6 +88,64 @@ header {
 			position: absolute;
 			z-index: 3;
 			cursor: pointer;
+		}
+	}
+}
+.menu-item {
+	width: 380px;
+	position: absolute;
+	background: @background;
+	left: 30px;
+	top: 74px;
+	color: @lionred;
+
+	h4 {
+		text-decoration: underline;
+	}
+
+	> div {
+		padding: 20px;
+	}
+
+	#map-canvas {
+		margin: 0 25px 0 25px;
+		height: 200px;
+		display: block;
+	}
+
+	.menu-item-header {
+		height: 100px;
+		padding-top: 10px;
+
+		h4,p {
+			margin-top: 3px;
+		}
+
+		h4 {
+			margin-bottom: 6px;
+		}
+
+		> div {
+			margin-top: 10px;
+		}
+	}
+
+	.menu-item-footer img {
+		width:100%;
+	}
+}
+.menu-item#contact {
+	.menu-item-header {
+		div {
+			width: 50%;
+		}
+
+		div:first-child {
+			float: left;
+		}
+
+		div:nth-child(2),div:last-child {
+			float: right;
 		}
 	}
 }
