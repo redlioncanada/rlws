@@ -31,7 +31,6 @@ function resize() {
 
 function render() {
 	requestAnimationFrame( render );
-	cameraController.Render();
 	TWEEN.update();
 	
 	var newTime = new Date().getTime() / 1000;

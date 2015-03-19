@@ -4,10 +4,6 @@
 debug = true;
 debugMovement = false;
 debugGrid = false;
-debugBlur = true;
-
-//blur
-var enableBlur = true;
 
 //search
 var homeKeyword = "home";

@@ -95,19 +95,6 @@ var _objects = function() {
 		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0};
 		this.origin = {X:0,Y:0};
 		this.animating = false;
-		if (enableBlur) {
-			this.depthOfField = new THREEx.DepthOfField(renderer);
-			var gui = new dat.GUI()
-			if (debugBlur) {
-				THREEx.depthOfFieldDatGui(this.depthOfField, gui);
-				this.depthOfField.uniforms.focus.value = 5;
-				console.log(this.depthOfField);
-			}
-		}
-	};
-	
-	this.cameraController.prototype.Render = function() {
-		if (enableBlur) this.depthOfField.render(this.scene, this.camera);
 	};
 
 	this.cameraController.prototype.CenterOnCity = function(city, abs) {
