@@ -116,7 +116,6 @@ header form #searchCancel {
 }
 #overlay {
   background: white;
-  min-height: 110%;
   margin: 20px auto;
   padding-bottom: 20px;
 }
@@ -168,6 +167,7 @@ header form #searchCancel {
 @media (max-width: 900px) {
   #overlay #work-overlay header h1 {
     font-size: 30px;
+    line-height: 33px;
   }
 }
 #overlay #work-overlay header .social-btns {
@@ -333,7 +333,7 @@ header form #searchCancel {
   left: 0;
 }
 .player {
-  height: 200px;
+  max-height: 200px;
   background: url('../img/radio-tower.png') no-repeat left 5% center;
   position: relative;
 }

@@ -249,7 +249,9 @@
     Slick.prototype.animateHeight = function() {
         var _ = this;
         if (_.options.slidesToShow === 1 && _.options.adaptiveHeight === true && _.options.vertical === false) {
-            var targetHeight = _.$slides.eq(_.currentSlide).children('img').outerHeight(true);
+            var targetHeight;
+            if (_.$slides.eq(_.currentSlide).children('img').length > 0) targetHeight = _.$slides.eq(_.currentSlide).children('img').outerHeight(true);
+            else targetHeight = _.$slides.eq(_.currentSlide).children('div').outerHeight(true);
             _.$list.animate({
                 height: targetHeight
             }, _.options.speed);
@@ -1499,7 +1501,9 @@
                 });
             }
         } else {
-            _.$list.height(_.$slides.first().children('img').outerHeight(true) * _.options.slidesToShow);
+            if (_.$slides.first().children('img').length > 0) _.$list.height(_.$slides.first().children('img').outerHeight(true) * _.options.slidesToShow);
+            else _.$list.height(_.$slides.first().children('div').outerHeight(true) * _.options.slidesToShow);
+//            _.$list.height(_.$slides.first().children('img').outerHeight(true) * _.options.slidesToShow);
             if (_.options.centerMode === true) {
                 _.$list.css({
                     padding: (_.options.centerPadding + ' 0px')
@@ -1519,7 +1523,10 @@
             _.$slideTrack.width(5000 * _.slideCount);
         } else {
             _.slideWidth = Math.ceil(_.listWidth);
-            _.$slideTrack.height(Math.ceil((_.$slides.first().children('img').outerHeight(true) * _.$slideTrack.children('.slick-slide').length)));
+            var targetHeight;
+            if (_.$slides.first().children('img').length > 0) _.$slideTrack.height(Math.ceil((_.$slides.first().children('img').outerHeight(true) * _.$slideTrack.children('.slick-slide').length)));
+            else targetHeight = _.$slideTrack.height(Math.ceil((_.$slides.first().children('div').outerHeight(true) * _.$slideTrack.children('.slick-slide').length)));
+            //_.$slideTrack.height(Math.ceil((_.$slides.first().children('img').outerHeight(true) * _.$slideTrack.children('.slick-slide').length)));
         }
 
         var offset = _.$slides.first().outerWidth(true) - _.$slides.first().width();
@@ -1565,7 +1572,10 @@
         var _ = this;
 
         if (_.options.slidesToShow === 1 && _.options.adaptiveHeight === true && _.options.vertical === false) {
-            var targetHeight = _.$slides.eq(_.currentSlide).children('img').outerHeight(true);
+            var targetHeight;
+            if (_.$slides.eq(_.currentSlide).children('img').length > 0) targetHeight = _.$slides.eq(_.currentSlide).children('img').outerHeight(true);
+            else targetHeight = _.$slides.eq(_.currentSlide).children('div').outerHeight(true);
+            //var targetHeight = _.$slides.eq(_.currentSlide).children('img').outerHeight(true);
             _.$list.css('height', targetHeight);
         }
 

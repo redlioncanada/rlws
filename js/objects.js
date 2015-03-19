@@ -28,7 +28,7 @@ var _objects = function() {
 
 	//Data Controller - maintains global city data
 	this.dataController = function(dataArray) {
-		this.data = [];
+		this.data = {};
 		this.rawData = [];
 		this.materials = {c:{},t:{}};
 		this.textures = {};
@@ -77,14 +77,30 @@ var _objects = function() {
 	this.dataController.prototype.GetByID = function(id) {
 		return this.data[id];
 	};
+	
+	this.dataController.prototype.GetBySlug = function(slug) {
+		var keys = Object.keys(this.data);
+		for (var tile = 0; tile < keys.length; tile++) {
+			if (this.data[keys[tile]].slug == slug) return this.data[keys[tile]];
+		}
+	};
+	
+	this.dataController.prototype.GetByType = function(overlay) {
+		var retArray = [];
+		var keys = Object.keys(this.data);
+		for (var tile = 0; tile < keys.length; tile++) {
+			if (this.data[keys[tile]].overlay == overlay) retArray.push(this.data[keys[tile]]);
+		}
+		return retArray;
+	};
 
 	this.dataController.prototype.GetAllWithTag = function(tag) {
 		return this.fuse.search(tag);
-	}
+	};
 
 	this.dataController.prototype.GetIdsWithTag = function(tag) {
 		return this.fuseId.search(tag);
-	}
+	};
 	//End Data Controller
 	
 	//Camera Controller - maintains camera animation
@@ -97,7 +113,7 @@ var _objects = function() {
 		this.animating = false;
 		if (enableBlur) {
 			this.depthOfField = new THREEx.DepthOfField(renderer);
-			var gui = new dat.GUI()
+			var gui = new dat.GUI();
 			if (debugBlur) {
 				THREEx.depthOfFieldDatGui(this.depthOfField, gui);
 				this.depthOfField.uniforms.focus.value = 5;
@@ -346,8 +362,8 @@ var _objects = function() {
 	};
 
 	this.cityController.prototype.CityIsSpawned = function(tag) {
-		return this.GetCityByTag(tag) != 0;
-	}
+		return this.GetCityByTag(tag) !== 0;
+	};
 	
 	this.cityController.prototype.SetCityByIndex = function(index) {
 		if (index <= this.cities.length) this.city = cities[index];
@@ -363,7 +379,7 @@ var _objects = function() {
 	this.cityController.prototype.GetCityByID = function(id) {
 		if (id < this.cities.length) return this.cities[id];
 		else return city;
-	}
+	};
 
 	this.cityController.prototype.GetCityByTag = function(tag) {
 		if (typeof tag === 'string') {
@@ -376,7 +392,7 @@ var _objects = function() {
 			}
 		}
 		return 0;
-	}
+	};
 	//End CityController
 
 	//City - a collection of buildings
@@ -518,7 +534,7 @@ var _objects = function() {
 	//End Building
 
 	//Cloud renderer
-	this.clouds = function() {}
+	this.clouds = function() {};
 	this.clouds.prototype.Render = function(extents) {
 			var mesh, geometry, material;
 			init();
@@ -566,6 +582,6 @@ var _objects = function() {
 				mesh.position.z = - 200;
 				scene.add( mesh );
 			}
-	}
+	};
 	//End cloud renderer
 };

@@ -1,0 +1,18 @@
+<div id="discipline-overlay">
+	<header>
+		<button class="close">&nbsp;</button>
+		<h2>Disciplines</h2>
+		<div class="social-btns">
+			<img src="img/twitter.png" alt="Twitter">
+			<img src="img/gplus.png" alt="Google Plus">
+			<img src="img/facebook.png" alt="Facebook">
+			<img src="img/linkedin.png" alt="LinkedIn">
+		</div>
+	</header>
+	
+	<div class="dcontainer" ng-repeat="disc in disciplines">
+		<h1><span>+</span>{{disc.title}}</h1>
+		<p>{{disc.description}}</p>
+	</div>
+	
+</div>

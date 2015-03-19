@@ -1,9 +1,12 @@
 var glCards = [];
-var boxid;
+var boxid = 0;
+var loadInterval;
 
 // Declare app level module which depends on views, and components
 var app = angular.module('redLion', ['ngRoute']);
-//
+//**********
+// Routing
+//**********
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/grid', {
 		template: ' ',
@@ -13,112 +16,23 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'templates/work.html',
 		controller: 'WorkCtrl'
 	}).
-	when('/people/:staffID', {
-		templateUrl: 'templates/people.html',
-		controller: 'PeopleCtrl'
+	when('/discipline/:disciplineID', {
+		templateUrl: 'templates/discipline.html',
+		controller: 'DisciplineCtrl'
 	}).
 	otherwise({
 		redirectTo: '/grid'
 	});
 }]);
-//
+
+//*****************************
+// Init load of Building Data
+//*****************************
 app.controller('CardTestController', function ($scope, Cards, filterFilter) {
 	$scope.cards = Cards.get();
 	init3D();
 });
-//
-app.controller('GridControler', function ($scope) {
-	console.log("grid connection");
-});
-//
-app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout',
-	function($scope, $routeParams, $sce, $timeout) {
-		$scope.campaignID = $routeParams.campaignID;
-		$scope.startSection = $routeParams.subSection;
-		
-		$scope.work = dataController.GetByID(boxid);
-		$scope.work.date_launched = Date.parse($scope.work.date_launched);
-		var videos = $scope.work.video_comsep;
-		
-		for (var vids = 0; vids < videos.length; vids++) {
-			if ($scope.work.video_comsep[vids] !== '') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]);
-		}
-		console.log("Campaign ID = " + $scope.campaignID);
-		console.log("subSection = " + $scope.startSection);
-		console.log($scope.work);
-		
-		closeButtonStart();
-		
-		var soptions = {
-			dots: true,
-			infinite: true,
-			speed: 500,
-			slidesToShow: 1,
-			adaptiveHeight: true,
-			//cssEase: 'easeInOut'
-		};
-		if ($scope.work.print_comsep[0] !== '') {
-			$timeout(function() {
-				$('.printwork').slick(soptions);
-			}, 500);
-		}
-		if ($scope.work.digital_comsep[0] !== '') {
-			$timeout(function() {
-				$('.digitalwork').slick(soptions);
-			}, 500);
-		}
-/*
-		if ($scope.work.audio_comsep[0] !== '') {
-			$timeout(function() {
-				$('.printwork').slick(soptions);
-			});
-		}
-*/
-	}
-]);
 
-  
-app.controller('PeopleCtrl', ['$scope', '$routeParams', '$http', '$animate',
-	function($scope, $routeParams, $http, $animate) {
-		$scope.people = [];
-		console.log("Person Slug = " +$routeParams.staffID);
-		
-		closeButtonStart();
-		
-		$http.get('http://redlioncanada.com/api/content/type/people')
-			.success(function (response) {
-				for (var i = 0; i < response.length; i++) {
-					$scope.people.push(response[i]);
-					if (response[i].slug == $routeParams.staffID) {
-						$scope.selperson = response[i];
-					}
-				}
-			})
-			.error(function (err) {
-				alert('ERROR: ' + err);
-			});
-	}
-]);
-
-app.directive('peopleTile', function() {
-	return {
-		template: function (element, attrs) {
-			return '<img src="img/staff/' + attrs.peopleTile + '-tile.jpg" class="under">' +
-			'<img src="img/staff/' + attrs.peopleTile + '-tile-red.jpg" class="cover">';
-		},
-		link: function(scope, element, attrs) {
-            element
-                .on('mouseenter',function() {
-                    element.children('img.cover').addClass('hovered');
-                })
-                .on('mouseleave',function() {
-                    element.children('img.cover').removeClass('hovered');
-                });
-        }
-	};
-});
-
-//
 app.factory('Cards', function ($http) {
 	var cards = [];
 
@@ -141,16 +55,35 @@ app.factory('Cards', function ($http) {
 	};
 });
 
-var closeButtonStart = function() {
-	$('.close').on('click', function(e) {
-		e.preventDefault();
-		$('#blackout').animate({"opacity":0, 'padding-top': 50}, 1000, "easeInCubic", function() {
-			$(this).css({'display':'none'});
-			window.location.href = "#/grid";
-		});
-	});
-};
+//****************************************
+// Grid Controller (nothing to see here)
+//****************************************
+app.controller('GridControler', function ($scope) {
+	console.log("grid connection");
+});
 
+//***************************************
+// Work Projects Controller & Functions
+//***************************************
+app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout',
+	function($scope, $routeParams, $sce, $timeout) {
+		$scope.campaignID = $routeParams.campaignID;
+		$scope.startSection = $routeParams.subSection;
+		
+		if (boxid !== 0) {
+			getWorkData($scope, $sce, $timeout);
+		} else {
+			loadInterval = setInterval(function() {
+				if (dataController.GetBySlug($scope.campaignID) !== false) {
+					getWorkData($scope, $sce, $timeout, true);
+					clearInterval(loadInterval);
+				}
+			}, 500);
+		}
+	}
+]);
+
+// if there's an audio player, this makes it work
 var audioPlayerStart = function() {
 	var audioplayers = document.getElementsByClassName('audio_file');
 	
@@ -198,15 +131,88 @@ var audioPlayerStart = function() {
 
 };
 
+// This waits for the audio to load
 var audioLoadTimeout = function(media) {
 	var timediv = $(media).siblings('.time-readout')[0];
 	var audioDurTime = $(timediv).children('.audioTotal')[0];
 	$(audioDurTime).text(getMinSec(media.duration));
 };
 
+// This makes the time readout look pretty
 var getMinSec = function (time) {
 	var minutes = Math.floor(time / 60);
 	var seconds = parseInt(time - minutes * 60);
 	if (seconds < 10) seconds = "0" + seconds;
 	return minutes + ":" + seconds;
 };
+
+// This gets all the data and sets up the Work page
+var getWorkData = function($scope, $sce, $timeout, useSlug) {
+	
+	if (useSlug) $scope.work = dataController.GetBySlug($scope.campaignID);
+	else $scope.work = dataController.GetByID(boxid);
+	
+	$('#blackout').css({'display':'block'});
+	$('#blackout').animate({"opacity":1, 'padding-top': 0}, 1000, "easeOutCubic");
+	
+	$scope.work.date_launched = Date.parse($scope.work.date_launched);
+	var videos = $scope.work.video_comsep;
+	for (var vids = 0; vids < videos.length; vids++) {
+		if ($scope.work.video_comsep[vids] !== '') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]);
+	}
+	
+	closeButtonStart();
+	audioPlayerStart();
+	
+	var soptions = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		adaptiveHeight: true,
+	};
+	if ($scope.work.print_comsep[0] !== '') {
+		$timeout(function() {
+			$('.printwork').slick(soptions);
+		}, 500);
+	}
+	if ($scope.work.digital_comsep[0] !== '') {
+		$timeout(function() {
+			$('.digitalwork').slick(soptions);
+		}, 500);
+	}
+};
+
+app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
+	function($scope, $routeParams, $timeout) {
+		$scope.dslug = $routeParams.disciplineID;
+		$('#blackout').css({'display':'block'});
+		$('#blackout').animate({"opacity":1, 'padding-top': 0}, 1000, "easeOutCubic");
+		closeButtonStart();
+		
+		if (boxid !== 0) {
+			$scope.disciplines = dataController.GetByType('disciplines');
+		} else {
+			loadInterval = setInterval(function() {
+				$scope.disciplines = dataController.GetByType('disciplines');
+				if ($scope.disciplines.length > 0) {
+					clearInterval(loadInterval);
+				}
+			}, 500);
+		}
+	}
+]);
+
+//
+
+
+var closeButtonStart = function() {
+	$('.close').on('click', function(e) {
+		e.preventDefault();
+		$('#blackout').animate({"opacity":0, 'padding-top': 50}, 1000, "easeInCubic", function() {
+			$(this).css({'display':'none'});
+			window.location.href = "#/grid";
+		});
+	});
+};
+
