@@ -75,11 +75,8 @@ $(document).keyup(function(event) {
 function boxClicked(intersect) {
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
 	boxid = parseInt(intersect.name);
+	console.log(clickedBuilding);
 	window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
-	if (clickedBuilding.js_trigger === '') {
-		$('#blackout').css({'display':'block'});
-		$('#blackout').animate({"opacity":1, 'padding-top': 0}, 1000, "easeOutCubic");
-	}
 	
 }
 
