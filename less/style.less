@@ -1,11 +1,14 @@
 @background: #fffdf2;
-@grey: #C9C8BF;
-@lightgrey: #e0280a;
+@grey: #b1b1b1;
 @lionred: #e32526;
 
 p,h1,h2,h3,h4,h5 {
 	padding: 0;
 	margin: 0;
+}
+a {
+	text-decoration: none;
+	color: @lionred;
 }
 body {
 	overflow: hidden; 
@@ -36,21 +39,31 @@ header {
 	top: 0; 
 	width: 100%; 
 	height: 73px; 
-	z-index: 100; 
+	z-index: 300; 
 	background: @background;
-	
+	position: relative;
+
+	#menu {
+		float: left;
+		margin: 13px 13px 0 15px;
+
+		a {
+			color: @grey;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: @lionred;
+		}
+
+		.active {
+			color: @lionred;
+		}
+	}
 	#logo { 
 		float: right; 
 		height: 58px;
 		padding: 8px;
-	}
-	#launchAbout {
-		float: left;
-		color: @lionred;
-		text-decoration: none;
-		display: block;
-		margin: 14px 20px;
-		line-height: 15px;
 	}
 	form {
 		z-index: 1;
@@ -96,8 +109,12 @@ header {
 	position: absolute;
 	background: @background;
 	left: 30px;
-	top: 74px;
+	z-index: 250;
+	top: -1000px;
 	color: @lionred;
+	-webkit-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49);
+	-moz-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49);
+	box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49);
 
 	h4 {
 		text-decoration: underline;
@@ -115,7 +132,7 @@ header {
 
 	.menu-item-header {
 		height: 100px;
-		padding-top: 10px;
+		padding: 10px 20px 33px 20px;
 
 		h4,p {
 			margin-top: 3px;
@@ -130,11 +147,21 @@ header {
 		}
 	}
 
-	.menu-item-footer img {
-		width:100%;
+	.menu-item-footer {
+		div {
+			width: 100%;
+			border-bottom: 1px solid;
+			border-bottom-color: @grey;
+		}
+		img {
+			width: 25px;
+			cursor: pointer;
+			margin: 0 auto;
+			display: block;
+		}
 	}
 }
-.menu-item#contact {
+.menu-item.contact {
 	.menu-item-header {
 		div {
 			width: 50%;
@@ -149,9 +176,22 @@ header {
 		}
 	}
 }
+.menu-item.careers {
+	.menu-item-body {
+		h2 {
+			line-height: 22px;
+			margin-bottom: 13px;
+		}
+	}
+}
+.menu-item.culture {
+	width: 760px;
+}
 #loading {
 	background-color: @background;
 	height: 100%;
+	z-index: 200;
+	position: relative;
 }
 .loading-logo {
 	background: url("../img/rl_wordmark_transparent.png") no-repeat center center fixed;

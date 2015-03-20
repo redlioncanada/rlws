@@ -13,7 +13,11 @@
 			</div>
 		</div>
 		<header id="main-header">
-			<a href="#" id="launchAbout">culture<br>careers<br>contact</a>
+			<div id="menu">
+				<a href="#" class='culture'><p>culture</p></a>
+				<a href="#" class='careers'><p>careers</p></a>
+				<a href="#" class='contact'><p>contact</p></a>
+			</div>
 			<img id="logo" src="img/rl_wordmark.png" />
 			<form>
 				<input type="text" name="searchterm" id="searchTerm">
@@ -22,7 +26,17 @@
 				<img id="searchCancel" src="img/close-btn-grey.png"/>
 			</form>
 		</header>
-		<div class='menu-item' id='contact'>
+		<div class='menu-item culture'>
+			<div class='menu-item-header'>
+				<div>
+					<h1>We're cultured.</h1>
+				</div>
+			</div>
+			<div class='menu-item-footer'>
+				<div><img src='img/menu-footer.png'/></div>
+			</div>
+		</div>
+		<div class='menu-item contact'>
 			<div class='menu-item-header'>
 				<div>
 					<h4>ADDRESS</h4>
@@ -33,7 +47,7 @@
 				</div>
 				<div>
 					<h4>EMAIL</h4>
-					<p>info@redlioncanada.com</p>
+					<p><a href="mailto:info@redlioncanada.com">info@redlioncanada.com</a></p>
 				</div>
 				<div>
 					<h4>PHONE</h4>
@@ -42,14 +56,14 @@
 			</div>
 			<div class='menu-item-body' id='map-canvas'></div>
 			<div class='menu-item-footer'>
-				<img src='img/menu-footer.png'/>
+				<div><img src='img/menu-footer.png'/></div>
 			</div>
 		</div>
-		<!--<div class='menu-item' id='careers'>
+		<div class='menu-item careers'>
 			<div class='menu-item-header'>
 				<div>
 					<h4>GENERAL INQUIRIES</h4>
-					<p>careeers@redlioncanada.com</p>
+					<p><a href="mailto:careers@redlioncanada.com">careers@redlioncanada.com</a></p>
 				</div>
 			</div>
 			<div class='menu-item-body'>
@@ -59,7 +73,7 @@
 			<div class='menu-item-footer'>
 				<img src='img/menu-footer.png'/>
 			</div>
-		</div>-->
+		</div>
 		<div id="controls"></div>
 		<div id="loading"></div>
 		<div id="canvas"></div>
