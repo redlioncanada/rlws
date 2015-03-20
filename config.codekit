@@ -110,6 +110,26 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/image.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/image.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/img\/btn1.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 19691,
+		"inputAbbreviatedPath": "\/img\/btn1.png",
+		"outputAbbreviatedPath": "\/img\/btn1.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/clients\/asus.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
@@ -301,7 +321,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 1544,
+		"initialSize": 1276,
 		"inputAbbreviatedPath": "\/img\/menu-footer.png",
 		"outputAbbreviatedPath": "\/img\/menu-footer.png",
 		"outputPathIsOutsideProject": 0,
