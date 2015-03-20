@@ -79,18 +79,35 @@ if (Detector.webgl) {
 //webgl detection end
 
 //menu items start
-var headerHeight = $('#main-header').outerHeight(), lastMenuItem;
+var headerHeight = $('#main-header').outerHeight(), lastMenuItem, mapInterval = false;
 $('.menu-item').each(function(){
 	$(this).css('top',headerHeight-$(this).height());
 });
 $('#menu a').click(function() {
+	if (!googleMapLoaded) {
+		loadGoogleMap();
+		var mapIntervalAttempts = 0;
+		if (!mapInterval) {
+			mapInterval = setInterval(function() {
+				if (googleMapLoaded || ++mapIntervalAttempts > 10) {
+					clearInterval(mapInterval);
+					mapInterval = false;
+					doAnimation();
+				}
+			},300);
+		}
+	}
 	var c = $(this).attr('class').replace(' active','');
-	$('#menu a').removeClass('active');
-	$('.menu-item').not('.'+c).each(function() {
-		$(this).animate({top: headerHeight - $(this).height()},300);
-	});
-	if (lastMenuItem != c) {$(this).addClass('active'); $('.menu-item.'+c).animate({top: headerHeight+1},300); lastMenuItem = c;}
-	else {$(this).removeClass('active'); $('.menu-item.'+c).animate({top: headerHeight - $('.menu-item.'+c).height()},300); lastMenuItem = '';}
+	if (!(mapInterval && c == 'contact')) doAnimation();
+
+	function doAnimation() {
+		$('#menu a').removeClass('active');
+		$('.menu-item').not('.'+c).each(function() {
+			$(this).animate({top: headerHeight - $(this).height()},300);
+		});
+		if (lastMenuItem != c) {$(this).addClass('active'); $('.menu-item.'+c).animate({top: headerHeight+1},300); lastMenuItem = c;}
+		else {$(this).removeClass('active'); $('.menu-item.'+c).animate({top: headerHeight - $('.menu-item.'+c).height()},300); lastMenuItem = '';}
+	}
 });
 $('.menu-item-footer').click(function(){
 	$('#menu a').removeClass('active');

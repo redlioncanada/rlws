@@ -135,9 +135,9 @@
 		<script src="js/overlay.js"></script>
 		<script src="//use.typekit.net/ngi3tcl.js"></script>
 		<script>try{Typekit.load();}catch(e){}</script>
-		<script src="https://maps.googleapis.com/maps/api/js"></script>
 	    <script>
-			function initialize() {
+	    	var googleMapLoaded = false;
+			function initGoogleMap() {
 				var mapCanvas = document.getElementById('map-canvas');
 				var map = new google.maps.Map(mapCanvas, {
 					center: new google.maps.LatLng(43.6533998,-79.3742563),
@@ -167,8 +167,14 @@
 				    ]
 				  }
 				]);
+				googleMapLoaded = true;
 			}
-			google.maps.event.addDomListener(window, 'load', initialize);
+			function loadGoogleMap() {
+				var script = document.createElement('script');
+				script.type = 'text/javascript';
+				script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&callback=initGoogleMap';
+				document.body.appendChild(script);
+			}
 	    </script>
 	</body>
 </html>
