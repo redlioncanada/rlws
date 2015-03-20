@@ -182,7 +182,7 @@ header form #searchCancel {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 105;
+  z-index: 310;
   background: rgba(0, 0, 0, 0.6);
   display: none;
   opacity: 0;
@@ -196,11 +196,11 @@ header form #searchCancel {
   width: 32px;
   height: 32px;
   position: absolute;
-  top: 30px;
+  top: 20px;
   right: 20px;
   border: none;
   outline: none;
-  z-index: 110;
+  z-index: 310;
   text-decoration: none;
   cursor: pointer;
 }
@@ -318,109 +318,79 @@ header form #searchCancel {
   margin: 0 auto;
   max-width: 95%;
 }
-#overlay #people-overlay {
+#overlay #discipline-overlay {
   margin: 0;
   padding: 0;
   width: 100%;
   min-height: 100%;
-}
-#overlay #people-overlay header {
   color: white;
-  height: 434px;
-  position: relative;
+  background: #e0280a;
 }
-#overlay #people-overlay header h2 {
+#overlay #discipline-overlay header {
+  background: #e0280a;
+  position: relative;
+  height: 75px;
+}
+#overlay #discipline-overlay header h2 {
   font-weight: 700;
   font-size: 25px;
   text-transform: uppercase;
-  position: absolute;
   margin: 0;
   padding: 0;
   top: 30px;
   left: 20px;
-  z-index: 110;
-}
-#overlay #people-overlay header #bio {
   position: absolute;
-  left: 20px;
-  top: 55%;
-  transform: translatey(-50%);
-  z-index: 110;
-  width: 330px;
 }
-#overlay #people-overlay header #bio h1 {
-  font-size: 25px;
-  font-weight: 700;
+@media (max-width: 900px) {
+  #overlay #discipline-overlay header h2 {
+    font-size: 20px;
+  }
+}
+#overlay #discipline-overlay header .social-btns {
+  position: absolute;
+  top: 23px;
+  right: 80px;
+}
+@media (max-width: 900px) {
+  #overlay #discipline-overlay header .social-btns {
+    display: none;
+  }
+}
+#overlay #discipline-overlay header .social-btns img {
+  margin-left: 4px;
+}
+#overlay #discipline-overlay .dcontainer {
+  margin: 10px 0;
+}
+#overlay #discipline-overlay .dcontainer h1 {
+  font-size: 65px;
+  line-height: 70px;
+  color: #8f0202;
+  margin-left: 35px;
+  cursor: pointer;
+  cursor: hand;
+}
+@media (max-width: 900px) {
+  #overlay #discipline-overlay .dcontainer h1 {
+    font-size: 20px;
+    line-height: 25px;
+    margin-left: 20px;
+  }
+}
+#overlay #discipline-overlay .dcontainer h1.selected {
+  color: white;
+}
+#overlay #discipline-overlay .dcontainer p {
+  font-size: 22px;
   line-height: 30px;
-  margin: 0;
-  padding: 0;
+  margin: 10px 100px;
 }
-#overlay #people-overlay header #bio p.subtitle {
-  font-weight: 700;
-  margin: 0 0 20px;
-}
-#overlay #people-overlay header #bio p.description {
-  font-weight: 500;
-}
-#overlay #people-overlay header .close {
-  display: block;
-  background: url('../img/close-btn.png') no-repeat center center;
-  width: 32px;
-  height: 32px;
-  position: absolute;
-  top: 30px;
-  right: 20px;
-  float: right;
-  border: none;
-  outline: none;
-  z-index: 110;
-  text-decoration: none;
-}
-#overlay #people-overlay header img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 108;
-}
-#overlay #people-overlay ul#people-list {
-  border-top: 30px solid #f8220d;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-#overlay #people-overlay ul#people-list li {
-  width: 225px;
-  height: 262px;
-  position: relative;
-  list-style: none;
-  display: inline-block;
-  text-indent: 0;
-}
-#overlay #people-overlay ul#people-list li a {
-  display: block;
-  position: absolute;
-  z-index: 111;
-  width: 225px;
-  height: 262px;
-  text-decoration: none;
-  color: #f8220d;
-}
-#overlay #people-overlay ul#people-list li img.cover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 1;
-  clip: rect(0px, 225px, 263px, 0px);
-  transition: all 0.7s ease-in-out;
-}
-#overlay #people-overlay ul#people-list li img.cover.hovered {
-  clip: rect(0px, 0px, 262px, 0px);
-  opacity: 0.5;
-}
-#overlay #people-overlay ul#people-list li img.under {
-  position: absolute;
-  top: 0;
-  left: 0;
+@media (max-width: 900px) {
+  #overlay #discipline-overlay .dcontainer p {
+    font-size: 14px;
+    line-height: 19px;
+    margin: 10px 20px;
+  }
 }
 .player {
   max-height: 200px;
@@ -476,7 +446,7 @@ header form #searchCancel {
     display: none;
   }
 }
-.player .controlbox .meter  > span {
+.player .controlbox .meter > span {
   display: block;
   height: 100%;
   -moz-border-radius: 7px;

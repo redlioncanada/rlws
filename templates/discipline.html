@@ -10,9 +10,9 @@
 		</div>
 	</header>
 	
-	<div class="dcontainer" ng-repeat="disc in disciplines">
-		<h1><span>+</span>{{disc.title}}</h1>
-		<p>{{disc.description}}</p>
+	<div class="dcontainer {{disc.slug}}" ng-repeat="disc in disciplines">
+		<h1><span>+</span> &nbsp;{{disc.title}}</h1>
+		<p style="display: none;">{{disc.description}}</p>
 	</div>
 	
 </div>
