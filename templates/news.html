@@ -1,9 +1,8 @@
-<?php require 'fetchdata.php'; ?>
-<div id="work-overlay">
+<div id="news-overlay">
 	<header>
 		<button class="close">&nbsp;</button>
-		<h2><?=$data->title?></h2>
-		<h1><?=$data->description?></h1>
+		<h2>News</h2>
+		<h1>{{newsitem.title}}</h1>
 		<div class="social-btns">
 			<img src="img/twitter.png" alt="Twitter">
 			<img src="img/gplus.png" alt="Google Plus">
@@ -13,11 +12,11 @@
 	</header>
 	
 	<div id="description">
-		<p><?=$data->long_description?></p>
+		<div ng-bind-html="outputHTML(newsitem.description)"></div>
 		<div class="datecat">
-			<?=date("F Y", strtotime($data->launch_date))?><br><?=$data->tags?>
+			{{newsitem.date_launched | date:'MMMM d yyyy'}} <br>
 		</div>
 	</div>
 	
-	<?=$data->content?>
+	<div class="clear">&nbsp;</div>	
 </div>

@@ -298,11 +298,19 @@ header form #searchCancel {
 }
 #overlay #work-overlay .videobox {
   background: black;
-  padding: 40px 0;
+  padding: 40px 0 56.25%;
+  position: relative;
+  height: 0;
+  overflow: hidden;
 }
 #overlay #work-overlay .videobox iframe {
   margin: 0 auto;
   display: block;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
 }
 #overlay #work-overlay .otherbox {
   padding-top: 60px;
@@ -317,6 +325,96 @@ header form #searchCancel {
 #overlay #work-overlay .digital-item img {
   margin: 0 auto;
   max-width: 95%;
+}
+#overlay #news-overlay {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+#overlay #news-overlay header {
+  background: #e0280a;
+  color: white;
+  min-height: 200px;
+  position: relative;
+}
+#overlay #news-overlay header h2 {
+  font-weight: 700;
+  font-size: 25px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  top: 30px;
+  left: 20px;
+  position: absolute;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay header h2 {
+    font-size: 20px;
+  }
+}
+#overlay #news-overlay header h1 {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  width: 50%;
+  font-size: 50px;
+  line-height: 55px;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay header h1 {
+    font-size: 30px;
+    line-height: 33px;
+  }
+}
+#overlay #news-overlay header .social-btns {
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+}
+#overlay #news-overlay header .social-btns img {
+  margin-left: 4px;
+}
+#overlay #news-overlay #description p {
+  width: 620px;
+  margin: 40px 20px 40px 40px;
+  float: left;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay #description p {
+    width: auto;
+    margin: 5%;
+  }
+}
+#overlay #news-overlay #description .datecat {
+  font-weight: 700;
+  width: 180px;
+  margin: 40px 0 0 0;
+  float: right;
+  text-transform: uppercase;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay #description .datecat {
+    display: none;
+  }
+}
+#overlay #news-overlay .clear {
+  height: 1px;
+  clear: both;
+  font-size: 1px;
+}
+#overlay #news-overlay .videobox {
+  background: black;
+  padding: 40px 0;
+}
+#overlay #news-overlay .videobox iframe {
+  margin: 0 auto;
+  display: block;
+}
+#overlay #news-overlay .otherbox {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  border-top: 4px solid #eee;
 }
 #overlay #discipline-overlay {
   margin: 0;
