@@ -7,6 +7,10 @@ h5 {
   padding: 0;
   margin: 0;
 }
+a {
+  text-decoration: none;
+  color: #e32526;
+}
 body {
   overflow: hidden;
   margin: 0;
@@ -34,21 +38,28 @@ header {
   top: 0;
   width: 100%;
   height: 73px;
-  z-index: 100;
+  z-index: 300;
   background: #fffdf2;
+  position: relative;
+}
+header #menu {
+  float: left;
+  margin: 13px 13px 0 15px;
+}
+header #menu a {
+  color: #b1b1b1;
+  text-decoration: none;
+}
+header #menu a:hover {
+  color: #e32526;
+}
+header #menu .active {
+  color: #e32526;
 }
 header #logo {
   float: right;
   height: 58px;
   padding: 8px;
-}
-header #launchAbout {
-  float: left;
-  color: #e32526;
-  text-decoration: none;
-  display: block;
-  margin: 14px 20px;
-  line-height: 15px;
 }
 header form {
   z-index: 1;
@@ -95,8 +106,12 @@ header form #searchCancel {
   position: absolute;
   background: #fffdf2;
   left: 30px;
-  top: 74px;
+  z-index: 250;
+  top: -1000px;
   color: #e32526;
+  -webkit-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49);
+  -moz-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49);
+  box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49);
 }
 .menu-item h4 {
   text-decoration: underline;
@@ -111,7 +126,7 @@ header form #searchCancel {
 }
 .menu-item .menu-item-header {
   height: 100px;
-  padding-top: 10px;
+  padding: 10px 20px 33px 20px;
 }
 .menu-item .menu-item-header h4,
 .menu-item .menu-item-header p {
@@ -123,22 +138,39 @@ header form #searchCancel {
 .menu-item .menu-item-header > div {
   margin-top: 10px;
 }
-.menu-item .menu-item-footer img {
+.menu-item .menu-item-footer div {
   width: 100%;
+  border-bottom: 1px solid;
+  border-bottom-color: #b1b1b1;
 }
-.menu-item#contact .menu-item-header div {
+.menu-item .menu-item-footer img {
+  width: 25px;
+  cursor: pointer;
+  margin: 0 auto;
+  display: block;
+}
+.menu-item.contact .menu-item-header div {
   width: 50%;
 }
-.menu-item#contact .menu-item-header div:first-child {
+.menu-item.contact .menu-item-header div:first-child {
   float: left;
 }
-.menu-item#contact .menu-item-header div:nth-child(2),
-.menu-item#contact .menu-item-header div:last-child {
+.menu-item.contact .menu-item-header div:nth-child(2),
+.menu-item.contact .menu-item-header div:last-child {
   float: right;
+}
+.menu-item.careers .menu-item-body h2 {
+  line-height: 22px;
+  margin-bottom: 13px;
+}
+.menu-item.culture {
+  width: 760px;
 }
 #loading {
   background-color: #fffdf2;
   height: 100%;
+  z-index: 200;
+  position: relative;
 }
 .loading-logo {
   background: url("../img/rl_wordmark_transparent.png") no-repeat center center fixed;
