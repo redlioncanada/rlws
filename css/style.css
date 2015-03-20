@@ -138,14 +138,17 @@ header form #searchCancel {
 .menu-item .menu-item-header > div {
   margin-top: 10px;
 }
+.menu-item .menu-item-footer {
+  cursor: pointer;
+}
 .menu-item .menu-item-footer div {
   width: 100%;
   border-bottom: 1px solid;
   border-bottom-color: #b1b1b1;
+  height: 23px;
 }
 .menu-item .menu-item-footer img {
   width: 25px;
-  cursor: pointer;
   margin: 0 auto;
   display: block;
 }
