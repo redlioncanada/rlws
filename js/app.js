@@ -16,7 +16,7 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'templates/work.html',
 		controller: 'WorkCtrl'
 	}).
-	when('/discipline/:disciplineID', {
+	when('/disciplines/:disciplineID', {
 		templateUrl: 'templates/discipline.html',
 		controller: 'DisciplineCtrl'
 	}).
@@ -193,19 +193,33 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 		if (boxid !== 0) {
 			$scope.disciplines = dataController.GetByType('disciplines');
 		} else {
-			loadInterval = setInterval(function() {
+			$timeout(function() {
 				$scope.disciplines = dataController.GetByType('disciplines');
-				if ($scope.disciplines.length > 0) {
-					clearInterval(loadInterval);
-				}
-			}, 500);
+			}, 1000);
 		}
+		
+		$timeout(function() {
+			$('.dcontainer.'+$scope.dslug+' p').slideDown();
+			$('.dcontainer.'+$scope.dslug+' h1').addClass('selected');
+			$('.dcontainer.'+$scope.dslug+' h1 span').html('-');
+			
+			$('.dcontainer h1').click(function() {
+				if (!$(this).hasClass('selected')) {
+					$('.dcontainer p').slideUp();
+					$('.dcontainer h1').removeClass('selected');
+					$('.dcontainer h1 span').html('+');
+					$(this).addClass('selected');
+					$(this).children('span').html('-');
+					$(this).siblings('p').slideDown();
+				}
+			});
+		}, 1200);
+		
+		
 	}
 ]);
 
 //
-
-
 var closeButtonStart = function() {
 	$('.close').on('click', function(e) {
 		e.preventDefault();

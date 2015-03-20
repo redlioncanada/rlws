@@ -175,7 +175,7 @@ header {
 	width: 32px;
 	height: 32px;
 	position: absolute;
-	top: 30px;
+	top: 20px;
 	right: 20px;
 	border: none;
 	outline: none;
@@ -299,123 +299,82 @@ header {
 		}
 	}
 	
-	#people-overlay {
+	#discipline-overlay {
 		margin: 0;
 		padding: 0;
 		width: 100%;
 		min-height: 100%;
+		color: white;
+		background: #e0280a;
 		
 		header {
-			color: white;
-			height: 434px;
+			background: #e0280a;
 			position: relative;
+			height: 75px;
 			
 			h2 {
 				font-weight: 700;
 				font-size: 25px;
 				text-transform: uppercase;
-				position: absolute;
 				margin: 0;
 				padding: 0;
 				top: 30px;
 				left: 20px;
-				z-index: 110;
-			}
-			
-			#bio {
 				position: absolute;
-				left: 20px;
-				top: 55%;
-				transform: translateY(-50%);
-				z-index: 110;
-				width: 330px;
-				
-				h1 {
-					font-size: 25px;
-					font-weight: 700;
-					line-height: 30px;
-					margin: 0;
-					padding: 0;
-				}
-				
-				p.subtitle {
-					font-weight: 700;
-					margin: 0 0 20px;
-				}
-				
-				p.description {
-					font-weight: 500;
+				@media (max-width: 900px) {
+					font-size: 20px;
 				}
 			}
 			
-			.close {
-				display: block;
-				background: url('../img/close-btn.png') no-repeat center center;
-				width: 32px;
-				height: 32px;
+			.social-btns {
 				position: absolute;
-				top: 30px;
-				right: 20px;
-				float: right;
-				border: none;
-				outline: none;
-				z-index: 110;
-				text-decoration: none;
+				top: 23px;
+				right: 80px;
+				@media (max-width: 900px) {
+					display: none;
+				}
+				
+				
+				img {
+					margin-left: 4px;
+				}
+			}	
+		}
+		
+		.dcontainer {
+			margin: 10px 0;
+			h1 {
+				font-size: 65px;
+				line-height: 70px;
+				color: #8f0202;
+				margin-left: 35px;
+				cursor: pointer;
+				cursor: hand;
+				
+				@media (max-width: 900px) {
+					font-size: 20px;
+					line-height: 25px;
+					margin-left: 20px;
+				}
+				
+				&.selected {
+					color: white;
+				}
 			}
 			
-			img {
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: 108;
+			p {
+				font-size: 22px;
+				line-height: 30px;
+				margin: 10px 100px;
+				
+				@media (max-width: 900px) {
+					font-size: 14px;
+					line-height: 19px;
+					margin: 10px 20px;
+				}
 			}
 		}
 		
-		ul#people-list {
-			border-top: 30px solid #f8220d;
-			list-style: none;
-			margin: 0;
-			padding: 0;
-			
-			li {
-				width: 225px;
-				height: 262px;
-				position: relative;
-				list-style: none;
-				display: inline-block;
-				text-indent: 0;
-				
-				a {
-					display: block;
-					position: absolute;
-					z-index: 111;
-					width: 225px;
-					height: 262px;
-					text-decoration: none;
-					color: #f8220d;
-				}
-				
-				img.cover {
-					position: absolute;
-					top: 0;
-					left: 0;
-					opacity: 1;
-					clip: rect(0px, 225px, 263px, 0px);
-					transition: all 0.7s ease-in-out;
-					
-					&.hovered {
-						clip: rect(0px, 0px, 262px, 0px);
-						opacity: 0.5;
-					}
-				}
-				
-				img.under {
-					position: absolute;
-					top: 0;
-					left: 0;
-				}
-			}
-		}
 	}	
 }
 
