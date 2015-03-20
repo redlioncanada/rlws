@@ -18,7 +18,6 @@ var objs = new _objects();
 var dataController = new objs.dataController();
 var cityController = new objs.cityController(dataController);
 var cameraController = null;
-var cloudRenderer = new objs.clouds();
 
 // Render init
 renderer.shadowMapEnabled = true;
