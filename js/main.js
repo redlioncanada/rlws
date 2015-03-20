@@ -3,7 +3,7 @@ var fuse; //search library
 
 // Three.JS/WebGL init vars
 var canvasDiv = $('#canvas');
-var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height(), 1, 100 );
+var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height(), 1, 300 );
 var scene = new THREE.Scene();
 var mouse = new THREE.Vector2(), intersected;
 var raycaster = new THREE.Raycaster();
@@ -114,7 +114,11 @@ function SpawnAndGoToCity(tag,sizeMultiplier) {
 		var city = cityController.GetCityByTag(tag);
 	}
 
-	cityController.SetCity(city);
-	cameraController.CenterOnCity(city);
-	return city;
+	if (data && data.length) {
+		cityController.SetCity(city);
+		cameraController.CenterOnCity(city);
+		return city;
+	} else {
+		return undefined;
+	}
 }

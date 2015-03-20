@@ -70,14 +70,14 @@ $(document).keyup(function(event) {
 	}
 });
 
-
 // Box Clicked Function
 function boxClicked(intersect) {
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
+	if (clickedBuilding.js_trigger) {
+		SpawnAndGoToCity(clickedBuilding.js_trigger);
+	}
 	boxid = parseInt(intersect.name);
-	console.log(clickedBuilding);
 	window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
-	
 }
 
 function fingerMouseDown(e) {

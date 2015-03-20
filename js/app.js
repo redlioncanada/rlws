@@ -63,7 +63,6 @@ app.factory('Cards', function ($http) {
 // Grid Controller (nothing to see here)
 //****************************************
 app.controller('GridControler', function ($scope) {
-	console.log("grid connection");
 });
 
 //************************
