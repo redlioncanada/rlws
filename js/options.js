@@ -1,9 +1,9 @@
 //MODIFIABLE
 
 //debug
-debug = true;
-debugMovement = false;
-debugGrid = false;
+var debug = true;
+var debugMovement = false;
+var debugGrid = false;
 
 //search
 var homeKeyword = "home";
@@ -44,7 +44,7 @@ var camPanAnimationTime = 0.01;
 var camPanToCityAnimationTime = 1;
 
 //movement
-var singleClickTimeout = 1; //in seconds
+var singleClickTimeout = 0.7; //in seconds
 
 
 
@@ -75,8 +75,9 @@ var overlay = false;
 var oldScale = 0;
 var pinched = false;
 var canvas;
-var mouseDownTimeout;
+var mouseDownTimeout = false;
 var didSingleClick = false;
+var panOrigin = {X:0,Y:0};
 
 // Acceleration Vars
 var acc_oldaz = null;

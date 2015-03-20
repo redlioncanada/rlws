@@ -83,7 +83,6 @@ var _objects = function() {
 		for (var tile = 0; tile < keys.length; tile++) {
 			if (this.data[keys[tile]].slug == slug) return this.data[keys[tile]];
 		}
-		return false;
 	};
 	
 	this.dataController.prototype.GetByType = function(overlay) {

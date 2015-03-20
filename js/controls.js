@@ -80,28 +80,21 @@ function boxClicked(intersect) {
 	window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
 }
 
-function fingerMouseDown(e) {
+function zoomHandler(e) {
+	var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
+	cameraController.Zoom(-delta * 2);
+}
+
+function mouseMove(e) {
 	e.preventDefault();
+	var headerHeight = $('header').height();
 	if (isMobile) {
-		if (e.touches.length == 2) {
-			console.log(e.touches);
-		} else {
-			var touch = e.touches[0];
-			oldTouchX = touch.pageX;
-			oldTouchY = touch.pageY;
-		}
+		mouse.x = (e.touches[0].pageX / $(canvasDiv).width()) * 2 - 1;
+		mouse.y = - ((e.touches[0].pageY - headerHeight) / $(canvasDiv).height()) * 2 + 1;
 	} else {
-		oldTouchX = e.clientX;
-		oldTouchY = e.clientY;
+		mouse.x = (e.clientX / $(canvasDiv).width()) * 2 - 1;
+		mouse.y = - ((e.clientY - headerHeight) / $(canvasDiv).height()) * 2 + 1;
 	}
-	
-	if (isMobile) {
-		mouseMove(e);	
-	}
-	mTouchDown = true;
-	didSingleClick = true;
-	mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
-	canvas.addEventListener('mousemove', fingerMouseDrag);
 }
 
 function fingerMouseDrag(e) {
@@ -136,99 +129,68 @@ function fingerMouseDrag(e) {
 
 }
 
-function fingerMouseUp(e) {
-	e.preventDefault();
-	mTouchDown = false;
-	clearTimeout(mouseDownTimeout);
-	canvas.removeEventListener('mousemove', fingerMouseDrag);
-	
-	var touchX, touchY, vector;
-	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched && didSingleClick) {
-		raycaster.setFromCamera(mouse, camera);
-		var intersects = raycaster.intersectObjects(scene.children);
 
-		if ( intersects.length > 0 ) {
-			if (typeof intersects[0] !=='undefined') {
-				if (typeof intersects[0].face !== 'undefined') {
-					if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
-				}
+function mouseUp(e) {
+	mTouchDown = false;
+	if (!mouseDownTimeout) return;
+	raycaster.setFromCamera(mouse, camera);
+	var intersects = raycaster.intersectObjects(scene.children);
+
+	if ( intersects.length > 0 ) {
+		if (typeof intersects[0] !=='undefined') {
+			if (typeof intersects[0].face !== 'undefined') {
+				if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
 			}
 		}
 	}
-	xMove = 0;
-	yMove = 0;
-	didSingleClick = false;
-	mUP = false;
-	mDOWN = false;
-	mRIGHT = false;
-	mDOWN = false;
-	oldScale = 0;
-	pinched = false;
 }
 
-function mouseMove(e) {
-	e.preventDefault();
-	var headerHeight = $('header').height();
-	if (isMobile) {
-		mouse.x = (e.touches[0].pageX / $(canvasDiv).width()) * 2 - 1;
-		mouse.y = - ((e.touches[0].pageY - headerHeight) / $(canvasDiv).height()) * 2 + 1;
-	} else {
-		mouse.x = (e.clientX / $(canvasDiv).width()) * 2 - 1;
-		mouse.y = - ((e.clientY - headerHeight) / $(canvasDiv).height()) * 2 + 1;
-	}
+function mouseDown(e) {
+	mTouchDown = true;
+	mouseDownTimeout = setTimeout(function() {clearTimeout(mouseDownTimeout); mouseDownTimeout = false;}, singleClickTimeout*1000);
 }
-
-function zoomHandler(e) {
-	var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
-	cameraController.Zoom(-delta * 2);
-}
-
-function resetPinches() {
-
-	$(document).on("pinchstart", function(e) {
-		oldScale = 0;
-		pinched = true;
-	});
-	
-	$(document).on("pinchmove", function(e) {
-		pinched = true;
-		var delta = e.scale - oldScale;
-		oldScale = e.scale;
-
-		cameraController.Zoom(delta > 0 ? -0.4 : 0.4);
-	});
-	
-	$(document).on("pinchend", function(e) {
-		oldScale = 0;
-		pinched = false;
-		$(document).off("pinchstart pinchmove pinchend");
-		resetPinches();
-	});
-
-}
-
-resetPinches();
 
 function setupEventListeners() {
 	var canvases = document.getElementsByTagName('canvas');
 	canvas = canvases[0];
-	
-	// Touch Events - Start (Finger/Mouse down)
-	canvas.addEventListener('touchstart', fingerMouseDown);
-	canvas.addEventListener('mousedown', fingerMouseDown);
 
-	// Touch Events - End (Finger/Mouse up)
-	canvas.addEventListener('touchend', fingerMouseUp);
-	canvas.addEventListener('mouseup', fingerMouseUp);
+	var mc = new Hammer(canvas);
+	mc.get('pan').set({ direction: Hammer.DIRECTION_ALL }).recognizeWith(mc.get('pinch'));
+	mc.get('pinch').set({ enable: true });
+	mc.get('press').set({ threshold: 5, time: 500 });
+	mc.on('pan pinch press', function(e) {
+		if (e.type == 'pan') {
+			console.log(e);
+			cameraController.Move(e.velocityX, -e.velocityY, undefined, false);
+		} else if (e.type == 'pinch') {
+			e.preventDefault();
+			if (Math.abs(e.velocity) > 0.01) cameraController.Zoom(e.velocity*10);
+		} else if (e.type == 'press') {
+			if (mouseDownTimeout) return;
+			raycaster.setFromCamera(mouse, camera);
+			var intersects = raycaster.intersectObjects(scene.children);
 
-	// Touch Events - Move (Finger/Mouse drag)
-	canvas.addEventListener('touchmove', fingerMouseDrag);
+			if ( intersects.length > 0 ) {
+				if (typeof intersects[0] !=='undefined') {
+					if (typeof intersects[0].face !== 'undefined') {
+						if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
+					}
+				}
+			}
+		}
+	});
 	
 	// Mouse Wheel Zoom (Standards)
 	canvas.addEventListener("mousewheel", zoomHandler);
 	// Mouse Wheel Zoom (Firefox)
 	canvas.addEventListener("DOMMouseScroll", zoomHandler);
 	canvas.addEventListener("mousemove", mouseMove);
+	canvas.addEventListener("mouseup", mouseUp);
+	canvas.addEventListener("mousedown", mouseDown);
+	canvas.addEventListener('touchmove', fingerMouseDrag);
+	canvas.addEventListener('touchstart', function(){mTouchDown = true;});
+	canvas.addEventListener('touchend', function(){mTouchDown = false;});
+
 	
 	// Check if Acceleromoter is present and start event listener
 	if (window.DeviceMotionEvent) {
@@ -238,7 +200,6 @@ function setupEventListeners() {
 	onMouseLeftBrowserWindow(function(e) {
 		didSingleClick = false;
 		clearTimeout(mouseDownTimeout);
-		fingerMouseUp(e);
 	});
 }
 
@@ -257,6 +218,7 @@ var acc_totilt = null;
 var acc_fromtilt = null;
 
 var devMoveHandler = function(event) {
+	if (mTouchDown) return;
 	// Get Accelerometer Information needed
 	
 	if (acc_fromx === null) acc_fromx = cameraController.camera.position.x;
@@ -304,7 +266,7 @@ var devMoveHandler = function(event) {
 			var acc_moveAlpha = acc_arAlpha/25;
 			acc_toy = acc_fromy + acc_moveAlpha;
 		}
-		cameraController.Move((acc_tox - acc_fromx) / acc_speed, (acc_toy - acc_fromy) / acc_speed, undefined, false);
+		cameraController.Move((acc_tox - acc_fromx) / acc_speed, (acc_toy - acc_fromy) / acc_speed, undefined);
 	}
 	
 	// ay/az controls the tilt of the "city"
@@ -317,7 +279,7 @@ var devMoveHandler = function(event) {
 		acc_totilt = (acc_az - 3) * 0.09;
 		acc_oldaz = acc_az;
 	}
-	cameraController.Rotate((acc_totilt - acc_fromtilt) / (acc_speed * 2), undefined, undefined, false);
+	cameraController.Rotate((acc_totilt - acc_fromtilt) / (acc_speed * 2), undefined);
 	
 };
 

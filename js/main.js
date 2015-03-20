@@ -1,6 +1,3 @@
-var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
-var fuse; //search library
-
 // Three.JS/WebGL init vars
 var canvasDiv = $('#canvas');
 var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height(), 1, 300 );
@@ -18,6 +15,7 @@ var objs = new _objects();
 var dataController = new objs.dataController();
 var cityController = new objs.cityController(dataController);
 var cameraController = null;
+var fuse; //search library
 
 // Render init
 renderer.shadowMapEnabled = true;
@@ -87,9 +85,6 @@ function init3D() {
 				//spawn city
 				var city = SpawnAndGoToCity(homeKeyword, 2);
 				camera.position.z = city.extents.Z2 * camZStart;
-
-				//Objects init - clouds
-				//cloudRenderer.Render(city.extents);
 				
 				//zoom camera
 				cameraController.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false);
@@ -103,7 +98,8 @@ function init3D() {
 
 function SpawnAndGoToCity(tag,sizeMultiplier) {
 	if (typeof sizeMultiplier === undefined) sizeMultiplier = 1;
-	if (!cityController.CityIsSpawned(tag)) {
+	var spawned = cityController.CityIsSpawned(tag);
+	if (!spawned) {
 		if (tag == homeKeyword) {
 			var data = dataController.rawData;
 		} else {
@@ -114,7 +110,7 @@ function SpawnAndGoToCity(tag,sizeMultiplier) {
 		var city = cityController.GetCityByTag(tag);
 	}
 
-	if (data && data.length) {
+	if (data && data.length || spawned) {
 		cityController.SetCity(city);
 		cameraController.CenterOnCity(city);
 		return city;
