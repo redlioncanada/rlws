@@ -20,6 +20,10 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'templates/discipline.html',
 		controller: 'DisciplineCtrl'
 	}).
+	when('/news/:newsID', {
+		templateUrl: 'templates/news.html',
+		controller: 'NewsCtrl'
+	}).
 	otherwise({
 		redirectTo: '/grid'
 	});
@@ -62,6 +66,34 @@ app.controller('GridControler', function ($scope) {
 	console.log("grid connection");
 });
 
+//************************
+// News Controller
+//************************
+app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
+	function($scope, $routeParams, $timeout, $sce) {
+		$scope.dslug = $routeParams.newsID;
+		$('#blackout').css({'display':'block'});
+		$('#blackout').animate({"opacity":1, 'padding-top': 0}, 1000, "easeOutCubic");
+		closeButtonStart();
+		
+		$scope.outputHTML = function(snip) {
+			return $sce.trustAsHtml(snip);
+		};
+		
+		if (boxid !== 0) {
+			$scope.newsitem = dataController.GetBySlug($scope.dslug);
+			$scope.newsitem.date_launched = Date.parse($scope.newsitem.date_launched);
+		} else {
+			$timeout(function() {
+				$scope.newsitem = dataController.GetBySlug($scope.dslug);
+				$scope.newsitem.date_launched = Date.parse($scope.newsitem.date_launched);
+			}, 1000);
+		}
+		
+	}
+]);
+
+
 //***************************************
 // Work Projects Controller & Functions
 //***************************************
@@ -73,12 +105,12 @@ app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout',
 		if (boxid !== 0) {
 			getWorkData($scope, $sce, $timeout);
 		} else {
-			loadInterval = setInterval(function() {
+			$timeout(function() {
 				if (dataController.GetBySlug($scope.campaignID) !== false) {
 					getWorkData($scope, $sce, $timeout, true);
 					clearInterval(loadInterval);
 				}
-			}, 500);
+			}, 1000);
 		}
 	}
 ]);
@@ -183,6 +215,10 @@ var getWorkData = function($scope, $sce, $timeout, useSlug) {
 	}
 };
 
+
+//************************
+// Discipline Controller
+//************************
 app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 	function($scope, $routeParams, $timeout) {
 		$scope.dslug = $routeParams.disciplineID;
@@ -219,7 +255,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 	}
 ]);
 
-//
+// Universal close button start
 var closeButtonStart = function() {
 	$('.close').on('click', function(e) {
 		e.preventDefault();
