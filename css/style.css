@@ -248,7 +248,7 @@ header form #searchCancel {
 }
 #overlay #work-overlay header h1 {
   position: absolute;
-  bottom: 0;
+  bottom: 30px;
   left: 20px;
   width: 50%;
   font-size: 50px;
@@ -355,7 +355,7 @@ header form #searchCancel {
 }
 #overlay #news-overlay header h1 {
   position: absolute;
-  bottom: 0;
+  bottom: 30px;
   left: 20px;
   width: 50%;
   font-size: 50px;
@@ -365,6 +365,7 @@ header form #searchCancel {
   #overlay #news-overlay header h1 {
     font-size: 30px;
     line-height: 33px;
+    width: 100%;
   }
 }
 #overlay #news-overlay header .social-btns {
