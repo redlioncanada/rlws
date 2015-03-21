@@ -339,6 +339,3 @@ function addEvent(obj, evt, fn) {
         obj.attachEvent("on" + evt, fn);
     }
 }
-
-
-

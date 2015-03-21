@@ -12,7 +12,7 @@
 	</header>
 	
 	<div id="description">
-		<p>{{work.description}}</p>
+		<p ng-bind-html="outputHTML(work.description)"></p>
 		<div class="datecat">
 			{{work.date_launched | date:'MMMM yyyy'}} <br>
 			{{work.tags}}

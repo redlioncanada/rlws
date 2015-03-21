@@ -62,8 +62,7 @@ app.factory('Cards', function ($http) {
 //****************************************
 // Grid Controller (nothing to see here)
 //****************************************
-app.controller('GridControler', function ($scope) {
-});
+app.controller('GridControler', function ($scope) {});
 
 //************************
 // News Controller
@@ -71,9 +70,6 @@ app.controller('GridControler', function ($scope) {
 app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 	function($scope, $routeParams, $timeout, $sce) {
 		$scope.dslug = $routeParams.newsID;
-		$('#blackout').css({'display':'block'});
-		$('#blackout').animate({"opacity":1, 'padding-top': 0}, 1000, "easeOutCubic");
-		closeButtonStart();
 		
 		$scope.outputHTML = function(snip) {
 			return $sce.trustAsHtml(snip);
@@ -82,10 +78,14 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 		if (boxid !== 0) {
 			$scope.newsitem = dataController.GetBySlug($scope.dslug);
 			$scope.newsitem.date_launched = Date.parse($scope.newsitem.date_launched);
+			overlayFadeIn();
+			closeButtonStart();
 		} else {
 			$timeout(function() {
 				$scope.newsitem = dataController.GetBySlug($scope.dslug);
 				$scope.newsitem.date_launched = Date.parse($scope.newsitem.date_launched);
+				overlayFadeIn();
+				closeButtonStart();
 			}, 1000);
 		}
 		
@@ -101,12 +101,16 @@ app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout',
 		$scope.campaignID = $routeParams.campaignID;
 		$scope.startSection = $routeParams.subSection;
 		
+		$scope.outputHTML = function(snip) {
+			return $sce.trustAsHtml(snip);
+		};
+		
 		if (boxid !== 0) {
 			getWorkData($scope, $sce, $timeout);
 		} else {
 			$timeout(function() {
 				if (dataController.GetBySlug($scope.campaignID) !== false) {
-					getWorkData($scope, $sce, $timeout, true);
+					getWorkData($scope, $sce, $timeout);
 					clearInterval(loadInterval);
 				}
 			}, 1000);
@@ -178,22 +182,15 @@ var getMinSec = function (time) {
 };
 
 // This gets all the data and sets up the Work page
-var getWorkData = function($scope, $sce, $timeout, useSlug) {
+var getWorkData = function($scope, $sce, $timeout) {
 	
-	if (useSlug) $scope.work = dataController.GetBySlug($scope.campaignID);
-	else $scope.work = dataController.GetByID(boxid);
-	
-	$('#blackout').css({'display':'block'});
-	$('#blackout').animate({"opacity":1, 'padding-top': 0}, 1000, "easeOutCubic");
+	$scope.work = dataController.GetBySlug($scope.campaignID);
 	
 	$scope.work.date_launched = Date.parse($scope.work.date_launched);
 	var videos = $scope.work.video_comsep;
 	for (var vids = 0; vids < videos.length; vids++) {
-		if ($scope.work.video_comsep[vids] !== '') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]);
+		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]);
 	}
-	
-	closeButtonStart();
-	audioPlayerStart();
 	
 	var soptions = {
 		dots: true,
@@ -205,13 +202,17 @@ var getWorkData = function($scope, $sce, $timeout, useSlug) {
 	if ($scope.work.print_comsep[0] !== '') {
 		$timeout(function() {
 			$('.printwork').slick(soptions);
-		}, 500);
+		}, 1000);
 	}
 	if ($scope.work.digital_comsep[0] !== '') {
 		$timeout(function() {
 			$('.digitalwork').slick(soptions);
-		}, 500);
+		}, 1000);
 	}
+	
+	audioPlayerStart();
+	overlayFadeIn();
+	closeButtonStart();
 };
 
 
@@ -221,15 +222,15 @@ var getWorkData = function($scope, $sce, $timeout, useSlug) {
 app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 	function($scope, $routeParams, $timeout) {
 		$scope.dslug = $routeParams.disciplineID;
-		$('#blackout').css({'display':'block'});
-		$('#blackout').animate({"opacity":1, 'padding-top': 0}, 1000, "easeOutCubic");
 		closeButtonStart();
 		
 		if (boxid !== 0) {
 			$scope.disciplines = dataController.GetByType('disciplines');
+			overlayFadeIn();
 		} else {
 			$timeout(function() {
 				$scope.disciplines = dataController.GetByType('disciplines');
+				overlayFadeIn();
 			}, 1000);
 		}
 		
@@ -250,18 +251,29 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 			});
 		}, 1200);
 		
-		
 	}
 ]);
 
+var overlayFadeIn = function(millisecs, tweentype) {
+	if (typeof millisecs == 'undefined') millisecs = 1000;
+	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
+	
+	$('#blackout').css({'display':'block'});
+	$('#blackout').velocity({"opacity":1, 'padding-top': 0}, {duration: millisecs, easing: tweentype});
+	
+}
+
 // Universal close button start
-var closeButtonStart = function() {
+var closeButtonStart = function(millisecs, tweentype) {
+	if (typeof millisecs == 'undefined') millisecs = 1000;
+	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
+	
 	$('.close').on('click', function(e) {
 		e.preventDefault();
-		$('#blackout').animate({"opacity":0, 'padding-top': 50}, 1000, "easeInCubic", function() {
+		$('#blackout').velocity({"opacity":0, 'padding-top': 50}, {duration: millisecs, easing: tweentype, complete: function() {
 			$(this).css({'display':'none'});
 			window.location.href = "#/grid";
-		});
+		}});
 	});
 };
 

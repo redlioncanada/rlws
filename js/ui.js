@@ -1,7 +1,7 @@
 //search start
 $('#searchCancel').on('click', function(e) {
 	SpawnAndGoToCity("home");
-	$('#searchCancel').animate({'opacity':'0'},400,function(){$(this).css('display','none')});
+	$('#searchCancel').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
 });
 $('#searchTerm').on('keydown', function(e) {
 	var val = $(this).val();
@@ -14,9 +14,9 @@ $('#searchTerm').on('keydown', function(e) {
 		if ($('#cachedTerm').val().length) {	//search returned results
 			var result = SpawnAndGoToCity(val);
 			if (result && val != homeKeyword) {
-				$('#searchCancel').css('display','block').animate({'opacity':'1'},400);
+				$('#searchCancel').css('display','block').velocity({'opacity':'1'},{duration:400});
 			} else if (result && val == homeKeyword) {
-				$('#searchCancel').animate({'opacity':'0'},400,function(){$(this).css('display','none')});
+				$('#searchCancel').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
 			}
 			$('#cachedTerm').val('');
 			$(this).val('');
@@ -74,7 +74,7 @@ if (Detector.webgl) {
 	var e = Detector.addGetWebGLMessage({parent:$('#loading')});
 	$(window).on('resize',_webGLResizeAnon);
 	_webGLResizeAnon();
-	$(e).css('display','block').animate({'opacity':'1'},1000);
+	$(e).css('display','block').velocity({'opacity':'1'},{duration: 1000});
 }
 //webgl detection end
 
@@ -106,16 +106,16 @@ $('#menu a').click(function() {
 		console.log('blagh');
 		$('#menu a').removeClass('active');
 		$('.menu-item').not('.'+c).each(function() {
-			$(this).animate({top: headerHeight - $(this).height()},300);
+			$(this).velocity({top: headerHeight - $(this).height()},{duration: 300});
 		});
-		if (lastMenuItem != c) {$(self).addClass('active'); $('.menu-item.'+c).animate({top: headerHeight+1},300); lastMenuItem = c;}
-		else {$(self).removeClass('active'); $('.menu-item.'+c).animate({top: headerHeight - $('.menu-item.'+c).height()},300); lastMenuItem = '';}
+		if (lastMenuItem != c) {$(self).addClass('active'); $('.menu-item.'+c).velocity({top: headerHeight+1},{duration:300}); lastMenuItem = c;}
+		else {$(self).removeClass('active'); $('.menu-item.'+c).velocity({top: headerHeight - $('.menu-item.'+c).height()},{duration: 300}); lastMenuItem = '';}
 	}
 });
 $('.menu-item-footer').click(function(){
 	$('#menu a').removeClass('active');
 	$('.menu-item').each(function(){
-		$(this).animate({'top':headerHeight-$(this).height()},300);
+		$(this).velocity({'top':headerHeight-$(this).height()},{duration: 300});
 	});
 
 	lastMenuItem = '';
