@@ -1,6 +1,6 @@
 //search start
 $('#searchCancel').on('click', function(e) {
-	SpawnAndGoToCity("home");
+	SpawnAndGoToCity(homeKeyword);
 	$('#searchCancel').animate({'opacity':'0'},400,function(){$(this).css('display','none')});
 });
 $('#searchTerm').on('keydown', function(e) {
@@ -11,7 +11,7 @@ $('#searchTerm').on('keydown', function(e) {
 		$(this).val(s);
 	}
 	if (e.keyCode == 13 && $(this).val().length) {	//enter
-		if ($('#cachedTerm').val().length) {	//search returned results
+		if ($('#cachedTerm').val().length || $(this).val() == homeKeyword) {	//search returned results
 			var result = SpawnAndGoToCity(val);
 			if (result && val != homeKeyword) {
 				$('#searchCancel').css('display','block').animate({'opacity':'1'},400);
@@ -91,7 +91,7 @@ $('#menu a').click(function() {
 			loadGoogleMap();
 			var mapIntervalAttempts = 0;
 			mapInterval = setInterval(function() {
-				if (googleMapLoaded || ++mapIntervalAttempts > 0) {
+				if (googleMapLoaded || ++mapIntervalAttempts > 10) {
 					clearInterval(mapInterval);
 					mapInterval = false;
 					doAnimation();

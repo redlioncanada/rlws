@@ -73,6 +73,44 @@ var _objects = function() {
 		this.fuse = new Fuse(this.rawData, {keys: ['tags']});
 		this.fuseId = new Fuse(this.rawData, {keys: ['tags'], id: 'tags'});
 	};
+
+	this.dataController.prototype.NormalizeLayoutData = function(layout) {
+		var divisor = 100, minX = 2000, minY = 2000;
+		for (var i in layout.types) {
+			if (layout.types[i].w < divisor) divisor = layout.types[i].w;
+			if (layout.types[i].h < divisor) divisor = layout.types[i].h;
+		}
+		for (var i in layout.types) {
+			layout.types[i].h = layout.types[i].h / divisor;
+			layout.types[i].w = layout.types[i].w / divisor;  
+		}
+		for (var i in layout.tiles) {
+			layout.tiles[i].x = layout.tiles[i].x / divisor;
+			layout.tiles[i].y = layout.tiles[i].y / divisor;
+			if (layout.tiles[i].x < minX) minX = layout.tiles[i].x;
+			if (layout.tiles[i].y < minY) minY = layout.tiles[i].y;
+		}
+		for (var i in layout.tiles) {
+			layout.tiles[i].x -= minX;
+			layout.tiles[i].y -= minY;
+		}
+		return layout;
+	}
+	this.dataController.prototype.GetBuildingsFromTiles = function(layout) {
+		var temp = [];
+		for (var i in layout.tiles) {
+			if (isNaN(layout.tiles[i].id)) {
+				console.log("error: a tile id in layout.js is NaN, a layer in the source illustrator file was not properly named");
+				temp.push(this.data[15]);
+			} else if (!layout.tiles[i].id in this.data) {
+				console.log("error: tile id does not exist");
+				temp.push(this.data[15]);
+			} else {
+				temp.push(this.data[layout.tiles[i].id]);
+			}
+		}
+		return temp;
+	};
 	
 	this.dataController.prototype.GetByID = function(id) {
 		return this.data[id];
@@ -83,7 +121,6 @@ var _objects = function() {
 		for (var tile = 0; tile < keys.length; tile++) {
 			if (this.data[keys[tile]].slug == slug) return this.data[keys[tile]];
 		}
-		return false;
 	};
 	
 	this.dataController.prototype.GetByType = function(overlay) {
@@ -298,39 +335,22 @@ var _objects = function() {
 		this.dataController = d;
 	};
 
-	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, rawData, sizeMultiplier, startX, startY) {
+	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, rawData, sizeMultiplier, startX, startY, type) {
 		if (typeof sizeMultiplier === 'undefined') sizeMultiplier = 1;
+		if (typeof type === 'undefined') type = 0;
 		if (typeof startX === 'undefined') startX = this.cities.length === 0 ? 0 : this.cities.length*this.cities[0].width*cityGutter;
 		if (typeof startY === 'undefined') startY = 0;
-		
+
 		if (sizeMultiplier > 1) {
 			//multiply the size of the array
 			var newData = self.MultiplyArray(sizeMultiplier, rawData);
 			buildingsPerRow *= sizeMultiplier;
 			buildingsPerColumn *= sizeMultiplier;
 
-			//insert the original ordered array into the new array, preventing duplicates in the center
-			/*var mXStart = Math.floor((buildingsPerRow*sizeMultiplier)/2 - buildingsPerRow/2);
-			var mXEnd = buildingsPerRow*sizeMultiplier - mXStart;
-			var mYStart = Math.floor((buildingsPerColumn*sizeMultiplier)/2 - buildingsPerColumn/2);
-			var mYEnd = buildingsPerRow*sizeMultiplier - mXStart;
-
-			var cnt = 0, br = false;
-			for (var i = mXStart; i <= mXEnd - 1; i++) {
-				for (var j = mYStart; j <= mYEnd - 1; j++) {
-					newData[i*j] = rawData[cnt];
-					cnt++;
-
-					if (cnt == rawData.length-1) br = true;
-					if (br) break;
-				}
-				if (br) break;
-			}*/
-
 			rawData = newData;
 		}
 
-		var c = new self.city(buildingsPerRow, buildingsPerColumn, dataController, rawData, sizeMultiplier, startX, startY);
+		var c = new self.city(buildingsPerRow, buildingsPerColumn, dataController, rawData, sizeMultiplier, startX, startY, type);
 		c.tag = tag;
 		this.cities.push(c);
 		c.index = this.cities.length;
@@ -384,7 +404,8 @@ var _objects = function() {
 	//End CityController
 
 	//City - a collection of buildings
-	this.city = function(bpr, bpc, dC, rawData, sizeMultiplier, sX, sY) {
+	this.city = function(bpr, bpc, dC, rawData, sizeMultiplier, sX, sY, type) {
+		if (typeof type === 'undefined') type = 0;
 		this.logMatrix = function(matrix) {
 			if (!debug) return;
 			for (var arr in matrix) {
@@ -397,7 +418,7 @@ var _objects = function() {
 		this.index = undefined;
 		this.tag = "default";
 		this.buildings = [];
-		this.buildingData = rawData.slice();
+		this.buildingData = type ? rawData : rawData.slice();
 		this.extents = {X1:undefined,Y1:undefined,X2:undefined,Y2:undefined,Z1:undefined,Z2:undefined};
 		this.origin = {X:sX,Y:sY};
 		this.width = 0;
@@ -406,10 +427,57 @@ var _objects = function() {
 		this.buildingsPerRow = bpr;
 		this.buildingsPerColumn = bpc;
 		this.dataRef = dC;
-		this.init3D();
+		if (!type) this.init3DRandomized();
+		else this.init3DExplicit();
 	};
 
-	this.city.prototype.init3D = function() {
+	this.city.prototype.init3DExplicit = function() {
+		camMinHeight = 0;
+
+		this.layoutData = dataController.NormalizeLayoutData(this.buildingData);
+		this.buildingData = dataController.GetBuildingsFromTiles(this.layoutData);
+
+		for (var y = 0; y <= this.buildingData.length-1; y++) {
+				var thisbox = {};
+				var curBuilding = new self.building(this.buildingData[y]);
+				if (typeof curBuilding === 'undefined') {console.log('warning: tried to spawn invalid building)'); continue;}
+
+				var type = this.layoutData.tiles[y].type;
+				var curBoxHeight = this.layoutData.types[type].h;
+				var curBoxWidth = this.layoutData.types[type].w;
+				var curBoxDepth = (Math.random() * buildingHeightVariance) + 1*boxdepth*10;
+				if (curBoxDepth / 2 + 1 > camMinHeight) camMinHeight = Math.ceil(curBoxDepth / 2 + 1);
+			
+				thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, curBoxDepth );
+				var useColor = parseInt(curBuilding.hex_color,16);
+				thisbox.material = this.dataRef.GetMaterial(curBuilding, useColor);
+				thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
+				thisbox.cube.castShadow = true;
+				thisbox.cube.receiveShadow = true;
+				thisbox.cube.name = curBuilding.id;
+				scene.add( thisbox.cube );
+				thisbox.cube.position.x = this.origin.X + this.layoutData.tiles[y].x + this.layoutData.types[type].w / 2;
+				thisbox.cube.position.y = this.origin.Y + this.layoutData.tiles[y].y + this.layoutData.types[type].h / 2;
+
+				if (thisbox.cube.position.x + curBoxWidth*1.4 < this.extents.X1 || typeof this.extents.X1 != 'number') this.extents.X1 = thisbox.cube.position.x + curBoxWidth*1.4;
+				if (thisbox.cube.position.x - curBoxWidth*1.4 > this.extents.X2 || typeof this.extents.X2 != 'number') this.extents.X2 = thisbox.cube.position.x - curBoxWidth*1.4; 
+				if (thisbox.cube.position.y + curBoxHeight/4 < this.extents.Y1 || typeof this.extents.Y1 != 'number') this.extents.Y1 = thisbox.cube.position.y + curBoxHeight/4;
+				if (thisbox.cube.position.y - curBoxHeight/4 > this.extents.Y2 || typeof this.extents.Y2 != 'number') this.extents.Y2 = thisbox.cube.position.y - curBoxHeight/4; 
+				if (thisbox.cube.position.z - curBoxDepth/2 < this.extents.Z1 || typeof this.extents.Z1 != 'number') this.extents.Z1 = thisbox.cube.position.z + curBoxDepth/3;
+				
+				curBuilding.SetModel(thisbox.cube);
+				this.buildings[parseInt(curBuilding.id)] = curBuilding;
+				objects.push(thisbox.cube);
+		}
+
+		this.midpoint.X = (this.extents.X2 + this.extents.X1) / 2;
+		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
+		this.width = Math.abs(this.extents.X1 - this.extents.X2);
+		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
+		this.extents.Z2 = this.extents.Z1 + camZ2Extents;
+	};
+
+	this.city.prototype.init3DRandomized = function() {
 		var gutterX = gridSizex-boxwidth;
 		var gutterY = gridSizey-boxheight;
 		var jitterxBool = jitterX;
@@ -475,7 +543,7 @@ var _objects = function() {
 				scene.add( thisbox.cube );
 				thisbox.cube.position.x = this.origin.X + (-x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool);
 				thisbox.cube.position.y = this.origin.Y + (-y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool);
-				
+				//console.log(thisbox.cube.position.x,thisbox.cube.position.y,curBoxWidth,curBoxHeight);
 				if (thisbox.cube.position.x + curBoxWidth*1.4 < this.extents.X1 || typeof this.extents.X1 != 'number') this.extents.X1 = thisbox.cube.position.x + curBoxWidth*1.4;
 				if (thisbox.cube.position.x - curBoxWidth*1.4 > this.extents.X2 || typeof this.extents.X2 != 'number') this.extents.X2 = thisbox.cube.position.x - curBoxWidth*1.4; 
 				if (thisbox.cube.position.y + curBoxHeight/4 < this.extents.Y1 || typeof this.extents.Y1 != 'number') this.extents.Y1 = thisbox.cube.position.y + curBoxHeight/4;
