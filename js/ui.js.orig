@@ -1,7 +1,12 @@
 //search start
 $('#searchCancel').on('click', function(e) {
+<<<<<<< HEAD
 	SpawnAndGoToCity(homeKeyword);
+	$('#searchCancel').animate({'opacity':'0'},400,function(){$(this).css('display','none')});
+=======
+	SpawnAndGoToCity("home");
 	$('#searchCancel').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
+>>>>>>> 12c250dd05bb5ae375234dfa1b32786437385e36
 });
 $('#searchTerm').on('keydown', function(e) {
 	var val = $(this).val();
