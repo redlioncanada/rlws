@@ -173,6 +173,10 @@ var _objects = function() {
 		if (abs) this.Move(city.midpoint.X, city.midpoint.Y);
 		else this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
+		if (!controlsinit) {
+			controlsinit = true;
+			setupEventListeners();
+		}
 	};
 	
 	this.cameraController.prototype.SetConstraints = function(constraints) {
