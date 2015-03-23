@@ -270,6 +270,18 @@ header form #searchCancel {
   text-decoration: none;
   cursor: pointer;
 }
+.social-btns {
+  position: absolute;
+  top: 80px;
+  right: 23px;
+  width: 25px;
+  height: 90px;
+}
+.social-btns img {
+  margin-top: 5px;
+  cursor: hand;
+  cursor: pointer;
+}
 #overlay {
   margin: 20px auto;
   padding-bottom: 20px;
@@ -325,14 +337,6 @@ header form #searchCancel {
     font-size: 30px;
     line-height: 33px;
   }
-}
-#overlay #work-overlay header .social-btns {
-  position: absolute;
-  bottom: 30px;
-  right: 20px;
-}
-#overlay #work-overlay header .social-btns img {
-  margin-left: 4px;
 }
 #overlay #work-overlay #description p {
   width: 620px;
@@ -435,14 +439,6 @@ header form #searchCancel {
     width: 100%;
   }
 }
-#overlay #news-overlay header .social-btns {
-  position: absolute;
-  top: 23px;
-  right: 80px;
-}
-#overlay #news-overlay header .social-btns img {
-  margin-left: 4px;
-}
 #overlay #news-overlay #description p {
   width: 620px;
   margin: 40px 20px 40px 40px;
@@ -511,19 +507,6 @@ header form #searchCancel {
   #overlay #discipline-overlay header h2 {
     font-size: 20px;
   }
-}
-#overlay #discipline-overlay header .social-btns {
-  position: absolute;
-  top: 23px;
-  right: 80px;
-}
-@media (max-width: 900px) {
-  #overlay #discipline-overlay header .social-btns {
-    display: none;
-  }
-}
-#overlay #discipline-overlay header .social-btns img {
-  margin-left: 4px;
 }
 #overlay #discipline-overlay .dcontainer {
   margin: 10px 0;
