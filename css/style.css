@@ -83,10 +83,11 @@ header {
   z-index: 300;
   background: black;
   position: relative;
+  border-bottom: 1px solid #e32526;
 }
 header #menu {
   float: left;
-  margin: 13px 13px 0 15px;
+  margin: 13px 21px 0 15px;
 }
 header #menu a {
   color: #b1b1b1;
@@ -108,6 +109,7 @@ header form {
   float: left;
   margin: 0;
   width: 60%;
+  font-weight: 700;
 }
 @media (max-width: 900px) {
   header form {
@@ -115,11 +117,13 @@ header form {
   }
 }
 header form input {
+  font-weight: 700;
+  letter-spacing: -2.5px;
   height: 73px;
   width: 65%;
   max-width: 1050px;
   border: none;
-  padding-left: 65px;
+  padding-left: 56px;
   font-size: 40px;
   outline: none;
   position: absolute;
@@ -128,12 +132,13 @@ header form input {
 }
 header form input#searchTerm {
   background: url('../img/search.png') no-repeat left 10px center;
+  color: #b1b1b1;
 }
 header form input#cachedTerm {
-  margin-left: 65px;
+  margin-left: 56px;
   padding-left: 0px;
   z-index: 0;
-  color: d4d4d4;
+  color: #333333;
 }
 header form #searchCancel {
   opacity: 0;
@@ -146,14 +151,11 @@ header form #searchCancel {
 .menu-item {
   width: 380px;
   position: absolute;
-  background: #fffdf2;
+  background: #000000;
   left: 30px;
   z-index: 250;
   top: -1000px;
   color: #e32526;
-  -webkit-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49) !important;
-  -moz-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49) !important;
-  box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49) !important;
 }
 @media (max-width: 440px) {
   .menu-item {
@@ -192,7 +194,7 @@ header form #searchCancel {
 .menu-item .menu-item-footer div {
   width: 100%;
   border-bottom: 1px solid;
-  border-bottom-color: #b1b1b1;
+  border-bottom-color: #e32526;
   height: 23px;
 }
 .menu-item .menu-item-footer img {
@@ -224,7 +226,7 @@ header form #searchCancel {
   }
 }
 #loading {
-  background-color: #fffdf2;
+  background-color: #000000;
   height: 100%;
   z-index: 200;
   position: relative;
@@ -610,7 +612,7 @@ header form #searchCancel {
     display: none;
   }
 }
-.player .controlbox .meter > span {
+.player .controlbox .meter  > span {
   display: block;
   height: 100%;
   -moz-border-radius: 7px;

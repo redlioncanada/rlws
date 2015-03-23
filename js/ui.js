@@ -1,5 +1,7 @@
 //search start
 $('#searchCancel').on('click', function(e) {
+	$('#searchTerm').val('');
+	$('#cachedTerm').val('');
 	SpawnAndGoToCity(homeKeyword);
 	$('#searchCancel').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
 });
@@ -18,14 +20,13 @@ $('#searchTerm').on('keydown', function(e) {
 			} else if (result && val == homeKeyword) {
 				$('#searchCancel').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
 			}
-			$('#cachedTerm').val('');
-			$(this).val('');
+			$(this).val($('#cachedTerm').val()).blur();
 			return;
 		} else {	//search returned no results
 			$(this).val('');
 			return;
 		}
-	} else if (e.keyCode == 9 || e.keyCode == 39) {	//tab, right arrow
+	} else if ((e.keyCode == 9 && val.length > 0) || e.keyCode == 39) {	//tab, right arrow
 		e.preventDefault();
 		var t = $('#cachedTerm').val();
 		$(this).val(t);
@@ -79,7 +80,7 @@ if (Detector.webgl) {
 //webgl detection end
 
 //menu items start
-var headerHeight = $('#main-header').outerHeight(), lastMenuItem, mapInterval = false;
+var headerHeight = $('#main-header').outerHeight()-1, lastMenuItem, mapInterval = false;
 $('.menu-item').each(function(){
 	$(this).css('top',headerHeight-$(this).height());
 });

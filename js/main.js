@@ -4,7 +4,6 @@ var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height
 var scene = new THREE.Scene();
 var mouse = new THREE.Vector2(), intersected;
 var raycaster = new THREE.Raycaster();
-//scene.fog = new THREE.FogExp2( 0xfffdf2, 0.12 );
 scene.fog = new THREE.FogExp2( 0x000000, 0.12 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
 var hemilight = null;
@@ -59,13 +58,12 @@ function init3D() {
 		resize();
 
 		// Objects init - plane (ground)
-/*
+
 		var geometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
-		var material = new THREE.MeshBasicMaterial( {color: 0xfffdf2, side: THREE.DoubleSide} );
+		var material = new THREE.MeshBasicMaterial( {color: 0x000, side: THREE.DoubleSide} );
 		var plane = new THREE.Mesh( geometry, material );
 		scene.add( plane );
 		plane.position.z = -0.2;
-*/
 		
 		// Objects init - camera & light
 		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 1.1);

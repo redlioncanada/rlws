@@ -1,4 +1,4 @@
-@background: #fffdf2;
+@background: #000;
 @grey: #b1b1b1;
 @lionred: #e32526;
 
@@ -94,10 +94,11 @@ header {
 	z-index: 300; 
 	background: black;
 	position: relative;
+	border-bottom: 1px solid @lionred;
 
 	#menu {
 		float: left;
-		margin: 13px 13px 0 15px;
+		margin: 13px 21px 0 15px;
 
 		a {
 			color: @grey;
@@ -122,15 +123,19 @@ header {
 		float: left;
 		margin: 0;
 		width: 60%;
+		font-weight: 700;
+
 		@media (max-width: 900px) {
 			display: none;
 		}
 		input {
+			font-weight: 700;
+			letter-spacing: -2.5px;
 			height: 73px;
 			width: 65%;
 			max-width: 1050px;
 			border: none;
-			padding-left: 65px;
+			padding-left: 56px;
 			font-size: 40px;
 			outline: none;
 			position: absolute;
@@ -139,12 +144,13 @@ header {
 		}
 		input#searchTerm {
 			background: url('../img/search.png') no-repeat left 10px center;
+			color: #b1b1b1;
 		}
 		input#cachedTerm {
-			margin-left: 65px;
+			margin-left: 56px;
 			padding-left: 0px;
 			z-index: 0;
-			color: d4d4d4;
+			color: #333333;
 		}
 		#searchCancel {
 			opacity: 0;
@@ -164,9 +170,6 @@ header {
 	z-index: 250;
 	top: -1000px;
 	color: @lionred;
-	-webkit-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49) !important;
-	-moz-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49) !important;
-	box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49) !important;
 	
 	@media (max-width: 440px) {
 		width: 100% !important;
@@ -210,7 +213,7 @@ header {
 		div {
 			width: 100%;
 			border-bottom: 1px solid;
-			border-bottom-color: @grey;
+			border-bottom-color: @lionred;
 			height: 23px;
 		}
 		img {
