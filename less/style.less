@@ -94,7 +94,6 @@ header {
 	z-index: 300; 
 	background: black;
 	position: relative;
-	border-bottom: 1px solid @lionred;
 
 	#menu {
 		float: left;
@@ -117,6 +116,11 @@ header {
 		float: right; 
 		height: 58px;
 		padding: 8px;
+
+		@media (max-width:480px) {
+			padding: 14px 8px 8px 8px;
+			height: 44px;
+		}
 	}
 	form {
 		z-index: 1;
@@ -162,6 +166,12 @@ header {
 		}
 	}
 }
+#header-border {
+	width: 100%;
+	height: 1px;
+	background: #e32526;
+	position: relative;
+}
 .menu-item {
 	width: 380px;
 	position: absolute;
@@ -171,6 +181,7 @@ header {
 	top: -1000px;
 	color: @lionred;
 	border: 1px solid;
+	border-top: 1px solid black;
 	
 	@media (max-width: 440px) {
 		width: 100% !important;
