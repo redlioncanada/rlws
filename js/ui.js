@@ -182,3 +182,15 @@ function loadGoogleMap() {
 	document.body.appendChild(script);
 }
 //google map end
+
+//overlay start
+$('#blackout').on("click", function(evt) {
+    evt.stopPropagation();
+    if($($(evt.target).context).attr('id') == 'blackout') {
+    	$(this).velocity({"opacity":0, 'padding-top': 50}, {duration: 1000, easing: "easeOutCubic", complete: function() {
+			$(this).css({'display':'none'});
+			window.location.href = "#/grid";
+		}});
+    }
+});
+//overlay end
