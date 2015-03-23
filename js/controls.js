@@ -32,6 +32,7 @@ $(document).keydown(function( event ) {
 		event.preventDefault();
 		mROTDOWN = true;
 	}
+	closeMenu();
 });
 
 // Keyboard Controls - key up event

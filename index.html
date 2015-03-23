@@ -22,13 +22,13 @@
 			</div>
 			<img id="logo" src="img/rl_wordmark.png" />
 			<form>
-				<input type="text" name="searchterm" id="searchTerm">
-				<input type="text" id="cachedTerm">
+				<input type="text" name="searchterm" id="searchTerm" tabindex="3">
+				<input type="text" id="cachedTerm" disabled>
 				<input type="submit" style="display:none;" name="submit">
 				<img id="searchCancel" src="img/close-btn-grey.png"/>
 			</form>
 		</header>
-		<div class='menu-item culture'>
+		<div class='menu-item culture' tabindex="0">
 			<div class='menu-item-header'>
 				<div>
 					<h1>We're cultured.</h1>
@@ -38,7 +38,7 @@
 				<div><img src='img/menu-footer.png'/></div>
 			</div>
 		</div>
-		<div class='menu-item contact'>
+		<div class='menu-item contact' tabindex="1">
 			<div class='menu-item-header'>
 				<div>
 					<h4>ADDRESS</h4>
@@ -61,7 +61,7 @@
 				<div><img src='img/menu-footer.png'/></div>
 			</div>
 		</div>
-		<div class='menu-item careers'>
+		<div class='menu-item careers' tabindex="2">
 			<div class='menu-item-header'>
 				<div>
 					<h4>GENERAL INQUIRIES</h4>
@@ -78,7 +78,7 @@
 		</div>
 		<div id="controls"></div>
 		<div id="loading"></div>
-		<div id="canvas"></div>
+		<div id="canvas" tabindex="4"></div>
 		<script src="js/lib/three.min.js"></script>
 		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 		<script src="js/lib/velocity.min.js"></script>
@@ -101,7 +101,6 @@
 		<script src="js/controls.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/ui.js"></script>
-		<script src="js/overlay.js"></script>
 		<script src="//use.typekit.net/ngi3tcl.js"></script>
 		<script>try{Typekit.load();}catch(e){}</script>
 	</body>

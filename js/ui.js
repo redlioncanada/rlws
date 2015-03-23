@@ -55,7 +55,7 @@ $('#searchTerm').on('input', function(e) {
 		}
 	}
 	$('#cachedTerm').val('');
-});
+}).on('focus',closeMenu);
 //search end
 
 //webgl detection start
@@ -103,23 +103,24 @@ $('#menu a').click(function() {
 	}
 
 	function doAnimation() {
-		console.log('blagh');
 		$('#menu a').removeClass('active');
 		$('.menu-item').not('.'+c).each(function() {
 			$(this).velocity({top: headerHeight - $(this).height()},{duration: 300});
 		});
 		if (lastMenuItem != c) {$(self).addClass('active'); $('.menu-item.'+c).velocity({top: headerHeight+1},{duration:300}); lastMenuItem = c;}
-		else {$(self).removeClass('active'); $('.menu-item.'+c).velocity({top: headerHeight - $('.menu-item.'+c).height()},{duration: 300}); lastMenuItem = '';}
+		else {closeMenu();}
 	}
 });
-$('.menu-item-footer').click(function(){
+function closeMenu() {
 	$('#menu a').removeClass('active');
 	$('.menu-item').each(function(){
 		$(this).velocity({'top':headerHeight-$(this).height()},{duration: 300});
 	});
 
 	lastMenuItem = '';
-});
+}
+$('.menu-item-footer').click(closeMenu);
+$('#canvas').on('mousedown',closeMenu);
 //menu items end
 
 //google map start

@@ -10,6 +10,9 @@ a {
 	text-decoration: none;
 	color: @lionred;
 }
+*:focus {
+	outline: none;
+}
 body {
 	overflow: hidden; 
 	margin: 0; 
@@ -112,9 +115,9 @@ header {
 	z-index: 250;
 	top: -1000px;
 	color: @lionred;
-	-webkit-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49);
-	-moz-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49);
-	box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49);
+	-webkit-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49) !important;
+	-moz-box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49) !important;
+	box-shadow: inset 0px 5px 28px -11px rgba(0, 0, 0, 0.49) !important;
 	
 	@media (max-width: 440px) {
 		width: 100% !important;
@@ -193,6 +196,11 @@ header {
 }
 .menu-item.culture {
 	width: 760px;
+
+	@media (max-width:760px) {
+		width: 100%;
+		left: 0;
+	}
 }
 #loading {
 	background-color: @background;
