@@ -299,8 +299,8 @@ var _objects = function() {
 		if (debug && debugMovement) console.log('Move: X:'+X+',Y:'+Y+',Z:'+Z);
 	};
 	
-	this.cameraController.prototype.Rotate = function(X, Y, Z, abs) {
-		
+	this.cameraController.prototype.Rotate = function(X, Y, Z, abs, animated) {
+		var _self = this;
 		if (typeof abs === 'undefined') abs = true;
 		if (!abs) {
 			X = this.camera.rotation.x+X;
@@ -310,7 +310,22 @@ var _objects = function() {
 
 		if (typeof X !== 'undefined' && !isNaN(X)) {
 			if (this.HitTestR(X) && !this.animating) {
-				this.camera.rotation.x = X;
+				if (!animated) this.camera.rotation.x = X;
+				else {
+					this.animating = true;
+					var t = new TWEEN.Tween( { x : this.camera.rotation.x } )
+						.to( { x : X }, 500 )
+						.easing( TWEEN.Easing.Cubic.InOut )
+						.onUpdate( function() {
+							_self.camera.rotation.x = this.x;
+						})
+						.onComplete( function() {
+							_self.animating = false;
+						})
+						.start();
+				}
+
+				
 			}
 		}
 		if (typeof Y !== 'undefined' && !isNaN(Y)) {
@@ -327,6 +342,13 @@ var _objects = function() {
 		
 		if (debug && debugMovement) console.log('Rotate: X:'+X+',Y:'+Y+',Z:'+Z);
 	};
+	
+	this.cameraController.prototype.GetState = function() {
+		return {
+			position: this.camera.position,
+			rotation: this.camera.rotation
+		};
+	}
 	
 	this.cameraController.prototype.HitTestX = function(X) {return X >= this.constraints.X1 && X <= this.constraints.X2; };
 	this.cameraController.prototype.HitTestY = function(Y) {return Y >= this.constraints.Y1 && Y <= this.constraints.Y2; };

@@ -340,3 +340,54 @@ function addEvent(obj, evt, fn) {
         obj.attachEvent("on" + evt, fn);
     }
 }
+
+$(function() {
+	
+	$('#mapctrl-left').mousedown(function() {
+		mLEFT = true;
+	}).mouseup(function() {
+		mLEFT = false;
+	});
+	$('#mapctrl-right').mousedown(function() {
+		mRIGHT = true;
+	}).mouseup(function() {
+		mRIGHT = false;
+	});
+	$('#mapctrl-up').mousedown(function() {
+		mUP = true;
+	}).mouseup(function() {
+		mUP = false;
+	});
+	$('#mapctrl-down').mousedown(function() {
+		mDOWN = true;
+	}).mouseup(function() {
+		mDOWN = false;
+	});
+	$('#mapctrl-zoomin').mousedown(function() {
+		mGOOUT = true;
+	}).mouseup(function() {
+		mGOOUT = false;
+	});
+	$('#mapctrl-zoomout').mousedown(function() {
+		mGOIN = true;
+	}).mouseup(function() {
+		mGOIN = false;
+	});
+	
+	$('#mapctrl-tilt').click(function(e) {
+		e.preventDefault();
+		var cameraState = cameraController.GetState();
+		var currentTilt = cameraState.rotation.x;
+		var camMinTilt = cameraController.constraints.R1;
+		var camMidTilt = (cameraController.constraints.R1 + cameraController.constraints.R2) / 2;
+		var camMaxTilt = cameraController.constraints.R2;
+		console.log('currentTilt = ' + currentTilt + ", camMinTilt = " + camMinTilt  + ", camMidTilt = " + camMidTilt  + ", camMaxTilt = " + camMaxTilt);
+		if (currentTilt >= camMinTilt && currentTilt < camMidTilt) {
+			cameraController.Rotate(camMidTilt, undefined, undefined, true, true);
+		} else if (currentTilt >= camMidTilt && currentTilt < camMaxTilt) {
+			cameraController.Rotate(camMaxTilt, undefined, undefined, true, true);
+		} else {
+			cameraController.Rotate(camMinTilt, undefined, undefined, true, true);
+		}
+	})
+});

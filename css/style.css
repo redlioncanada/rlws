@@ -37,6 +37,45 @@ body {
   width: 100%;
   height: 100%;
 }
+#controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 124px;
+  height: 85px;
+  z-index: 2;
+}
+#controls img {
+  position: absolute;
+}
+#controls #mapctrl-left {
+  top: 0;
+  left: 0;
+}
+#controls #mapctrl-up {
+  top: 0;
+  left: 24px;
+}
+#controls #mapctrl-right {
+  top: 0;
+  left: 60px;
+}
+#controls #mapctrl-down {
+  bottom: 0;
+  left: 24px;
+}
+#controls #mapctrl-tilt {
+  left: 24px;
+  top: 24px;
+}
+#controls #mapctrl-zoomin {
+  right: 0;
+  top: 0;
+}
+#controls #mapctrl-zoomout {
+  right: 0;
+  bottom: 0;
+}
 header {
   top: 0;
   width: 100%;
