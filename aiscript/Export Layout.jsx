@@ -3,13 +3,6 @@
 // Requirements: Adobe Illustrator CS4 or greater
 // Version: 1.0-beta8
 // ===============================================================================
-// Installation:
-// 1. Place script in
-//        Mac: '~/Applications/Adobe Illustrator CS#/Presets/Scripts/'
-//        Win: 'C:\Program Files\Adobe\Adobe Illustrator CS#\Presets\en_US\Scripts\'
-// 2. Restart Illustrator
-// 3. Choose File > Scripts > Export Layout
-// ===============================================================================
 /*
 
     This script will output a JSON tree representing the content.
@@ -339,89 +332,8 @@ function processLayer(layer) {
   tabCount=tabCount+1;
   layerNum++;
 
-  //Set tag arrays to none so non present tags won't come up undefined
-  //id[this.layer] = "NONE";
-  //type[this.layer] = layer.typename;
-  //align[this.layer] = "NONE";
-  //attach[this.layer] = "NONE";
-  //variable[this.layer] = "NONE";
-
-  //Parse Tags from the name, set type
-  //This could be in a separate function(s)
-  //var layerName = layer.name.split (" ");
-  //check = 0;
-  // loop through layer name that was split into an array
-  //for ( var ii = 0; ii < layerName.length; ii++ ) {
-    // Gather Name
-    /*if ( layerName[ii].indexOf("$") == -1 &&
-         layerName[ii].indexOf("#") == -1 &&
-         layerName[ii].indexOf("@") == -1 &&
-         layerName[ii].indexOf("%") == -1 &&
-         layerName[ii].indexOf("&") == -1 )
-      nameO[this.layer] = layerName[ii];
-    else if ( ii === layer.name.length ) {
-      nameO[this.layer] = "NONE";
-    }
-
-    // Check for ID tag
-    if ( layerName[ii].indexOf("$") !== -1 ) {
-      id[this.layer] = layerName[ii].toLowerCase().slice(1);
-      id[this.layer]=translateTag(id[this.layer]);
-      check = 1;
-    }
-    else if ( ii === layer.name.length && check === 0 ) {
-      id[this.layer] = "layer";
-      check = 0;
-    }
-
-    // Check for type tag
-    if ( layerName[ii].indexOf("#") !== -1 ) {
-      type[this.layer] = layerName[ii].toLowerCase().slice(1);
-      type[this.layer]=translateTag(type[this.layer]);
-      check = 1;
-    }
-    else if ( check === 0 && ii === layerName.length ) {
-      type[this.layer] = layer.typename;
-      type[this.layer] = translateTag(type[this.layer]);
-      check = 0;
-    }
-
-    // Check for align tag
-    if ( layerName[ii].indexOf("@") !== -1 ) {
-      align[this.layer] = layerName[ii].toUpperCase().slice(1);
-      align[this.layer]=translateTag(align[this.layer]);
-    }
-    else if ( ii === layerName.length ) {
-      align[this.layer] = "NONE";
-    }
-
-    // Check for attach tag
-    if ( layerName[ii].indexOf("%") !== -1 ) {
-      attach[this.layer] = layerName[ii].toLowerCase().slice(1);
-      attach[this.layer]=translateTag(attach[this.layer]);
-    }
-    else if ( ii === layerName.length ) {
-      attach[this.layer] = "NONE";
-    }
-
-    // Check for variable tag
-    if ( layerName[ii].indexOf("&") !== -1 ) {
-      variable[this.layer] = layerName[ii].toLowerCase().slice(1);
-      variable[this.layer]=translateTag(variable[this.layer]);
-    }
-    else if ( ii === layerName.length ) {
-      variable[this.layer] = "NONE";
-    }
-  }*/
-
   if ( layer.visible ) {
     //Visible Layer
-    //tab("\"name\":\""+nameO[this.layer]+"\",\n");
-    //tab("\"id\":\""+id[this.layer]+"\",\n");
-    //tab("\"type\":\""+type[this.layer]+"\",\n");
-    //tab("\"align\":\""+align[this.layer]+"\",\n");
-    //tab("\"attach\":\""+attach[this.layer]+"\",\n");
-    //tab("\"variable\":\""+variable[this.layer]+"\",\n");
     if (type == 'PathItem') {
       var type = addType(getX(layer),getY(layer));
       tab("\"type\":\"" + type  +"\",\n");
@@ -429,9 +341,6 @@ function processLayer(layer) {
       tab("\"h\":\"" + getH(layer)  +"\",\n");
       return;
     } else {
-      //tab("\"children\":\n");
-      //tab("[\n");
-
       //Print Page Items out as Children
       traversePageItems(layer);
 
@@ -443,15 +352,12 @@ function processLayer(layer) {
 
       //Print Layers out as Children
       traverseLayers(layer);
-      //tab("]\n");
     }
 
     tabCount = tabCount -1;
   }
   else {
     //Invisible Layer
-    //tab("\"name\":\""+"HIDDEN LAYER"+"\",\n");
-    //tab("\"type\":\""+"HIDDEN LAYER "+ type[this.layer]+"\"\n");
     tabCount = tabCount -1;
   }
 
@@ -481,15 +387,7 @@ function traverseLayers(parent) {
       tab("tiles: [\n");
 
       processLayer(child);
-
-      //  last child close '}'
-      //  not last child comma '},'
-      //if ( ii === parent.layers.length - 1 ) {
-        //tab("]\n");
-      //}
-      //else {
-        tab("],\n");
-      //}
+      tab("],\n");
     }
 
     tabCount = tabCount - 1;
@@ -620,12 +518,6 @@ function processPageItem(child, i) {
   parseName(child, i);
 
   tab("\"id\":" + parseInt(nameO[i]) + ",\n");
-  //tab("\"id\":\"" + id[i] + "\",\n");
-  //tab("\"type\":\"" + type[i] + "\",\n");
-  //tab("\"align\":\"" + align[i] + "\",\n");
-  //tab("\"attach\":\"" + attach[i] + "\",\n");
-  //tab("\"variable\":\"" + variable[i] + "\",\n");
-
   // Output color information for PathItems
   if ( child.typename === "PathItem" ) {
     //Type
@@ -636,130 +528,14 @@ function processPageItem(child, i) {
     
     // Fill Colors
     if ( fillColor[i].typename === "RGBColor" ) {
-      //tab("\"fill color type\":\"" + fillColor[i].typename + "\",\n");
       var r = fillColor[i].red.toString(16);
       if (r.length == 1) r = "0" + r;
       var g = fillColor[i].green.toString(16);
       if (g.length == 1) g = "0" + g;
       var b = fillColor[i].blue.toString(16);
       if (b.length == 1) b = "0" + b;
-      //tab("\"color\":\"" + r + g + b + "\",\n");
-      //tab("\"fill g\":\"" + fillColor[i].green + "\",\n");
-      //tab("\"fill b\":\"" + fillColor[i].blue + "\",\n");
-      //tab("\"fill a\":\"" + child.opacity + "\",\n");
     }
-    /*else if ( fillColor[i].typename === "GrayColor" ) {
-      tab("\"fill color type\":\"" + fillColor[i].typename + "\",\n");
-      tab("\"fill gray\":\"" + fillColor[i].gray + "\",\n");
-      tab("\"fill a\":\"" + child.opacity + "\",\n");
-    }
-    else if ( fillColor[i].typename === "GradientColor" ) {
-      tab("\"fill color type\":\"" + fillColor[i].typename + "\"" + ",\n");
-    }
-    else if ( fillColor[i].typename === "NoColor" ) {
-      tab("\"fill color type\":\"" + fillColor[i].typename + "\"" + "\",\n");
-    }*/
-
-    // Stroke Colors
-    /*if ( strokeColor[i].typename === "RGBColor" ) {
-      tab("\"stroke color type\":\"" + strokeColor[i].typename + "\",\n");
-      tab("\"stroke r\":\"" +  strokeColor[i].red + "\",\n");
-      tab("\"stroke g\":\"" +  strokeColor[i].green + "\",\n");
-      tab("\"stroke b\":\"" + strokeColor[i].blue + "\",\n");
-      tab("\"stroke a\":\"" + child.opacity + "\",\n");
-    }
-    else if ( strokeColor[i].typename === "GrayColor" ) {
-      tab("\"stroke color type\":\"" + strokeColor[i].typename + "\",\n");
-      tab("\"stroke gray\":\"" + strokeColor[i].gray + "\",\n");
-      tab("\"stroke a\":\"" + child.opacity + "\",\n");
-    }
-    else if ( strokeColor[i].typename === "GradientColor" ) {
-      tab("\"stroke color type\":\"" + strokeColor[i].typename + "\"" + ",\n");
-    }
-    else if ( strokeColor[i].typename === "NoColor" ) {
-      tab("\"stroke color type\":\"" + strokeColor[i].typename + "\"" + ",\n");
-    }*/
   }
-
-  // Output font information for TextFrames
-  /*if ( child.typename === "TextFrame" ) {
-    tab("\"font family\":\"" + fontFamily[i] + "\"" + ",\n");
-    tab("\"font style\":\"" + fontStyle[i] + "\"" + ",\n");
-    tab("\"font size\":\"" + fontSize[i] + "\"" + ",\n");
-    tab("\"font stroke weight\":\"" + fontStrokeWeight[i] + "\"" + ",\n");
-    var justify = String(fontJustification[i]);
-    justify = justify.split(".")[1];
-    tab("\"paragraph justification\":\"" + justify.toLowerCase() + "\"" + ",\n");
-    tab("\"tracking\":\"" + tracking[i] + "\"" + ",\n");
-    tab("\"leading\":\"" + leading[i] + "\"" + ",\n");
-
-    // Font Fill Colors
-    if ( fontFillColor[i].typename === "RGBColor" ) {
-      tab("\"font fill color type\":\"" + fontFillColor[i].typename + "\",\n");
-      tab("\"font fill r\":\"" + fontFillColor[i].red + "\",\n");
-      tab("\"font fill g\":\"" + fontFillColor[i].green + "\",\n");
-      tab("\"font fill b\":\"" + fontFillColor[i].blue + "\",\n");
-      tab("\"font fill a\":\"" + child.opacity + "\",\n");
-    }
-    else if ( fontFillColor[i].typename === "GrayColor" ) {
-      tab("\"font fill color type\":\"" + fontFillColor[i].typename + "\",\n");
-      tab("\"font fill gray\":\"" + fontFillColor[i].gray + "\",\n");
-      tab("\"font fill a\":\"" + child.opacity + "\",\n");
-    }
-    else if ( fontFillColor[i].typename === "GradientColor" ) {
-      tab("\"font fill color type\":\"" + fontFillColor[i].typename + "\"" + ",\n");
-    }
-    else if ( fontFillColor[i].typename === "NoColor" ) {
-      tab("\"font fill color type\":\"" + fontFillColor[i].typename + "\"" + "\",\n");
-    }
-
-    // Font Stroke Colors
-    if ( fontStrokeColor[i].typename === "RGBColor" ) {
-      tab("\"font stroke color type\":\"" + fontStrokeColor[i].typename + "\",\n");
-      tab("\"font stroke r\":\"" + fontStrokeColor[i].red + "\",\n");
-      tab("\"font stroke g\":\"" + fontStrokeColor[i].green + "\",\n");
-      tab("\"font stroke b\":\"" + fontStrokeColor[i].blue + "\",\n");
-      tab("\"font stroke a\":\"" + child.opacity + "\",\n");
-    }
-    else if ( fontStrokeColor[i].typename === "GrayColor" ) {
-      tab("\"font stroke color type\":\"" + fontStrokeColor[i].typename + "\",\n");
-      tab("\"font stroke gray\":\"" + fontStrokeColor[i].gray + "\",\n");
-      tab("\"font stroke a\":\"" + child.opacity + "\",\n");
-    }
-    else if ( fontStrokeColor[i].typename === "GradientColor" ) {
-      tab("\"font stroke color type\":\"" + fontStrokeColor[i].typename + "\"" + ",\n");
-    }
-    else if ( fontStrokeColor[i].typename === "NoColor" ) {
-      tab("\"font stroke color type\":\"" + fontStrokeColor[i].typename + "\"" + "\",\n");
-    }
-
-    tab("\"text content\":\"" + textContent[i] + "\"" + ",\n");
-  }*/
-
-  //tab("\"w\":\"" + W + "\",\n");
-  //tab("\"h\":\"" + H + "\",\n");
-  /*________________________
-
-    Export PNGs
-    ________________________*/
-  /*if ( type[i] === "image" || type[i] === "icon" || type[i] === "button" ) {
-    var png = new File(FPath.fsName+"/"+childName+".png");
-    var scratchDoc = app.documents.add(DocumentColorSpace.RGB, child.width, child.height);
-    scratchDoc.pageOrigin = [0,0];
-    child.duplicate(scratchDoc, ElementPlacement.PLACEATEND);
-    var item = scratchDoc.activeLayer.pageItems[0];
-    item.translate(-item.position[0], -item.position[1] + child.height);
-    scratchDoc.exportFile(png,ExportType.PNG24,options);
-    scratchDoc.close(SaveOptions.DONOTSAVECHANGES);
-    pngNum++;
-  }
-
-  if ( child.typename === "GroupItem" ) {
-    tab("\"children\":\n");
-    tab("[\n");
-    traversePageItems (child);
-    tab("]\n");
-  }*/
 }
 
 function outputTypes() {
@@ -856,9 +632,7 @@ if ( FPath === null ) {
   alert ("Export aborted", "Canceled");
 }
 else {
-  alert( "Exported " +
-        layerNum +
-        " layer's coordinates to " +
+  alert( "Exported layout to " +
         translateTag(FPath),
   "Success!");
 }
