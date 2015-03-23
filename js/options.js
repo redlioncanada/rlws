@@ -30,7 +30,7 @@ var glCards2 = [];
 var camXExtents = 2; //affects how far outside the current grid that the this.camera can scroll, left&right
 var camYExtents = 2;	//affects how far outside the current grid that the this.camera can scroll, up&down
 var camZ1Extents = -7.5;
-var camZ2Extents = 8;
+var camZ2Extents = 20;
 var camRotateMin = 0.0;
 var camRotateMax = 0.9;
 

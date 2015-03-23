@@ -62,7 +62,13 @@ app.factory('Cards', function ($http) {
 //****************************************
 // Grid Controller (nothing to see here)
 //****************************************
-app.controller('GridControler', function ($scope) {});
+app.controller('GridControler', function ($scope) {
+	if( $("#blackout").css('display') == 'block') {
+		$('#blackout').velocity({"opacity":0, 'padding-top': 50}, {duration: millisecs, easing: tweentype, complete: function() {
+			$(this).css({'display':'none'});
+		}});
+	}
+});
 
 //************************
 // News Controller
@@ -404,6 +410,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 			
 			$('.dcontainer h1').click(function() {
 				if (!$(this).hasClass('selected')) {
+					window.location.href = "#/disciplines/" + $(this).attr("data-slug");
 					$('.dcontainer p').slideUp();
 					$('.dcontainer h1').removeClass('selected');
 					$('.dcontainer h1 span').html('+');
@@ -443,7 +450,7 @@ var closeButtonStart = function(millisecs, tweentype) {
 var loc, newtitle;
 
 var socialStart = function(title, subtitle) {
-	loc = window.location.href;
+	loc = escape(window.location.href);
 	newtitle  = escape(title + " - " + subtitle + " || Red Lion Canada");
 	
 	$('img.twitter').click(function(e){
@@ -461,7 +468,7 @@ var socialStart = function(title, subtitle) {
 	
 	$('img.linkedin').click(function(e) {
 		e.preventDefault();
-		window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + loc + '&title=' + newtitle, 'linkedinwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, menubar=0, directories=0, scrollbars=0');
+		window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + loc + '&title=' + newtitle, 'linkedinwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
 	});
 }
 

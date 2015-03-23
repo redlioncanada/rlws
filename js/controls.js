@@ -97,7 +97,8 @@ function fingerMouseDown(e) {
 	}
 	
 	if (isMobile) {
-		mouseMove(e);	
+		mouseMove(e);
+		console.log("Mouse Move called");
 	}
 	mTouchDown = true;
 	didSingleClick = true;
@@ -144,7 +145,7 @@ function fingerMouseUp(e) {
 	canvas.removeEventListener('mousemove', fingerMouseDrag);
 	
 	var touchX, touchY, vector;
-	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched && didSingleClick && (!isMobile && e.which == 1)) {
+	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched && didSingleClick) {
 		raycaster.setFromCamera(mouse, camera);
 		var intersects = raycaster.intersectObjects(scene.children);
 
@@ -181,7 +182,7 @@ function mouseMove(e) {
 
 function zoomHandler(e) {
 	var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
-	cameraController.Zoom(-delta * 2);
+	cameraController.Zoom(-delta * 4);
 }
 
 function resetPinches() {
@@ -343,51 +344,80 @@ function addEvent(obj, evt, fn) {
 
 $(function() {
 	
-	$('#mapctrl-left').mousedown(function() {
-		mLEFT = true;
-	}).mouseup(function() {
-		mLEFT = false;
-	});
-	$('#mapctrl-right').mousedown(function() {
-		mRIGHT = true;
-	}).mouseup(function() {
-		mRIGHT = false;
-	});
-	$('#mapctrl-up').mousedown(function() {
-		mUP = true;
-	}).mouseup(function() {
-		mUP = false;
-	});
-	$('#mapctrl-down').mousedown(function() {
-		mDOWN = true;
-	}).mouseup(function() {
-		mDOWN = false;
-	});
-	$('#mapctrl-zoomin').mousedown(function() {
-		mGOOUT = true;
-	}).mouseup(function() {
-		mGOOUT = false;
-	});
-	$('#mapctrl-zoomout').mousedown(function() {
-		mGOIN = true;
-	}).mouseup(function() {
-		mGOIN = false;
-	});
-	
-	$('#mapctrl-tilt').click(function(e) {
-		e.preventDefault();
-		var cameraState = cameraController.GetState();
-		var currentTilt = cameraState.rotation.x;
-		var camMinTilt = cameraController.constraints.R1;
-		var camMidTilt = (cameraController.constraints.R1 + cameraController.constraints.R2) / 2;
-		var camMaxTilt = cameraController.constraints.R2;
-		console.log('currentTilt = ' + currentTilt + ", camMinTilt = " + camMinTilt  + ", camMidTilt = " + camMidTilt  + ", camMaxTilt = " + camMaxTilt);
-		if (currentTilt >= camMinTilt && currentTilt < camMidTilt) {
-			cameraController.Rotate(camMidTilt, undefined, undefined, true, true);
-		} else if (currentTilt >= camMidTilt && currentTilt < camMaxTilt) {
-			cameraController.Rotate(camMaxTilt, undefined, undefined, true, true);
-		} else {
-			cameraController.Rotate(camMinTilt, undefined, undefined, true, true);
-		}
-	})
+	if (isMobile) {
+		$('#controls').css('display', 'none');
+	} else {	
+		$('#controls img').on('dragstart', function(event) { event.preventDefault(); });
+		
+		$('#mapctrl-left').mousedown(function() {
+			mLEFT = true;
+			$(this).mousemove(function(e) {
+				e.preventDefault();
+				mLEFT = false;
+			});
+		}).mouseup(function() {
+			mLEFT = false;
+		});
+		$('#mapctrl-right').mousedown(function() {
+			mRIGHT = true;
+			$(this).mousemove(function(e) {
+				e.preventDefault();
+				mRIGHT = false;
+			});
+		}).mouseup(function() {
+			mRIGHT = false;
+		});
+		$('#mapctrl-up').mousedown(function() {
+			mUP = true;
+			$(this).mousemove(function(e) {
+				e.preventDefault();
+				mUP = false;
+			});
+		}).mouseup(function() {
+			mUP = false;
+		});
+		$('#mapctrl-down').mousedown(function() {
+			mDOWN = true;
+			$(this).mousemove(function(e) {
+				e.preventDefault();
+				mDOWN = false;
+			});
+		}).mouseup(function() {
+			mDOWN = false;
+		});
+		$('#mapctrl-zoomin').mousedown(function() {
+			mGOOUT = true;
+			$(this).mousemove(function(e) {
+				e.preventDefault();
+				mGOOUT = false;
+			});
+		}).mouseup(function() {
+			mGOOUT = false;
+		});
+		$('#mapctrl-zoomout').mousedown(function() {
+			mGOIN = true;
+			$(this).mousemove(function(e) {
+				e.preventDefault();
+				mGOIN = false;
+			});
+		}).mouseup(function() {
+			mGOIN = false;
+		});
+		
+		$('#mapctrl-tilt').click(function(e) {
+			e.preventDefault();
+			var cameraState = cameraController.GetState();
+			var currentTilt = cameraState.rotation.x;
+			var camMinTilt = cameraController.constraints.R1;
+			var camMidTilt = (cameraController.constraints.R1 + cameraController.constraints.R2) / 2;
+			var camMaxTilt = cameraController.constraints.R2;
+			if (currentTilt >= camMinTilt && currentTilt < camMidTilt) {
+				cameraController.Rotate(camMidTilt, undefined, undefined, true, true);
+			} else if (currentTilt >= camMidTilt && currentTilt < camMaxTilt) {
+				cameraController.Rotate(camMaxTilt, undefined, undefined, true, true);
+			} else {
+				cameraController.Rotate(camMinTilt, undefined, undefined, true, true);
+			}
+		});
+	}
 });

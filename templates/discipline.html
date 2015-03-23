@@ -10,7 +10,7 @@
 	</header>
 	
 	<div class="dcontainer {{disc.slug}}" ng-repeat="disc in disciplines">
-		<h1><span>+</span> &nbsp;{{disc.title}}</h1>
+		<h1 data-slug="{{disc.slug}}"><span>+</span> &nbsp;{{disc.title}}</h1>
 		<p style="display: none;">{{disc.description}}</p>
 	</div>
 	

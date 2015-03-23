@@ -42,15 +42,6 @@ var _objects = function() {
 			this.textures[b.img].wrapT = THREE.RepeatWrapping;
 		}
 		var t = this.textures[b.img];
-/*
-		if (b.xsize == 1) t.repeat.x = 358/512;
-		else if (b.xsize == 2) t.repeat.x = 691/1024;
-		if (b.ysize == 1) t.repeat.y = 435/512;
-		else if (b.ysize == 2) t.repeat.y = 947/1024;
-		if (b.xsize == 1 && b.ysize == 1) t.repeat.x = 306/512;
-		
-		t.offset.y = 1.0 - t.repeat.y;
-*/
 		return t;
 	};
 

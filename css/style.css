@@ -328,9 +328,9 @@ header form #searchCancel {
   position: absolute;
   bottom: 30px;
   left: 20px;
-  width: 50%;
+  width: 85%;
   font-size: 50px;
-  line-height: 55px;
+  line-height: 50px;
 }
 @media (max-width: 900px) {
   #overlay #work-overlay header h1 {
@@ -595,7 +595,7 @@ header form #searchCancel {
     display: none;
   }
 }
-.player .controlbox .meter  > span {
+.player .controlbox .meter > span {
   display: block;
   height: 100%;
   -moz-border-radius: 7px;
