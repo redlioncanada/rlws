@@ -14,7 +14,7 @@ var Detector = {
 
 		var element = document.createElement( 'div' );
 		element.id = 'webgl-error-message';
-		element.style.fontFamily = 'fira-sans';
+		element.style.fontFamily = 'fira-sans, sans-serif';
 		element.style.fontSize = '14px';
 		element.style.fontWeight = 'normal';
 		element.style.textAlign = 'center';
@@ -51,6 +51,7 @@ var Detector = {
 		element.id = id;
 
 		$(parent).append( element );
+		$('#canvas').css('display','none');
 		return element;
 
 	}

@@ -119,9 +119,20 @@ function closeMenu() {
 
 	lastMenuItem = '';
 }
-$('.menu-item-footer').click(closeMenu);
+function scrollTop() {
+	$('html, body').velocity({scrollTop: 0},{duration:500});
+}
+$('.menu-item-footer').click(function(){closeMenu(); scrollTop();});
 $('#canvas').on('mousedown',closeMenu);
 //menu items end
+
+//resize start
+$('#content').css('height',window.innerHeight-headerHeight);
+$(window).on('resize', function() {
+	$('#content').css('height',window.innerHeight-headerHeight);
+});
+//resize end
+
 
 //google map start
 var googleMapLoaded = false;

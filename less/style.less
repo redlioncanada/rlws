@@ -14,7 +14,6 @@ a {
 	outline: none;
 }
 body {
-	overflow: hidden; 
 	margin: 0; 
 	font-family: "fira-sans",sans-serif;
 	font-style: normal;
@@ -207,6 +206,17 @@ header {
 	height: 100%;
 	z-index: 200;
 	position: relative;
+
+	#dinosaur {
+		a {
+			text-decoration: underline;
+		}
+		@media (max-width:450px) {
+			width:100% !important;
+			padding-left: 0px !important;
+			padding-right: 0px !important;
+		}
+	}
 }
 .loading-logo {
 	background: url("../img/rl_wordmark_transparent.png") no-repeat center center fixed;
