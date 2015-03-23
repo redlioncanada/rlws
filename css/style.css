@@ -156,6 +156,7 @@ header form #searchCancel {
   z-index: 250;
   top: -1000px;
   color: #e32526;
+  border: 1px solid;
 }
 @media (max-width: 440px) {
   .menu-item {
@@ -165,6 +166,10 @@ header form #searchCancel {
 }
 .menu-item h4 {
   text-decoration: underline;
+}
+.menu-item p,
+.menu-item a {
+  color: #b1b1b1;
 }
 .menu-item > div {
   padding: 20px;

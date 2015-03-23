@@ -82,11 +82,7 @@ function init3D() {
 				dataController.SetData(glCards);
 				
 				//spawn city
-				var city = SpawnAndGoToCity(homeKeyword);
-				camera.position.z = city.extents.Z2 * camZStart;
-				
-				//zoom camera
-				cameraController.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false);
+				SpawnAndGoToCity(homeKeyword);
 			}
 		}, 500);
 		
@@ -110,7 +106,7 @@ function SpawnAndGoToCity(tag,sizeMultiplier) {
 		var city = cityController.GetCityByTag(tag);
 	}
 
-	if (data && (data.length || Object.keys(data).length) || spawned) {
+	if ((data && (data.length || Object.keys(data).length)) || spawned) {
 		cityController.SetCity(city);
 		cameraController.CenterOnCity(city);
 		return city;

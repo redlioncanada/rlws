@@ -80,7 +80,7 @@ if (Detector.webgl) {
 //webgl detection end
 
 //menu items start
-var headerHeight = $('#main-header').outerHeight()-1, lastMenuItem, mapInterval = false;
+var headerHeight = $('#main-header').outerHeight()-2, lastMenuItem, mapInterval = false;
 $('.menu-item').each(function(){
 	$(this).css('top',headerHeight-$(this).height());
 });
@@ -163,6 +163,17 @@ function initGoogleMap() {
 	    "elementType": "labels.icon",
 	    "stylers": [
 	      { "saturation": -95 },
+	      { "visibility": "off" }
+	    ]
+	  },
+	  {
+	    "featureType": "poi",
+	    "stylers": [
+	      { "visibility": "off" }
+	    ]
+	  },{
+	    "featureType": "transit",
+	    "stylers": [
 	      { "visibility": "off" }
 	    ]
 	  }
