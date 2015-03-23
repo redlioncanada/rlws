@@ -18,23 +18,6 @@ var cameraController = null;
 var fuse; //search library
 var controlsinit = false;
 
-//The Facebook
-window.fbAsyncInit = function() {
-    FB.init({
-		appId      : '738219399610044',
-		xfbml      : true,
-		version    : 'v2.2'
-    });
-};
-
-(function(d, s, id){
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) {return;}
-	js = d.createElement(s); js.id = id;
-	js.src = "//connect.facebook.net/en_US/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
 // Render init
 renderer.shadowMapEnabled = true;
 $(window).on('resize', resize);
@@ -99,11 +82,7 @@ function init3D() {
 				dataController.SetData(glCards);
 				
 				//spawn city
-				var city = SpawnAndGoToCity(homeKeyword);
-				camera.position.z = city.extents.Z2 * camZStart;
-				
-				//zoom camera
-				cameraController.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false);
+				SpawnAndGoToCity(homeKeyword);
 			}
 		}, 500);
 		
@@ -127,7 +106,7 @@ function SpawnAndGoToCity(tag,sizeMultiplier) {
 		var city = cityController.GetCityByTag(tag);
 	}
 
-	if (data && (data.length || Object.keys(data).length) || spawned) {
+	if ((data && (data.length || Object.keys(data).length)) || spawned) {
 		cityController.SetCity(city);
 		cameraController.CenterOnCity(city);
 		return city;

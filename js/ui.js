@@ -1,3 +1,25 @@
+//facebook start
+window.fbAsyncInit = function() {
+    FB.init({
+		appId      : '738219399610044',
+		xfbml      : true,
+		version    : 'v2.2'
+    });
+};
+
+(function(d, s, id){
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+//facebook end
+
+//controls start
+if (isMobile) $('#controls').css('display','none');
+//controls end
+
 //search start
 $('#searchCancel').on('click', function(e) {
 	$('#searchTerm').val('');
@@ -80,7 +102,7 @@ if (Detector.webgl) {
 //webgl detection end
 
 //menu items start
-var headerHeight = $('#main-header').outerHeight()-1, lastMenuItem, mapInterval = false;
+var headerHeight = $('#main-header').outerHeight()-2, lastMenuItem, mapInterval = false;
 $('.menu-item').each(function(){
 	$(this).css('top',headerHeight-$(this).height());
 });
@@ -106,16 +128,16 @@ $('#menu a').click(function() {
 	function doAnimation() {
 		$('#menu a').removeClass('active');
 		$('.menu-item').not('.'+c).each(function() {
-			$(this).velocity({top: headerHeight - $(this).height()},{duration: 300});
+			$(this).css('z-index',250).velocity({top: headerHeight - $(this).height()},{duration: 300});
 		});
-		if (lastMenuItem != c) {$(self).addClass('active'); $('.menu-item.'+c).velocity({top: headerHeight+1},{duration:300}); lastMenuItem = c;}
+		if (lastMenuItem != c) {$(self).addClass('active'); $('.menu-item.'+c).css('z-index',251).velocity({top: headerHeight+1},{duration:300}); lastMenuItem = c;}
 		else {closeMenu();}
 	}
 });
 function closeMenu() {
 	$('#menu a').removeClass('active');
 	$('.menu-item').each(function(){
-		$(this).velocity({'top':headerHeight-$(this).height()},{duration: 300});
+		$(this).css('z-index',250).velocity({'top':headerHeight-$(this).height()},{duration: 300});
 	});
 
 	lastMenuItem = '';
@@ -163,6 +185,17 @@ function initGoogleMap() {
 	    "elementType": "labels.icon",
 	    "stylers": [
 	      { "saturation": -95 },
+	      { "visibility": "off" }
+	    ]
+	  },
+	  {
+	    "featureType": "poi",
+	    "stylers": [
+	      { "visibility": "off" }
+	    ]
+	  },{
+	    "featureType": "transit",
+	    "stylers": [
 	      { "visibility": "off" }
 	    ]
 	  }

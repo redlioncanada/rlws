@@ -83,7 +83,6 @@ header {
   z-index: 300;
   background: black;
   position: relative;
-  border-bottom: 1px solid #e32526;
 }
 header #menu {
   float: left;
@@ -103,6 +102,12 @@ header #logo {
   float: right;
   height: 58px;
   padding: 8px;
+}
+@media (max-width: 480px) {
+  header #logo {
+    padding: 14px 8px 8px 8px;
+    height: 44px;
+  }
 }
 header form {
   z-index: 1;
@@ -148,6 +153,12 @@ header form #searchCancel {
   z-index: 3;
   cursor: pointer;
 }
+#header-border {
+  width: 100%;
+  height: 1px;
+  background: #e32526;
+  position: relative;
+}
 .menu-item {
   width: 380px;
   position: absolute;
@@ -156,6 +167,8 @@ header form #searchCancel {
   z-index: 250;
   top: -1000px;
   color: #e32526;
+  border: 1px solid;
+  border-top: 1px solid black;
 }
 @media (max-width: 440px) {
   .menu-item {
@@ -165,6 +178,10 @@ header form #searchCancel {
 }
 .menu-item h4 {
   text-decoration: underline;
+}
+.menu-item p,
+.menu-item a {
+  color: #b1b1b1;
 }
 .menu-item > div {
   padding: 20px;
