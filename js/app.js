@@ -80,12 +80,14 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 			$scope.newsitem.date_launched = Date.parse($scope.newsitem.date_launched);
 			overlayFadeIn();
 			closeButtonStart();
+			socialStart('News', $scope.newsitem);
 		} else {
 			$timeout(function() {
 				$scope.newsitem = dataController.GetBySlug($scope.dslug);
 				$scope.newsitem.date_launched = Date.parse($scope.newsitem.date_launched);
 				overlayFadeIn();
 				closeButtonStart();
+				socialStart('News', $scope.newsitem);
 			}, 1000);
 		}
 		
@@ -185,6 +187,8 @@ var getMinSec = function (time) {
 var getWorkData = function($scope, $sce, $timeout, preloader) {
 	
 	$scope.work = dataController.GetBySlug($scope.campaignID);
+	
+	socialStart($scope.work.title, $scope.work.subtitle);
 	
 	$scope.work.date_launched = Date.parse($scope.work.date_launched);
 	var videos = $scope.work.video_comsep;
@@ -384,10 +388,12 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 		if (boxid !== 0) {
 			$scope.disciplines = dataController.GetByType('disciplines');
 			overlayFadeIn();
+			socialStart('Disciplines', titleCase($scope.dslug));
 		} else {
 			$timeout(function() {
 				$scope.disciplines = dataController.GetByType('disciplines');
 				overlayFadeIn();
+				socialStart('Disciplines', titleCase($scope.dslug));
 			}, 1000);
 		}
 		
@@ -434,3 +440,31 @@ var closeButtonStart = function(millisecs, tweentype) {
 	});
 };
 
+var loc, newtitle;
+
+var socialStart = function(title, subtitle) {
+	loc = window.location.href;
+	newtitle  = escape(title + " - " + subtitle + " || Red Lion Canada");
+	
+	$('img.twitter').click(function(e){
+		e.preventDefault();
+		window.open('http://twitter.com/share?url=' + loc + '&text=' + newtitle, 'twitterwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+	});
+	
+	$('img.facebook').click(function(e) {
+		e.preventDefault();
+		FB.ui({
+			method: 'share',
+			href: loc,
+		}, function(response){});
+	});
+	
+	$('img.linkedin').click(function(e) {
+		e.preventDefault();
+		window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + loc + '&title=' + newtitle, 'linkedinwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, menubar=0, directories=0, scrollbars=0');
+	});
+}
+
+var titleCase = function(str) {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
