@@ -167,6 +167,7 @@ var _objects = function() {
 		} else {
 			if (city.tag == homeKeyword && !this.zoomed) {
 				this.camera.position.z = city.extents.Z2 * camZStart;
+				this.SetConstraints(constraints);
 				this.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false);
 				this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 			} else {
