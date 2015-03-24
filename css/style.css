@@ -6,6 +6,7 @@ h4,
 h5 {
   padding: 0;
   margin: 0;
+  cursor: default;
 }
 a {
   text-decoration: none;
@@ -87,6 +88,9 @@ header {
 header #menu {
   float: left;
   margin: 13px 21px 0 15px;
+}
+header #menu * {
+  cursor: pointer;
 }
 header #menu a {
   color: #b1b1b1;
