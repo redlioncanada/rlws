@@ -199,7 +199,7 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 	$scope.work.date_launched = Date.parse($scope.work.date_launched);
 	var videos = $scope.work.video_comsep;
 	for (var vids = 0; vids < videos.length; vids++) {
-		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]);
+		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]+'?title=0&byline=0&badge=0&color=e0280a&portrait=0');
 	}
 	
 	
