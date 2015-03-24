@@ -101,6 +101,7 @@ function SpawnAndGoToCity(tag,sizeMultiplier) {
 			var city = cityController.SpawnCity(undefined, undefined, tag, data, sizeMultiplier, 0, 0, 1);
 		} else {
 			var data = dataController.GetAllWithTag(tag);
+			if (!data || !(data.length)) return undefined;
 			var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, tag, data, sizeMultiplier);
 		}
 	} else {

@@ -73,12 +73,13 @@ $(document).keyup(function(event) {
 
 // Box Clicked Function
 function boxClicked(intersect) {
+	var spawned = true;
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
 	if (clickedBuilding.js_trigger) {
-		SpawnAndGoToCity(clickedBuilding.js_trigger);
+		spawned = !typeof SpawnAndGoToCity(clickedBuilding.js_trigger) === 'undefined';
 	}
 	boxid = parseInt(intersect.name);
-	window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
+	if (spawned) window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
 }
 
 function fingerMouseDown(e) {
