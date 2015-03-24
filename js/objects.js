@@ -385,18 +385,17 @@ var _objects = function() {
 		this.dataController = d;
 	};
 
-	this.cityController.prototype.SpawnCity = function(buildingsPerRow, buildingsPerColumn, tag, rawData, sizeMultiplier, startX, startY, type) {
+	this.cityController.prototype.SpawnCity = function(tag, rawData, type) {
 		if (typeof sizeMultiplier === 'undefined') sizeMultiplier = 1;
 		if (typeof type === 'undefined') type = 0;
-		if (typeof startX === 'undefined') startX = this.cities.length === 0 ? 0 : this.cities.length*this.cities[0].width*cityGutter;
-		if (typeof startY === 'undefined') startY = 0;
+		var startX = this.cities.length == 0 ? 0 : this.cities[0].width*8*this.cities.length;
+		var startY = this.cities.length == 0 ? 0 : this.cities[0].height/2;
 
 		if (sizeMultiplier > 1) {
 			//multiply the size of the array
 			var newData = self.MultiplyArray(sizeMultiplier, rawData);
 			buildingsPerRow *= sizeMultiplier;
 			buildingsPerColumn *= sizeMultiplier;
-
 			rawData = newData;
 		}
 
@@ -593,7 +592,6 @@ var _objects = function() {
 				scene.add( thisbox.cube );
 				thisbox.cube.position.x = this.origin.X + (-x * gridSizex - ((-(curBuilding.xsize - 1) * gridSizex) / 2) + jitterxBool);
 				thisbox.cube.position.y = this.origin.Y + (-y * gridSizey - (((curBuilding.ysize - 1) * gridSizey) / 2) + jitteryBool);
-				//console.log(thisbox.cube.position.x,thisbox.cube.position.y,curBoxWidth,curBoxHeight);
 				if (thisbox.cube.position.x + curBoxWidth*1.4 < this.extents.X1 || typeof this.extents.X1 != 'number') this.extents.X1 = thisbox.cube.position.x + curBoxWidth*1.4;
 				if (thisbox.cube.position.x - curBoxWidth*1.4 > this.extents.X2 || typeof this.extents.X2 != 'number') this.extents.X2 = thisbox.cube.position.x - curBoxWidth*1.4; 
 				if (thisbox.cube.position.y + curBoxHeight/4 < this.extents.Y1 || typeof this.extents.Y1 != 'number') this.extents.Y1 = thisbox.cube.position.y + curBoxHeight/4;

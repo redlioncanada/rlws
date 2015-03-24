@@ -92,17 +92,16 @@ function init3D() {
 	}
 }
 
-function SpawnAndGoToCity(tag,sizeMultiplier) {
-	if (typeof sizeMultiplier === undefined) sizeMultiplier = 1;
+function SpawnAndGoToCity(tag) {
 	var spawned = cityController.CityIsSpawned(tag);
 	if (!spawned) {
 		if (tag == homeKeyword) {
 			var data = layout;
-			var city = cityController.SpawnCity(undefined, undefined, tag, data, sizeMultiplier, 0, 0, 1);
+			var city = cityController.SpawnCity(tag, data, 1);
 		} else {
 			var data = dataController.GetAllWithTag(tag);
 			if (!data || !(data.length)) return undefined;
-			var city = cityController.SpawnCity(buildingsPerRow, buildingsPerColumn, tag, data, sizeMultiplier);
+			var city = cityController.SpawnCity(tag, data);
 		}
 	} else {
 		var city = cityController.GetCityByTag(tag);
