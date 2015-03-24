@@ -503,7 +503,7 @@ header form #searchCancel {
 }
 #overlay #discipline-overlay {
   margin: 0;
-  padding: 0;
+  padding: 0 0 16px 0;
   width: 100%;
   min-height: 100%;
   color: white;
