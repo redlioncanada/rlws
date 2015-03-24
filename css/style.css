@@ -616,7 +616,7 @@ header form #searchCancel {
     display: none;
   }
 }
-.player .controlbox .meter > span {
+.player .controlbox .meter  > span {
   display: block;
   height: 100%;
   -moz-border-radius: 7px;
