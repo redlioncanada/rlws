@@ -172,6 +172,7 @@ var _objects = function() {
 				this.SetConstraints(constraints);
 				this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 				this.Zoom(city.extents.Z2 - camZEnd, undefined, camZAnimationTime, true, false, undefined, function() {
+					this.animating = false;
 					if (!controlsinit) {
 						controlsinit = true;
 						setupEventListeners();
@@ -208,61 +209,31 @@ var _objects = function() {
 	};
 	
 	this.cameraController.prototype.Pan = function(toX, toY, fromX, fromY, time, abs, constrain, easing, cb) {
-		this.PanX(toX, fromX, time, abs, constrain, easing, cb);
-		this.PanY(toY, fromY, time, abs, constrain, easing);
-		if (debug && debugMovement) console.log('Pan: X:'+toX+',Y:'+toY);
-	};
-
-	this.cameraController.prototype.PanX = function(to, from, time, abs, constrain, easing, cb) {
 		var _self = this;
 		if (typeof time === 'undefined') time = 0.01;
 		if (typeof easing === 'undefined') easing = TWEEN.Easing.Linear.None;
 		if (typeof constrain === 'undefined') constrain = true;
 		if (typeof abs === 'undefined') abs = false;
-		if (typeof from === 'undefined') from = this.camera.position.x;
-		if (!abs) to = from + to;
+		if (typeof fromX === 'undefined') fromX = this.camera.position.x;
+		if (typeof fromY === 'undefined') fromY = this.camera.position.y;
+		if (!abs) toX = fromX + toX, toY = fromY + toY;
 		
-		if ((this.HitTestX(to) && !this.animating) || !constrain) {
-			if (!constrain) this.animating = true;
-			var t = new TWEEN.Tween( { x : from } )
-				.to( { x : to }, time*1000 )
+		if ((this.HitTestX(toX) && this.HitTestY(toY) && !this.animating) || !constrain) {
+			this.animating = true;
+			var t = new TWEEN.Tween( { x : fromX, y: fromY } )
+				.to( { x : toX, y : toY }, time*1000 )
 				.easing( easing )
 				.onUpdate( function() {
 					_self.camera.position.x = this.x;
-				})
-				.onComplete( function() {
-					_self.animating = false;
-					if (typeof cb !== 'undefined') cb();
-				})
-				.start();
-		}
-		if (debug && debugMovement) console.log('PanX:'+to);
-	};
-	
-	this.cameraController.prototype.PanY = function(to, from, time, abs, constrain, easing, cb) {
-		var _self = this;
-		if (typeof time === 'undefined') time = 0.01;
-		if (typeof constrain === 'undefined') constrain = true;
-		if (typeof easing === 'undefined') easing = TWEEN.Easing.Linear.None;
-		if (typeof abs === 'undefined') abs = false;
-		if (typeof from === 'undefined') from = this.camera.position.y;
-		if (!abs) to = from + to;
-		
-		if ((this.HitTestY(to) && !this.animating) || !constrain) {
-			if (!constrain) this.animating = true;
-			var t = new TWEEN.Tween( { y : from } )
-				.to( { y : to }, time*1000 )
-				.easing( easing )
-				.onUpdate( function() {
 					_self.camera.position.y = this.y;
 				})
 				.onComplete( function() {
-					_self.animating = false;
+					if (typeof cb === 'undefined') _self.animating = false;
 					if (typeof cb !== 'undefined') cb();
 				})
 				.start();
 		}
-		if (debug && debugMovement) console.log('PanY:'+to);
+		if (debug && debugMovement) console.log('Pan: X:'+toX+',Y:'+toY);
 	};
 	
 	this.cameraController.prototype.Zoom = function(to, from, time, abs, constrain, easing, cb) {
@@ -276,7 +247,7 @@ var _objects = function() {
 		
 		if (debug && debugMovement) console.log('Zoom: '+to);
 		if ((this.HitTestZ(to) && !this.animating) || !constrain) {
-			if (!constrain) this.animating = true;
+			this.animating = true;
 			var t = new TWEEN.Tween( { z : from } )
 				.to( { z : to }, time*1000 )
 				.easing( easing )
@@ -284,7 +255,7 @@ var _objects = function() {
 					_self.camera.position.z = this.z;
 				})
 				.onComplete( function() {
-					_self.animating = false;
+					if (typeof cb === 'undefined') _self.animating = false;
 					_self.zoomed = to < from;
 					if (typeof cb !== 'undefined') cb();
 				})
@@ -293,6 +264,7 @@ var _objects = function() {
 	};
 	
 	this.cameraController.prototype.Move = function(X, Y, Z, abs, constrain) {
+		if (this.animating) return;
 		if (typeof constrain === 'undefined') constrain = true;
 		if (typeof abs === 'undefined') abs = true;
 		if (!abs) {
@@ -302,17 +274,17 @@ var _objects = function() {
 		}
 
 		if (typeof X !== 'undefined' && !isNaN(X)) {
-			if ((this.HitTestX(X) && !this.animating) || !constrain || abs) {
+			if ((this.HitTestX(X)) || !constrain || abs) {
 				this.camera.position.x = X;
 			}
 		}
 		if (typeof Y !== 'undefined' && !isNaN(Y)) {
-			if ((this.HitTestY(Y) && !this.animating) || !constrain || abs) {
+			if ((this.HitTestY(Y)) || !constrain || abs) {
 				this.camera.position.y = Y;
 			}
 		}
 		if (typeof Z !== 'undefined' && !isNaN(Z)) {
-			if ((this.HitTestZ(Z) && !this.animating) || !constrain || abs) {
+			if ((this.HitTestZ(Z)) || !constrain || abs) {
 				this.camera.position.z = Z;
 			}
 		}
@@ -341,7 +313,7 @@ var _objects = function() {
 							_self.camera.rotation.x = this.x;
 						})
 						.onComplete( function() {
-							_self.animating = false;
+							if (typeof cb === 'undefined') _self.animating = false;
 							if (typeof cb !== 'undefined') cb();
 						})
 						.start();
