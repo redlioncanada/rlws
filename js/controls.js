@@ -180,13 +180,19 @@ function mouseMove(e) {
 }
 
 function zoomHandler(e) { 
+	e.preventDefault();
+	//Tilt
 	if (e.shiftKey) {
-		var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
-		cameraController.Zoom(-delta * 4);
+		var delta = Math.max(-0.05, Math.min(0.05, (e.wheelDelta || -e.detail)));
+		cameraController.Rotate(delta, undefined, undefined, false);
+	//Zoom
+	} else if (e.ctrlKey) {
+		var delta = Math.max(-0.3, Math.min(0.3, (e.wheelDelta || -e.detail)));
+		cameraController.Zoom(-delta);
 	} else {
-		var deltax = e.wheelDeltaX;
-		var deltay = e.wheelDeltaY;
-		cameraController.Pan(deltax, deltay, undefined, undefined, 0.1);
+		var deltax = Math.max(-10, Math.min(10, (e.wheelDeltaX || -e.detail))); //e.wheelDeltaX;
+		var deltay = Math.max(-10, Math.min(10, (e.wheelDeltaY || -e.detail))); //e.wheelDeltaY;
+		cameraController.Pan(-deltax/15, deltay/15);
 	}
 	
 }
@@ -249,20 +255,6 @@ function setupEventListeners() {
 		fingerMouseUp(e);
 	});
 }
-
-// Acceleration Vars
-var acc_oldaz = null;
-var acc_az = 0;
-var acc_arAlpha = 0;
-var acc_arBeta = 0;
-var acc_speed = 5;
-
-var acc_fromx = null;
-var acc_tox = null;
-var acc_fromy = null;
-var acc_toy = null;
-var acc_totilt = null;
-var acc_fromtilt = null;
 
 var devMoveHandler = function(event) {
 	// Get Accelerometer Information needed
