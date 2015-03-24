@@ -167,7 +167,12 @@ var _objects = function() {
 		} else {
 			if (city.tag == homeKeyword && !this.zoomed) {
 				this.camera.position.z = city.extents.Z2 * camZStart;
-				this.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false);
+				this.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false, undefined, function() {
+					if (!controlsinit) {
+						controlsinit = true;
+						setupEventListeners();
+					}
+				});
 				this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 			} else {
 				var _self = this;
@@ -180,10 +185,6 @@ var _objects = function() {
 			}
 		}
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
-		if (!controlsinit) {
-			controlsinit = true;
-			setupEventListeners();
-		}
 	};
 	
 	this.cameraController.prototype.SetConstraints = function(constraints) {

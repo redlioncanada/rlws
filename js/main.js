@@ -1,5 +1,6 @@
 // Three.JS/WebGL init vars
 var canvasDiv = $('#canvas');
+var canvas = canvasDiv.get(0);
 var camera = new THREE.PerspectiveCamera( 60, canvasDiv.width()/canvasDiv.height(), 1, 300 );
 var scene = new THREE.Scene();
 var mouse = new THREE.Vector2(), intersected;

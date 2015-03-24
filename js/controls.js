@@ -85,7 +85,7 @@ function fingerMouseDown(e) {
 	e.preventDefault();
 	if (isMobile) {
 		if (e.touches.length == 2) {
-			console.log(e.touches);
+			//something good here.
 		} else {
 			var touch = e.touches[0];
 			oldTouchX = touch.pageX;
@@ -98,7 +98,6 @@ function fingerMouseDown(e) {
 	
 	if (isMobile) {
 		mouseMove(e);
-		console.log("Mouse Move called");
 	}
 	mTouchDown = true;
 	didSingleClick = true;
@@ -180,9 +179,16 @@ function mouseMove(e) {
 	}
 }
 
-function zoomHandler(e) {
-	var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
-	cameraController.Zoom(-delta * 4);
+function zoomHandler(e) { 
+	if (e.shiftKey) {
+		var delta = Math.max(-0.1, Math.min(0.1, (e.wheelDelta || -e.detail)));
+		cameraController.Zoom(-delta * 4);
+	} else {
+		var deltax = e.wheelDeltaX;
+		var deltay = e.wheelDeltaY;
+		cameraController.Pan(deltax, deltay, undefined, undefined, 0.1);
+	}
+	
 }
 
 function resetPinches() {
@@ -212,8 +218,6 @@ function resetPinches() {
 resetPinches();
 
 function setupEventListeners() {
-	var canvases = document.getElementsByTagName('canvas');
-	canvas = canvases[0];
 	
 	// Touch Events - Start (Finger/Mouse down)
 	canvas.addEventListener('touchstart', fingerMouseDown);
@@ -231,6 +235,8 @@ function setupEventListeners() {
 	// Mouse Wheel Zoom (Firefox)
 	canvas.addEventListener("DOMMouseScroll", zoomHandler);
 	canvas.addEventListener("mousemove", mouseMove);
+	
+	enableOnScreenController();
 	
 	// Check if Acceleromoter is present and start event listener
 	if (window.DeviceMotionEvent) {
@@ -342,8 +348,7 @@ function addEvent(obj, evt, fn) {
     }
 }
 
-$(function() {
-	
+function enableOnScreenController() {
 	if (isMobile) {
 		$('#controls').css('display', 'none');
 	} else {	
@@ -420,4 +425,4 @@ $(function() {
 			}
 		});
 	}
-});
+}
