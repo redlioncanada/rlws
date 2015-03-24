@@ -184,7 +184,7 @@ function zoomHandler(e) {
 	e.preventDefault();
 	//Tilt
 	if (e.shiftKey) {
-		var delta = Math.max(-0.05, Math.min(0.05, (e.wheelDelta || -e.detail)));
+		var delta = Math.max(-0.02, Math.min(0.02, (e.wheelDelta || -e.detail)));
 		cameraController.Rotate(delta, undefined, undefined, false);
 	//Zoom
 	} else if (e.ctrlKey) {
