@@ -408,7 +408,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 			$('.dcontainer.'+$scope.dslug+' h1').addClass('selected');
 			$('.dcontainer.'+$scope.dslug+' h1 span').html('-');
 			
-			$('.dcontainer h1').click(function() {
+			$('#blackout').on('click', '.dcontainer h1', function() {
 				if (!$(this).hasClass('selected')) {
 					window.location.href = "#/disciplines/" + $(this).attr("data-slug");
 					$('.dcontainer p').slideUp();
