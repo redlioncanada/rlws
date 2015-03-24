@@ -241,20 +241,6 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 		);
 	}
 	
-	
-/*
-	if ($scope.work.print_comsep[0] !== '') {
-		$timeout(function() {
-			$('.printwork').slick(soptions);
-		}, 1000);
-	}
-	if ($scope.work.digital_comsep[0] !== '') {
-		$timeout(function() {
-			$('.digitalwork').slick(soptions);
-		}, 1000);
-	}
-*/
-	
 	audioPlayerStart();
 	overlayFadeIn();
 	closeButtonStart();
@@ -416,6 +402,10 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 					$(this).addClass('selected');
 					$(this).children('span').html('-');
 					$(this).siblings('p').slideDown();
+				} else {
+					$(this).removeClass('selected');
+					$(this).children('span').html('+');
+					$(this).siblings('p').slideUp();
 				}
 			});
 		}, 1200);

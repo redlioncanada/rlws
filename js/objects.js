@@ -164,23 +164,26 @@ var _objects = function() {
 		if (abs) {
 			this.SetConstraints(constraints);
 			this.Move(city.midpoint.X, city.midpoint.Y);
+			this.Zoom(city.extents.Z2 - camZEnd, undefined, undefined, true, false, undefined);
 		} else {
 			if (city.tag == homeKeyword && !this.zoomed) {
+				//init
 				this.camera.position.z = city.extents.Z2 * camZStart;
 				this.SetConstraints(constraints);
-				this.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime, true, false, undefined, function() {
+				this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
+				this.Zoom(city.extents.Z2 - camZEnd, undefined, camZAnimationTime, true, false, undefined, function() {
 					if (!controlsinit) {
 						controlsinit = true;
 						setupEventListeners();
 					}
 				});
-				this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 			} else {
+				//on search
 				var _self = this;
-				this.Zoom(city.extents.Z2, undefined, camZAnimationTime/2, false, false, undefined, function() {
+				this.Zoom(city.extents.Z2/3, undefined, camZAnimationTime/2, false, false, undefined, function() {
 					_self.SetConstraints(constraints);
 					_self.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false, TWEEN.Easing.Cubic.InOut, function() {
-						_self.Zoom(city.extents.Z2 * camZEnd, undefined, camZAnimationTime/2, true, false);
+						_self.Zoom(city.extents.Z2 - camZEnd, undefined, camZAnimationTime/2, true, false);
 					});
 				});
 			}

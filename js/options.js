@@ -36,7 +36,7 @@ var camRotateMax = 0.9;
 
 //camera zoom animation
 var camZStart = 10; //multiplied with the highest building depth
-var camZEnd = 1.1;
+var camZEnd = 10; //subtracted from city.extents.z2
 var camZAnimationTime = 3;
 
 //camera pan animation

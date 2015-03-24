@@ -177,6 +177,8 @@ header form #searchCancel {
 @media (max-width: 440px) {
   .menu-item {
     width: 100% !important;
+    border: none;
+    border-bottom: 1px solid;
     left: 0;
   }
 }
