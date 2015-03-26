@@ -139,7 +139,7 @@ var _objects = function() {
 		this.scene = scene;
 		this.renderer = renderer;
 		this.camera = camera;
-		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0,F1:0,F2:0};
+		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0};
 		this.origin = {X:0,Y:0};
 		this.animating = false;
 		this.zoomed = false;
@@ -158,9 +158,7 @@ var _objects = function() {
 			Y2 : city.extents.Y2+camYExtents,
 			Z2 : city.extents.Z2+camZ2Extents,
 			R1 : camRotateMin,
-			R2 : camRotateMax,
-			F1 : camFOVMin,
-			F2 : camFOVMax
+			R2 : camRotateMax
 		};
 
 		if (abs) {
@@ -175,7 +173,6 @@ var _objects = function() {
 				//this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 				this.Move(city.midpoint.X, city.midpoint.Y, this.camera.position.z, true, false);
 				this.Zoom(city.extents.Z2 - camZEnd, undefined, camZAnimationTime, true, false, undefined, function() {
-					this.animating = false;
 					if (!controlsinit) {
 						controlsinit = true;
 						setupEventListeners();
@@ -204,8 +201,6 @@ var _objects = function() {
 		if (typeof constraints.Y2 !== 'undefined') this.constraints.Y2 = constraints.Y2;
 		if (typeof constraints.Z2 !== 'undefined') this.constraints.Z2 = constraints.Z2;
 		if (typeof constraints.R2 !== 'undefined') this.constraints.R2 = constraints.R2;
-		if (typeof constraints.F1 !== 'undefined') this.constraints.F1 = constraints.F1;
-		if (typeof constraints.F2 !== 'undefined') this.constraints.F2 = constraints.F2;
 	};
 	
 	this.cameraController.prototype.SetOrigin = function(X, Y) {
@@ -214,31 +209,61 @@ var _objects = function() {
 	};
 	
 	this.cameraController.prototype.Pan = function(toX, toY, fromX, fromY, time, abs, constrain, easing, cb) {
+		this.PanX(toX, fromX, time, abs, constrain, easing, cb);
+		this.PanY(toY, fromY, time, abs, constrain, easing);
+		if (debug && debugMovement) console.log('Pan: X:'+toX+',Y:'+toY);
+	};
+
+	this.cameraController.prototype.PanX = function(to, from, time, abs, constrain, easing, cb) {
 		var _self = this;
 		if (typeof time === 'undefined') time = 0.01;
 		if (typeof easing === 'undefined') easing = TWEEN.Easing.Linear.None;
 		if (typeof constrain === 'undefined') constrain = true;
 		if (typeof abs === 'undefined') abs = false;
-		if (typeof fromX === 'undefined') fromX = this.camera.position.x;
-		if (typeof fromY === 'undefined') fromY = this.camera.position.y;
-		if (!abs) toX = fromX + toX, toY = fromY + toY;
+		if (typeof from === 'undefined') from = this.camera.position.x;
+		if (!abs) to = from + to;
 		
-		if ((this.HitTestX(toX) && this.HitTestY(toY) && !this.animating) || !constrain) {
-			this.animating = true;
-			var t = new TWEEN.Tween( { x : fromX, y: fromY } )
-				.to( { x : toX, y : toY }, time*1000 )
+		if ((this.HitTestX(to) && !this.animating) || !constrain) {
+			if (!constrain) this.animating = true;
+			var t = new TWEEN.Tween( { x : from } )
+				.to( { x : to }, time*1000 )
 				.easing( easing )
 				.onUpdate( function() {
 					_self.camera.position.x = this.x;
-					_self.camera.position.y = this.y;
 				})
 				.onComplete( function() {
-					if (typeof cb === 'undefined') _self.animating = false;
+					_self.animating = false;
 					if (typeof cb !== 'undefined') cb();
 				})
 				.start();
 		}
-		if (debug && debugMovement) console.log('Pan: X:'+toX+',Y:'+toY);
+		if (debug && debugMovement) console.log('PanX:'+to);
+	};
+	
+	this.cameraController.prototype.PanY = function(to, from, time, abs, constrain, easing, cb) {
+		var _self = this;
+		if (typeof time === 'undefined') time = 0.01;
+		if (typeof constrain === 'undefined') constrain = true;
+		if (typeof easing === 'undefined') easing = TWEEN.Easing.Linear.None;
+		if (typeof abs === 'undefined') abs = false;
+		if (typeof from === 'undefined') from = this.camera.position.y;
+		if (!abs) to = from + to;
+		
+		if ((this.HitTestY(to) && !this.animating) || !constrain) {
+			if (!constrain) this.animating = true;
+			var t = new TWEEN.Tween( { y : from } )
+				.to( { y : to }, time*1000 )
+				.easing( easing )
+				.onUpdate( function() {
+					_self.camera.position.y = this.y;
+				})
+				.onComplete( function() {
+					_self.animating = false;
+					if (typeof cb !== 'undefined') cb();
+				})
+				.start();
+		}
+		if (debug && debugMovement) console.log('PanY:'+to);
 	};
 	
 	this.cameraController.prototype.Zoom = function(to, from, time, abs, constrain, easing, cb) {
@@ -252,7 +277,7 @@ var _objects = function() {
 		
 		if (debug && debugMovement) console.log('Zoom: '+to);
 		if ((this.HitTestZ(to) && !this.animating) || !constrain) {
-			this.animating = true;
+			if (!constrain) this.animating = true;
 			var t = new TWEEN.Tween( { z : from } )
 				.to( { z : to }, time*1000 )
 				.easing( easing )
@@ -260,7 +285,7 @@ var _objects = function() {
 					_self.camera.position.z = this.z;
 				})
 				.onComplete( function() {
-					if (typeof cb === 'undefined') _self.animating = false;
+					_self.animating = false;
 					_self.zoomed = to < from;
 					if (typeof cb !== 'undefined') cb();
 				})
@@ -268,26 +293,7 @@ var _objects = function() {
 		}
 	};
 	
-	this.cameraController.prototype.FOV = function(to, from, abs, constrain) {
-		var _self = this;
-		if (typeof constrain === 'undefined') constrain = true;
-		if (typeof abs === 'undefined') abs = false;
-		if (typeof from === 'undefined') from = this.camera.fov;
-		if (!abs) to = from + to;
-		
-		if (this.HitTestFOV(to) || !constrain) {
-			camera.fov = to;
-			camera.aspect = canvasDiv.width() / canvasDiv.height();
-			renderer.setSize(canvasDiv.width(), canvasDiv.height());
-			camera.updateProjectionMatrix();
-		}
-		
-		if (debug && debugMovement) console.log('FOV set:'+ to + " FOV is:"+camera.fov);
-		
-	};
-	
 	this.cameraController.prototype.Move = function(X, Y, Z, abs, constrain) {
-		if (this.animating) return;
 		if (typeof constrain === 'undefined') constrain = true;
 		if (typeof abs === 'undefined') abs = true;
 		if (!abs) {
@@ -297,17 +303,17 @@ var _objects = function() {
 		}
 
 		if (typeof X !== 'undefined' && !isNaN(X)) {
-			if ((this.HitTestX(X)) || !constrain || abs) {
+			if ((this.HitTestX(X) && !this.animating) || !constrain || abs) {
 				this.camera.position.x = X;
 			}
 		}
 		if (typeof Y !== 'undefined' && !isNaN(Y)) {
-			if ((this.HitTestY(Y)) || !constrain || abs) {
+			if ((this.HitTestY(Y) && !this.animating) || !constrain || abs) {
 				this.camera.position.y = Y;
 			}
 		}
 		if (typeof Z !== 'undefined' && !isNaN(Z)) {
-			if ((this.HitTestZ(Z)) || !constrain || abs) {
+			if ((this.HitTestZ(Z) && !this.animating) || !constrain || abs) {
 				this.camera.position.z = Z;
 			}
 		}
@@ -336,7 +342,7 @@ var _objects = function() {
 							_self.camera.rotation.x = this.x;
 						})
 						.onComplete( function() {
-							if (typeof cb === 'undefined') _self.animating = false;
+							_self.animating = false;
 							if (typeof cb !== 'undefined') cb();
 						})
 						.start();
@@ -371,7 +377,6 @@ var _objects = function() {
 	this.cameraController.prototype.HitTestY = function(Y) {return Y >= this.constraints.Y1 && Y <= this.constraints.Y2; };
 	this.cameraController.prototype.HitTestZ = function(Z) {return Z >= this.constraints.Z1 && Z <= this.constraints.Z2; };
 	this.cameraController.prototype.HitTestR = function(R) {return R >= this.constraints.R1 && R <= this.constraints.R2; };
-	this.cameraController.prototype.HitTestFOV = function(FOV) {return FOV >= this.constraints.F1 && FOV <= this.constraints.F2; };
 	//End Camera Controller 
 	
 	//CityController - Maintains cities

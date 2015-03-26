@@ -1,4 +1,4 @@
-// @codekit-prepend "lib/jquery-2.1.3.min.js","lib/velocity.min.js","lib/slick.min.js","lib/pinch.min.js","lib/angular.min.js","lib/angular-route.min.js","lib/angular-resource.min.js","lib/angular-animate.min.js","lib/math.min.js","lib/tween.min.js","lib/fuse.min.js","detector.js","layout.js","objects.js","options.js","app.js,"controls.js";
+// "lib/jquery-2.1.3.min.js","lib/velocity.min.js","lib/slick.min.js","lib/pinch.min.js","lib/angular.min.js","lib/angular-route.min.js","lib/angular-resource.min.js","lib/angular-animate.min.js","lib/math.min.js","lib/tween.min.js","lib/fuse.min.js","detector.js","layout.js","objects.js","options.js","app.js,"controls.js";
 
 // Three.JS/WebGL init vars
 var canvasDiv = $('#canvas');
@@ -173,4 +173,4 @@ function SpawnAndGoToCity(tag) {
 	}
 }
 
-// @@codekit-append "js/ui.js";
+//  "js/ui.js";
