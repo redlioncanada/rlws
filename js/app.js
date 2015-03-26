@@ -398,13 +398,13 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 				if (!$(this).hasClass('selected')) {
 					$('.dcontainer p').slideUp();
 					$('.dcontainer h1').removeClass('selected');
-					$('.dcontainer h1 span').html('+');
+					$('.dcontainer h1 span').html('+').css('padding',0);
 					$(this).addClass('selected');
-					$(this).children('span').html('-');
+					$(this).children('span').html('-').css({'padding-left':3,'padding-right':4});
 					$(this).siblings('p').slideDown();
 				} else {
 					$(this).removeClass('selected');
-					$(this).children('span').html('+');
+					$(this).children('span').html('+').css('padding',0);
 					$(this).siblings('p').slideUp();
 				}
 			});

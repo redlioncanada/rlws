@@ -614,6 +614,11 @@ header form #searchCancel {
   cursor: pointer;
   cursor: hand;
 }
+#overlay #discipline-overlay .dcontainer h1 p {
+  display: inline;
+  position: absolute;
+  padding-left: 20px;
+}
 @media (max-width: 900px) {
   #overlay #discipline-overlay .dcontainer h1 {
     font-size: 20px;
@@ -624,13 +629,13 @@ header form #searchCancel {
 #overlay #discipline-overlay .dcontainer h1.selected {
   color: white;
 }
-#overlay #discipline-overlay .dcontainer p {
+#overlay #discipline-overlay .dcontainer > p {
   font-size: 22px;
   line-height: 30px;
   margin: 10px 100px;
 }
 @media (max-width: 900px) {
-  #overlay #discipline-overlay .dcontainer p {
+  #overlay #discipline-overlay .dcontainer > p {
     font-size: 14px;
     line-height: 19px;
     margin: 10px 20px;
