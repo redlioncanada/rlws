@@ -139,7 +139,7 @@ var _objects = function() {
 		this.scene = scene;
 		this.renderer = renderer;
 		this.camera = camera;
-		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0};
+		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0,F1:0,F2:0};
 		this.origin = {X:0,Y:0};
 		this.animating = false;
 		this.zoomed = false;
@@ -158,7 +158,9 @@ var _objects = function() {
 			Y2 : city.extents.Y2+camYExtents,
 			Z2 : city.extents.Z2+camZ2Extents,
 			R1 : camRotateMin,
-			R2 : camRotateMax
+			R2 : camRotateMax,
+			F1 : camFOVMin,
+			F2 : camFOVMax
 		};
 
 		if (abs) {
@@ -170,7 +172,8 @@ var _objects = function() {
 				//init
 				this.camera.position.z = city.extents.Z2 * camZStart;
 				this.SetConstraints(constraints);
-				this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
+				//this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
+				this.Move(city.midpoint.X, city.midpoint.Y, this.camera.position.z, true, false);
 				this.Zoom(city.extents.Z2 - camZEnd, undefined, camZAnimationTime, true, false, undefined, function() {
 					if (!controlsinit) {
 						controlsinit = true;
@@ -200,6 +203,8 @@ var _objects = function() {
 		if (typeof constraints.Y2 !== 'undefined') this.constraints.Y2 = constraints.Y2;
 		if (typeof constraints.Z2 !== 'undefined') this.constraints.Z2 = constraints.Z2;
 		if (typeof constraints.R2 !== 'undefined') this.constraints.R2 = constraints.R2;
+		if (typeof constraints.F1 !== 'undefined') this.constraints.F1 = constraints.F1;
+		if (typeof constraints.F2 !== 'undefined') this.constraints.F2 = constraints.F2;
 	};
 	
 	this.cameraController.prototype.SetOrigin = function(X, Y) {
@@ -292,6 +297,24 @@ var _objects = function() {
 		}
 	};
 	
+	this.cameraController.prototype.FOV = function(to, from, abs, constrain) {
+		var _self = this;
+		if (typeof constrain === 'undefined') constrain = true;
+		if (typeof abs === 'undefined') abs = false;
+		if (typeof from === 'undefined') from = this.camera.fov;
+		if (!abs) to = from + to;
+		
+		if (this.HitTestFOV(to) || !constrain) {
+			camera.fov = to;
+			camera.aspect = canvasDiv.width() / canvasDiv.height();
+			renderer.setSize(canvasDiv.width(), canvasDiv.height());
+			camera.updateProjectionMatrix();
+		}
+		
+		if (debug && debugMovement) console.log('FOV set:'+ to + " FOV is:"+camera.fov);
+		
+	};
+	
 	this.cameraController.prototype.Move = function(X, Y, Z, abs, constrain) {
 		if (typeof constrain === 'undefined') constrain = true;
 		if (typeof abs === 'undefined') abs = true;
@@ -376,6 +399,7 @@ var _objects = function() {
 	this.cameraController.prototype.HitTestY = function(Y) {return Y >= this.constraints.Y1 && Y <= this.constraints.Y2; };
 	this.cameraController.prototype.HitTestZ = function(Z) {return Z >= this.constraints.Z1 && Z <= this.constraints.Z2; };
 	this.cameraController.prototype.HitTestR = function(R) {return R >= this.constraints.R1 && R <= this.constraints.R2; };
+	this.cameraController.prototype.HitTestFOV = function(FOV) {return FOV >= this.constraints.F1 && FOV <= this.constraints.F2; };
 	//End Camera Controller 
 	
 	//CityController - Maintains cities

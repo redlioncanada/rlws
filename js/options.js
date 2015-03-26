@@ -14,7 +14,7 @@ var gridSizex = 1.2; //multiplicative
 var gridSizey = 1.6; //multiplicative
 var buildingsPerRow = 10; //maximum x grid elements
 var buildingsPerColumn = 10; //maximum y grid elements
-var buildingHeightVariance = 3;
+var buildingHeightVariance = 4;
 var maxSpawnedCities = 10;
 var boxheight = 1.4; //multiplicative
 var boxwidth = 1; //multiplicative
@@ -33,11 +33,14 @@ var camZ1Extents = -7.5;
 var camZ2Extents = 20;
 var camRotateMin = 0.0;
 var camRotateMax = 0.9;
+var camFOVMin = 10;
+var camFOVMax = 90;
+var camFOVStart = 80;
 
 //camera zoom animation
 var camZStart = 10; //multiplied with the highest building depth
 var camZEnd = 10; //subtracted from city.extents.z2
-var camZAnimationTime = 3;
+var camZAnimationTime = 5;
 
 //camera pan animation
 var camPanAnimationTime = 0.01;

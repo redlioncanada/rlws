@@ -2,6 +2,46 @@
 @grey: #b1b1b1;
 @lionred: #e32526;
 
+@-webkit-keyframes loader-animation {
+  0% 	{ transform: rotate(0deg); }
+  10%   { transform: rotate(0deg); }
+  90% 	{ transform: rotate(180deg); }
+  100% 	{ transform: rotate(180deg); }
+}
+@-moz-keyframes loader-animation {
+  0% 	{ transform: rotate(0deg); }
+  10%   { transform: rotate(0deg); }
+  90% 	{ transform: rotate(180deg); }
+  100% 	{ transform: rotate(180deg); }
+
+}
+@-o-keyframes loader-animation {
+  0% 	{ transform: rotate(0deg); }
+  10%   { transform: rotate(0deg); }
+  90% 	{ transform: rotate(180deg); }
+  100% 	{ transform: rotate(180deg); }
+}
+@keyframes loader-animation {
+  0% 	{ transform: rotate(0deg); }
+  10%   { transform: rotate(0deg); }
+  90% 	{ transform: rotate(180deg); }
+  100% 	{ transform: rotate(180deg); }
+
+}
+
+#loadinglogo {
+  -webkit-animation: loader-animation 2s infinite; /* Safari 4+ */
+  -moz-animation:    loader-animation 2s infinite; /* Fx 5+ */
+  -o-animation:      loader-animation 2s infinite; /* Opera 12+ */
+  animation:         loader-animation 2s infinite; /* IE 10+, Fx 29+ */
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -50px -50px 0 0;
+}
+
 p,h1,h2,h3,h4,h5 {
 	padding: 0;
 	margin: 0;
@@ -118,8 +158,8 @@ header {
 	}
 	#logo { 
 		float: right; 
-		height: 58px;
-		padding: 8px;
+		height: 50px;
+		padding: 12px;
 
 		@media (max-width:480px) {
 			padding: 14px 8px 8px 8px;
@@ -301,7 +341,7 @@ header {
 	width: 100%;
 	height: 100%;
 	z-index: 310;
-	background: rgba(0,0,0,0.6);
+	background: rgba(0,0,0,0.75);
 	display: none;
 	opacity: 0;
 	overflow-y: scroll;

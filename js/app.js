@@ -375,7 +375,7 @@ app.factory( "preloader", function( $q, $rootScope ) {
 app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 	function($scope, $routeParams, $timeout) {
 		$scope.dslug = $routeParams.disciplineID;
-		closeButtonStart();
+		closeButtonStart('d');
 		
 		if (boxid !== 0) {
 			$scope.disciplines = dataController.GetByType('disciplines');
@@ -394,7 +394,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 			$('.dcontainer.'+$scope.dslug+' h1').addClass('selected');
 			$('.dcontainer.'+$scope.dslug+' h1 span').html('-');
 			
-			$('#blackout').on('click', '.dcontainer h1', function() {
+			$('#overlay').on('click', '.dcontainer h1', function() {
 				if (!$(this).hasClass('selected')) {
 					$('.dcontainer p').slideUp();
 					$('.dcontainer h1').removeClass('selected');
@@ -423,9 +423,14 @@ var overlayFadeIn = function(millisecs, tweentype) {
 }
 
 // Universal close button start
-var closeButtonStart = function(millisecs, tweentype) {
+var closeButtonStart = function(ctrl, millisecs, tweentype) {
 	if (typeof millisecs == 'undefined') millisecs = 1000;
 	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
+	if (typeof ctrl == 'undefined') ctrl = "";
+	
+	if (ctrl == 'd') {
+		$('#overlay').off('click');
+	}
 	
 	$('.close').on('click', function(e) {
 		e.preventDefault();
