@@ -13,6 +13,7 @@ var spotLight = new THREE.SpotLight( 0xffffff );
 var hemilight = null;
 var lightintensity = 40;
 var composer;
+var hblurPass, vblurPass;
 
 var initInterval;
 var objects = [];
@@ -61,6 +62,8 @@ function render() {
 	}
 }
 
+var cloud2;
+
 function init3D() {
 	if (Detector.webgl) {
 		resize();
@@ -76,19 +79,37 @@ function init3D() {
 		vignettePass.uniforms[ "darkness" ].value = 1.5;
 		composer.addPass(vignettePass);
 		
+		hblurPass = new THREE.ShaderPass( THREE.HorizontalBlurShader );
+		hblurPass.uniforms['h'].value = 0;
+		composer.addPass(hblurPass);
+		vblurPass = new THREE.ShaderPass( THREE.VerticalBlurShader );
+		vblurPass.uniforms['v'].value = 0;
+		composer.addPass(vblurPass);
+		
+		
 		//Always Last
 		var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
 		effectCopy.renderToScreen = true;
 		composer.addPass(effectCopy);
 
 		
-		var explosionTexture = new THREE.ImageUtils.loadTexture( 'testcloud.png' );
-        var explosionMaterial = new THREE.MeshBasicMaterial( { map: explosionTexture } );
-        explosionMaterial.transparent = true;
-        var cube2Geometry = new THREE.PlaneBufferGeometry( 64, 64, 1, 1 );
-        cube2 = new THREE.Mesh( cube2Geometry, explosionMaterial );
-        cube2.position.set(15,14,50);
-        scene.add(cube2);
+		var cloudTexture = new THREE.ImageUtils.loadTexture( 'testclou2.png' );
+        var cloudMaterial = new THREE.MeshBasicMaterial( { map: cloudTexture } );
+        cloudMaterial.transparent = true;
+        var cloudGeometry = new THREE.PlaneBufferGeometry( 64, 64, 1, 1 );
+        
+        cloud1 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        cloud1.position.set(15,15,30);
+        scene.add(cloud1);
+        
+        cloud2 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        cloud2.position.set(2,0,38);
+        cloud2.rotation.z = 3.5;
+        scene.add(cloud2);
+        
+        cloud3 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        cloud3.position.set(30,2,45);
+        scene.add(cloud3);
 		
 		// Objects init - plane (ground)
 		var geometry = new THREE.PlaneBufferGeometry( 10000, 10000 );

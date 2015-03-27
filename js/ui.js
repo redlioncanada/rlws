@@ -87,6 +87,9 @@ $('#searchTerm').on('input', function(e) {
 //webgl detection start
 if (Detector.webgl) {
 	$(canvasDiv).append( renderer.domElement );
+	setTimeout(function() {
+		$('#loading').velocity({'opacity':'0'},{duration: 1000});
+	}, 2000);
 } else {
 	function _webGLResizeAnon(){$(e).css('padding-top',($('#loading').height()/2-$(e).height()/2-60)+"px")}
 	//add background logo
@@ -224,6 +227,7 @@ function loadGoogleMap() {
 $('#blackout').on("click", function(evt) {
     evt.stopPropagation();
     if($($(evt.target).context).attr('id') == 'blackout') {
+	    cameraController.AnimateBlur(0,1);
     	$(this).velocity({"opacity":0, 'padding-top': 50}, {duration: 1000, easing: "easeOutCubic", complete: function() {
 			$(this).css({'display':'none'});
 			window.location.href = "#/grid";

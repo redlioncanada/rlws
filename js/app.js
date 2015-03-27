@@ -408,7 +408,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 					$(this).siblings('p').slideUp();
 				}
 			});
-		}, 1200);
+		}, 2500);
 		
 	}
 ]);
@@ -416,9 +416,31 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 var overlayFadeIn = function(millisecs, tweentype) {
 	if (typeof millisecs == 'undefined') millisecs = 1000;
 	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
+	var overlayDelay = millisecs/4;
 	
+	$('#overlay h1, #overlay h2').css('left','-800px');
+	$('#overlay button.close, #overlay .social-btns').css('right', '-30px');
+	$('#overlay #description, #overlay .overlay-content').css({'margin-top':'100px', 'opacity':0});
+	
+	cameraController.AnimateBlur(0.003,2);
 	$('#blackout').css({'display':'block'});
-	$('#blackout').velocity({"opacity":1, 'padding-top': 0}, {duration: millisecs, easing: tweentype});
+	$('#blackout').velocity({"opacity":1, 'padding-top': 0}, {duration: overlayDelay, easing: tweentype, complete: function() {
+		$('#overlay h2').velocity({"left":'20px'}, {duration: overlayDelay, easing: tweentype, complete: function() {
+			$('#overlay h1').velocity({"left":'20px'}, {duration: overlayDelay, easing: tweentype, complete: function() {
+				if ($('#overlay #description').length) {
+					$('#overlay #description').velocity({"margin-top":'40px', 'opacity':1}, {duration: overlayDelay, easing: tweentype, complete: function() {
+						$('#overlay .overlay-content').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlayDelay, easing: tweentype});
+					}});
+				} else {
+					$('#overlay .overlay-content').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlayDelay, easing: tweentype});
+				}
+			}});
+			
+		}});
+		$('#overlay button.close').velocity({"right":'20px'}, {duration: overlayDelay, easing: tweentype, complete: function() {
+			$('#overlay .social-btns').velocity({"right":'23px'}, {duration: overlayDelay, easing: tweentype});
+		}});
+	}});
 	
 }
 
@@ -434,6 +456,7 @@ var closeButtonStart = function(ctrl, millisecs, tweentype) {
 	
 	$('.close').on('click', function(e) {
 		e.preventDefault();
+		cameraController.AnimateBlur(0,1);
 		$('#blackout').velocity({"opacity":0, 'padding-top': 50}, {duration: millisecs, easing: tweentype, complete: function() {
 			$(this).css({'display':'none'});
 			window.location.href = "#/grid";

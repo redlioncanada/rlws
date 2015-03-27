@@ -192,6 +192,25 @@ var _objects = function() {
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
 	};
 	
+	this.cameraController.prototype.AnimateBlur = function(to, time, cb) {
+		if (typeof to === 'undefined') to = 0;
+		if (to > 0.003) to = 0.003;
+		if (to < 0) to = 0;
+		var from = vblurPass.uniforms['v'].value;
+		
+		var t = new TWEEN.Tween( { value : from } )
+			.to( { value : to }, time*1000 )
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function() {
+				vblurPass.uniforms['v'].value = this.value;
+				hblurPass.uniforms['h'].value = this.value;
+			})
+			.onComplete( function() {
+				if (typeof cb !== 'undefined') cb();
+			})
+			.start();
+	};
+	
 	this.cameraController.prototype.SetConstraints = function(constraints) {
 		if (typeof constraints.X1 !== 'undefined') this.constraints.X1 = constraints.X1;
 		if (typeof constraints.Y1 !== 'undefined') this.constraints.Y1 = constraints.Y1;

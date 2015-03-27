@@ -2,16 +2,13 @@
 	<header>
 		<button class="close">&nbsp;</button>
 		<h2>Disciplines</h2>
-		<div class="social-btns">
-			<img src="img/twitter.png" alt="Twitter" class="twitter">
-			<img src="img/facebook.png" alt="Facebook" class="facebook">
-			<img src="img/linkedin.png" alt="LinkedIn" class="linkedin">
-		</div>
 	</header>
 	
-	<div class="dcontainer {{disc.slug}}" ng-repeat="disc in disciplines">
-		<h1 data-slug="{{disc.slug}}"><span>+</span> &nbsp;{{disc.title}}</h1>
-		<p style="display: none;">{{disc.description}}</p>
+	<div class="overlay-content">
+		<div class="dcontainer {{disc.slug}}" ng-repeat="disc in disciplines">
+			<h1 data-slug="{{disc.slug}}"><span>+</span> &nbsp;{{disc.title}}</h1>
+			<p style="display: none;">{{disc.description}}</p>
+		</div>
 	</div>
 	
 </div>

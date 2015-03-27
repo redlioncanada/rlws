@@ -20,45 +20,47 @@
 	
 	<div class="clear">&nbsp;</div>
 	
-	<div class="videobox" ng-repeat="video in work.video_comsep" ng-show="work.video_comsep[0] !== ''">
-		<iframe ng-src="{{video}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-	</div>
-	
-	<div class="otherbox" ng-show="work.print_comsep[0] !== ''">
-		<div class="printwork">
-			<div ng-repeat="print in work.print_comsep" class="print-item">
-				<img ng-src="{{print}}">
-			</div>
+	<div class="overlay-content">
+		<div class="videobox" ng-repeat="video in work.video_comsep" ng-show="work.video_comsep[0] !== ''">
+			<iframe ng-src="{{video}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 		</div>
-	</div>
-	
-	<div class="otherbox" ng-show="work.digital_comsep[0] !== ''">
-		<div class="digitalwork">
-			<div ng-repeat="digital in work.digital_comsep" class="digital-item">
-				<img ng-src="{{digital}}">
-			</div>
-		</div>
-	</div>
-	
-	<div class="otherbox" ng-show="work.audio_comsep[0] !== ''">
-		<div class="audiowork">
-			
-			<div class="player" ng-repeat="audiofile in work.audio_comsep">
-				<img src="img/audio-spacer.gif">
-				<div class="controlbox">
-					<img src="img/rwd.gif" class="rwd-btn">
-					<img src="img/play-btn.gif" class="play-pause-btn">
-					<img src="img/ffwd-btn.gif" class="ffwd-btn">
-					<div class="meter">
-						<span style="width: 1%"></span>
-					</div>
-					<div class="time-readout">
-						<span class="audioCurrent">0:00</span> / <span class="audioTotal">0:00</span>
-					</div>
-					<audio ng-src="{{audiofile}}" class="audio_file"></audio>
+		
+		<div class="otherbox" ng-show="work.print_comsep[0] !== ''">
+			<div class="printwork">
+				<div ng-repeat="print in work.print_comsep" class="print-item">
+					<img ng-src="{{print}}">
 				</div>
 			</div>
+		</div>
 		
+		<div class="otherbox" ng-show="work.digital_comsep[0] !== ''">
+			<div class="digitalwork">
+				<div ng-repeat="digital in work.digital_comsep" class="digital-item">
+					<img ng-src="{{digital}}">
+				</div>
+			</div>
+		</div>
+		
+		<div class="otherbox" ng-show="work.audio_comsep[0] !== ''">
+			<div class="audiowork">
+				
+				<div class="player" ng-repeat="audiofile in work.audio_comsep">
+					<img src="img/audio-spacer.gif">
+					<div class="controlbox">
+						<img src="img/rwd.gif" class="rwd-btn">
+						<img src="img/play-btn.gif" class="play-pause-btn">
+						<img src="img/ffwd-btn.gif" class="ffwd-btn">
+						<div class="meter">
+							<span style="width: 1%"></span>
+						</div>
+						<div class="time-readout">
+							<span class="audioCurrent">0:00</span> / <span class="audioTotal">0:00</span>
+						</div>
+						<audio ng-src="{{audiofile}}" class="audio_file"></audio>
+					</div>
+				</div>
+			
+			</div>
 		</div>
 	</div>
 	
