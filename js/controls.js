@@ -132,8 +132,8 @@ function fingerMouseDrag(e) {
 		oldTouchY = yOldMod;
 	}
 
-	yMod = yMod === 0 ? undefined : yMod / 125;
-	xMod = xMod === 0 ? undefined : -xMod / 125;
+	yMod = yMod === 0 ? undefined : yMod / 75;
+	xMod = xMod === 0 ? undefined : -xMod / 75;
 	cameraController.Move(xMod, yMod, undefined, false);
 
 }

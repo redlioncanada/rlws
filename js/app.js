@@ -428,7 +428,7 @@ var overlayFadeIn = function(millisecs, tweentype) {
 		$('#overlay h2').velocity({"left":'20px'}, {duration: overlayDelay, easing: tweentype, complete: function() {
 			$('#overlay h1').velocity({"left":'20px'}, {duration: overlayDelay, easing: tweentype, complete: function() {
 				if ($('#overlay #description').length) {
-					$('#overlay #description').velocity({"margin-top":'40px', 'opacity':1}, {duration: overlayDelay, easing: tweentype, complete: function() {
+					$('#overlay #description').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlayDelay, easing: tweentype, complete: function() {
 						$('#overlay .overlay-content').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlayDelay, easing: tweentype});
 					}});
 				} else {

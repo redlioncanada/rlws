@@ -39,6 +39,7 @@ var camFOVStart = 80;
 
 //camera zoom animation
 var camZStart = 10; //multiplied with the highest building depth
+if (isMobile) camZStart = 200;
 var camZEnd = 10; //subtracted from city.extents.z2
 var camZAnimationTime = 5;
 

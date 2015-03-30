@@ -68,7 +68,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -50px -50px 0 0;
+  margin: -50px 0 0 -50px;
 }
 p,
 h1,
@@ -354,6 +354,12 @@ header form #searchCancel {
   overflow-x: hidden;
   padding-top: 50px;
 }
+@media (max-width: 900px) {
+  #blackout {
+    overflow-y: visible;
+    overflow-x: visible;
+  }
+}
 @-webkit-keyframes close-animation {
   0% {
     transform: rotate(0deg);
@@ -589,7 +595,6 @@ header form #searchCancel {
 #overlay {
   margin: 20px auto;
   padding-bottom: 20px;
-  overflow-x: hidden;
 }
 @media (min-width: 900px) {
   #overlay {
@@ -607,6 +612,7 @@ header form #searchCancel {
   width: 100%;
   min-height: 100%;
   background: white;
+  overflow: hidden;
 }
 #overlay #work-overlay header {
   background: #e0280a;
@@ -715,6 +721,7 @@ header form #searchCancel {
   color: white;
   min-height: 200px;
   position: relative;
+  overflow: hidden;
 }
 #overlay #news-overlay header h2 {
   font-weight: 700;
@@ -799,6 +806,7 @@ header form #searchCancel {
   background: #e0280a;
   position: relative;
   height: 75px;
+  overflow: hidden;
 }
 #overlay #discipline-overlay header h2 {
   font-weight: 700;
