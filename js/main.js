@@ -86,30 +86,64 @@ function init3D() {
 		vblurPass.uniforms['v'].value = 0;
 		composer.addPass(vblurPass);
 		
-		
 		//Always Last
 		var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
 		effectCopy.renderToScreen = true;
 		composer.addPass(effectCopy);
 
 		
-		var cloudTexture = new THREE.ImageUtils.loadTexture( 'testclou2.png' );
+		var cloudTexture = new THREE.ImageUtils.loadTexture( 'img/cloud1.png' );
         var cloudMaterial = new THREE.MeshBasicMaterial( { map: cloudTexture } );
         cloudMaterial.transparent = true;
         var cloudGeometry = new THREE.PlaneBufferGeometry( 64, 64, 1, 1 );
         
-        cloud1 = new THREE.Mesh( cloudGeometry, cloudMaterial );
-        cloud1.position.set(15,15,30);
+        var cloudTexture2 = new THREE.ImageUtils.loadTexture( 'img/cloud2.png' );
+        var cloudMaterial2 = new THREE.MeshBasicMaterial( { map: cloudTexture2 } );
+        cloudMaterial2.transparent = true;
+        
+        var cloudTexture3 = new THREE.ImageUtils.loadTexture( 'img/cloud3.png' );
+        var cloudMaterial3 = new THREE.MeshBasicMaterial( { map: cloudTexture3 } );
+        cloudMaterial3.transparent = true;
+        
+        cloud1 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
+        cloud1.position.set(16,16,30);
         scene.add(cloud1);
         
-        cloud2 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        cloud2 = new THREE.Mesh( cloudGeometry, cloudMaterial2 );
         cloud2.position.set(2,0,38);
         cloud2.rotation.z = 3.5;
         scene.add(cloud2);
         
-        cloud3 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        cloud3 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
         cloud3.position.set(30,2,45);
         scene.add(cloud3);
+        
+        cloud4 = new THREE.Mesh( cloudGeometry, cloudMaterial2 );
+        cloud4.position.set(30,30,50);
+        scene.add(cloud4);
+        
+        cloud5 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        cloud5.position.set(-5,40,55);
+        cloud5.rotation.z = 3.5;
+        scene.add(cloud5);
+        
+        cloud6 = new THREE.Mesh( cloudGeometry, cloudMaterial2 );
+        cloud6.position.set(55,15,58);
+        scene.add(cloud6);
+
+		cloud7 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
+        cloud7.position.set(-25,15,61);
+        scene.add(cloud7);
+        
+        cloud8 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        cloud8.position.set(15,50,68);
+        cloud8.rotation.z = 3.5;
+        scene.add(cloud8);
+        
+        cloud9 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        cloud9.position.set(16,-15,73);
+        scene.add(cloud9);
+
 		
 		// Objects init - plane (ground)
 		var geometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
@@ -117,14 +151,6 @@ function init3D() {
 		plane = new THREE.Mesh( geometry, material );
 		scene.add( plane );
 		plane.position.z = 12;
-		
-		var loader = new THREE.ObjectLoader();
-
-		loader.load('models/rllogo2.json', function (object) {
-			scene.add(object);
-			object.position.set(-300,-90,80);
-			object.scale.set(0.5,0.5,0.5);
-		});
 		
 		spotLight.position.set( 0, 40, 80 );
 		spotLight.target.position.set(40,0,0);
