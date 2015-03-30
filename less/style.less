@@ -69,6 +69,18 @@ body {
 	}
 }
 
+@media(max-width:480px) {
+	#controls {
+		display: none;
+	}
+	#menu {
+		display: none;
+	}
+	#mobile-menu {
+		display: block !important;
+	}
+}
+
 #controls {
 	position: absolute;
 	bottom: 20px;
@@ -145,6 +157,21 @@ header {
 			color: @lionred;
 		}
 	}
+	#mobile-menu {
+		display: none;
+		cursor: pointer;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: inherit;
+
+		img {
+			height: inherit;
+			height: 28px;
+			margin: 21px;
+		}
+	}
 	#logo { 
 		float: right; 
 		height: 50px;
@@ -216,7 +243,7 @@ header {
 	border: 1px solid;
 	border-top: 1px solid black;
 	
-	@media (max-width: 440px) {
+	@media (max-width: 480px) {
 		width: 100% !important;
 		border: none;
 		border-bottom: 1px solid;
@@ -258,6 +285,22 @@ header {
 		}
 	}
 
+	.mobile-menu-item-header {
+		height: 40px;
+		color: #FFF;
+		cursor: pointer;
+		border-bottom: 1px solid #450b0b;
+
+		h1 {
+			padding-top: 13px;
+		}
+
+		* {
+			cursor: pointer;
+			text-align: center;
+		}
+	}
+
 	.menu-item-footer {
 		cursor: pointer;
 
@@ -269,6 +312,20 @@ header {
 		}
 		img {
 			width: 25px;
+			margin: 0 auto;
+			display: block;
+		}
+	}
+
+	.mobile-menu-item-footer {
+		cursor: pointer;
+
+		div {
+			width: 100%;
+			height: 21px;
+		}
+		img {
+			width: 36px;
 			margin: 0 auto;
 			display: block;
 		}
@@ -304,6 +361,12 @@ header {
 		width: 100%;
 		left: 0;
 	}
+}
+.menu-item.mobile {
+	width: 100%;
+	left: 0;
+	border-left: initial;
+	border-right: initial;
 }
 #loading {
 	background-color: @background;

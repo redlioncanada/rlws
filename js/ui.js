@@ -16,10 +16,6 @@ window.fbAsyncInit = function() {
 }(document, 'script', 'facebook-jssdk'));
 //facebook end
 
-//controls start
-if (isMobile) $('#controls').css('display','none');
-//controls end
-
 //search start
 $('#searchCancel').on('click', function(e) {
 	if (cameraController.animating) return;
@@ -151,9 +147,20 @@ function closeMenu() {
 function scrollTop() {
 	$('html, body').velocity({scrollTop: 0},{duration:500});
 }
-$('.menu-item-footer').click(function(){closeMenu(); scrollTop();});
+$('.menu-item-footer,.mobile-menu-item-footer').click(function(){closeMenu(); scrollTop();});
 $('#canvas').on('mousedown',closeMenu);
 //menu items end
+
+//mobile menu start
+$('#mobile-menu').click(function() {
+	$('.mobile').click();
+});
+$('.mobile-menu-item-header').click(function() {
+	var c = $(this).attr('class').replace('mobile-menu-item-header ','');
+	closeMenu();
+	$('#menu .'+c).click();
+});
+//mobile menu end
 
 //resize start
 $('#content').css('height',window.innerHeight-headerHeight);
@@ -161,7 +168,6 @@ $(window).on('resize', function() {
 	$('#content').css('height',window.innerHeight-headerHeight);
 });
 //resize end
-
 
 //google map start
 var googleMapLoaded = false;

@@ -57,12 +57,16 @@
 #loadinglogo {
   -webkit-animation: loader-animation 2s infinite 0s;
   /* Safari 4+ */
+
   -moz-animation: loader-animation 2s infinite 0s;
   /* Fx 5+ */
+
   -o-animation: loader-animation 2s infinite 0s;
   /* Opera 12+ */
+
   animation: loader-animation 2s infinite 0s;
   /* IE 10+, Fx 29+ */
+
   width: 100px;
   height: 100px;
   position: absolute;
@@ -109,6 +113,17 @@ body {
 #canvas canvas {
   width: 100%;
   height: 100%;
+}
+@media (max-width: 480px) {
+  #controls {
+    display: none;
+  }
+  #menu {
+    display: none;
+  }
+  #mobile-menu {
+    display: block !important;
+  }
 }
 #controls {
   position: absolute;
@@ -173,6 +188,20 @@ header #menu a:hover {
 }
 header #menu .active {
   color: #e32526;
+}
+header #mobile-menu {
+  display: none;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: inherit;
+}
+header #mobile-menu img {
+  height: inherit;
+  height: 28px;
+  margin: 21px;
 }
 header #logo {
   float: right;
@@ -246,7 +275,7 @@ header form #searchCancel {
   border: 1px solid;
   border-top: 1px solid black;
 }
-@media (max-width: 440px) {
+@media (max-width: 480px) {
   .menu-item {
     width: 100% !important;
     border: none;
@@ -283,6 +312,19 @@ header form #searchCancel {
 .menu-item .menu-item-header > div {
   margin-top: 10px;
 }
+.menu-item .mobile-menu-item-header {
+  height: 40px;
+  color: #FFF;
+  cursor: pointer;
+  border-bottom: 1px solid #450b0b;
+}
+.menu-item .mobile-menu-item-header h1 {
+  padding-top: 13px;
+}
+.menu-item .mobile-menu-item-header * {
+  cursor: pointer;
+  text-align: center;
+}
 .menu-item .menu-item-footer {
   cursor: pointer;
 }
@@ -294,6 +336,18 @@ header form #searchCancel {
 }
 .menu-item .menu-item-footer img {
   width: 25px;
+  margin: 0 auto;
+  display: block;
+}
+.menu-item .mobile-menu-item-footer {
+  cursor: pointer;
+}
+.menu-item .mobile-menu-item-footer div {
+  width: 100%;
+  height: 21px;
+}
+.menu-item .mobile-menu-item-footer img {
+  width: 36px;
   margin: 0 auto;
   display: block;
 }
@@ -319,6 +373,12 @@ header form #searchCancel {
     width: 100%;
     left: 0;
   }
+}
+.menu-item.mobile {
+  width: 100%;
+  left: 0;
+  border-left: initial;
+  border-right: initial;
 }
 #loading {
   background-color: #000000;
@@ -439,124 +499,132 @@ header form #searchCancel {
   cursor: pointer;
   -webkit-animation: closeback-animation 600ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: closeback-animation 600ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: closeback-animation 600ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: closeback-animation 600ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
 }
 .close:hover {
   -webkit-animation: close-animation 600ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: close-animation 600ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: close-animation 600ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: close-animation 600ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
 }
 @-webkit-keyframes socialhover-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @-moz-keyframes socialhover-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @-o-keyframes socialhover-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @keyframes socialhover-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @-webkit-keyframes socialhoverback-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
 }
 @-moz-keyframes socialhoverback-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
 }
 @-o-keyframes socialhoverback-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @keyframes socialhoverback-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
@@ -574,22 +642,30 @@ header form #searchCancel {
   opacity: 0.7;
   -webkit-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
 }
 .social-btns img:hover {
   -webkit-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: socialhover-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
   opacity: 1;
 }
 #overlay {
@@ -910,7 +986,7 @@ header form #searchCancel {
     display: none;
   }
 }
-.player .controlbox .meter > span {
+.player .controlbox .meter  > span {
   display: block;
   height: 100%;
   -moz-border-radius: 7px;
