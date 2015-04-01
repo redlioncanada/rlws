@@ -190,6 +190,22 @@ var _objects = function() {
 			}
 		}
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
+		
+		var sp = spotLight.position;
+		var st = spotLight.target.position;
+		spotLight.shadowCameraFar = city.extents.Z2 * 1.5;
+		
+		var t = new TWEEN.Tween( { x : sp.x, y : sp.y, z : sp.z, tx : st.x, ty : st.y} )
+			.to( { x : city.extents.X1 - spotlightOffset.x, y : city.extents.Y2 + spotlightOffset.y, z : city.extents.Z2, tx : city.midpoint.X, ty : city.midpoint.Y}, 2500 )
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function() {
+				sp.set( this.x, this.y, this.z );
+				st.set( this.tx, this.ty, groundZ );
+				spotLight.updateMatrixWorld();
+				spotLight.target.updateMatrixWorld();
+			})
+			.start();
+		
 	};
 	
 	this.cameraController.prototype.AnimateBlur = function(to, time, cb) {
@@ -496,9 +512,30 @@ var _objects = function() {
 		this.buildingsPerRow = bpr;
 		this.buildingsPerColumn = bpc;
 		this.dataRef = dC;
+		this.cityCircle = null;
+		this.spotLight = new THREE.SpotLight( 0xffffff );
 		if (!type) this.init3DRandomized();
 		else this.init3DExplicit();
 	};
+	
+	this.city.prototype.CircleCity = function(subcity) {
+		var cityPadding, circleThickness;
+		if (subcity) {
+			cityPadding = subCityCirclePadding;
+			circleThickness = subCityCircleThickness;
+		} else { 
+			cityPadding = cityCirclePadding;
+			circleThickness = cityCircleThickness;
+		}
+		var innerRadius = (this.width > this.height) ? this.width + cityPadding : this.height + cityPadding;
+		var cgeometry = new THREE.RingGeometry( innerRadius, innerRadius + circleThickness, 144 );
+		var cmaterial = new THREE.MeshBasicMaterial( { color: 0xe12726, side: THREE.DoubleSide } );
+		this.cityCircle = new THREE.Mesh( cgeometry, cmaterial );
+		scene.add( this.cityCircle );
+		this.cityCircle.position.x = this.midpoint.X;
+		this.cityCircle.position.y = this.midpoint.Y;
+		this.cityCircle.position.z = groundZ + 0.2;
+	}
 
 	this.city.prototype.init3DExplicit = function() {
 		camMinHeight = 0;
@@ -544,6 +581,7 @@ var _objects = function() {
 		this.width = Math.abs(this.extents.X1 - this.extents.X2);
 		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
 		this.extents.Z2 = this.extents.Z1 + camZ2Extents;
+		this.CircleCity();
 	};
 
 	this.city.prototype.init3DRandomized = function() {
@@ -634,6 +672,7 @@ var _objects = function() {
 		this.width = Math.abs(this.extents.X1 - this.extents.X2);
 		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
 		this.extents.Z2 = this.extents.Z1 + camZ2Extents;
+		this.CircleCity(true);
 	};
 	//End City
 	

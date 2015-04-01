@@ -82,10 +82,9 @@ $('#searchTerm').on('input', function(e) {
 
 //webgl detection start
 if (Detector.webgl) {
-	$(canvasDiv).append( renderer.domElement );
-	setTimeout(function() {
-		$('#loading').velocity({'opacity':'0'},{duration: 1000});
-	}, 2000);
+	$('#loading').velocity({'opacity':'0'},{duration: 5000, begin: function(e) {
+		$(canvasDiv).append( renderer.domElement );	
+	}});
 } else {
 	function _webGLResizeAnon(){$(e).css('padding-top',($('#loading').height()/2-$(e).height()/2-60)+"px")}
 	//add background logo

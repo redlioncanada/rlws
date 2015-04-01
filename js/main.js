@@ -147,10 +147,11 @@ function init3D() {
 		
 		// Objects init - plane (ground)
 		var geometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
-		var material = new THREE.MeshBasicMaterial( {color: 0x000, side: THREE.DoubleSide} );
+		var material = new THREE.MeshLambertMaterial( {color: 0x888888, side: THREE.DoubleSide} );
 		plane = new THREE.Mesh( geometry, material );
 		scene.add( plane );
-		plane.position.z = 12;
+		plane.receiveShadow = true;
+		plane.position.z = groundZ;
 		
 		spotLight.position.set( 0, 40, 80 );
 		spotLight.target.position.set(40,0,0);

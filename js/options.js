@@ -25,6 +25,13 @@ var cityGutter = 4;
 var colors = [0xe1251d,0x3ba6c3]; //possible box colors, randomly chosen
 var glCards = [];
 var glCards2 = [];
+var cityCirclePadding = 0.5;
+var cityCircleThickness = 1;
+var subCityCirclePadding = 3;
+var subCityCircleThickness = 0.5;
+var groundZ = 12;
+
+var spotlightOffset = { x : 5, y : 5};
 
 //cam vars
 var camXExtents = 2; //affects how far outside the current grid that the this.camera can scroll, left&right
