@@ -1,21 +1,24 @@
 <div id="news-overlay">
 	<header>
 		<button class="close">&nbsp;</button>
-		<h2>News</h2>
-		<h1>{{newsitem.title}}</h1>
-		<div class="social-btns">
-			<img src="img/twitter.png" alt="Twitter" class="twitter">
-			<img src="img/facebook.png" alt="Facebook" class="facebook">
-			<img src="img/linkedin.png" alt="LinkedIn" class="linkedin">
-		</div>
+		<h2>Red Lion News</h2>
 	</header>
 	
-	<div id="description">
-		<div ng-bind-html="outputHTML(newsitem.description)"></div>
-		<div class="datecat">
-			{{newsitem.date_launched | date:'MMMM d yyyy'}} <br>
+	<div class="overlay-content">
+		<div ng-repeat="article in newsitems" class="ncontainer {{article.slug}}">
+			<h1 data-slug="{{news.slug}}"><span>+</span> &nbsp;{{parseMyDate(article.date_launched) | date:'MM/dd/yyyy'}}</h1>
+			<div class="newscontent" style="display: none;">
+				<h2>{{article.title}}</h2>
+				<h3>by {{article.subtitle}}</h3>
+				<div ng-bind-html="outputHTML(article.description)"></div>
+				<div class="social-btns">
+					<img src="img/twitter.png" alt="Twitter" class="twitter">
+					<img src="img/facebook.png" alt="Facebook" class="facebook">
+					<img src="img/linkedin.png" alt="LinkedIn" class="linkedin">
+				</div>
+			</div>
 		</div>
 	</div>
-	
+		
 	<div class="clear">&nbsp;</div>	
 </div>

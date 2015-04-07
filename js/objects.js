@@ -37,7 +37,10 @@ var _objects = function() {
 
 	this.dataController.prototype.GetTexture = function(b) {
 		if (!(b.img in this.textures)) {
-			this.textures[b.img] = new THREE.ImageUtils.loadTexture( b.img );
+			this.textures[b.img] = new THREE.ImageUtils.loadTexture( b.img, {}, function() {
+				loadedTextures++;
+				if (loadedTextures == Object.size(textureNames)) finishedLoadingTextures = true;
+			});
 			this.textures[b.img].wrapS = THREE.RepeatWrapping;
 			this.textures[b.img].wrapT = THREE.RepeatWrapping;
 		}
@@ -60,8 +63,12 @@ var _objects = function() {
 	
 	this.dataController.prototype.SetData = function(dataArray) {
 		for (var dataindex = 0; dataindex < dataArray.length; dataindex++) {
-			this.data[parseInt(dataArray[dataindex].id)] = dataArray[dataindex];
+			var thisid = parseInt(dataArray[dataindex].id);
+			this.data[thisid] = dataArray[dataindex];
+			
+			if (!(this.data[thisid].img in textureNames)) textureNames[this.data[thisid].img] = thisid;
 		}
+		
 		this.rawData = dataArray;
 		this.fuse = new Fuse(this.rawData, {keys: ['tags']});
 		this.fuseId = new Fuse(this.rawData, {keys: ['tags'], id: 'tags'});
@@ -196,7 +203,7 @@ var _objects = function() {
 		spotLight.shadowCameraFar = city.extents.Z2 * 1.5;
 		
 		var t = new TWEEN.Tween( { x : sp.x, y : sp.y, z : sp.z, tx : st.x, ty : st.y} )
-			.to( { x : city.extents.X1 - spotlightOffset.x, y : city.extents.Y2 + spotlightOffset.y, z : city.extents.Z2, tx : city.midpoint.X, ty : city.midpoint.Y}, 2500 )
+			.to( { x : city.extents.X1 - spotlightOffset.x, y : city.extents.Y2 + spotlightOffset.y, z : city.extents.Z2, tx : city.midpoint.X, ty : city.midpoint.Y}, 5000 )
 			.easing( TWEEN.Easing.Cubic.InOut )
 			.onUpdate( function() {
 				sp.set( this.x, this.y, this.z );
@@ -582,6 +589,7 @@ var _objects = function() {
 		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
 		this.extents.Z2 = this.extents.Z1 + camZ2Extents;
 		this.CircleCity();
+		
 	};
 
 	this.city.prototype.init3DRandomized = function() {

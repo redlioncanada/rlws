@@ -25,6 +25,17 @@ var fuse; //search library
 var controlsinit = false;
 var plane;
 
+// Texture Preloading
+var finishedLoadingTextures = false;
+var textureNames = {};
+var loadedTextures = 0;
+
+$('#loadinglogo').velocity({'rotate':'180'},{duration: 1200});
+var loaderSpinnerInterval = setInterval( function() {
+	$('#loadinglogo').css('transform', 'rotateZ(0deg)');
+	$('#loadinglogo').velocity({rotateZ:'180deg'},{duration: 1600});
+}, 1600);
+
 // Render init
 renderer.shadowMapEnabled = true;
 $(window).on('resize', resize);
@@ -183,8 +194,6 @@ function init3D() {
 				dataController.SetData(glCards);
 				
 				setTimeout(function() {
-					//banish the loading screen to the netherrealms
-					$('#loading').fadeOut();
 					//spawn city
 					SpawnAndGoToCity(homeKeyword);
 				}, 1000);
@@ -197,7 +206,6 @@ function init3D() {
 }
 
 function SpawnAndGoToCity(tag) {
-	if (typeof abs === 'undefined') abs = false;
 	var spawned = cityController.CityIsSpawned(tag);
 	if (!spawned) {
 		if (tag == homeKeyword) {
@@ -214,11 +222,28 @@ function SpawnAndGoToCity(tag) {
 
 	if ((data && (data.length || Object.keys(data).length)) || spawned) {
 		cityController.SetCity(city);
-		cameraController.CenterOnCity(city);
+		var cameraInterval = setInterval(function() {
+			if (finishedLoadingTextures) {
+				cameraController.CenterOnCity(city);
+				$('#loading').velocity({'opacity':'0'},{duration: 5000, complete: function() {
+					$('#loading').css('display', 'none');
+				}});
+				clearInterval(loaderSpinnerInterval);
+				clearInterval(cameraInterval);
+			}
+		}, 500);
 		return city;
 	} else {
 		return undefined;
 	}
 }
+
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 //  "js/ui.js";

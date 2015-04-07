@@ -17,12 +17,15 @@ window.fbAsyncInit = function() {
 //facebook end
 
 //search start
-$('#searchCancel').on('click', function(e) {
+$('#searchCancel, #search-back-img').on('click', function(e) {
 	if (cameraController.animating) return;
 	$('#searchTerm').val('');
 	$('#cachedTerm').val('');
 	SpawnAndGoToCity(homeKeyword);
-	$('#searchCancel').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
+	$('#searchCancel, #search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){
+		$('#search-back-text span').html(''); 
+		$(this).css('display','none')
+	}});
 });
 $('#searchTerm').on('keydown', function(e) {
 	var val = $(this).val();
@@ -35,11 +38,15 @@ $('#searchTerm').on('keydown', function(e) {
 	if (e.keyCode == 13 && $(this).val().length) {	//enter
 		if (cameraController.animating) return;
 		if ($('#cachedTerm').val().length || $(this).val() == homeKeyword) {	//search returned results
+			var textWidth = (cval.length * parseInt($('#cachedTerm').css('font-size')));
+			console.log(textWidth);
+			$('#searchCancel').css('left',textWidth + 'px');
 			var result = SpawnAndGoToCity(cval);
 			if (result && val != homeKeyword) {
-				$('#searchCancel').css('display','block').velocity({'opacity':'1'},{duration:400});
+				$('#search-back-text span').html($('#cachedTerm').val());
+				$('#searchCancel, #search-back-img, #search-back-text').css('display','block').velocity({'opacity':'1'},{duration:400});
 			} else if (result && val == homeKeyword) {
-				$('#searchCancel').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
+				$('#searchCancel, #search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
 			}
 			$(this).val($('#cachedTerm').val()).blur();
 			return;
@@ -82,9 +89,7 @@ $('#searchTerm').on('input', function(e) {
 
 //webgl detection start
 if (Detector.webgl) {
-	$('#loading').velocity({'opacity':'0'},{duration: 5000, begin: function(e) {
-		$(canvasDiv).append( renderer.domElement );	
-	}});
+	$(canvasDiv).append( renderer.domElement );
 } else {
 	function _webGLResizeAnon(){$(e).css('padding-top',($('#loading').height()/2-$(e).height()/2-60)+"px")}
 	//add background logo

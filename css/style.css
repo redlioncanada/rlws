@@ -55,18 +55,6 @@
   }
 }
 #loadinglogo {
-  -webkit-animation: loader-animation 2s infinite 0s;
-  /* Safari 4+ */
-
-  -moz-animation: loader-animation 2s infinite 0s;
-  /* Fx 5+ */
-
-  -o-animation: loader-animation 2s infinite 0s;
-  /* Opera 12+ */
-
-  animation: loader-animation 2s infinite 0s;
-  /* IE 10+, Fx 29+ */
-
   width: 100px;
   height: 100px;
   position: absolute;
@@ -164,6 +152,29 @@ body {
   right: 0;
   bottom: 0;
 }
+#search-back-img {
+  position: absolute;
+  top: 93px;
+  left: 20px;
+  z-index: 2;
+  height: 90px;
+  width: 109px;
+  opacity: 0;
+  display: none;
+}
+#search-back-text {
+  top: 129px;
+  left: 130px;
+  position: absolute;
+  height: 40px;
+  width: 80%;
+  color: #e12726;
+  font-weight: 700;
+  letter-spacing: -2.5px;
+  font-size: 40px;
+  opacity: 0;
+  display: none;
+}
 header {
   top: 0;
   width: 100%;
@@ -230,8 +241,6 @@ header form input {
   font-weight: 700;
   letter-spacing: -2.5px;
   height: 73px;
-  width: 65%;
-  max-width: 1050px;
   border: none;
   padding-left: 56px;
   font-size: 40px;
@@ -252,8 +261,8 @@ header form input#cachedTerm {
 }
 header form #searchCancel {
   opacity: 0;
-  right: 40%;
-  top: 19px;
+  left: 55%;
+  top: 21px;
   position: absolute;
   z-index: 3;
   cursor: pointer;
@@ -499,132 +508,124 @@ header form #searchCancel {
   cursor: pointer;
   -webkit-animation: closeback-animation 600ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: closeback-animation 600ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: closeback-animation 600ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: closeback-animation 600ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
 }
 .close:hover {
   -webkit-animation: close-animation 600ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: close-animation 600ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: close-animation 600ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: close-animation 600ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
 }
 @-webkit-keyframes socialhover-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @-moz-keyframes socialhover-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @-o-keyframes socialhover-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @keyframes socialhover-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @-webkit-keyframes socialhoverback-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
 }
 @-moz-keyframes socialhoverback-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
 }
 @-o-keyframes socialhoverback-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @keyframes socialhoverback-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
@@ -642,35 +643,116 @@ header form #searchCancel {
   opacity: 0.7;
   -webkit-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
 }
 .social-btns img:hover {
   -webkit-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: socialhover-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
   opacity: 1;
 }
 #overlay {
   margin: 20px auto;
   padding-bottom: 20px;
+  /* #news-overlay {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		min-height: 100%;
+		background: white;
+		
+		header {
+			background: #e0280a;
+			color: white;
+			min-height: 200px;
+			position: relative;
+			overflow: hidden;
+			
+			h2 {
+				font-weight: 700;
+				font-size: 25px;
+				text-transform: uppercase;
+				margin: 0;
+				padding: 0;
+				top: 30px;
+				left: 20px;
+				position: absolute;
+				@media (max-width: 900px) {
+					font-size: 20px;
+				}
+			}
+			
+			h1 {
+				position: absolute;
+				bottom: 30px;
+				left: 20px;
+				width: 50%;
+				font-size: 50px;
+				line-height: 55px;
+				@media (max-width: 900px) {
+					font-size: 30px;
+					line-height: 33px;
+					width: 100%
+				}
+			}
+
+		}
+		
+		#description {
+			p {
+				width: 620px;
+				margin: 40px 20px 40px 40px;
+				float: left;
+				@media (max-width: 900px) {
+					width: auto;
+					margin: 5%;
+				}
+			}
+			.datecat {
+				font-weight: 700;
+				width: 180px;
+				margin: 40px 0 0 0;
+				float: right;
+				text-transform: uppercase;
+				@media (max-width: 900px) {
+					display: none;
+				}
+			}
+		}
+		
+		.clear {
+			height: 1px;
+			clear: both;
+			font-size: 1px;
+		}
+		
+		.videobox {
+			background: black;
+			padding: 40px 0;
+			
+			iframe {
+				margin: 0 auto;
+				display: block;
+			}
+		}
+		
+		.otherbox {
+			padding-top: 60px;
+			padding-bottom: 60px;
+			border-top: 4px solid #eee;
+		}
+		
+	} */
 }
 @media (min-width: 900px) {
   #overlay {
@@ -784,19 +866,20 @@ header form #searchCancel {
 #overlay #work-overlay .digital-item img {
   margin: 0 auto;
   max-width: 95%;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.4);
 }
 #overlay #news-overlay {
   margin: 0;
-  padding: 0;
+  padding: 0 0 16px 0;
   width: 100%;
   min-height: 100%;
-  background: white;
+  color: white;
+  background: #891303;
 }
 #overlay #news-overlay header {
-  background: #e0280a;
-  color: white;
-  min-height: 200px;
+  background: #891303;
   position: relative;
+  height: 75px;
   overflow: hidden;
 }
 #overlay #news-overlay header h2 {
@@ -814,61 +897,52 @@ header form #searchCancel {
     font-size: 20px;
   }
 }
-#overlay #news-overlay header h1 {
-  position: absolute;
-  bottom: 30px;
-  left: 20px;
-  width: 50%;
-  font-size: 50px;
-  line-height: 55px;
+#overlay #news-overlay .ncontainer {
+  margin: 10px 0;
+}
+#overlay #news-overlay .ncontainer h1 {
+  font-size: 65px;
+  line-height: 70px;
+  color: #5d0b04;
+  margin-left: 35px;
+  cursor: pointer;
+  cursor: hand;
 }
 @media (max-width: 900px) {
-  #overlay #news-overlay header h1 {
-    font-size: 30px;
-    line-height: 33px;
-    width: 100%;
+  #overlay #news-overlay .ncontainer h1 {
+    font-size: 20px;
+    line-height: 25px;
+    margin-left: 20px;
   }
 }
-#overlay #news-overlay #description p {
-  width: 620px;
-  margin: 40px 20px 40px 40px;
-  float: left;
+#overlay #news-overlay .ncontainer h1.selected {
+  color: white;
 }
-@media (max-width: 900px) {
-  #overlay #news-overlay #description p {
-    width: auto;
-    margin: 5%;
-  }
-}
-#overlay #news-overlay #description .datecat {
-  font-weight: 700;
-  width: 180px;
-  margin: 40px 0 0 0;
-  float: right;
+#overlay #news-overlay .ncontainer h2 {
+  font-size: 40px;
+  line-height: 44px;
+  color: white;
   text-transform: uppercase;
+  margin: 20px 130px 15px 220px;
+}
+#overlay #news-overlay .ncontainer h3 {
+  font-size: 18px;
+  line-height: 22px;
+  color: white;
+  text-transform: uppercase;
+  margin: 0 0 20px 220px;
+}
+#overlay #news-overlay .ncontainer p {
+  font-size: 14px;
+  line-height: 19px;
+  margin: 10px 100px 10px 220px;
 }
 @media (max-width: 900px) {
-  #overlay #news-overlay #description .datecat {
-    display: none;
+  #overlay #news-overlay .ncontainer p {
+    font-size: 14px;
+    line-height: 19px;
+    margin: 10px 20px;
   }
-}
-#overlay #news-overlay .clear {
-  height: 1px;
-  clear: both;
-  font-size: 1px;
-}
-#overlay #news-overlay .videobox {
-  background: black;
-  padding: 40px 0;
-}
-#overlay #news-overlay .videobox iframe {
-  margin: 0 auto;
-  display: block;
-}
-#overlay #news-overlay .otherbox {
-  padding-top: 60px;
-  padding-bottom: 60px;
-  border-top: 4px solid #eee;
 }
 #overlay #discipline-overlay {
   margin: 0;
@@ -986,7 +1060,7 @@ header form #searchCancel {
     display: none;
   }
 }
-.player .controlbox .meter  > span {
+.player .controlbox .meter > span {
   display: block;
   height: 100%;
   -moz-border-radius: 7px;

@@ -31,11 +31,11 @@ var subCityCirclePadding = 3;
 var subCityCircleThickness = 0.5;
 var groundZ = 12;
 
-var spotlightOffset = { x : 5, y : 5};
+var spotlightOffset = { x : 5, y : 5, z : 15 };
 
 //cam vars
-var camXExtents = 2; //affects how far outside the current grid that the this.camera can scroll, left&right
-var camYExtents = 2;	//affects how far outside the current grid that the this.camera can scroll, up&down
+var camXExtents = 10; //affects how far outside the current grid that the this.camera can scroll, left&right
+var camYExtents = 10;	//affects how far outside the current grid that the this.camera can scroll, up&down
 var camZ1Extents = -7.5;
 var camZ2Extents = 20;
 var camRotateMin = 0.0;
@@ -56,7 +56,9 @@ var camPanToCityAnimationTime = 1;
 //movement
 var singleClickTimeout = 0.7; //in seconds
 
-
+// Overlay build timing (millisecs)
+var overlayanimationdelay = 150;
+var overlaybuildtime = 250;
 
 //NON-MODIFIABLE
 var camMinHeight, camMinX, cambuildingsPerRow, camMinY, cambuildingsPerColumn;

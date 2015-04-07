@@ -76,26 +76,48 @@ app.controller('GridControler', function ($scope) {
 app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 	function($scope, $routeParams, $timeout, $sce) {
 		$scope.dslug = $routeParams.newsID;
+		closeButtonStart(true);
 		
 		$scope.outputHTML = function(snip) {
 			return $sce.trustAsHtml(snip);
 		};
 		
+		$scope.parseMyDate = function(datestr) {
+			return Date.parse(datestr);
+		}
+		
 		if (boxid !== 0) {
-			$scope.newsitem = dataController.GetBySlug($scope.dslug);
-			$scope.newsitem.date_launched = Date.parse($scope.newsitem.date_launched);
+			$scope.newsitems = dataController.GetByType('news');
 			overlayFadeIn();
-			closeButtonStart();
-			socialStart('News', $scope.newsitem);
+			socialStart('News', titleCase($scope.dslug));
 		} else {
 			$timeout(function() {
-				$scope.newsitem = dataController.GetBySlug($scope.dslug);
-				$scope.newsitem.date_launched = Date.parse($scope.newsitem.date_launched);
+				$scope.newsitems = dataController.GetByType('news');
 				overlayFadeIn();
-				closeButtonStart();
-				socialStart('News', $scope.newsitem);
+				socialStart('news', titleCase($scope.dslug));
 			}, 1000);
 		}
+		
+		$timeout(function() {
+			$('.ncontainer.'+$scope.dslug+' .newscontent').slideDown();
+			$('.ncontainer.'+$scope.dslug+' h1').addClass('selected');
+			$('.ncontainer.'+$scope.dslug+' h1 span').html('-');
+			
+			$('#overlay').on('click', '.ncontainer h1', function() {
+				if (!$(this).children('.ncontainer h1').hasClass('selected')) {
+					$('.ncontainer .newscontent').slideUp();
+					$('.ncontainer h1').removeClass('selected');
+					$('.ncontainer h1 span').html('+').css('padding',0);
+					$(this).addClass('selected');
+					$(this).children('span').html('-').css({'padding-left':3,'padding-right':4});
+					$(this).siblings('.newscontent').slideDown();
+				} else {
+					$(this).removeClass('selected');
+					$(this).children('span').html('+').css('padding',0);
+					$(this).siblings('.newscontent').slideUp();
+				}
+			});
+		}, 2500);
 		
 	}
 ]);
@@ -225,12 +247,12 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 		dImages = true;
 	}
 	
-	
-	if (plImages.length > 0) {	
+	if ($scope.work.preloadedImages === undefined && plImages.length > 0) {	
 		preloader.preloadImages( plImages ).then(
 			function handleResolve( imageLocations ) {
 				if (pImages) $('.printwork').slick(soptions);
 				if (dImages) $('.digitalwork').slick(soptions);
+				$scope.work.preloadedImages = true;
 			},
 			function handleReject( imageLocation ) {
 				console.error( "Image Failed", imageLocation );
@@ -239,6 +261,11 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 				//console.info( "Percent loaded:", event.percent );
 			}
 		);
+	} else {
+		$timeout( function() {
+			if (pImages) $('.printwork').slick(soptions);
+			if (dImages) $('.digitalwork').slick(soptions);
+		}, 200);
 	}
 	
 	audioPlayerStart();
@@ -375,7 +402,7 @@ app.factory( "preloader", function( $q, $rootScope ) {
 app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 	function($scope, $routeParams, $timeout) {
 		$scope.dslug = $routeParams.disciplineID;
-		closeButtonStart('d');
+		closeButtonStart(true);
 		
 		if (boxid !== 0) {
 			$scope.disciplines = dataController.GetByType('disciplines');
@@ -416,7 +443,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 var overlayFadeIn = function(millisecs, tweentype) {
 	if (typeof millisecs == 'undefined') millisecs = 1000;
 	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
-	var overlayDelay = millisecs/4;
+	var overlaydelay = 0;
 	
 	$('#overlay h1, #overlay h2').css('left','-800px');
 	$('#overlay button.close, #overlay .social-btns').css('right', '-30px');
@@ -424,24 +451,43 @@ var overlayFadeIn = function(millisecs, tweentype) {
 	
 	cameraController.AnimateBlur(0.003,2);
 	$('#blackout').css({'display':'block'});
-	$('#blackout').velocity({"opacity":1, 'padding-top': 0}, {duration: overlayDelay, easing: tweentype, complete: function() {
-		$('#overlay h2').velocity({"left":'20px'}, {duration: overlayDelay, easing: tweentype, complete: function() {
-			$('#overlay h1').velocity({"left":'20px'}, {duration: overlayDelay, easing: tweentype, complete: function() {
-				if ($('#overlay #description').length) {
-					$('#overlay #description').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlayDelay, easing: tweentype, complete: function() {
-						$('#overlay .overlay-content').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlayDelay, easing: tweentype});
-					}});
-				} else {
-					$('#overlay .overlay-content').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlayDelay, easing: tweentype});
-				}
-			}});
-			
-		}});
-		$('#overlay button.close').velocity({"right":'20px'}, {duration: overlayDelay, easing: tweentype, complete: function() {
-			$('#overlay .social-btns').velocity({"right":'23px'}, {duration: overlayDelay, easing: tweentype});
-		}});
-	}});
+	$('#blackout').velocity({"opacity":1, 'padding-top': 0}, {duration: overlaybuildtime, easing: tweentype});
 	
+	setTimeout( function() {
+		$('#overlay h2').velocity({"left":'20px'}, {duration: overlaybuildtime, easing: tweentype});
+	}, overlaydelay);
+	
+	overlaydelay = overlaydelay + overlayanimationdelay;
+	
+	setTimeout( function() {
+	$('#overlay button.close').velocity({"right":'20px'}, {duration: overlaybuildtime, easing: tweentype});
+	}, overlaydelay);
+	
+	overlaydelay = overlaydelay + overlayanimationdelay;
+	
+	setTimeout( function() {
+	$('#overlay .social-btns').velocity({"right":'23px'}, {duration: overlaybuildtime, easing: tweentype});
+	}, overlaydelay);
+	
+	overlaydelay = overlaydelay + overlayanimationdelay;
+	
+	setTimeout(function() {
+		$('#overlay h1').velocity({"left":'20px'}, {duration: overlaybuildtime, easing: tweentype});
+	}, overlaydelay);
+	
+	overlaydelay = overlaydelay + overlayanimationdelay;
+	
+	setTimeout(function() {
+		if ($('#overlay #description').length) {
+			$('#overlay #description').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlaybuildtime, easing: tweentype});
+		}
+	}, overlaydelay);
+	
+	overlaydelay = overlaydelay + overlayanimationdelay;
+	
+	setTimeout(function() {
+		$('#overlay .overlay-content').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlaybuildtime, easing: tweentype});
+	}, overlaydelay);
 }
 
 // Universal close button start
@@ -450,7 +496,7 @@ var closeButtonStart = function(ctrl, millisecs, tweentype) {
 	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
 	if (typeof ctrl == 'undefined') ctrl = "";
 	
-	if (ctrl == 'd') {
+	if (ctrl == true) {
 		$('#overlay').off('click');
 	}
 	
@@ -470,12 +516,12 @@ var socialStart = function(title, subtitle) {
 	loc = escape(window.location.href);
 	newtitle  = escape(title + " - " + subtitle + " || Red Lion Canada");
 	
-	$('img.twitter').click(function(e){
+	$('img.twitter').on('click',function(e){
 		e.preventDefault();
 		window.open('http://twitter.com/share?url=' + loc + '&text=' + newtitle, 'twitterwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
 	});
 	
-	$('img.facebook').click(function(e) {
+	$('img.facebook').on('click',function(e) {
 		e.preventDefault();
 		FB.ui({
 			method: 'share',
@@ -483,7 +529,7 @@ var socialStart = function(title, subtitle) {
 		}, function(response){});
 	});
 	
-	$('img.linkedin').click(function(e) {
+	$('img.linkedin').on('click',function(e) {
 		e.preventDefault();
 		window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + loc + '&title=' + newtitle, 'linkedinwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
 	});
