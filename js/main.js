@@ -37,7 +37,7 @@ function spinfunction() {
 	$('#loadinglogo').velocity({rotateZ:rotateAmount},{duration: 1200});
 }
 spinfunction();
-setInterval(spinfunction, 1600);
+var brentSpinner = setInterval(spinfunction, 1600);
 
 
 // Render init
@@ -51,10 +51,8 @@ function resize() {
 }
 
 function render() {
-	requestAnimationFrame( render );
-	TWEEN.update();
 	
-	if (!mTouchDown || !overlay) {
+	if (!mTouchDown && !overlay && !cameraController.animating) {
 		raycaster.setFromCamera(mouse, camera);
 		var intersects = raycaster.intersectObjects(scene.children);
 		if ( intersects.length > 0 ) {
@@ -70,10 +68,14 @@ function render() {
 		}
 	}
 	
+	TWEEN.update();
+	
+/*
 	var newTime = new Date().getTime() / 1000;
 	frameTime = newTime - currentTime;
 	currentTime = newTime;
 	totalTime += frameTime;
+*/
 
 	//apply camera movement
 	if (!overlay) {
@@ -91,10 +93,10 @@ function render() {
 		
 		//renderer.render( scene, camera );
 		composer.render( 0.1 );
+		requestAnimationFrame( render );
 	}
 }
 
-var cloud2;
 
 function init3D() {
 	if (Detector.webgl) {
@@ -124,6 +126,7 @@ function init3D() {
 		composer.addPass(effectCopy);
 
 		
+		// CLOUDS!!!1!
 		var cloudTexture = new THREE.ImageUtils.loadTexture( 'img/cloud1.png' );
         var cloudMaterial = new THREE.MeshBasicMaterial( { map: cloudTexture } );
         cloudMaterial.transparent = true;
@@ -137,42 +140,42 @@ function init3D() {
         var cloudMaterial3 = new THREE.MeshBasicMaterial( { map: cloudTexture3 } );
         cloudMaterial3.transparent = true;
         
-        cloud1 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
+        var cloud1 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
         cloud1.position.set(16,16,30);
         scene.add(cloud1);
         
-        cloud2 = new THREE.Mesh( cloudGeometry, cloudMaterial2 );
+        var cloud2 = new THREE.Mesh( cloudGeometry, cloudMaterial2 );
         cloud2.position.set(2,0,38);
         cloud2.rotation.z = 3.5;
         scene.add(cloud2);
         
-        cloud3 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
+        var cloud3 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
         cloud3.position.set(30,2,45);
         scene.add(cloud3);
         
-        cloud4 = new THREE.Mesh( cloudGeometry, cloudMaterial2 );
+        var cloud4 = new THREE.Mesh( cloudGeometry, cloudMaterial2 );
         cloud4.position.set(30,30,50);
         scene.add(cloud4);
         
-        cloud5 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        var cloud5 = new THREE.Mesh( cloudGeometry, cloudMaterial );
         cloud5.position.set(-5,40,55);
         cloud5.rotation.z = 3.5;
         scene.add(cloud5);
         
-        cloud6 = new THREE.Mesh( cloudGeometry, cloudMaterial2 );
+        var cloud6 = new THREE.Mesh( cloudGeometry, cloudMaterial2 );
         cloud6.position.set(55,15,58);
         scene.add(cloud6);
 
-		cloud7 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
+		var cloud7 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
         cloud7.position.set(-25,15,61);
         scene.add(cloud7);
         
-        cloud8 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        var cloud8 = new THREE.Mesh( cloudGeometry, cloudMaterial );
         cloud8.position.set(15,50,68);
         cloud8.rotation.z = 3.5;
         scene.add(cloud8);
         
-        cloud9 = new THREE.Mesh( cloudGeometry, cloudMaterial );
+        var cloud9 = new THREE.Mesh( cloudGeometry, cloudMaterial );
         cloud9.position.set(16,-15,73);
         scene.add(cloud9);
 
@@ -243,18 +246,23 @@ function SpawnAndGoToCity(tag) {
 
 	if ((data && (data.length || Object.keys(data).length)) || spawned) {
 		cityController.SetCity(city);
-		var cameraInterval = setInterval(function() {
-			if (finishedLoadingTextures) {
-				cameraController.CenterOnCity(city);
-				$('#loadinglogo').velocity({opacity:0},{duration: 800, complete: function() {
-					clearInterval(cameraInterval);
-					$('#loadinglogo').css('display', 'none');
-					$('#loading').velocity({'opacity':'0'},{duration: 1200, complete: function() {
-						$('#loading').css('display', 'none');
+		if (cityController.cities.length == 1) {
+			var cameraInterval = setInterval(function() {
+				if (finishedLoadingTextures) {
+					cameraController.CenterOnCity(city);
+					$('#loadinglogo').velocity({opacity:0},{duration: 800, complete: function() {
+						clearInterval(cameraInterval);
+						clearInterval(brentSpinner);
+						$('#loadinglogo').css('display', 'none');
+						$('#loading').velocity({'opacity':'0'},{duration: 1200, complete: function() {
+							$('#loading').css('display', 'none');
+						}});
 					}});
-				}});
-			}
-		}, 500);
+				}
+			}, 500);
+		} else {
+			cameraController.CenterOnCity(city);
+		}
 		return city;
 	} else {
 		return undefined;
