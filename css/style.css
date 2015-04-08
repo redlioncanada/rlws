@@ -898,32 +898,120 @@ header form #searchCancel {
   }
 }
 #overlay #news-overlay .ncontainer {
-  margin: 10px 0;
+  margin: 10px 0 0;
 }
-#overlay #news-overlay .ncontainer h1 {
-  font-size: 65px;
-  line-height: 70px;
+#overlay #news-overlay .ncontainer .title {
+  position: relative;
+  height: 71px;
+  overflow: hidden;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay .ncontainer .title {
+    height: 30px;
+  }
+}
+#overlay #news-overlay .ncontainer .title h1,
+#overlay #news-overlay .ncontainer .title h2 {
   color: #5d0b04;
-  margin-left: 35px;
   cursor: pointer;
   cursor: hand;
 }
+#overlay #news-overlay .ncontainer .title.selected h1,
+#overlay #news-overlay .ncontainer .title.selected h2 {
+  color: white;
+}
+#overlay #news-overlay .ncontainer .title h1 {
+  font-size: 65px;
+  line-height: 70px;
+  margin-left: 35px;
+}
 @media (max-width: 900px) {
-  #overlay #news-overlay .ncontainer h1 {
-    font-size: 20px;
-    line-height: 25px;
+  #overlay #news-overlay .ncontainer .title h1 {
+    font-size: 26px;
+    line-height: 28px;
     margin-left: 20px;
   }
 }
-#overlay #news-overlay .ncontainer h1.selected {
-  color: white;
+#overlay #news-overlay .ncontainer .title h2 {
+  position: absolute;
+  right: 15px;
+  top: 5px;
+  font-size: 25px;
+  line-height: 28px;
+  width: 45%;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay .ncontainer .title h2 {
+    font-size: 14px;
+    line-height: 15px;
+    width: 50%;
+  }
+}
+#overlay #news-overlay .ncontainer .title .cover {
+  height: 2px;
+  font-size: 1px;
+  background: #891303;
+  border-bottom: 1px solid #5d0b04;
+  width: 45%;
+  margin: 0;
+  position: absolute;
+  right: 15px;
+  top: 3px;
+  z-index: 1000;
+  text-align: right;
+  overflow: hidden;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay .ncontainer .title .cover {
+    top: 0;
+    width: 50%;
+  }
+}
+#overlay #news-overlay .ncontainer .title .cover img {
+  margin-right: 5px;
+  margin-top: 3px;
+  cursor: hand;
+  cursor: pointer;
+  opacity: 0.7;
+  -webkit-animation: socialhoverback-animation 300ms ease-in-out 0s;
+  /* Safari 4+ */
+  -moz-animation: socialhoverback-animation 300ms ease-in-out 0s;
+  /* Fx 5+ */
+  -o-animation: socialhoverback-animation 300ms ease-in-out 0s;
+  /* Opera 12+ */
+  animation: socialhoverback-animation 300ms ease-in-out 0s;
+  /* IE 10+, Fx 29+ */
+}
+#overlay #news-overlay .ncontainer .title .cover img:hover {
+  -webkit-animation: socialhover-animation 300ms ease-in-out 0s;
+  /* Safari 4+ */
+  -moz-animation: socialhover-animation 300ms ease-in-out 0s;
+  /* Fx 5+ */
+  -o-animation: socialhover-animation 300ms ease-in-out 0s;
+  /* Opera 12+ */
+  animation: socialhover-animation 300ms ease-in-out 0s;
+  /* IE 10+, Fx 29+ */
+  opacity: 1;
+}
+#overlay #news-overlay .ncontainer .toppad {
+  height: 20px;
+  margin: 0;
+  padding: 0;
 }
 #overlay #news-overlay .ncontainer h2 {
   font-size: 40px;
   line-height: 44px;
   color: white;
   text-transform: uppercase;
-  margin: 20px 130px 15px 220px;
+  margin: 0 130px 15px 220px;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay .ncontainer h2 {
+    font-size: 20px;
+    line-height: 22px;
+    margin-left: 20px;
+  }
 }
 #overlay #news-overlay .ncontainer h3 {
   font-size: 18px;
@@ -931,6 +1019,13 @@ header form #searchCancel {
   color: white;
   text-transform: uppercase;
   margin: 0 0 20px 220px;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay .ncontainer h3 {
+    font-size: 14px;
+    line-height: 16px;
+    margin-left: 20px;
+  }
 }
 #overlay #news-overlay .ncontainer p {
   font-size: 14px;
@@ -941,6 +1036,17 @@ header form #searchCancel {
   #overlay #news-overlay .ncontainer p {
     font-size: 14px;
     line-height: 19px;
+    margin: 10px 20px;
+  }
+}
+#overlay #news-overlay .ncontainer .keyline {
+  height: 30px;
+  background: url('../img/keyline.png') repeat-x right top;
+  font-size: 1px;
+  margin: 10px 100px 0 220px;
+}
+@media (max-width: 900px) {
+  #overlay #news-overlay .ncontainer .keyline {
     margin: 10px 20px;
   }
 }
@@ -1074,4 +1180,13 @@ header form #searchCancel {
   float: right;
   color: #afb6b9;
   padding-top: 2px;
+}
+@media (orientation: landscape) and (max-width: 700px) {
+  body {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
 }

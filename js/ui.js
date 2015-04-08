@@ -38,17 +38,15 @@ $('#searchTerm').on('keydown', function(e) {
 	if (e.keyCode == 13 && $(this).val().length) {	//enter
 		if (cameraController.animating) return;
 		if ($('#cachedTerm').val().length || $(this).val() == homeKeyword) {	//search returned results
-			var textWidth = (cval.length * parseInt($('#cachedTerm').css('font-size')));
-			console.log(textWidth);
-			$('#searchCancel').css('left',textWidth + 'px');
 			var result = SpawnAndGoToCity(cval);
 			if (result && val != homeKeyword) {
 				$('#search-back-text span').html($('#cachedTerm').val());
-				$('#searchCancel, #search-back-img, #search-back-text').css('display','block').velocity({'opacity':'1'},{duration:400});
+				$('#search-back-img, #search-back-text').css('display','block').velocity({'opacity':'1'},{duration:400, delay: 4500});
 			} else if (result && val == homeKeyword) {
-				$('#searchCancel, #search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
+				$('#search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
 			}
-			$(this).val($('#cachedTerm').val()).blur();
+			$(this).val('').blur();
+			$('#cachedTerm').val('');
 			return;
 		} else {	//search returned no results
 			$(this).val(cityController.city.tag);

@@ -760,24 +760,94 @@ header {
 		}
 		
 		.ncontainer {
-			margin: 10px 0;
-			h1 {
-				font-size: 65px;
-				line-height: 70px;
-				color: #5d0b04;
-				margin-left: 35px;
-				cursor: pointer;
-				cursor: hand;
+			margin: 10px 0 0;
+			
+			.title {
+				position: relative;
+				height: 71px;
+				overflow: hidden;
 				
 				@media (max-width: 900px) {
-					font-size: 20px;
-					line-height: 25px;
-					margin-left: 20px;
+					height: 30px;
+				}
+				
+				h1, h2 {
+					color: #5d0b04;
+					cursor: pointer;
+					cursor: hand;
 				}
 				
 				&.selected {
-					color: white;
+					h1, h2 {
+						color: white;
+					}
 				}
+				h1 {
+					font-size: 65px;
+					line-height: 70px;
+					margin-left: 35px;
+					
+					@media (max-width: 900px) {
+						font-size: 26px;
+						line-height: 28px;
+						margin-left: 20px;
+					}
+				}
+				
+				h2 {
+					position: absolute;
+					right: 15px;
+					top: 5px;
+					font-size: 25px;
+					line-height: 28px;
+					width: 45%;
+					margin: 0;
+					@media (max-width: 900px) {
+						font-size: 14px;
+						line-height: 15px;
+						width: 50%;
+					}
+				}
+				
+				.cover {
+					height: 2px;
+					font-size: 1px;
+					background: #891303;
+					border-bottom: 1px solid #5d0b04;
+					width: 45%;
+					margin: 0;
+					position: absolute;
+					right: 15px;
+					top: 3px;
+					z-index: 1000;
+					text-align: right;
+					overflow: hidden;
+					
+					@media (max-width: 900px) {
+						top: 0;
+						width: 50%;
+					}
+					
+					img {
+						margin-right: 5px;
+						margin-top: 3px;
+						cursor: hand;
+						cursor: pointer;
+						opacity: 0.7;
+						.animation-mixin (socialhoverback-animation, 300ms, ease-in-out);
+						
+						&:hover {
+							.animation-mixin (socialhover-animation, 300ms, ease-in-out);
+							opacity: 1;
+						}
+					}
+				}
+			}
+			
+			.toppad {
+				height: 20px;
+				margin: 0;
+				padding: 0;
 			}
 			
 			h2 {
@@ -785,7 +855,12 @@ header {
 				line-height: 44px;
 				color: white;
 				text-transform: uppercase;
-				margin: 20px 130px 15px @left-margin;
+				margin: 0 130px 15px @left-margin;
+				@media (max-width: 900px) {
+					font-size: 20px;
+					line-height: 22px;
+					margin-left: 20px;
+				}
 			}
 			
 			h3 {
@@ -794,6 +869,11 @@ header {
 				color: white;
 				text-transform: uppercase;
 				margin: 0 0 20px @left-margin;
+				@media (max-width: 900px) {
+					font-size: 14px;
+					line-height: 16px;
+					margin-left: 20px;
+				}
 			}
 			
 			p {
@@ -807,6 +887,17 @@ header {
 					margin: 10px 20px;
 				}
 			}
+			
+			.keyline {
+				height: 30px;
+				background: url('../img/keyline.png') repeat-x right top;
+				font-size: 1px;
+				margin: 10px 100px 0 @left-margin;
+				@media (max-width: 900px) {
+					margin: 10px 20px;
+				}
+			}
+			
 		}
 		
 	}
@@ -945,5 +1036,15 @@ header {
 			color: rgba(175,182,185,1);
 			padding-top: 2px;
 		}
+	}
+}
+
+body {
+	@media (orientation: landscape) and (max-width: 700px) {
+		-webkit-transform: rotate(-90deg);
+		-moz-transform: rotate(-90deg);
+		-o-transform: rotate(-90deg);
+		-ms-transform: rotate(-90deg);
+		transform: rotate(-90deg);
 	}
 }

@@ -29,16 +29,21 @@ var plane;
 var finishedLoadingTextures = false;
 var textureNames = {};
 var loadedTextures = 0;
+var loopCount = 0;
 
-$('#loadinglogo').velocity({'rotate':'180'},{duration: 1200});
-var loaderSpinnerInterval = setInterval( function() {
-	$('#loadinglogo').css('transform', 'rotateZ(0deg)');
-	$('#loadinglogo').velocity({rotateZ:'180deg'},{duration: 1600});
-}, 1600);
+function spinfunction() {
+	loopCount++;
+	var rotateAmount = loopCount * 180;
+	$('#loadinglogo').velocity({rotateZ:rotateAmount},{duration: 1200});
+}
+spinfunction();
+setInterval(spinfunction, 1600);
+
 
 // Render init
 renderer.shadowMapEnabled = true;
 $(window).on('resize', resize);
+document.addEventListener('orientationchange', resize);
 function resize() {
 	camera.aspect = canvasDiv.width() / canvasDiv.height();
 	renderer.setSize(canvasDiv.width(), canvasDiv.height());
@@ -48,6 +53,22 @@ function resize() {
 function render() {
 	requestAnimationFrame( render );
 	TWEEN.update();
+	
+	if (!mTouchDown || !overlay) {
+		raycaster.setFromCamera(mouse, camera);
+		var intersects = raycaster.intersectObjects(scene.children);
+		if ( intersects.length > 0 ) {
+			if (typeof intersects[0] !=='undefined') {
+				if (typeof intersects[0].face !== 'undefined') {
+					if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) {
+						mouseCursor('point');
+					} else {
+						mouseCursor('grab');
+					}
+				}
+			}
+		}
+	}
 	
 	var newTime = new Date().getTime() / 1000;
 	frameTime = newTime - currentTime;
@@ -176,7 +197,7 @@ function init3D() {
 		
 		spotLight.shadowCameraNear = 10;
 		spotLight.shadowCameraFar = 40000;
-		spotLight.shadowCameraFov = 30;
+		spotLight.shadowCameraFov = 55;
 		
 		scene.add( spotLight );
 		
@@ -225,11 +246,13 @@ function SpawnAndGoToCity(tag) {
 		var cameraInterval = setInterval(function() {
 			if (finishedLoadingTextures) {
 				cameraController.CenterOnCity(city);
-				$('#loading').velocity({'opacity':'0'},{duration: 5000, complete: function() {
-					$('#loading').css('display', 'none');
+				$('#loadinglogo').velocity({opacity:0},{duration: 800, complete: function() {
+					clearInterval(cameraInterval);
+					$('#loadinglogo').css('display', 'none');
+					$('#loading').velocity({'opacity':'0'},{duration: 1200, complete: function() {
+						$('#loading').css('display', 'none');
+					}});
 				}});
-				clearInterval(loaderSpinnerInterval);
-				clearInterval(cameraInterval);
 			}
 		}, 500);
 		return city;
@@ -237,13 +260,5 @@ function SpawnAndGoToCity(tag) {
 		return undefined;
 	}
 }
-
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
 
 //  "js/ui.js";

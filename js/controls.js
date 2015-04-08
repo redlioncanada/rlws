@@ -82,6 +82,27 @@ function boxClicked(intersect) {
 	if (spawned) window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
 }
 
+function mouseCursor(cursorType) {
+	switch (cursorType) {
+		case 'grab':
+			$('body').css( { 'cursor': 'grab', 'cursor': '-webkit-grab' } );
+		break;
+		
+		case 'grabbing':
+			$('body').css( { 'cursor': 'grabbing', 'cursor': '-webkit-grabbing' } );
+		break;
+		
+		case 'point':
+			$('body').css( { 'cursor': 'pointer' } );
+		break;
+		
+		case 'normal':
+		default:
+			$('body').css( { 'cursor': 'default' } );
+		break;
+	}
+}
+
 function fingerMouseDown(e) {
 	e.preventDefault();
 	if (isMobile) {
@@ -131,10 +152,17 @@ function fingerMouseDrag(e) {
 		yMove = yMod;
 		oldTouchY = yOldMod;
 	}
-
+	
+	
+	mouseCursor('grabbing');
+	
 	yMod = yMod === 0 ? undefined : yMod / 75;
 	xMod = xMod === 0 ? undefined : -xMod / 75;
-	cameraController.Move(xMod, yMod, undefined, false);
+	if (e.which == 3) {
+		cameraController.Zoom(yMod, undefined, undefined, false);
+	} else {
+		cameraController.Move(xMod, yMod, undefined, false);
+	}
 
 }
 
@@ -157,6 +185,9 @@ function fingerMouseUp(e) {
 			}
 		}
 	}
+	
+	mouseCursor();
+	
 	xMove = 0;
 	yMove = 0;
 	didSingleClick = false;
@@ -166,6 +197,10 @@ function fingerMouseUp(e) {
 	mDOWN = false;
 	oldScale = 0;
 	pinched = false;
+}
+
+function rightClick(e) {
+	
 }
 
 function mouseMove(e) {

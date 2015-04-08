@@ -83,7 +83,11 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 		};
 		
 		$scope.parseMyDate = function(datestr) {
-			return Date.parse(datestr);
+			var t = datestr.split(/[- :]/);
+			var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+			return new Date(d);
+			
+			//return Date.parse(datestr); iOS doesn't like this.
 		}
 		
 		if (boxid !== 0) {
@@ -95,29 +99,39 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 				$scope.newsitems = dataController.GetByType('news');
 				overlayFadeIn();
 				socialStart('news', titleCase($scope.dslug));
-			}, 1000);
+			}, 1500);
 		}
 		
+		var animationTiming = 800;
+		
 		$timeout(function() {
-			$('.ncontainer.'+$scope.dslug+' .newscontent').slideDown();
-			$('.ncontainer.'+$scope.dslug+' h1').addClass('selected');
-			$('.ncontainer.'+$scope.dslug+' h1 span').html('-');
+			$('.ncontainer.'+$scope.dslug+' .title').addClass('selected');
+			$('.ncontainer.'+$scope.dslug+' .title h1 span').html('-');
+			$('.ncontainer.'+$scope.dslug+' .title .cover').velocity({height: '74px'},{duration: animationTiming});
+			$('.ncontainer.'+$scope.dslug+' .newscontent').velocity('slideDown',{duration: animationTiming});
+			socialStart('Red Lion News', $('.ncontainer.'+$scope.dslug+' .title').attr(''));
 			
-			$('#overlay').on('click', '.ncontainer h1', function() {
-				if (!$(this).children('.ncontainer h1').hasClass('selected')) {
-					$('.ncontainer .newscontent').slideUp();
-					$('.ncontainer h1').removeClass('selected');
-					$('.ncontainer h1 span').html('+').css('padding',0);
-					$(this).addClass('selected');
-					$(this).children('span').html('-').css({'padding-left':3,'padding-right':4});
-					$(this).siblings('.newscontent').slideDown();
+			$('#overlay').on('click', '.ncontainer .title', function() {
+				socialStart('Red Lion News', titleCase($scope.dslug));
+				if (!$(this).children('.ncontainer .title h1').hasClass('selected')) {
+					var title = $(this);
+					$('.ncontainer .newscontent').velocity('slideUp',{duration: animationTiming});
+					$('.ncontainer .title').removeClass('selected');
+					$('.ncontainer .title h1 span').html('+').css('padding',0);
+					$('.ncontainer .title .cover').velocity({height: '2px'},{duration: animationTiming});
+					title.addClass('selected');
+					title.find('h1 span').html('-').css({'padding-left':3,'padding-right':4});
+					title.children('.cover').velocity({height: '74px'},{duration: animationTiming});
+					title.siblings('.newscontent').velocity('slideDown',{duration: animationTiming});
 				} else {
-					$(this).removeClass('selected');
-					$(this).children('span').html('+').css('padding',0);
-					$(this).siblings('.newscontent').slideUp();
+					var title = $(this);
+					title.removeClass('selected');
+					title.find('h1 span').html('+').css('padding',0);
+					title.children('.cover').velocity({height: '74px'},{duration: animationTiming});
+					title.siblings('.newscontent').velocity('slideUp',{duration: animationTiming});
 				}
 			});
-		}, 2500);
+		}, 1500);
 		
 	}
 ]);
@@ -445,7 +459,7 @@ var overlayFadeIn = function(millisecs, tweentype) {
 	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
 	var overlaydelay = 0;
 	
-	$('#overlay h1, #overlay h2').css('left','-800px');
+	$('#overlay header h1, #overlay header h2').css('left','-800px');
 	$('#overlay button.close, #overlay .social-btns').css('right', '-30px');
 	$('#overlay #description, #overlay .overlay-content').css({'margin-top':'100px', 'opacity':0});
 	
@@ -454,7 +468,7 @@ var overlayFadeIn = function(millisecs, tweentype) {
 	$('#blackout').velocity({"opacity":1, 'padding-top': 0}, {duration: overlaybuildtime, easing: tweentype});
 	
 	setTimeout( function() {
-		$('#overlay h2').velocity({"left":'20px'}, {duration: overlaybuildtime, easing: tweentype});
+		$('#overlay header h2').velocity({"left":'20px'}, {duration: overlaybuildtime, easing: tweentype});
 	}, overlaydelay);
 	
 	overlaydelay = overlaydelay + overlayanimationdelay;
@@ -472,7 +486,7 @@ var overlayFadeIn = function(millisecs, tweentype) {
 	overlaydelay = overlaydelay + overlayanimationdelay;
 	
 	setTimeout(function() {
-		$('#overlay h1').velocity({"left":'20px'}, {duration: overlaybuildtime, easing: tweentype});
+		$('#overlay header h1').velocity({"left":'20px'}, {duration: overlaybuildtime, easing: tweentype});
 	}, overlaydelay);
 	
 	overlaydelay = overlaydelay + overlayanimationdelay;

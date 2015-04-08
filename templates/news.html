@@ -6,16 +6,21 @@
 	
 	<div class="overlay-content">
 		<div ng-repeat="article in newsitems" class="ncontainer {{article.slug}}">
-			<h1 data-slug="{{news.slug}}"><span>+</span> &nbsp;{{parseMyDate(article.date_launched) | date:'MM/dd/yyyy'}}</h1>
-			<div class="newscontent" style="display: none;">
-				<h2>{{article.title}}</h2>
-				<h3>by {{article.subtitle}}</h3>
-				<div ng-bind-html="outputHTML(article.description)"></div>
-				<div class="social-btns">
+			<div class="title" data-slug="{{news.slug}}">
+				<h1><span>+</span> &nbsp;{{parseMyDate(article.date_launched) | date:'MM/dd/yyyy'}}</h1>
+				<div class="cover">
 					<img src="img/twitter.png" alt="Twitter" class="twitter">
 					<img src="img/facebook.png" alt="Facebook" class="facebook">
 					<img src="img/linkedin.png" alt="LinkedIn" class="linkedin">
 				</div>
+				<h2>{{article.title}}</h2>
+			</div>
+			<div class="newscontent" style="display: none;">
+				<div class="toppad">&nbsp;</div>
+				<h2>{{article.title}}</h2>
+				<h3>by {{article.subtitle}}</h3>
+				<div ng-bind-html="outputHTML(article.description)"></div>
+				<div class="keyline">&nbsp;</div>
 			</div>
 		</div>
 	</div>
