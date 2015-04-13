@@ -40,8 +40,7 @@ $('#searchTerm').on('keydown', function(e) {
 		if ($('#cachedTerm').val().length || $(this).val() == homeKeyword) {	//search returned results
 			var result = SpawnAndGoToCity(cval);
 			if (result && val != homeKeyword) {
-				$('#search-back-text span').html($('#cachedTerm').val());
-				$('#search-back-img, #search-back-text').css('display','block').velocity({'opacity':'1'},{duration:400, delay: 4500});
+				keywordReturn(cval)
 			} else if (result && val == homeKeyword) {
 				$('#search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
 			}
@@ -60,6 +59,12 @@ $('#searchTerm').on('keydown', function(e) {
 		$('#cachedTerm').val('');
 	}
 });
+
+function keywordReturn(keyword) {	
+	$('#search-back-text span').html(keyword);
+	$('#search-back-img, #search-back-text').css('display','block').velocity({'opacity':'1'},{duration:400, delay: 4500});
+}
+
 $('#searchTerm').on('input', function(e) {
 	var term = $(this).val();
 	var search = dataController.GetIdsWithTag(term);

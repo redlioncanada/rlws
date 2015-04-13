@@ -77,9 +77,10 @@ function boxClicked(intersect) {
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
 	if (clickedBuilding.js_trigger) {
 		spawned = !typeof SpawnAndGoToCity(clickedBuilding.js_trigger) === 'undefined';
+		if (!spawned) keywordReturn(clickedBuilding.js_trigger);
 	}
 	boxid = parseInt(intersect.name);
-	if (spawned) window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
+	if (spawned || clickedBuilding.js_trigger) window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
 }
 
 function mouseCursor(cursorType) {
@@ -319,7 +320,7 @@ var devMoveHandler = function(event) {
 		//arGamma = rR.gamma;
 	}
 	
-	if (mTouchDown) {
+	if (mTouchDown || cameraController.animating) {
 		acc_toy = acc_fromy = cameraController.camera.position.y;
 		acc_tox = acc_fromx = cameraController.camera.position.x;
 	} else {

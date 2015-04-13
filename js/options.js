@@ -34,8 +34,8 @@ var groundZ = 12;
 var spotlightOffset = { x : 5, y : 5, z : 15 };
 
 //cam vars
-var camXExtents = 10; //affects how far outside the current grid that the this.camera can scroll, left&right
-var camYExtents = 10;	//affects how far outside the current grid that the this.camera can scroll, up&down
+var camXExtents = 200; //affects how far outside the current grid that the this.camera can scroll, left&right
+var camYExtents = 200;	//affects how far outside the current grid that the this.camera can scroll, up&down
 var camZ1Extents = -7.5;
 var camZ2Extents = 20;
 var camRotateMin = 0.0;
@@ -46,7 +46,7 @@ var camFOVStart = 80;
 
 //camera zoom animation
 var camZStart = 4; //multiplied with the highest building depth
-var camZEnd = 10; //subtracted from city.extents.z2
+var camZEnd = 5; //subtracted from city.extents.z2
 var camZAnimationTime = 5;
 
 //camera pan animation

@@ -47,7 +47,9 @@ document.addEventListener('orientationchange', resize);
 function resize() {
 	camera.aspect = canvasDiv.width() / canvasDiv.height();
 	renderer.setSize(canvasDiv.width(), canvasDiv.height());
+	if (composer != null) composer.setSize(canvasDiv.width(), canvasDiv.height());
 	camera.updateProjectionMatrix();
+	$('body').scrollTop(1);
 }
 
 function render() {
@@ -256,6 +258,7 @@ function SpawnAndGoToCity(tag) {
 						$('#loadinglogo').css('display', 'none');
 						$('#loading').velocity({'opacity':'0'},{duration: 1200, complete: function() {
 							$('#loading').css('display', 'none');
+							$('body').scrollTop(1);
 						}});
 					}});
 				}

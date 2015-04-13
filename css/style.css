@@ -211,18 +211,18 @@ header #mobile-menu {
 }
 header #mobile-menu img {
   height: inherit;
-  height: 28px;
-  margin: 21px;
+  height: 20px;
+  margin: 25px 10px 0 10px;
 }
 header #logo {
   float: right;
-  height: 50px;
-  padding: 12px;
+  height: 30px;
+  padding: 22px;
 }
 @media (max-width: 480px) {
   header #logo {
-    padding: 14px 8px 8px 8px;
-    height: 44px;
+    padding: 22px 10px 0;
+    height: 30px;
   }
 }
 header form {
