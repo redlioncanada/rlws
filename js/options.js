@@ -12,8 +12,8 @@ var pageTitle = "Red Lion {REDEFINE}";
 //city vars
 var gridSizex = 1.2; //multiplicative
 var gridSizey = 1.6; //multiplicative
-var buildingsPerRow = 10; //maximum x grid elements
-var buildingsPerColumn = 10; //maximum y grid elements
+var buildingsPerRow = 5; //maximum x grid elements
+var buildingsPerColumn = 5; //maximum y grid elements
 var buildingHeightVariance = 4;
 var maxSpawnedCities = 10;
 var boxheight = 1.4; //multiplicative
@@ -29,9 +29,11 @@ var cityCirclePadding = 0.5;
 var cityCircleThickness = 1;
 var subCityCirclePadding = 3;
 var subCityCircleThickness = 0.5;
+var mainCityRadius = 2 //multiplicative
 var groundZ = 12;
 
 var spotlightOffset = { x : 5, y : 5, z : 15 };
+var surroundingTags = [ "design", "digital", "design", "design", "digital", "design", "design", "digital", "design", "design", "digital", "design" ];
 
 //cam vars
 var camXExtents = 200; //affects how far outside the current grid that the this.camera can scroll, left&right

@@ -185,7 +185,6 @@ var _objects = function() {
 				//init
 				this.camera.position.z = city.extents.Z2 * camZStart;
 				this.SetConstraints(constraints);
-				//this.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false);
 				this.Move(city.midpoint.X, city.midpoint.Y, this.camera.position.z, true, false);
 				this.Zoom(city.extents.Z2 - camZEnd, undefined, camZAnimationTime, true, false, undefined, function() {
 					if (!controlsinit) {
@@ -436,11 +435,11 @@ var _objects = function() {
 		this.dataController = d;
 	};
 
-	this.cityController.prototype.SpawnCity = function(tag, rawData, type) {
+	this.cityController.prototype.SpawnCity = function(tag, rawData, type, startX, startY) {
 		if (typeof sizeMultiplier === 'undefined') sizeMultiplier = 1;
 		if (typeof type === 'undefined') type = 0;
-		var startX = this.cities.length == 0 ? 0 : this.cities[0].width*8*this.cities.length;
-		var startY = this.cities.length == 0 ? 0 : this.cities[0].height/2;
+		if (typeof startX === 'undefined') var startX = this.cities.length == 0 ? 0 : this.cities[0].width*8*this.cities.length;
+		if (typeof startY === 'undefined') var startY = this.cities.length == 0 ? 0 : this.cities[0].height/2;
 
 		if (sizeMultiplier > 1) {
 			//multiply the size of the array
@@ -450,12 +449,37 @@ var _objects = function() {
 			rawData = newData;
 		}
 
+
 		var c = new self.city(buildingsPerRow, buildingsPerColumn, dataController, rawData, sizeMultiplier, startX, startY, type);
 		c.tag = tag;
 		this.cities.push(c);
 		c.index = this.cities.length;
 		if (this.cities.length == 1) this.city = c;
+		if (tag == homeKeyword) this.InitHomeCity(c);
 		return c;
+	};
+
+	this.cityController.prototype.InitHomeCity = function(city) {
+		var maxY = Math.max(Math.abs(city.extents.Y1),Math.abs(city.extents.Y2));
+		var maxX = Math.max(Math.abs(city.extents.X1),Math.abs(city.extents.X2));
+		var radius = Math.max(maxX,maxY) * mainCityRadius;
+		var originX = city.midpoint.X;
+		var originY = city.midpoint.Y;
+		var angleDelta = 2 * Math.PI / surroundingTags.length;
+
+		for (var tag in surroundingTags) {
+			var angle = angleDelta * parseInt(tag);
+			var pos = getCoords(angle);
+			var data = dataController.GetAllWithTag(surroundingTags[tag]);
+			this.SpawnCity(surroundingTags[tag], data, 0, pos.X, pos.Y);
+		}
+
+		function getCoords(deg) {
+			return { 
+				X: originX + (Math.cos(deg) * radius), 
+				Y: originY + (Math.sin(deg) * radius)
+			};
+		}
 	};
 
 	this.cityController.prototype.SetCity = function(city) {

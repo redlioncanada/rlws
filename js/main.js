@@ -71,13 +71,6 @@ function render() {
 	}
 	
 	TWEEN.update();
-	
-/*
-	var newTime = new Date().getTime() / 1000;
-	frameTime = newTime - currentTime;
-	currentTime = newTime;
-	totalTime += frameTime;
-*/
 
 	//apply camera movement
 	if (!overlay) {
@@ -93,7 +86,6 @@ function render() {
 		if (mROTUP) cameraController.Rotate(0.03, undefined, undefined, false);
 		if (mROTDOWN) cameraController.Rotate(-0.03, undefined, undefined, false);
 		
-		//renderer.render( scene, camera );
 		composer.render( 0.1 );
 		requestAnimationFrame( render );
 	}
@@ -109,8 +101,6 @@ function init3D() {
 		var renderPass = new THREE.RenderPass( scene, camera );
 		composer.addPass(renderPass);
 		
-		//var effectFilm = new THREE.FilmPass(0.8, 0.1, 1024, false);
-		//composer.addPass(effectFilm);
 		var vignettePass = new THREE.ShaderPass( THREE.VignetteShader );
 		vignettePass.uniforms[ "darkness" ].value = 1.5;
 		composer.addPass(vignettePass);
