@@ -40,14 +40,23 @@ var _objects = function() {
 		this.rawData = [];
 		this.materials = {c:{},t:{}};
 		this.textures = {};
+		this.textureNames = [];
+		this.loadedTextures = 0;
+		this.subscribers = {};
+		this.loaded = false;
 		if (typeof dataArray !== 'undefined') this.SetData(dataArray);
 	};
 
 	this.dataController.prototype.GetTexture = function(b) {
 		if (!(b.img in this.textures)) {
-			this.textures[b.img] = new THREE.ImageUtils.loadTexture( b.img, {}, function() {
-				loadedTextures++;
-				if (loadedTextures == Object.size(textureNames)) finishedLoadingTextures = true;
+			var self = this;
+			this.textures[b.img] = new THREE.ImageUtils.loadTexture( b.img, undefined, function() {
+				if (++self.loadedTextures >= Object.keys(self.textureNames).length) {
+					self.emit('loaded');
+					self.loaded = true;
+				}
+			}, function() {
+				self.loadedTextures++;
 			});
 			this.textures[b.img].wrapS = THREE.RepeatWrapping;
 			this.textures[b.img].wrapT = THREE.RepeatWrapping;
@@ -74,7 +83,7 @@ var _objects = function() {
 			var thisid = parseInt(dataArray[dataindex].id);
 			this.data[thisid] = dataArray[dataindex];
 			
-			if (!(this.data[thisid].img in textureNames)) textureNames[this.data[thisid].img] = thisid;
+			if (!(thisid in this.textureNames)) this.textureNames.push(thisid);
 		}
 		
 		this.rawData = dataArray;
@@ -147,6 +156,40 @@ var _objects = function() {
 	this.dataController.prototype.GetIdsWithTag = function(tag) {
 		return this.fuseId.search(tag);
 	};
+
+	this.dataController.prototype.on = function(e, cb, context) {
+		this.subscribers[e] = this.subscribers[e] || [];
+        this.subscribers[e].push({
+            callback: cb,
+            context: context
+        });
+	}
+
+	this.dataController.prototype.off = function(e, context) {
+		var i, subs, sub;
+        if ((subs = this.subscribers[e])) {
+            i = subs.length - 1;
+            while (i >= 0) {
+                sub = this.subscribers[e][i];
+                if (sub.context === context) {
+                    this.subscribers[e].splice(i, 1);
+                }
+                i--;
+            }
+        }
+	}
+
+	this.dataController.prototype.emit = function(e) {
+		var subs, i = 0,
+            args = Array.prototype.slice.call(arguments, 1);
+        if ((subs = this.subscribers[e])) {
+            while (i < subs.length) {
+                sub = subs[i];
+                sub.callback.apply(sub.context || this, args);
+                i++;
+            }
+        }
+	}
 	//End Data Controller
 	
 	//Camera Controller - maintains camera animation
@@ -429,52 +472,79 @@ var _objects = function() {
 	//End Camera Controller 
 	
 	//CityController - Maintains cities
-	this.cityController = function(d) {
+	this.cityController = function(d,c) {
 		this.cities = [];
 		this.city = undefined;
+		this.curCircleModifier = defaultCityCircleCountModifier;
+		this.curCircleTotal = defaultCityCircleCount;
+		this.curCircleCount = 0;
+		this.numCircles = 1;
 		this.dataController = d;
+		this.camera = c;
 	};
 
 	this.cityController.prototype.SpawnCity = function(tag, rawData, type, startX, startY) {
-		if (typeof sizeMultiplier === 'undefined') sizeMultiplier = 1;
 		if (typeof type === 'undefined') type = 0;
-		if (typeof startX === 'undefined') var startX = this.cities.length == 0 ? 0 : this.cities[0].width*8*this.cities.length;
-		if (typeof startY === 'undefined') var startY = this.cities.length == 0 ? 0 : this.cities[0].height/2;
-
-		if (sizeMultiplier > 1) {
-			//multiply the size of the array
-			var newData = self.MultiplyArray(sizeMultiplier, rawData);
-			buildingsPerRow *= sizeMultiplier;
-			buildingsPerColumn *= sizeMultiplier;
-			rawData = newData;
+		if (tag == homeKeyword) {
+			var c = this.PlaceCity(surroundingTags, rawData, type, startX, startY);
+		} else {
+			var c = this.PlaceCity(tag, rawData, type, startX, startY);
 		}
-
-
-		var c = new self.city(buildingsPerRow, buildingsPerColumn, dataController, rawData, sizeMultiplier, startX, startY, type);
-		c.tag = tag;
-		this.cities.push(c);
-		c.index = this.cities.length;
-		if (this.cities.length == 1) this.city = c;
-		if (tag == homeKeyword) this.InitHomeCity(c);
+		
 		return c;
 	};
 
-	this.cityController.prototype.InitHomeCity = function(city) {
-		var maxY = Math.max(Math.abs(city.extents.Y1),Math.abs(city.extents.Y2));
-		var maxX = Math.max(Math.abs(city.extents.X1),Math.abs(city.extents.X2));
-		var radius = Math.max(maxX,maxY) * mainCityRadius;
-		var originX = city.midpoint.X;
-		var originY = city.midpoint.Y;
-		var angleDelta = 2 * Math.PI / surroundingTags.length;
+	this.cityController.prototype.PlaceCity = function(tags, rawData, type, startX, startY) {
+		var home = typeof tags === 'object';
+		var angleDelta = 2 * Math.PI / this.curCircleTotal;
 
-		for (var tag in surroundingTags) {
+		if (home) {
+			startX = 0;
+			startY = 0;
+		} else {
+			var city = this.cities[0];
+			var maxY = Math.max(Math.abs(city.extents.Y1),Math.abs(city.extents.Y2));
+			var maxX = Math.max(Math.abs(city.extents.X1),Math.abs(city.extents.X2));
+			var radius = Math.max(maxX,maxY) * mainCityRadius * this.numCircles;
+			var originX = city.midpoint.X + city.width/4;
+			var originY = city.midpoint.Y + city.height/4;
 			var angle = angleDelta * parseInt(tag);
-			var pos = getCoords(angle);
-			var data = dataController.GetAllWithTag(surroundingTags[tag]);
-			this.SpawnCity(surroundingTags[tag], data, 0, pos.X, pos.Y);
+			var pos = getCoords(originX,originY,angle,radius);
+			console.log(pos);
 		}
 
-		function getCoords(deg) {
+		var c = new self.city(buildingsPerRow, buildingsPerColumn, dataController, rawData, startX, startY, type);
+		c.tag = home ? homeKeyword : tags;
+		this.cities.push(c);
+		c.index = this.cities.length;
+		if (this.cities.length == 1) this.city = c;
+
+		if (home) {
+			angleDelta = 2 * Math.PI / tags.length;
+			for (var tag in tags) {
+				var city = this.cities[0];
+				var maxY = Math.max(Math.abs(city.extents.Y1),Math.abs(city.extents.Y2));
+				var maxX = Math.max(Math.abs(city.extents.X1),Math.abs(city.extents.X2));
+				var radius = Math.max(maxX,maxY) * mainCityRadius * this.numCircles;
+				var originX = city.midpoint.X + city.width/4;
+				var originY = city.midpoint.Y + city.height/4;
+				var angle = angleDelta * parseInt(tag);
+				var pos = getCoords(originX,originY,angle,radius);
+				var data = dataController.GetAllWithTag(tags[tag]);
+			
+				this.SpawnCity(tags[tag], data, 0, pos.X, pos.Y);
+			}
+		}
+		this.curCircleCount++;
+
+		if (home || this.cirCircleCount == this.curCircleTotal) {
+			this.numCircles++;
+			this.curCircleTotal += this.curCircleModifier;
+		}
+
+		return c;
+
+		function getCoords(originX,originY,deg,radius) {
 			return { 
 				X: originX + (Math.cos(deg) * radius), 
 				Y: originY + (Math.sin(deg) * radius)
@@ -496,6 +566,34 @@ var _objects = function() {
 	this.cityController.prototype.CityIsSpawned = function(tag) {
 		return this.GetCityByTag(tag) !== 0;
 	};
+
+	this.cityController.prototype.CityIsInView = function(tag) {
+		if (!tag) {
+			if (this.city) tag = this.city.tag;
+			else return false;
+		}
+		if (this.CityIsSpawned(tag)) {
+			var vFOV = this.camera.fov * Math.PI / 180;
+			var height = 2 * Math.tan( vFOV / 2 ) * this.camera.position.z;
+			var width = height * camera.aspect;
+
+			var extents = {
+				X1: width - this.camera.position.x,
+				Y1: height - this.camera.position.y,
+				X2: width + this.camera.position.x,
+				Y2: height + this.camera.position.y
+			};
+
+			if ((this.city.extents.X1 < extents.X2 && this.city.extents.Y1 < extents.Y2 && this.city.extents.X2 > extents.X2 && this.city.extents.Y2 > extents.Y2) ||	//city boundary collides at its top-left
+				(this.city.extents.X2 > extents.X1 && this.city.extents.Y1 < extents.Y2 && this.city.extents.X1 < extents.X1 && this.city.extents.Y2 > extents.Y2) ||	//city boundary collides at its top-right
+				(this.city.extents.Y2 > extents.Y1 && this.city.extents.X2 > extents.X1 && this.city.extents.Y1 < extents.Y1 && this.city.extents.Y1 < extents.Y1) ||	//city boundary collides at its bottom-right
+				(this.city.extents.X1 < extents.X2 && this.city.extents.Y2 < extents.Y1 && this.city.extents.X2 > extents.X2 && this.city.extents.Y1 < extents.Y1)) {	//city boundary collides at its bottom-left
+				return true;
+			}
+
+		}
+		return false;
+	}
 	
 	this.cityController.prototype.SetCityByIndex = function(index) {
 		if (index <= this.cities.length) this.city = cities[index];
@@ -528,7 +626,7 @@ var _objects = function() {
 	//End CityController
 
 	//City - a collection of buildings
-	this.city = function(bpr, bpc, dC, rawData, sizeMultiplier, sX, sY, type) {
+	this.city = function(bpr, bpc, dC, rawData, sX, sY, type) {
 		if (typeof type === 'undefined') type = 0;
 		this.logMatrix = function(matrix) {
 			if (!debug) return;
@@ -574,7 +672,7 @@ var _objects = function() {
 		this.cityCircle.position.x = this.midpoint.X;
 		this.cityCircle.position.y = this.midpoint.Y;
 		this.cityCircle.position.z = groundZ + 0.2;
-	}
+	};
 
 	this.city.prototype.init3DExplicit = function() {
 		camMinHeight = 0;
@@ -735,4 +833,151 @@ var _objects = function() {
 		this.model = obj;
 	};
 	//End Building
+
+	//Indicator - Shows the direction of a given set of coordinates, messenger
+	this.indicator = function(c) {
+		this.hidden = true;
+		this.forceHide = false;
+		this.destination = { X: 1, Y: 1 };
+		this.location = { X: 1, Y: 1 };
+		this.raycastLine = { X1: 0, X2: 0, Y1: 0, Y2: 0 };
+		this.colliderLine = undefined;
+		this.subscribers = {};
+		this.angle = 0;
+		this.camera = c;
+		this.X = 0;
+		this.Y = 0;
+	}
+
+	this.indicator.prototype.SetDestination = function(coords) {
+		this.destination = coords;
+		this.emit('setdestination');
+	}
+
+	this.indicator.prototype.Show = function(force) {
+		if ((this.forceHide && force) || !this.forceHide) {
+			this.hidden = false;
+			this.forceHide = force || false;
+			this.emit('show');
+		}
+	}
+
+	this.indicator.prototype.Update = function() {
+		this.location = {X: this.camera.position.x, Y: this.camera.position.y};
+		var deltaX = this.location.X - this.destination.X;
+		var deltaY = this.location.Y - this.destination.Y;
+		this.angle = Math.abs((Math.atan2(deltaY, deltaX) * 180 / Math.PI) - 180);
+		this.raycastLine = {X1: this.location.X, X2: this.destination.X, Y1: this.location.Y, Y2: this.destination.Y };
+		this.emit('update');
+	}
+
+	this.indicator.prototype.GetPosition = function(box) {
+		var top = { X1: box.left, X2: box.left+box.width, Y1: box.top, Y2: box.top };
+		var right = { X1: box.left+box.width, X2: box.left+box.width, Y1: box.top, Y2: box.top+box.height };
+		var bottom = { X1: box.left, X2: box.left+box.width, Y1: box.top+box.height, Y2: box.top+box.height };
+		var left = { X1: box.left, X2: box.left, Y1: box.top, Y2: box.top+box.height };
+		var rotation;
+
+		this.raycastLine = {
+			X1: box.width/2,
+			Y1: box.height/2
+		};
+		var deltaX = this.location.X - this.destination.X;
+		var deltaY = this.location.Y - this.destination.Y;
+		this.raycastLine.X2 = deltaX * this.raycastLine.X1 * -1;
+		this.raycastLine.Y2 = deltaY * this.raycastLine.Y1;
+
+		var defaultCoords;
+		var diagonalLength = Math.sqrt(box.height*box.height+box.width*box.width);
+		var a = Math.atan(box.height/diagonalLength)*100; //vertical angle
+		var b = Math.atan(box.width/diagonalLength)*100;	//horiztonal angle
+
+		if ((this.angle >= a*4+b*3 && this.angle <= 360) || (this.angle >= 0 && this.angle <= a)) {
+			this.colliderLine = right;
+			defaultCoords = {X: box.left, Y:box.top+box.height/2};
+			rotation = 90;
+		} else if (this.angle >= a && this.angle <= a*2+b) {
+			this.colliderLine = top;
+			defaultCoords = {X: box.left+box.width/2, Y:box.top+box.height};
+			rotation = 0;
+		} else if (this.angle >= a*2+b && this.angle <= a*3+b*2) {
+			this.colliderLine = left;
+			defaultCoords = {X: box.left+box.width, Y:box.top+box.height/2};
+			rotation = 270;
+		} else if (this.angle >= a*3+b*2 && this.angle <= a*4+b*3) {
+			this.colliderLine = bottom;
+			defaultCoords = {X: box.left+box.width/2, Y:box.top};
+			rotation = 180;
+		}
+
+		coords = intersect(this.raycastLine, this.colliderLine);
+		if (coords == -1) coords = defaultCoords, coords.rotation = rotation;
+		if (coords) {
+			this.X = coords.X;
+			this.Y = coords.Y;
+			this.rotation = rotation;
+			coords.rotation = rotation;
+		}
+		return coords;
+
+		function intersect(line2, line1) {
+			denominator = ((line2.Y2 - line2.Y1) * (line1.X2 - line1.X1)) - ((line2.X2 - line2.X1) * (line1.Y2 - line1.Y1));
+			if (!denominator) return -1;
+			var a = line1.Y1 - line2.Y1;
+			var b = line1.X1 - line2.X1;
+			numerator1 = ((line2.X2 - line2.X1) * a) - ((line2.Y2 - line2.Y1) * b);
+		    numerator2 = ((line1.X2 - line1.X1) * a) - ((line1.Y2 - line1.Y1) * b);
+		    a = numerator1 / denominator;
+		    b = numerator2 / denominator;
+
+		    if (a <= 0 || a >= 1 || b <= 0 || b >= 1) return false;
+
+		    return { 
+		    	X: line1.X1 + (a * (line1.X2 - line1.X1)),
+		    	Y: line1.Y1 + (a * (line1.Y2 - line1.Y1))
+		    };
+		}
+	}
+
+	this.indicator.prototype.Hide = function(force) {
+		this.hidden = true;
+		this.forceHide = force;
+		this.emit('hide');
+	}
+
+	this.indicator.prototype.on = function(e, cb, context) {
+		this.subscribers[e] = this.subscribers[e] || [];
+        this.subscribers[e].push({
+            callback: cb,
+            context: context
+        });
+	}
+
+	this.indicator.prototype.off = function(e, cb, context) {
+		var i, subs, sub;
+        if ((subs = this.subscribers[e])) {
+            i = subs.length - 1;
+            while (i >= 0) {
+                sub = subs[e][i];
+                if (sub.callback === cb && (!context || sub.context === context)) {
+                    subs[e].splice(i, 1);
+                    break;
+                }
+                i--;
+            }
+        }
+	}
+
+	this.indicator.prototype.emit = function(e) {
+		var subs, i = 0,
+            args = Array.prototype.slice.call(arguments, 1);
+        if ((subs = this.subscribers[e])) {
+            while (i < subs.length) {
+                sub = subs[i];
+                sub.callback.apply(sub.context || this, args);
+                i++;
+            }
+        }
+	}
+	//End Indicator
 };

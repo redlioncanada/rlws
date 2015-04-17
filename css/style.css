@@ -93,6 +93,12 @@ body {
   -o-font-smoothing: antialiased;
   font-smoothing: antialiased;
 }
+#indicator {
+  position: absolute;
+  opacity: 0;
+  left: 0;
+  top: 0;
+}
 #canvas {
   height: 100%;
   z-index: 1;
@@ -508,124 +514,132 @@ header form #searchCancel {
   cursor: pointer;
   -webkit-animation: closeback-animation 600ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: closeback-animation 600ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: closeback-animation 600ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: closeback-animation 600ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
 }
 .close:hover {
   -webkit-animation: close-animation 600ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: close-animation 600ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: close-animation 600ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: close-animation 600ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
 }
 @-webkit-keyframes socialhover-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @-moz-keyframes socialhover-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @-o-keyframes socialhover-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @keyframes socialhover-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @-webkit-keyframes socialhoverback-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
 }
 @-moz-keyframes socialhoverback-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
 }
 @-o-keyframes socialhoverback-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
 @keyframes socialhoverback-animation {
   0% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotateY(90deg);
+    transform: rotatey(90deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotatey(0deg);
     opacity: 1;
   }
 }
@@ -643,116 +657,35 @@ header form #searchCancel {
   opacity: 0.7;
   -webkit-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
 }
 .social-btns img:hover {
   -webkit-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: socialhover-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
   opacity: 1;
 }
 #overlay {
   margin: 20px auto;
   padding-bottom: 20px;
-  /* #news-overlay {
-		margin: 0;
-		padding: 0;
-		width: 100%;
-		min-height: 100%;
-		background: white;
-		
-		header {
-			background: #e0280a;
-			color: white;
-			min-height: 200px;
-			position: relative;
-			overflow: hidden;
-			
-			h2 {
-				font-weight: 700;
-				font-size: 25px;
-				text-transform: uppercase;
-				margin: 0;
-				padding: 0;
-				top: 30px;
-				left: 20px;
-				position: absolute;
-				@media (max-width: 900px) {
-					font-size: 20px;
-				}
-			}
-			
-			h1 {
-				position: absolute;
-				bottom: 30px;
-				left: 20px;
-				width: 50%;
-				font-size: 50px;
-				line-height: 55px;
-				@media (max-width: 900px) {
-					font-size: 30px;
-					line-height: 33px;
-					width: 100%
-				}
-			}
-
-		}
-		
-		#description {
-			p {
-				width: 620px;
-				margin: 40px 20px 40px 40px;
-				float: left;
-				@media (max-width: 900px) {
-					width: auto;
-					margin: 5%;
-				}
-			}
-			.datecat {
-				font-weight: 700;
-				width: 180px;
-				margin: 40px 0 0 0;
-				float: right;
-				text-transform: uppercase;
-				@media (max-width: 900px) {
-					display: none;
-				}
-			}
-		}
-		
-		.clear {
-			height: 1px;
-			clear: both;
-			font-size: 1px;
-		}
-		
-		.videobox {
-			background: black;
-			padding: 40px 0;
-			
-			iframe {
-				margin: 0 auto;
-				display: block;
-			}
-		}
-		
-		.otherbox {
-			padding-top: 60px;
-			padding-bottom: 60px;
-			border-top: 4px solid #eee;
-		}
-		
-	} */
 }
 @media (min-width: 900px) {
   #overlay {
@@ -976,22 +909,30 @@ header form #searchCancel {
   opacity: 0.7;
   -webkit-animation: socialhoverback-animation 300ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: socialhoverback-animation 300ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: socialhoverback-animation 300ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: socialhoverback-animation 300ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
 }
 #overlay #news-overlay .ncontainer .title .cover img:hover {
   -webkit-animation: socialhover-animation 300ms ease-in-out 0s;
   /* Safari 4+ */
+
   -moz-animation: socialhover-animation 300ms ease-in-out 0s;
   /* Fx 5+ */
+
   -o-animation: socialhover-animation 300ms ease-in-out 0s;
   /* Opera 12+ */
+
   animation: socialhover-animation 300ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
+
   opacity: 1;
 }
 #overlay #news-overlay .ncontainer .toppad {
@@ -1166,7 +1107,7 @@ header form #searchCancel {
     display: none;
   }
 }
-.player .controlbox .meter > span {
+.player .controlbox .meter  > span {
   display: block;
   height: 100%;
   -moz-border-radius: 7px;

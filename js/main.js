@@ -19,16 +19,12 @@ var initInterval;
 var objects = [];
 var objs = new _objects();
 var dataController = new objs.dataController();
-var cityController = new objs.cityController(dataController);
+var cityController = new objs.cityController(dataController,camera);
+var indicator = new objs.indicator(camera);
 var cameraController = null;
 var fuse; //search library
 var controlsinit = false;
 var plane;
-
-// Texture Preloading
-var finishedLoadingTextures = false;
-var textureNames = {};
-var loadedTextures = 0;
 var loopCount = 0;
 
 function spinfunction() {
@@ -87,6 +83,8 @@ function render() {
 		composer.render( 0.1 );
 		requestAnimationFrame( render );
 	}
+
+	indicator.Update();
 }
 
 
@@ -236,23 +234,17 @@ function SpawnAndGoToCity(tag) {
 
 	if ((data && (data.length || Object.keys(data).length)) || spawned) {
 		cityController.SetCity(city);
-		if (cityController.cities.length == 1) {
-			var cameraInterval = setInterval(function() {
-				if (finishedLoadingTextures) {
-					cameraController.CenterOnCity(city);
-					$('#loadinglogo').velocity({opacity:0},{duration: 800, complete: function() {
-						clearInterval(cameraInterval);
-						clearInterval(brentSpinner);
-						$('#loadinglogo').css('display', 'none');
-						$('#loading').velocity({'opacity':'0'},{duration: 1200, complete: function() {
-							$('#loading').css('display', 'none');
-						}});
-					}});
-				}
-			}, 500);
+
+		if (tag == homeKeyword) {
+			dataController.on('loaded', function() {
+				dataController.off('loaded', 'centeroncity');
+				cameraController.CenterOnCity(city);
+			}, 'centeroncity');
 		} else {
 			cameraController.CenterOnCity(city);
 		}
+		indicator.SetDestination(city.midpoint);
+		//indicator.Hide(true);
 		return city;
 	} else {
 		return undefined;

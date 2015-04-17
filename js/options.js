@@ -4,6 +4,7 @@
 var debug = true;
 var debugMovement = false;
 var debugGrid = false;
+var debugIndicator = false;
 
 //search
 var homeKeyword = "home";
@@ -30,6 +31,8 @@ var cityCircleThickness = 1;
 var subCityCirclePadding = 3;
 var subCityCircleThickness = 0.5;
 var mainCityRadius = 2 //multiplicative
+var defaultCityCircleCount = 12; //determines how many cities are placed in a circle before drawing a new one
+var defaultCityCircleCountModifier = 4; //gets added to defaultCityCircleCount each time there's a new circle
 var groundZ = 12;
 
 var spotlightOffset = { x : 5, y : 5, z : 15 };
