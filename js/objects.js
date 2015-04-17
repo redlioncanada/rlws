@@ -506,8 +506,8 @@ var _objects = function() {
 		var maxY = Math.max(Math.abs(city.extents.Y1),Math.abs(city.extents.Y2));
 		var maxX = Math.max(Math.abs(city.extents.X1),Math.abs(city.extents.X2));
 		var radius = Math.max(maxX,maxY) * mainCityRadius;
-		var originX = city.midpoint.X;
-		var originY = city.midpoint.Y;
+		var originX = city.midpoint.X + city.width/4;
+		var originY = city.midpoint.Y + city.height/4;
 		var angleDelta = 2 * Math.PI / surroundingTags.length;
 
 		for (var tag in surroundingTags) {
