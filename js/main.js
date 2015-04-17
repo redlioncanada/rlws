@@ -247,8 +247,7 @@ function SpawnAndGoToCity(tag) {
 		} else {
 			cameraController.CenterOnCity(city);
 		}
-		indicator.SetDestination(city.midpoint);
-		//indicator.Hide(true);
+
 		return city;
 	} else {
 		return undefined;
