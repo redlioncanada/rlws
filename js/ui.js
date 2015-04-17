@@ -158,6 +158,18 @@ $('.menu-item-footer,.mobile-menu-item-footer').click(function(){closeMenu(); sc
 $('#canvas').on('mousedown',closeMenu);
 //menu items end
 
+//loading overlay start
+dataController.on('loaded', function() {
+	$('#loadinglogo').velocity({opacity:0},{duration: 800, complete: function() {
+		clearInterval(brentSpinner);
+		$('#loadinglogo').css('display', 'none');
+		$('#loading').velocity({'opacity':'0'},{duration: 1200, complete: function() {
+			$('#loading').css('display', 'none');
+		}});
+	}});
+}, 'overlay');
+//loading overlay end
+
 //mobile menu start
 $('#mobile-menu').click(function() {
 	$('.mobile').click();
