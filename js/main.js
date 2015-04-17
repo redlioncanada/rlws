@@ -238,24 +238,17 @@ function SpawnAndGoToCity(tag) {
 
 	if ((data && (data.length || Object.keys(data).length)) || spawned) {
 		cityController.SetCity(city);
-		if (cityController.cities.length == 1) {
-			var cameraInterval = setInterval(function() {
-				if (finishedLoadingTextures) {
-					cameraController.CenterOnCity(city);
-					$('#loadinglogo').velocity({opacity:0},{duration: 800, complete: function() {
-						clearInterval(cameraInterval);
-						clearInterval(brentSpinner);
-						$('#loadinglogo').css('display', 'none');
-						$('#loading').velocity({'opacity':'0'},{duration: 1200, complete: function() {
-							$('#loading').css('display', 'none');
-							$('body').scrollTop(1);
-						}});
-					}});
-				}
-			}, 500);
+
+		if (tag == homeKeyword) {
+			dataController.on('loaded', function() {
+				dataController.off('loaded', 'centeroncity');
+				cameraController.CenterOnCity(city);
+			}, 'centeroncity');
 		} else {
 			cameraController.CenterOnCity(city);
 		}
+		indicator.SetDestination(city.midpoint);
+		//indicator.Hide(true);
 		return city;
 	} else {
 		return undefined;
