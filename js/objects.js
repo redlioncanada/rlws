@@ -40,14 +40,23 @@ var _objects = function() {
 		this.rawData = [];
 		this.materials = {c:{},t:{}};
 		this.textures = {};
+		this.textureNames = [];
+		this.loadedTextures = 0;
+		this.subscribers = {};
+		this.loaded = false;
 		if (typeof dataArray !== 'undefined') this.SetData(dataArray);
 	};
 
 	this.dataController.prototype.GetTexture = function(b) {
 		if (!(b.img in this.textures)) {
-			this.textures[b.img] = new THREE.ImageUtils.loadTexture( b.img, {}, function() {
-				loadedTextures++;
-				if (loadedTextures == Object.size(textureNames)) finishedLoadingTextures = true;
+			var self = this;
+			this.textures[b.img] = new THREE.ImageUtils.loadTexture( b.img, undefined, function() {
+				if (++self.loadedTextures >= Object.keys(self.textureNames).length) {
+					self.emit('loaded');
+					self.loaded = true;
+				}
+			}, function() {
+				self.loadedTextures++;
 			});
 			this.textures[b.img].wrapS = THREE.RepeatWrapping;
 			this.textures[b.img].wrapT = THREE.RepeatWrapping;
@@ -74,7 +83,7 @@ var _objects = function() {
 			var thisid = parseInt(dataArray[dataindex].id);
 			this.data[thisid] = dataArray[dataindex];
 			
-			if (!(this.data[thisid].img in textureNames)) textureNames[this.data[thisid].img] = thisid;
+			if (!(thisid in this.textureNames)) this.textureNames.push(thisid);
 		}
 		
 		this.rawData = dataArray;
@@ -147,6 +156,40 @@ var _objects = function() {
 	this.dataController.prototype.GetIdsWithTag = function(tag) {
 		return this.fuseId.search(tag);
 	};
+
+	this.dataController.prototype.on = function(e, cb, context) {
+		this.subscribers[e] = this.subscribers[e] || [];
+        this.subscribers[e].push({
+            callback: cb,
+            context: context
+        });
+	}
+
+	this.dataController.prototype.off = function(e, context) {
+		var i, subs, sub;
+        if ((subs = this.subscribers[e])) {
+            i = subs.length - 1;
+            while (i >= 0) {
+                sub = this.subscribers[e][i];
+                if (sub.context === context) {
+                    this.subscribers[e].splice(i, 1);
+                }
+                i--;
+            }
+        }
+	}
+
+	this.dataController.prototype.emit = function(e) {
+		var subs, i = 0,
+            args = Array.prototype.slice.call(arguments, 1);
+        if ((subs = this.subscribers[e])) {
+            while (i < subs.length) {
+                sub = subs[i];
+                sub.callback.apply(sub.context || this, args);
+                i++;
+            }
+        }
+	}
 	//End Data Controller
 	
 	//Camera Controller - maintains camera animation
