@@ -21,7 +21,9 @@ $('#searchCancel, #search-back-img').on('click', function(e) {
 	if (cameraController.animating) return;
 	$('#searchTerm').val('');
 	$('#cachedTerm').val('');
-	SpawnAndGoToCity(homeKeyword);
+
+	SpawnAndGoToCity();
+
 	$('#searchCancel, #search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){
 		$('#search-back-text span').html(''); 
 		$(this).css('display','none')
@@ -264,9 +266,9 @@ indicator.on('update', function() {
 		height: cHeight
 	});
 
-	if (indPosition) {
+	if (!cityController.city || !cityController.defaultCity) return;
+	if (indPosition && !cityController.CityIsInView(homeKeyword,10) && cityController.city.tag == cityController.defaultCity.tag) {
 		this.Show();
-		console.log(indPosition);
 		var indicator = $('#indicator');
 		$(indicator).css({
 			'left': indPosition.X == 0 ? indPosition.X + cLeft : indPosition.X - $(indicator).width() + cLeft,
@@ -317,7 +319,10 @@ indicator.on('update', function() {
 	    context.stroke();
 	};
 });
-indicator.Show();
+
+$('#indicator').click(function() {
+	SpawnAndGoToCity();
+});
 //indicator end
 
 //overlay start

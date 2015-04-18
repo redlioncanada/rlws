@@ -41,9 +41,13 @@ renderer.shadowMapEnabled = true;
 $(window).on('resize', resize);
 document.addEventListener('orientationchange', resize);
 function resize() {
-	camera.aspect = canvasDiv.width() / canvasDiv.height();
-	renderer.setSize(canvasDiv.width(), canvasDiv.height());
+	var width = canvasDiv.width(), height = canvasDiv.height();
+	camera.sceneWidth = width;
+	camera.sceneHeight = height;
+	camera.aspect = width / height;
+	renderer.setSize(width, height);
 	camera.updateProjectionMatrix();
+	if (cameraController) cameraController.Update();
 }
 
 function render() {
@@ -84,6 +88,7 @@ function render() {
 		requestAnimationFrame( render );
 	}
 
+	cameraController.Update();
 	indicator.Update();
 }
 
@@ -218,6 +223,7 @@ function init3D() {
 }
 
 function SpawnAndGoToCity(tag) {
+	if (!tag) tag = homeKeyword;
 	var spawned = cityController.CityIsSpawned(tag);
 	if (!spawned) {
 		if (tag == homeKeyword) {
@@ -233,18 +239,17 @@ function SpawnAndGoToCity(tag) {
 	}
 
 	if ((data && (data.length || Object.keys(data).length)) || spawned) {
-		cityController.SetCity(city);
-
-		if (tag == homeKeyword) {
+		if (tag == homeKeyword && !dataController.loaded) {
 			dataController.on('loaded', function() {
 				dataController.off('loaded', 'centeroncity');
 				cameraController.CenterOnCity(city);
 			}, 'centeroncity');
 		} else {
-			cameraController.CenterOnCity(city);
+			cameraController.CenterOnCity(city, false, function() {
+				cityController.SetCity(city);
+			});
 		}
 		indicator.SetDestination(city.midpoint);
-		//indicator.Hide(true);
 		return city;
 	} else {
 		return undefined;
