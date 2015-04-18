@@ -440,8 +440,7 @@ function enableOnScreenController() {
 		
 		$('#mapctrl-tilt').click(function(e) {
 			e.preventDefault();
-			var cameraState = cameraController.GetState();
-			var currentTilt = cameraState.rotation.x;
+			var currentTilt = cameraController.rotation.x;
 			var camMinTilt = cameraController.constraints.R1;
 			var camMidTilt = (cameraController.constraints.R1 + cameraController.constraints.R2) / 2;
 			var camMaxTilt = cameraController.constraints.R2;

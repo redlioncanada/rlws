@@ -57,6 +57,13 @@ body {
 	-o-font-smoothing: antialiased;
 	font-smoothing: antialiased;
 }
+#indicator {
+	position: absolute;
+	opacity: 0;
+	left: 0;
+	top: 0;
+	cursor: pointer;
+}
 #canvas {
 	height: 100%;
 	z-index: 1;
@@ -137,6 +144,7 @@ body {
 	width: 109px;
 	opacity: 0;
 	display: none;
+	cursor: pointer;
 }
 	
 #search-back-text {
@@ -519,7 +527,6 @@ header {
 }
 
 #overlay {
-	//background: white;
 	@media (min-width: 900px) {
 		width: 900px;
 	}
@@ -635,97 +642,6 @@ header {
 			}
 		}
 	}
-	
-	
-	/* #news-overlay {
-		margin: 0;
-		padding: 0;
-		width: 100%;
-		min-height: 100%;
-		background: white;
-		
-		header {
-			background: #e0280a;
-			color: white;
-			min-height: 200px;
-			position: relative;
-			overflow: hidden;
-			
-			h2 {
-				font-weight: 700;
-				font-size: 25px;
-				text-transform: uppercase;
-				margin: 0;
-				padding: 0;
-				top: 30px;
-				left: 20px;
-				position: absolute;
-				@media (max-width: 900px) {
-					font-size: 20px;
-				}
-			}
-			
-			h1 {
-				position: absolute;
-				bottom: 30px;
-				left: 20px;
-				width: 50%;
-				font-size: 50px;
-				line-height: 55px;
-				@media (max-width: 900px) {
-					font-size: 30px;
-					line-height: 33px;
-					width: 100%
-				}
-			}
-
-		}
-		
-		#description {
-			p {
-				width: 620px;
-				margin: 40px 20px 40px 40px;
-				float: left;
-				@media (max-width: 900px) {
-					width: auto;
-					margin: 5%;
-				}
-			}
-			.datecat {
-				font-weight: 700;
-				width: 180px;
-				margin: 40px 0 0 0;
-				float: right;
-				text-transform: uppercase;
-				@media (max-width: 900px) {
-					display: none;
-				}
-			}
-		}
-		
-		.clear {
-			height: 1px;
-			clear: both;
-			font-size: 1px;
-		}
-		
-		.videobox {
-			background: black;
-			padding: 40px 0;
-			
-			iframe {
-				margin: 0 auto;
-				display: block;
-			}
-		}
-		
-		.otherbox {
-			padding-top: 60px;
-			padding-bottom: 60px;
-			border-top: 4px solid #eee;
-		}
-		
-	} */
 	
 	@left-margin: 220px;
 	

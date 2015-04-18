@@ -21,7 +21,9 @@ $('#searchCancel, #search-back-img').on('click', function(e) {
 	if (cameraController.animating) return;
 	$('#searchTerm').val('');
 	$('#cachedTerm').val('');
-	SpawnAndGoToCity(homeKeyword);
+
+	SpawnAndGoToCity();
+
 	$('#searchCancel, #search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){
 		$('#search-back-text span').html(''); 
 		$(this).css('display','none')
@@ -247,6 +249,86 @@ function loadGoogleMap() {
 	document.body.appendChild(script);
 }
 //google map end
+
+//indicator start
+indicator.on('show', function() {
+	var i = $('#indicator');
+	if (!$(i).hasClass('velocity-animating') && $(i).css('opacity') !== 1) $(i).velocity({"opacity":1}, {duration: 200, queue: false});
+});
+
+indicator.on('hide', function() {
+	var i = $('#indicator');
+	if (!$('#indicator').hasClass('velocity-animating') && $(i).css('opacity') !== 0) $('#indicator').velocity({"opacity":0}, {duration: 200, queue: false});
+});
+
+indicator.on('update', function() {
+	var c = $('#canvas');
+	var cWidth = parseInt($(c).width()), cHeight = parseInt($(c).height()), cTop = parseInt($(c).position().top), cLeft = parseInt($(c).position().left);
+	var indPosition = this.GetPosition({
+		left: 0,
+		width: cWidth,
+		top: 0, 
+		height: cHeight
+	});
+
+	if (!cityController.city || !cityController.defaultCity) return;
+	if (indPosition && !cityController.CityIsInView(homeKeyword,10) && cityController.city.tag == cityController.defaultCity.tag) {
+		this.Show();
+		var indicator = $('#indicator');
+		$(indicator).css({
+			'left': indPosition.X == 0 ? indPosition.X + cLeft : indPosition.X - $(indicator).width() + cLeft,
+			'top': indPosition.Y == 0 ? indPosition.Y + cTop : indPosition.Y - $(indicator).height() + cTop,
+			'-webkit-transform': 'rotate(' + indPosition.rotation + 'deg)',
+            '-moz-transform': 'rotate(' + indPosition.rotation + 'deg)',
+            '-ms-transform': 'rotate(' + indPosition.rotation + 'deg)',
+            '-o-transform': 'rotate(' + indPosition.rotation + 'deg)',
+            'transform': 'rotate(' + indPosition.rotation + 'deg)'
+		});
+	} else {
+		this.Hide();
+	}
+
+	if (debugIndicator) {
+		if (!$('#test').length) $('#content').append('<canvas id="test" style="position:absolute;"></canvas>');
+		$('#test').css({
+			'left': $(c).position().left,
+			'width': cWidth,
+			'top': $(c).position().top,
+			'height': cHeight
+		});
+
+		var test = document.getElementById('test');
+		var context = test.getContext('2d');
+		test.width = cWidth;
+		test.height = cHeight;
+		context.clearRect(0, 0, cWidth, cHeight);
+		drawLine(this.colliderLine, 'red');
+	    drawLine(this.raycastLine, 'blue');
+	    if (indPosition) drawPoint(indPosition.X, indPosition.Y, 'green');
+	}
+
+	function drawPoint(x, y, color) {
+	    context.fillStyle = color || 'black';
+	    context.beginPath();
+	    context.arc(x, y, 10, 0, 2 * Math.PI, true);
+	    context.fill();
+	};
+
+	function drawLine(line, color) {
+	    color = color || 'black';
+	    context.strokeStyle = color;
+	    context.beginPath();
+	    context.moveTo(line.X1, line.Y1);
+	    context.lineTo(line.X2, line.Y2);
+	    context.lineWidth = 5;
+	    context.stroke();
+	};
+});
+
+$('#indicator').click(function() {
+	SpawnAndGoToCity();
+});
+//indicator end
 
 //overlay start
 $('#blackout').on("click", function(evt) {

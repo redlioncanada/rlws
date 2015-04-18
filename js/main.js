@@ -19,16 +19,12 @@ var initInterval;
 var objects = [];
 var objs = new _objects();
 var dataController = new objs.dataController();
-var cityController = new objs.cityController(dataController);
+var cityController = new objs.cityController(dataController,camera);
+var indicator = new objs.indicator(camera);
 var cameraController = null;
 var fuse; //search library
 var controlsinit = false;
 var plane;
-
-// Texture Preloading
-var finishedLoadingTextures = false;
-var textureNames = {};
-var loadedTextures = 0;
 var loopCount = 0;
 
 function spinfunction() {
@@ -45,11 +41,13 @@ renderer.shadowMapEnabled = true;
 $(window).on('resize', resize);
 document.addEventListener('orientationchange', resize);
 function resize() {
-	camera.aspect = canvasDiv.width() / canvasDiv.height();
-	renderer.setSize(canvasDiv.width(), canvasDiv.height());
-	if (composer != null) composer.setSize(canvasDiv.width(), canvasDiv.height());
+	var width = canvasDiv.width(), height = canvasDiv.height();
+	camera.sceneWidth = width;
+	camera.sceneHeight = height;
+	camera.aspect = width / height;
+	renderer.setSize(width, height);
 	camera.updateProjectionMatrix();
-	$('body').scrollTop(1);
+	if (cameraController) cameraController.Update();
 }
 
 function render() {
@@ -89,6 +87,9 @@ function render() {
 		composer.render( 0.1 );
 		requestAnimationFrame( render );
 	}
+
+	cameraController.Update();
+	indicator.Update();
 }
 
 
@@ -222,6 +223,7 @@ function init3D() {
 }
 
 function SpawnAndGoToCity(tag) {
+	if (!tag) tag = homeKeyword;
 	var spawned = cityController.CityIsSpawned(tag);
 	if (!spawned) {
 		if (tag == homeKeyword) {
@@ -237,17 +239,17 @@ function SpawnAndGoToCity(tag) {
 	}
 
 	if ((data && (data.length || Object.keys(data).length)) || spawned) {
-		cityController.SetCity(city);
-
-		if (tag == homeKeyword) {
+		if (tag == homeKeyword && !dataController.loaded) {
 			dataController.on('loaded', function() {
 				dataController.off('loaded', 'centeroncity');
 				cameraController.CenterOnCity(city);
 			}, 'centeroncity');
 		} else {
-			cameraController.CenterOnCity(city);
+			cameraController.CenterOnCity(city, false, function() {
+				cityController.SetCity(city);
+			});
 		}
-
+		indicator.SetDestination(city.midpoint);
 		return city;
 	} else {
 		return undefined;
