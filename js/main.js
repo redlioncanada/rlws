@@ -201,6 +201,7 @@ function init3D() {
 		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 0.3);
 		scene.add(hemilight);
 		cameraController = new objs.cameraController(renderer,scene,camera);
+		cameraController.constrain = !disableConstraints;
 
 		//Objects init - city, delay until data is populated
 		initInterval = setInterval(function() {
@@ -242,17 +243,19 @@ function SpawnAndGoToCity(tag) {
 		if (tag == homeKeyword && !dataController.loaded) {
 			dataController.on('loaded', function() {
 				dataController.off('loaded', 'centeroncity');
-				cameraController.CenterOnCity(city);
+				cameraController.CenterOnCity(city, false, zoomCallback);
 			}, 'centeroncity');
 		} else {
-			cameraController.CenterOnCity(city, false, function() {
-				cityController.SetCity(city);
-			});
+			cameraController.CenterOnCity(city, false, zoomCallback);
 		}
 		indicator.SetDestination(city.midpoint);
 		return city;
 	} else {
 		return undefined;
+	}
+
+	function zoomCallback() {
+		cityController.SetCity(city);
 	}
 }
 

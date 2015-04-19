@@ -203,6 +203,7 @@ var _objects = function() {
 		this.extents = undefined;
 		this.width = undefined;
 		this.height = undefined;
+		this.constrain = true;
 		this.origin = {X:0,Y:0};
 		this.animating = false;
 		this.zoomed = false;
@@ -325,7 +326,7 @@ var _objects = function() {
 		if (typeof from === 'undefined') from = this.camera.position.x;
 		if (!abs) to = from + to;
 		
-		if ((this.HitTestX(to) && !this.animating) || !constrain) {
+		if (((this.HitTestX(to) || !this.constrain) && !this.animating) || !constrain) {
 			if (!constrain) this.animating = true;
 			var t = new TWEEN.Tween( { x : from } )
 				.to( { x : to }, time*1000 )
@@ -351,7 +352,7 @@ var _objects = function() {
 		if (typeof from === 'undefined') from = this.camera.position.y;
 		if (!abs) to = from + to;
 		
-		if ((this.HitTestY(to) && !this.animating) || !constrain) {
+		if (((this.HitTestY(to) || !this.constrain) && !this.animating) || !constrain) {
 			if (!constrain) this.animating = true;
 			var t = new TWEEN.Tween( { y : from } )
 				.to( { y : to }, time*1000 )
@@ -378,7 +379,7 @@ var _objects = function() {
 		if (!abs) to = from + to;
 		
 		if (debug && debugMovement) console.log('Zoom: '+to);
-		if ((this.HitTestZ(to) && !this.animating) || !constrain) {
+		if (((this.HitTestZ(to) || !this.constrain) && !this.animating) || !constrain) {
 			if (!constrain) this.animating = true;
 			var t = new TWEEN.Tween( { z : from } )
 				.to( { z : to }, time*1000 )
@@ -405,17 +406,17 @@ var _objects = function() {
 		}
 
 		if (typeof X !== 'undefined' && !isNaN(X)) {
-			if ((this.HitTestX(X) && !this.animating) || !constrain || abs) {
+			if (((this.HitTestX(X) || !this.constrain) && !this.animating) || !constrain || abs) {
 				this.camera.position.x = X;
 			}
 		}
 		if (typeof Y !== 'undefined' && !isNaN(Y)) {
-			if ((this.HitTestY(Y) && !this.animating) || !constrain || abs) {
+			if (((this.HitTestY(Y) || !this.constrain) && !this.animating) || !constrain || abs) {
 				this.camera.position.y = Y;
 			}
 		}
 		if (typeof Z !== 'undefined' && !isNaN(Z)) {
-			if ((this.HitTestZ(Z) && !this.animating) || !constrain || abs) {
+			if (((this.HitTestZ(Z) || !this.constrain) && !this.animating) || !constrain || abs) {
 				this.camera.position.z = Z;
 			}
 		}

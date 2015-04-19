@@ -49,6 +49,7 @@ var camRotateMax = 0.9;
 var camFOVMin = 10;
 var camFOVMax = 90;
 var camFOVStart = 80;
+var disableConstraints = true;
 
 //camera zoom animation
 var camZStart = 4; //multiplied with the highest building depth
