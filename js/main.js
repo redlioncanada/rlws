@@ -10,6 +10,7 @@ var raycaster = new THREE.Raycaster();
 //scene.fog = new THREE.FogExp2( 0x000000, 0.06 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
 var spotLight = new THREE.SpotLight( 0xffffff );
+var mouseSpot = new THREE.SpotLight( 0xffffff, 0.9, 20, 1 );
 var hemilight = null;
 var lightintensity = 40;
 var composer;
@@ -52,21 +53,7 @@ function resize() {
 
 function render() {
 	
-	if (!mTouchDown && !overlay && !cameraController.animating) {
-		raycaster.setFromCamera(mouse, camera);
-		var intersects = raycaster.intersectObjects(scene.children);
-		if ( intersects.length > 0 ) {
-			if (typeof intersects[0] !=='undefined') {
-				if (typeof intersects[0].face !== 'undefined') {
-					if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) {
-						mouseCursor('point');
-					} else {
-						mouseCursor('grab');
-					}
-				}
-			}
-		}
-	}
+	renderMouseListener();
 	
 	TWEEN.update();
 
@@ -118,7 +105,6 @@ function init3D() {
 		effectCopy.renderToScreen = true;
 		composer.addPass(effectCopy);
 
-		
 		// CLOUDS!!!1!
 		var cloudTexture = new THREE.ImageUtils.loadTexture( 'img/cloud1.png' );
         var cloudMaterial = new THREE.MeshBasicMaterial( { map: cloudTexture } );
@@ -196,6 +182,23 @@ function init3D() {
 		spotLight.shadowCameraFov = 55;
 		
 		scene.add( spotLight );
+		
+		if (!isMobile) {
+			mouseSpot.position.set( mouseRestX, mouseRestY, 40 );
+			mouseSpot.target.position.set( mouseRestX, mouseRestY, 0);
+			
+			mouseSpot.castShadow = true;
+			mouseSpot.shadowDarkness = 0.3;
+			
+			mouseSpot.shadowMapWidth = 1024;
+			mouseSpot.shadowMapHeight = 1024;
+			
+			mouseSpot.shadowCameraNear = 10;
+			mouseSpot.shadowCameraFar = 40000;
+			mouseSpot.shadowCameraFov = 0.5;
+			
+			scene.add( mouseSpot );
+		}
 		
 		// Objects init - camera & light
 		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 0.3);

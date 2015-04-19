@@ -145,6 +145,11 @@ body {
 	opacity: 0;
 	display: none;
 	cursor: pointer;
+	
+	@media (max-width: 900px) {
+		height: 45px;
+		width: 55px;
+	}
 }
 	
 #search-back-text {
@@ -159,6 +164,12 @@ body {
 	font-size: 40px;
 	opacity: 0;
 	display: none;
+	
+	@media (max-width: 900px) {
+		font-size: 30px;
+		top: 109px;
+		left: 80px;
+	}
 }
 
 header { 
@@ -299,7 +310,7 @@ header {
 	}
 
 	.menu-item-header {
-		height: 100px;
+		height: 0;
 		padding: 10px 20px 33px 20px;
 
 		h4,p {
@@ -386,6 +397,16 @@ header {
 }
 .menu-item.culture {
 	width: 760px;
+	
+	.menu-item-body {
+		div {
+			width: 40%;
+			margin-left: 5%;
+			float: left;
+			
+			
+		}
+	}
 
 	@media (max-width:760px) {
 		width: 100%;

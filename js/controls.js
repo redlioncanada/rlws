@@ -104,28 +104,56 @@ function mouseCursor(cursorType) {
 	}
 }
 
+function renderMouseListener() {
+	if (!mTouchDown && !overlay && !cameraController.animating) {
+		raycaster.setFromCamera(mouse, camera);
+		var intersects = raycaster.intersectObjects(scene.children);
+		if ( intersects.length > 0 ) {
+			if (typeof intersects[0] !== 'undefined') {
+				if (typeof intersects[0].face !== 'undefined') {
+					if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) {
+						mouseCursor('point');
+						
+						var box = new THREE.Box3().setFromObject( intersects[0].object );
+						
+						var boxpos = intersects[0].object;
+						var boxposx = boxpos.position.x + (box.size().x / 2);
+						var boxposy = boxpos.position.y + (box.size().y);
+						mouseSpot.position.set(boxposx, boxposy, mouseSpotZ);
+						mouseSpot.target.position.set(boxposx, boxposy, mouseSpotTargetZ);
+						mouseSpot.intensity = 0.9;
+						
+					} else {
+						mouseCursor('grab');
+						//mouseSpot.position.set(mouseRestX, mouseRestY, mouseSpotZ);
+						//mouseSpot.target.position.set(mouseRestX, mouseRestY, mouseSpotTargetZ);
+						mouseSpot.intensity = 0.2;
+					}
+				}
+			}
+		}
+	}
+}
+
 function fingerMouseDown(e) {
 	e.preventDefault();
-	if (isMobile) {
-		if (e.touches.length == 2) {
-			//something good here.
-		} else {
-			var touch = e.touches[0];
-			oldTouchX = touch.pageX;
-			oldTouchY = touch.pageY;
-		}
+	if (isMobile && e.touches.length < 2) {		
+		var touch = e.touches[0];
+		oldTouchX = touch.pageX;
+		oldTouchY = touch.pageY;
+		mouseMove(e);
+		canvas.addEventListener('mousemove', fingerMouseDrag);
+		mTouchDown = true;
+		didSingleClick = true;
+		mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
 	} else {
 		oldTouchX = e.clientX;
 		oldTouchY = e.clientY;
+		canvas.addEventListener('mousemove', fingerMouseDrag);
+		mTouchDown = true;
+		didSingleClick = true;
+		mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
 	}
-	
-	if (isMobile) {
-		mouseMove(e);
-	}
-	mTouchDown = true;
-	didSingleClick = true;
-	mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
-	canvas.addEventListener('mousemove', fingerMouseDrag);
 }
 
 function fingerMouseDrag(e) {
@@ -173,7 +201,6 @@ function fingerMouseUp(e) {
 	clearTimeout(mouseDownTimeout);
 	canvas.removeEventListener('mousemove', fingerMouseDrag);
 	
-	var touchX, touchY, vector;
 	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched && didSingleClick) {
 		raycaster.setFromCamera(mouse, camera);
 		var intersects = raycaster.intersectObjects(scene.children);
@@ -235,21 +262,31 @@ function zoomHandler(e) {
 }
 
 function resetPinches() {
-
+	
+	var deltaHistory = [];
+	var oldScale = 0;
+	
 	$(document).on("pinchstart", function(e) {
-		oldScale = 0;
 		pinched = true;
 	});
 	
 	$(document).on("pinchmove", function(e) {
 		pinched = true;
-		var delta = e.scale - oldScale;
+		var delta = (e.scale - oldScale) * -10;
 		oldScale = e.scale;
+		deltaHistory.push(delta);
+		if (deltaHistory.length > 5) deltaHistory.shift();
 
-		cameraController.Zoom(delta > 0 ? -0.4 : 0.4);
+		cameraController.Zoom(delta);
 	});
 	
 	$(document).on("pinchend", function(e) {
+		var sum;
+		for(var x = 0; x < deltaHistory.length; x ++) { sum += deltaHistory[x]; }
+		average = sum / deltaHistory.length;
+		
+		cameraController.Zoom(average * 10, undefined, 1, false, true, TWEEN.Easing.Cubic.In);
+		
 		oldScale = 0;
 		pinched = false;
 		$(document).off("pinchstart pinchmove pinchend");

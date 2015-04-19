@@ -62,6 +62,10 @@ var camPanToCityAnimationTime = 1;
 
 //movement
 var singleClickTimeout = 0.7; //in seconds
+var mouseSpotZ = 20;
+var mouseSpotTargetZ = 0;
+var mouseRestX = -520;
+var mouseRestY = -520;
 
 // Overlay build timing (millisecs)
 var overlayanimationdelay = 150;
