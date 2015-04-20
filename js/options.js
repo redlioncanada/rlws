@@ -36,7 +36,7 @@ var defaultCityCircleCount = 12; //determines how many cities are placed in a ci
 var defaultCityCircleCountModifier = 4; //gets added to defaultCityCircleCount each time there's a new circle
 var groundZ = 12;
 
-var spotlightOffset = { x : 5, y : 5, z : 15 };
+var spotlightOffset = { x : 25, y : 25, z : 50 };
 var surroundingTags = [ "design", "digital", "design", "design", "digital", "design", "design", "digital", "design", "design", "digital", "design" ];
 
 //cam vars
@@ -62,7 +62,7 @@ var camPanToCityAnimationTime = 1;
 
 //movement
 var singleClickTimeout = 0.7; //in seconds
-var mouseSpotZ = 20;
+var mouseSpotZ = 15;
 var mouseSpotTargetZ = 0;
 var mouseRestX = -520;
 var mouseRestY = -520;

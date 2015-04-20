@@ -114,14 +114,16 @@ function renderMouseListener() {
 					if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) {
 						mouseCursor('point');
 						
-						var box = new THREE.Box3().setFromObject( intersects[0].object );
-						
-						var boxpos = intersects[0].object;
-						var boxposx = boxpos.position.x + (box.size().x / 2);
-						var boxposy = boxpos.position.y + (box.size().y);
-						mouseSpot.position.set(boxposx, boxposy, mouseSpotZ);
-						mouseSpot.target.position.set(boxposx, boxposy, mouseSpotTargetZ);
-						mouseSpot.intensity = 0.9;
+						//var box = new THREE.Box3().setFromObject( intersects[0].object );
+						//boxpos = box.center();
+						var boxpos = new THREE.Vector3().setFromMatrixPosition( intersects[0].object.matrixWorld );
+						var boxsize = new THREE.Box3().setFromObject( intersects[0].object ).size();
+						var newLightZ = boxpos.z + (boxsize.z / 2) + mouseSpotZ;
+						mouseSpot.position.set(boxpos.x, boxpos.y, newLightZ);
+						mouseSpot.target.position.set(boxpos.x, boxpos.y, boxpos.z);
+						mouseSpot.intensity = 1.1;
+						mouseSpot.updateMatrixWorld();
+						mouseSpot.target.updateMatrixWorld();
 						
 					} else {
 						mouseCursor('grab');

@@ -330,6 +330,8 @@ $('#indicator').click(function() {
 });
 //indicator end
 
+$('#culture-inner').slick();
+
 //overlay start
 $('#blackout').on("click", function(evt) {
     evt.stopPropagation();

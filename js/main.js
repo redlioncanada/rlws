@@ -195,7 +195,9 @@ function init3D() {
 			
 			mouseSpot.shadowCameraNear = 10;
 			mouseSpot.shadowCameraFar = 40000;
-			mouseSpot.shadowCameraFov = 0.5;
+			mouseSpot.shadowCameraFov = 0.2;
+			mouseSpot.exponent = 20;
+			mouseSpot.angle = 0.1;
 			
 			scene.add( mouseSpot );
 		}

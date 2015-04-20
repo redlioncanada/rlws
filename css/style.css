@@ -395,19 +395,20 @@ header form #searchCancel {
   line-height: 22px;
   margin-bottom: 13px;
 }
-.menu-item.culture {
-  width: 760px;
+.menu-item.culture .menu-item-body {
+  padding: 0 20px;
 }
-.menu-item.culture .menu-item-body div {
-  width: 40%;
-  margin-left: 5%;
-  float: left;
+.menu-item.culture #culture-inner {
+  margin: 10px 15px;
 }
-@media (max-width: 760px) {
-  .menu-item.culture {
-    width: 100%;
-    left: 0;
-  }
+.menu-item.culture #culture-inner h2 {
+  line-height: 50px;
+}
+.menu-item.culture #culture-inner .slick-prev {
+  left: -25px;
+}
+.menu-item.culture #culture-inner .slick-next {
+  right: -25px;
 }
 .menu-item.mobile {
   width: 100%;

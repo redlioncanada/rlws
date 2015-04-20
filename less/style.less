@@ -396,21 +396,24 @@ header {
 	}
 }
 .menu-item.culture {
-	width: 760px;
-	
 	.menu-item-body {
-		div {
-			width: 40%;
-			margin-left: 5%;
-			float: left;
-			
-			
-		}
+		padding: 0 20px;
 	}
-
-	@media (max-width:760px) {
-		width: 100%;
-		left: 0;
+	
+	#culture-inner {
+		margin: 10px 15px;
+		
+		h2 {
+			line-height: 50px;
+		}
+		
+		.slick-prev {
+			left: -25px;
+		}
+		
+		.slick-next {
+			right: -25px;
+		}
 	}
 }
 .menu-item.mobile {
