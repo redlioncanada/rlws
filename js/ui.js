@@ -282,7 +282,7 @@ indicator.on('update', function() {
 	});
 
 	if (!cityController.city || !cityController.defaultCity) return;
-	if (indPosition && !cityController.CityIsInView(homeKeyword,10) && cityController.city.tag == cityController.defaultCity.tag) {
+	if (indPosition && !cityController.CityIsInView(homeKeyword,10)) {
 		this.Show();
 		var indicator = $('#indicator');
 		$(indicator).css({
@@ -336,7 +336,7 @@ indicator.on('update', function() {
 });
 
 $('#indicator').click(function() {
-	SpawnAndGoToCity(cityController.city);
+	SpawnAndGoToCity(homeKeyword);
 });
 //indicator end
 
