@@ -38,13 +38,19 @@ $('#searchTerm').on('keydown', function(e) {
 		$(this).val(s);
 	}
 	if (e.keyCode == 13 && $(this).val().length) {	//enter
+		if (!cameraController) return;
 		if (cameraController.animating) return;
-		if ($('#cachedTerm').val().length || $(this).val() == homeKeyword) {	//search returned results
+		if ($('#cachedTerm').val().length || val == homeKeyword) {	//search returned results
+			if (cityController.city && cityController.city.tag == cval) {
+				$(this).val('').blur();
+				$('#cachedTerm').val('');
+				return;
+			}
 			var result = SpawnAndGoToCity(cval);
 			if (result && val != homeKeyword) {
 				keywordReturn(cval)
 			} else if (result && val == homeKeyword) {
-				$('#search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
+				keywordHide();
 			}
 			$(this).val('').blur();
 			$('#cachedTerm').val('');
@@ -65,6 +71,10 @@ $('#searchTerm').on('keydown', function(e) {
 function keywordReturn(keyword) {	
 	$('#search-back-text span').html(keyword);
 	$('#search-back-img, #search-back-text').css('display','block').velocity({'opacity':'1'},{duration:400, delay: 4500});
+}
+
+function keywordHide() {
+	$('#search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
 }
 
 $('#searchTerm').on('input', function(e) {

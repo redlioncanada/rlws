@@ -10,6 +10,7 @@ var raycaster = new THREE.Raycaster();
 //scene.fog = new THREE.FogExp2( 0x000000, 0.06 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
 var spotLight = new THREE.SpotLight( 0xffffff );
+spotLight.offset = spotlightOffset;
 var mouseSpot = new THREE.SpotLight( 0xffffff, 0.9, 20, 1 );
 var hemilight = null;
 var lightintensity = 40;
@@ -85,8 +86,9 @@ function render() {
 		var mouseY = camera.position.y;
 	}
 	var mouseZ = cityController.city ? cityController.city.extents.Z2 : 0;
-	mouseSpot.position.set(mouseX, mouseY, mouseZ);
-	mouseSpot.target.position.set(mouseX, mouseY, 0);
+	var offsetY = 7, offsetX = 6;
+	mouseSpot.position.set(mouseX-offsetX, mouseY-offsetY, mouseZ);
+	mouseSpot.target.position.set(mouseX+offsetX, mouseY+offsetY, 0);
 	mouseSpot.updateMatrixWorld();
 	mouseSpot.target.updateMatrixWorld();
 
@@ -202,8 +204,8 @@ function init3D() {
 		mouseSpot.shadowDarkness = 0.3;
 		mouseSpot.shadowMapWidth = 1024;
 		mouseSpot.shadowMapHeight = 1024;
-		mouseSpot.shadowCameraNear = 10;
-		mouseSpot.shadowCameraFar = 40000;
+		mouseSpot.shadowCameraNear = 50;
+		mouseSpot.shadowCameraFar = 5000;
 		mouseSpot.shadowCameraFov = 0.2;
 		mouseSpot.exponent = 20;
 		mouseSpot.intensity = 1.5;
@@ -213,8 +215,9 @@ function init3D() {
 		// Objects init - camera & light
 		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 0.3);
 		scene.add(hemilight);
-		cameraController = new objs.cameraController(renderer,scene,camera);
+		cameraController = new objs.cameraController(renderer,scene,camera,spotLight);
 		cameraController.constrain = !disableConstraints;
+		cameraController.on('outofbounds', keywordHide);
 
 		//Objects init - city, delay until data is populated
 		initInterval = setInterval(function() {
