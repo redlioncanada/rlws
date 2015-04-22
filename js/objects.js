@@ -60,6 +60,7 @@ var _objects = function() {
 			});
 			this.textures[b.img].wrapS = THREE.RepeatWrapping;
 			this.textures[b.img].wrapT = THREE.RepeatWrapping;
+			this.textures[b.img].anistropy = maxAnisotropy;
 		}
 		var t = this.textures[b.img];
 		return t;
@@ -479,7 +480,7 @@ var _objects = function() {
 	
 	this.cameraController.prototype.AfterRelease = function() {
 		if (!mTouchDown && !this.animating && !pinched) {
-			console.log("X Speed = "+this.xSpeed+", Y Speed = "+this.ySpeed);
+			if (debug && debugMovement) console.log("X Speed = "+this.xSpeed+", Y Speed = "+this.ySpeed);
 			var acc_speed = 1.2;
 			
 			var toX = this.camera.position.x + this.xSpeed / acc_speed;
@@ -494,7 +495,14 @@ var _objects = function() {
 			if ( this.HitTestZ(toZ) ) this.zSpeed = this.zSpeed / acc_speed;
 			else this.zSpeed = 0;
 				
-			if (this.xSpeed || this.ySpeed || this.zSpeed) this.Move(this.xSpeed, this.ySpeed, this.zSpeed, false);
+			if (this.xSpeed > 0.01 || this.ySpeed > 0.01 || this.zSpeed > 0.01) {
+				this.Move(this.xSpeed, this.ySpeed, this.zSpeed, false);
+			} else {
+				touchFinish = false;
+				this.zSpeed = 0;
+				this.ySpeed = 0;
+				this.xSpeed = 0;
+			}
 		}
 	}
 
