@@ -378,7 +378,7 @@ var _objects = function() {
 		if (!abs) to = from + to;
 		
 		if (debug && debugMovement) console.log('Zoom: '+to);
-		if (((this.HitTestZ(to) || !this.constrain) && !this.animating) || !constrain) {
+		if ((this.HitTestZ(to) && !this.animating) || !constrain) {
 			if (!constrain) this.animating = true;
 			var t = new TWEEN.Tween( { z : from } )
 				.to( { z : to }, time*1000 )
@@ -590,9 +590,12 @@ var _objects = function() {
 				var originX = city.midpoint.X + city.width/4;
 				var originY = city.midpoint.Y + city.height/4;
 				var angle = angleDelta * this.curCircleCount;
+				radius = randRange(radius-radius*0.2,radius+radius*0.6);
 				var pos = getCoords(originX,originY,angle,radius);
-				startX = pos.X;
-				startY = pos.Y;
+				var randX = randRange(pos.X-pos.X*0.1,pos.X+pos.X*0.1);
+				var randY = randRange(pos.Y-pos.Y*0.1,pos.Y+pos.Y*0.1);
+				startX = randX;
+				startY = randY;
 			}
 		}
 
@@ -624,6 +627,10 @@ var _objects = function() {
 				X: originX + (Math.cos(deg) * radius), 
 				Y: originY + (Math.sin(deg) * radius)
 			};
+		}
+
+		function randRange(min,max) {
+		    return Math.floor(Math.random()*(max-min+1)+min);
 		}
 	};
 
@@ -792,7 +799,7 @@ var _objects = function() {
 		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
 		this.width = Math.abs(this.extents.X1 - this.extents.X2);
 		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
-		this.extents.Z2 = this.extents.Z1 + camZ2Extents;
+		this.extents.Z2 = this.extents.Z1 + camZ2Init;
 		this.CircleCity();
 		
 	};
@@ -884,7 +891,7 @@ var _objects = function() {
 		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
 		this.width = Math.abs(this.extents.X1 - this.extents.X2);
 		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
-		this.extents.Z2 = this.extents.Z1 + camZ2Extents;
+		this.extents.Z2 = this.extents.Z1 + camZ2Init;
 		this.CircleCity(true);
 	};
 	//End City

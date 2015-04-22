@@ -336,7 +336,7 @@ indicator.on('update', function() {
 });
 
 $('#indicator').click(function() {
-	SpawnAndGoToCity(cityController.city);
+	SpawnAndGoToCity(homeKeyword);
 });
 //indicator end
 
