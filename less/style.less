@@ -229,7 +229,7 @@ header {
 		z-index: 1;
 		float: left;
 		margin: 0;
-		width: 50%;
+		width: 47%;
 		font-weight: 700;
 
 		@media(max-width: 480px) {
@@ -403,6 +403,10 @@ header {
 .menu-item.culture {
 	.menu-item-body {
 		padding: 0 20px;
+	}
+
+	.menu-item-header {
+		padding-bottom: 20px;
 	}
 	
 	#culture-inner {
@@ -1029,4 +1033,37 @@ body {
 		-ms-transform: rotate(-90deg);
 		transform: rotate(-90deg);
 	}
+}
+
+.rotateUp {
+	transform: rotate(0deg);
+	-webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+.rotateRight {
+	transform: rotate(270deg);
+	-webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+.rotateDown {
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+.rotateLeft {
+	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
 }

@@ -285,15 +285,19 @@ indicator.on('update', function() {
 	if (indPosition && !cityController.CityIsInView(homeKeyword,10)) {
 		this.Show();
 		var indicator = $('#indicator');
+		if (indPosition.rotation == 0 && !$(indicator).hasClass('rotateUp')) {
+			$(indicator).removeClass('rotateUp rotateDown rotateLeft rotateRight').addClass('rotateUp');
+		} else if (indPosition.rotation == 90 && !$(indicator).hasClass('rotateLeft')) {
+			$(indicator).removeClass('rotateUp rotateDown rotateLeft rotateRight').addClass('rotateLeft');
+		} else if (indPosition.rotation == 180 && !$(indicator).hasClass('rotateDown')) {
+			$(indicator).removeClass('rotateUp rotateDown rotateLeft rotateRight').addClass('rotateDown');
+		} else if (indPosition.rotation == 270 && !$(indicator).hasClass('rotateRight')) {
+			$(indicator).removeClass('rotateUp rotateDown rotateLeft rotateRight').addClass('rotateRight');
+		}
 		$(indicator).css({
 			'left': indPosition.X == 0 ? indPosition.X + cLeft : indPosition.X - $(indicator).width() + cLeft,
-			'top': indPosition.Y == 0 ? indPosition.Y + cTop : indPosition.Y - $(indicator).height() + cTop,
-			'-webkit-transform': 'rotate(' + indPosition.rotation + 'deg)',
-            '-moz-transform': 'rotate(' + indPosition.rotation + 'deg)',
-            '-ms-transform': 'rotate(' + indPosition.rotation + 'deg)',
-            '-o-transform': 'rotate(' + indPosition.rotation + 'deg)',
-            'transform': 'rotate(' + indPosition.rotation + 'deg)'
-		});
+			'top': indPosition.Y == 0 ? indPosition.Y + cTop : indPosition.Y - $(indicator).height() + cTop
+		})
 	} else {
 		this.Hide();
 	}
