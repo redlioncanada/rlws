@@ -124,6 +124,8 @@ function renderMouseListener() {
 
 function fingerMouseDown(e) {
 	e.preventDefault();
+	cameraController.xSpeed = 0;
+	cameraController.ySpeed = 0;
 	if (isMobile && e.touches.length < 2) {		
 		var touch = e.touches[0];
 		oldTouchX = touch.pageX;
@@ -155,9 +157,9 @@ function fingerMouseDrag(e) {
 		clX = e.clientX;
 		clY = e.clientY;
 	}
-	cameraController.xSpeed = xMod = clX - oldTouchX;
+	xMod = clX - oldTouchX;
 	xOldMod = clX;
-	cameraController.ySpeed = yMod = clY - oldTouchY;
+	yMod = clY - oldTouchY;
 	yOldMod = clY;
 
 	if (xMove != xMod) {
@@ -177,10 +179,12 @@ function fingerMouseDrag(e) {
 	xMod = xMod === 0 ? undefined : -xMod / 75;
 	if (e.which == 3) {
 		var delta = yMod * 10;
-		cameraController.Move(undefined, undefined, delta, false);
+		if (cameraController.HitTestZ(cameraController.camera.position.z + delta)) cameraController.Move(undefined, undefined, delta, false);
 		cameraController.zSpeed = delta;
 	} else {
 		cameraController.Move(xMod * moveSpeed, yMod * moveSpeed, undefined, false);
+		cameraController.xSpeed = xMod * moveSpeed;
+		cameraController.ySpeed = yMod * moveSpeed;
 	}
 
 }
@@ -246,7 +250,7 @@ function zoomHandler(e) {
 	} else {
 		var deltax = Math.max(-10, Math.min(10, (e.wheelDeltaX || -e.detail))); //e.wheelDeltaX;
 		var deltay = Math.max(-10, Math.min(10, (e.wheelDeltaY || -e.detail))); //e.wheelDeltaY;
-		cameraController.Pan(-deltax/15, deltay/15);
+		cameraController.Move(-deltax/15, deltay/15, undefined, false);
 	}
 	
 }
@@ -266,7 +270,7 @@ function resetPinches() {
 		delta = (e.scale - oldScale) * -10;
 		oldScale = e.scale;
 		
-		cameraController.Move(undefined, undefined, delta, false);
+		if (cameraController.HitTestZ(cameraController.camera.position.z + delta)) cameraController.Move(undefined, undefined, delta, false);
 		cameraController.zSpeed = delta;
 	});
 	

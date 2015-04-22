@@ -203,19 +203,19 @@ function init3D() {
 		scene.add( spotLight );
 		
 		mouseSpot.castShadow = true;
-		mouseSpot.shadowDarkness = 0.3;
+		mouseSpot.shadowDarkness = 0.4;
 		mouseSpot.shadowMapWidth = 1024;
 		mouseSpot.shadowMapHeight = 1024;
-		mouseSpot.shadowCameraNear = 50;
-		mouseSpot.shadowCameraFar = 5000;
-		mouseSpot.shadowCameraFov = 0.2;
-		mouseSpot.exponent = 20;
-		mouseSpot.intensity = 1.5;
-		mouseSpot.angle = isMobile ? 0.5 : 0.2;
+		mouseSpot.shadowCameraNear = 1;
+		mouseSpot.shadowCameraFar = 120;
+		mouseSpot.shadowCameraFov = 55;
+		mouseSpot.exponent = 5;
+		mouseSpot.intensity = 1;
+		mouseSpot.angle = isMobile ? 0.5 : 0.1;
 		scene.add( mouseSpot );
 		
 		// Objects init - camera & light
-		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 0.3);
+		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 0.5);
 		scene.add(hemilight);
 		cameraController = new objs.cameraController(renderer,scene,camera,spotLight);
 		cameraController.constrain = !disableConstraints;

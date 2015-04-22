@@ -669,7 +669,7 @@ header form #searchCancel {
   width: 25px;
   height: 90px;
 }
-.social-btns img {
+.social-btns span > img {
   margin-top: 5px;
   cursor: hand;
   cursor: pointer;
@@ -683,7 +683,7 @@ header form #searchCancel {
   animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
 }
-.social-btns img:hover {
+.social-btns span:hover > img {
   -webkit-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
   -moz-animation: socialhover-animation 500ms ease-in-out 0s;
@@ -715,6 +715,43 @@ header form #searchCancel {
   min-height: 100%;
   background: white;
   overflow: hidden;
+}
+#overlay #work-overlay footer {
+  position: relative;
+  background: #e0280a;
+  height: 60px;
+}
+#overlay #work-overlay footer .social-btns-footer {
+  position: absolute;
+  top: 17px;
+  right: 23px;
+  width: 100px;
+  height: 25px;
+}
+#overlay #work-overlay footer .social-btns-footer span > img {
+  margin-left: 5px;
+  cursor: hand;
+  cursor: pointer;
+  opacity: 0.7;
+  -webkit-animation: socialhoverback-animation 500ms ease-in-out 0s;
+  /* Safari 4+ */
+  -moz-animation: socialhoverback-animation 500ms ease-in-out 0s;
+  /* Fx 5+ */
+  -o-animation: socialhoverback-animation 500ms ease-in-out 0s;
+  /* Opera 12+ */
+  animation: socialhoverback-animation 500ms ease-in-out 0s;
+  /* IE 10+, Fx 29+ */
+}
+#overlay #work-overlay footer .social-btns-footer span:hover > img {
+  -webkit-animation: socialhover-animation 500ms ease-in-out 0s;
+  /* Safari 4+ */
+  -moz-animation: socialhover-animation 500ms ease-in-out 0s;
+  /* Fx 5+ */
+  -o-animation: socialhover-animation 500ms ease-in-out 0s;
+  /* Opera 12+ */
+  animation: socialhover-animation 500ms ease-in-out 0s;
+  /* IE 10+, Fx 29+ */
+  opacity: 1;
 }
 #overlay #work-overlay header {
   background: #e0280a;

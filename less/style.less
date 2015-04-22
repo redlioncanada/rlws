@@ -544,18 +544,19 @@ header {
 	width: 25px;
 	height: 90px;
 	
-	img {
+	span > img {
 		margin-top: 5px;
 		cursor: hand;
 		cursor: pointer;
 		opacity: 0.7;
 		.animation-mixin (socialhoverback-animation, 500ms, ease-in-out);
-		
-		&:hover {
-			.animation-mixin (socialhover-animation, 500ms, ease-in-out);
-			opacity: 1;
-		}
 	}
+		
+	span:hover > img {
+		.animation-mixin (socialhover-animation, 500ms, ease-in-out);
+		opacity: 1;
+	}
+
 }
 
 #overlay {
@@ -575,6 +576,34 @@ header {
 		min-height: 100%;
 		background: white;
 		overflow: hidden;
+		
+		footer {
+			position: relative;
+			background: #e0280a;
+			height: 60px;
+			
+			.social-btns-footer {
+				position: absolute;
+				top: 17px;
+				right: 23px;
+				width: 100px;
+				height: 25px;
+				
+				span > img {
+					margin-left: 5px;
+					cursor: hand;
+					cursor: pointer;
+					opacity: 0.7;
+					.animation-mixin (socialhoverback-animation, 500ms, ease-in-out);
+				}
+					
+				span:hover > img {
+					.animation-mixin (socialhover-animation, 500ms, ease-in-out);
+					opacity: 1;
+				}
+				
+			}
+		}
 		
 		header {
 			background: #e0280a;

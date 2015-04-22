@@ -479,22 +479,22 @@ var _objects = function() {
 	
 	this.cameraController.prototype.AfterRelease = function() {
 		if (!mTouchDown && !this.animating && !pinched) {
-			//console.log("X Speed = "+this.xSpeed+", Y Speed = "+this.ySpeed);
-			var posx = 0, posy = 0, posz = 0;
+			console.log("X Speed = "+this.xSpeed+", Y Speed = "+this.ySpeed);
+			var acc_speed = 1.2;
 			
-			var toX = this.camera.position.x + -(this.xSpeed - this.camera.position.x) * 0.1;
-			if ( Math.abs(this.xSpeed) > 0.2 && this.HitTestX(toX) ) 
-				posx = -(this.xSpeed - this.camera.position.x) / acc_speed;
+			var toX = this.camera.position.x + this.xSpeed / acc_speed;
+			if ( this.HitTestX(toX) ) this.xSpeed = this.xSpeed / acc_speed;
+			else this.xSpeed = 0;
 			
-			var toY = this.camera.position.y + (this.ySpeed - this.camera.position.y) * 0.1;
-			if ( Math.abs(this.ySpeed) > 0.2 && this.HitTestY(toY) ) 
-				posy = -(this.ySpeed - this.camera.position.y) * 0.1;
+			var toY = this.camera.position.y + this.ySpeed / acc_speed;
+			if ( this.HitTestY(toY) ) this.ySpeed = this.ySpeed / acc_speed;
+			else this.ySpeed = 0;
 			
-			var toZ = this.camera.position.z + (this.zSpeed - this.camera.position.z) * 0.1;
-			if ( Math.abs(this.zSpeed) > 0.2 && this.HitTestZ(toZ)) 
-				posz = (this.zSpeed - this.camera.position.z) * 0.1;
+			var toZ = this.camera.position.z + this.zSpeed / acc_speed;
+			if ( this.HitTestZ(toZ) ) this.zSpeed = this.zSpeed / acc_speed;
+			else this.zSpeed = 0;
 				
-			this.Move(posx, posy, posz, false)
+			if (this.xSpeed || this.ySpeed || this.zSpeed) this.Move(this.xSpeed, this.ySpeed, this.zSpeed, false);
 		}
 	}
 
