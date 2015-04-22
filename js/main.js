@@ -266,7 +266,7 @@ function SpawnAndGoToCity(tag) {
 		} else {
 			cameraController.CenterOnCity(city, false, zoomCallback);
 		}
-		indicator.SetDestination(city.midpoint);
+		if (tag == homeKeyword) indicator.SetDestination(city.midpoint);
 		return city;
 	} else {
 		return undefined;
