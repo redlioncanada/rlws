@@ -340,7 +340,7 @@ $('#indicator').click(function() {
 });
 //indicator end
 
-$('#culture-inner').slick();
+$('#culture-inner').slick({dots: true, infinite: true, speed: 500, slidesToShow: 1});
 
 //overlay start
 $('#blackout').on("click", function(evt) {

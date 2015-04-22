@@ -399,16 +399,22 @@ header form #searchCancel {
   padding: 0 20px;
 }
 .menu-item.culture #culture-inner {
-  margin: 10px 15px;
+  margin: 10px 35px 25px;
 }
 .menu-item.culture #culture-inner h2 {
   line-height: 50px;
 }
 .menu-item.culture #culture-inner .slick-prev {
-  left: -25px;
+  left: -35px;
 }
 .menu-item.culture #culture-inner .slick-next {
-  right: -25px;
+  right: -35px;
+}
+.menu-item.culture #culture-inner .slick-dots {
+  bottom: -35px;
+}
+.menu-item.culture #culture-inner .slick-dots button {
+  border-radius: 5px;
 }
 .menu-item.mobile {
   width: 100%;

@@ -57,6 +57,8 @@ function render() {
 	renderMouseListener();
 	
 	TWEEN.update();
+	
+	cameraController.AfterRelease();
 
 	//apply camera movement
 	if (!overlay) {

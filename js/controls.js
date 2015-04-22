@@ -133,7 +133,7 @@ function fingerMouseDown(e) {
 		mTouchDown = true;
 		didSingleClick = true;
 		mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
-	} else {
+	} else if (!isMobile) {
 		oldTouchX = e.clientX;
 		oldTouchY = e.clientY;
 		canvas.addEventListener('mousemove', fingerMouseDrag);
@@ -146,19 +146,19 @@ function fingerMouseDown(e) {
 function fingerMouseDrag(e) {
 	e.preventDefault();
 	mouseMove(e);
-	var xMod, yMod, xOldMod, yOldMod;
+	var xMod, yMod, xOldMod, yOldMod, clX, clY;
 	if (isMobile) { 
 		var touch = e.touches[0];
-		xMod = touch.pageX - oldTouchX;
-		xOldMod = touch.pageX;
-		yMod = touch.pageY - oldTouchY;
-		yOldMod = touch.pageY;
-	} else if (mTouchDown) {
-		xMod = e.clientX - oldTouchX;
-		xOldMod = e.clientX;
-		yMod = e.clientY - oldTouchY;
-		yOldMod = e.clientY;
+		clX = touch.pageX;
+		clY = touch.pageY;
+	} else {
+		clX = e.clientX;
+		clY = e.clientY;
 	}
+	cameraController.xSpeed = xMod = clX - oldTouchX;
+	xOldMod = clX;
+	cameraController.ySpeed = yMod = clY - oldTouchY;
+	yOldMod = clY;
 
 	if (xMove != xMod) {
 		xMove = xMod;
@@ -169,15 +169,18 @@ function fingerMouseDrag(e) {
 		oldTouchY = yOldMod;
 	}
 	
+	var moveSpeed = cameraController.camera.position.z / 12;
 	
 	mouseCursor('grabbing');
 	
 	yMod = yMod === 0 ? undefined : yMod / 75;
 	xMod = xMod === 0 ? undefined : -xMod / 75;
 	if (e.which == 3) {
-		cameraController.Zoom(yMod, undefined, undefined, false);
+		var delta = yMod * 10;
+		cameraController.Move(undefined, undefined, delta, false);
+		cameraController.zSpeed = delta;
 	} else {
-		cameraController.Move(xMod, yMod, undefined, false);
+		cameraController.Move(xMod * moveSpeed, yMod * moveSpeed, undefined, false);
 	}
 
 }
@@ -252,19 +255,19 @@ function resetPinches() {
 	
 	var deltaHistory = [];
 	var oldScale = 0;
+	var delta = 0;
 	
 	$(document).on("pinchstart", function(e) {
 		pinched = true;
+		oldScale = e.scale;
 	});
 	
 	$(document).on("pinchmove", function(e) {
-		pinched = true;
-		var delta = (e.scale - oldScale) * -10;
+		delta = (e.scale - oldScale) * -10;
 		oldScale = e.scale;
-		deltaHistory.push(delta);
-		if (deltaHistory.length > 5) deltaHistory.shift();
-
-		cameraController.Zoom(delta);
+		
+		cameraController.Move(undefined, undefined, delta, false);
+		cameraController.zSpeed = delta;
 	});
 	
 	$(document).on("pinchend", function(e) {
@@ -272,9 +275,8 @@ function resetPinches() {
 		for(var x = 0; x < deltaHistory.length; x ++) { sum += deltaHistory[x]; }
 		average = sum / deltaHistory.length;
 		
-		cameraController.Zoom(average * 10, undefined, 1, false, true, TWEEN.Easing.Cubic.In);
+		//cameraController.Zoom(average * 10, undefined, 1, false, true, TWEEN.Easing.Cubic.In);
 		
-		oldScale = 0;
 		pinched = false;
 		$(document).off("pinchstart pinchmove pinchend");
 		resetPinches();

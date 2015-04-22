@@ -210,6 +210,9 @@ var _objects = function() {
 		this.origin = {X:0,Y:0};
 		this.animating = false;
 		this.zoomed = false;
+		this.xSpeed = 0;
+		this.ySpeed = 0;
+		this.zSpeed = 0;
 		this.Update();
 	};
 
@@ -473,6 +476,27 @@ var _objects = function() {
 		
 		if (debug && debugMovement) console.log('Rotate: X:'+X+',Y:'+Y+',Z:'+Z);
 	};
+	
+	this.cameraController.prototype.AfterRelease = function() {
+		if (!mTouchDown && !this.animating && !pinched) {
+			//console.log("X Speed = "+this.xSpeed+", Y Speed = "+this.ySpeed);
+			var posx = 0, posy = 0, posz = 0;
+			
+			var toX = this.camera.position.x + -(this.xSpeed - this.camera.position.x) * 0.1;
+			if ( Math.abs(this.xSpeed) > 0.2 && this.HitTestX(toX) ) 
+				posx = -(this.xSpeed - this.camera.position.x) / acc_speed;
+			
+			var toY = this.camera.position.y + (this.ySpeed - this.camera.position.y) * 0.1;
+			if ( Math.abs(this.ySpeed) > 0.2 && this.HitTestY(toY) ) 
+				posy = -(this.ySpeed - this.camera.position.y) * 0.1;
+			
+			var toZ = this.camera.position.z + (this.zSpeed - this.camera.position.z) * 0.1;
+			if ( Math.abs(this.zSpeed) > 0.2 && this.HitTestZ(toZ)) 
+				posz = (this.zSpeed - this.camera.position.z) * 0.1;
+				
+			this.Move(posx, posy, posz, false)
+		}
+	}
 
 	this.cameraController.prototype.OutOfBounds = function(o) {
 		this.withinConstraints = !o;
@@ -566,7 +590,7 @@ var _objects = function() {
 
 	this.cityController.prototype.SpawnCity = function(tag, rawData, type, startX, startY) {
 		if (typeof type === 'undefined') type = 0;
-		if (tag == homeKeyword) {
+		if (tag == homeKeyword && !isMobile) {
 			var c = this.PlaceCity(surroundingTags, rawData, type, startX, startY);
 		} else {
 			var c = this.PlaceCity(tag, rawData, type, startX, startY);
@@ -575,7 +599,7 @@ var _objects = function() {
 	};
 
 	this.cityController.prototype.PlaceCity = function(tags, rawData, type, startX, startY) {
-		var home = typeof tags === 'object';
+		var home = tags === homeKeyword || typeof tags === 'object';
 		var angleDelta = 2 * Math.PI / this.curCircleTotal;
 
 		if (home) {
@@ -605,7 +629,7 @@ var _objects = function() {
 		c.index = this.cities.length;
 		if (c.tag == homeKeyword) this.defaultCity = c;
 
-		if (home) {
+		if (home && !isMobile) {
 			angleDelta = 2 * Math.PI / tags.length;
 			for (var tag in tags) {
 				var data = dataController.GetAllWithTag(tags[tag]);
