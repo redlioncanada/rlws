@@ -250,18 +250,19 @@ header form {
   z-index: 1;
   float: left;
   margin: 0;
-  width: 60%;
+  width: 50%;
   font-weight: 700;
 }
-@media (max-width: 900px) {
+@media (max-width: 480px) {
   header form {
-    display: none;
+    margin-left: 45px;
   }
 }
 header form input {
   font-weight: 700;
   letter-spacing: -2.5px;
   height: 73px;
+  width: inherit;
   border: none;
   padding-left: 56px;
   font-size: 40px;
