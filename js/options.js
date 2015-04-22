@@ -44,7 +44,7 @@ var camXExtents = 10; //affects how far outside the current grid that the this.c
 var camYExtents = 10;	//affects how far outside the current grid that the this.camera can scroll, up&down
 var camZ1Extents = -7.5;
 var camZ2Extents = 270;
-var camZ2Init = 20;
+var camZ2Init = 30;
 var camRotateMin = 0.0;
 var camRotateMax = 0.9;
 var camFOVMin = 10;
@@ -54,7 +54,7 @@ var disableConstraints = true;
 
 //camera zoom animation
 var camZStart = 4; //multiplied with the highest building depth
-var camZEnd = 5; //subtracted from city.extents.z2
+var camZEnd = 15; //subtracted from camZ2Init
 var camZAnimationTime = 5;
 
 //camera pan animation
