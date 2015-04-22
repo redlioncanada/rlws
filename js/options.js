@@ -101,6 +101,7 @@ var pinched = false;
 var canvas;
 var mouseDownTimeout = false;
 var didSingleClick = false;
+var touchFinish = false;
 
 // Acceleration Vars
 var acc_oldaz = null;

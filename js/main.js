@@ -9,6 +9,7 @@ var mouse = new THREE.Vector2(), intersected;
 var raycaster = new THREE.Raycaster();
 //scene.fog = new THREE.FogExp2( 0x000000, 0.06 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
+var maxAnisotropy = renderer.getMaxAnisotropy();
 var spotLight = new THREE.SpotLight( 0xffffff );
 spotLight.offset = spotlightOffset;
 var mouseSpot = new THREE.SpotLight( 0xffffff, 0.9, 20, 1 );
@@ -47,6 +48,7 @@ function resize() {
 	camera.sceneWidth = width;
 	camera.sceneHeight = height;
 	camera.aspect = width / height;
+	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize(width, height);
 	camera.updateProjectionMatrix();
 	if (cameraController) cameraController.Update();

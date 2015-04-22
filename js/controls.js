@@ -219,6 +219,7 @@ function fingerMouseUp(e) {
 	mDOWN = false;
 	oldScale = 0;
 	pinched = false;
+	touchFinish = true;
 }
 
 function rightClick(e) {
@@ -350,7 +351,7 @@ var devMoveHandler = function(event) {
 		//arGamma = rR.gamma;
 	}
 	
-	if (mTouchDown || cameraController.animating) {
+	if (mTouchDown || cameraController.animating || touchFinish) {
 		acc_toy = acc_fromy = cameraController.camera.position.y;
 		acc_tox = acc_fromx = cameraController.camera.position.x;
 	} else {
