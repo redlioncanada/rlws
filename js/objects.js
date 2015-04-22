@@ -193,12 +193,15 @@ var _objects = function() {
 	//End Data Controller
 	
 	//Camera Controller - maintains camera animation
-	this.cameraController = function(renderer,scene,camera) {
+	this.cameraController = function(renderer,scene,camera,spotlight) {
 		this.scene = scene;
 		this.renderer = renderer;
 		this.camera = camera;
+		this.spotlight = spotlight;
+		this.withinConstraints = true;
 		this.constraints = {X1:0,Y1:0,Z1:0,X2:0,Y2:0,Z2:0,R1:0,R2:0};
 		this.rotation = undefined;
+		this.subscribers = {};
 		this.position = undefined;
 		this.extents = undefined;
 		this.width = undefined;
@@ -229,10 +232,12 @@ var _objects = function() {
 			R2 : camRotateMax
 		};
 
+		var _self = this;
 		if (abs) {
 			this.SetConstraints(constraints);
 			this.Move(city.midpoint.X, city.midpoint.Y);
 			this.Zoom(city.extents.Z2 - camZEnd, undefined, undefined, true, false, undefined);
+			this.withinConstraints = true;
 			if (typeof cb == 'function') cb();
 		} else {
 			if (city.tag == homeKeyword && !this.zoomed) {
@@ -245,14 +250,15 @@ var _objects = function() {
 						controlsinit = true;
 						setupEventListeners();
 					}
+					_self.withinConstraints = true;
 					if (typeof cb == 'function') cb();
 				});
 			} else {
 				//on search
-				var _self = this;
 				this.Zoom(city.extents.Z2/3, undefined, camZAnimationTime/2, false, false, undefined, function() {
 					_self.SetConstraints(constraints);
 					_self.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false, TWEEN.Easing.Cubic.InOut, function() {
+						_self.withinConstraints = true;
 						_self.Zoom(city.extents.Z2 - camZEnd, undefined, camZAnimationTime/2, true, false, undefined, function() {
 							if (typeof cb == 'function') cb();
 						});
@@ -261,22 +267,8 @@ var _objects = function() {
 			}
 		}
 		this.SetOrigin(city.midpoint.X, city.midpoint.Y);
-		
-		var sp = spotLight.position;
-		var st = spotLight.target.position;
+
 		spotLight.shadowCameraFar = city.extents.Z2 * 1.5;
-		
-		var t = new TWEEN.Tween( { x : sp.x, y : sp.y, z : sp.z, tx : st.x, ty : st.y} )
-			.to( { x : city.extents.X1 - spotlightOffset.x, y : city.extents.Y2 + spotlightOffset.y, z : city.extents.Z2, tx : city.midpoint.X, ty : city.midpoint.Y}, 5000 )
-			.easing( TWEEN.Easing.Cubic.InOut )
-			.onUpdate( function() {
-				sp.set( this.x, this.y, this.z );
-				st.set( this.tx, this.ty, groundZ );
-				spotLight.updateMatrixWorld();
-				spotLight.target.updateMatrixWorld();
-			})
-			.start();
-		
 	};
 	
 	this.cameraController.prototype.AnimateBlur = function(to, time, cb) {
@@ -336,6 +328,10 @@ var _objects = function() {
 				.easing( easing )
 				.onUpdate( function() {
 					_self.camera.position.x = this.x;
+					_self.spotlight.position.x = this.x - _self.spotlight.offset.x;
+					_self.spotlight.updateMatrixWorld();
+					_self.spotlight.target.updateMatrixWorld();
+
 				})
 				.onComplete( function() {
 					_self.animating = false;
@@ -362,6 +358,9 @@ var _objects = function() {
 				.easing( easing )
 				.onUpdate( function() {
 					_self.camera.position.y = this.y;
+					_self.spotlight.position.x = this.y + _self.spotlight.offset.y;
+					_self.spotlight.updateMatrixWorld();
+					_self.spotlight.target.updateMatrixWorld();
 				})
 				.onComplete( function() {
 					_self.animating = false;
@@ -411,15 +410,21 @@ var _objects = function() {
 		if (typeof X !== 'undefined' && !isNaN(X)) {
 			if (((this.HitTestX(X) || !this.constrain) && !this.animating) || !constrain || abs) {
 				this.camera.position.x = X;
+				this.spotlight.position.x = X - this.spotlight.offset.x;
+				this.spotlight.updateMatrixWorld();
+				this.spotlight.target.updateMatrixWorld();
 			}
 		}
 		if (typeof Y !== 'undefined' && !isNaN(Y)) {
-			if (((this.HitTestY(Y) || !this.constrain) && !this.animating) || !constrain || abs) {
+			if (((this.HitTestX(Y) || !this.constrain) && !this.animating) || !constrain || abs) {
 				this.camera.position.y = Y;
+				this.spotlight.position.y = Y + this.spotlight.offset.y;
+				this.spotlight.updateMatrixWorld();
+				this.spotlight.target.updateMatrixWorld();
 			}
 		}
 		if (typeof Z !== 'undefined' && !isNaN(Z)) {
-			if (((this.HitTestZ(Z) || !this.constrain) && !this.animating) || !constrain || abs) {
+			if (((this.HitTestX(Z) || !this.constrain) && !this.animating) || !constrain || abs) {
 				this.camera.position.z = Z;
 			}
 		}
@@ -493,6 +498,12 @@ var _objects = function() {
 		}
 	}
 
+	this.cameraController.prototype.OutOfBounds = function(o) {
+		this.withinConstraints = !o;
+		if (o) this.emit('inbounds');
+		else this.emit('outofbounds');
+	}
+
 	this.cameraController.prototype.Update = function() {
 		var vFOV = this.camera.fov * Math.PI / 180;
 		this.camera.height = 2 * Math.tan( vFOV / 2 ) * this.camera.position.z, this.height = this.camera.height;
@@ -508,10 +519,60 @@ var _objects = function() {
 		this.rotation = this.camera.rotation;
 	}
 	
-	this.cameraController.prototype.HitTestX = function(X) {return X >= this.constraints.X1 && X <= this.constraints.X2; };
-	this.cameraController.prototype.HitTestY = function(Y) {return Y >= this.constraints.Y1 && Y <= this.constraints.Y2; };
-	this.cameraController.prototype.HitTestZ = function(Z) {return Z >= this.constraints.Z1 && Z <= this.constraints.Z2; };
+	this.cameraController.prototype.HitTestX = function(X) {
+		var r = X >= this.constraints.X1 && X <= this.constraints.X2; 
+		if (!r && this.withinConstraints) this.OutOfBounds(true);
+		else if (r && !this.withinConstraints) this.OutOfBounds(false);
+		return r;
+	};
+	this.cameraController.prototype.HitTestY = function(Y) {
+		var r = Y >= this.constraints.Y1 && Y <= this.constraints.Y2; 
+		if (!r && this.withinConstraints) this.OutOfBounds(true);
+		else if (r && !this.withinConstraints) this.OutOfBounds(false);
+		return r;
+	};
+	this.cameraController.prototype.HitTestZ = function(Z) {
+		var r = Z >= this.constraints.Z1 && Z <= this.constraints.Z2; 
+		if (!r && this.withinConstraints) this.OutOfBounds(true);
+		else if (r && !this.withinConstraints) this.OutOfBounds(false);
+		return r;
+	};
 	this.cameraController.prototype.HitTestR = function(R) {return R >= this.constraints.R1 && R <= this.constraints.R2; };
+
+	this.cameraController.prototype.on = function(e, cb, context) {
+		this.subscribers[e] = this.subscribers[e] || [];
+        this.subscribers[e].push({
+            callback: cb,
+            context: context
+        });
+	}
+
+	this.cameraController.prototype.off = function(e, cb, context) {
+		var i, subs, sub;
+        if ((subs = this.subscribers[e])) {
+            i = subs.length - 1;
+            while (i >= 0) {
+                sub = subs[e][i];
+                if (sub.callback === cb && (!context || sub.context === context)) {
+                    subs[e].splice(i, 1);
+                    break;
+                }
+                i--;
+            }
+        }
+	}
+
+	this.cameraController.prototype.emit = function(e) {
+		var subs, i = 0,
+            args = Array.prototype.slice.call(arguments, 1);
+        if ((subs = this.subscribers[e])) {
+            while (i < subs.length) {
+                sub = subs[i];
+                sub.callback.apply(sub.context || this, args);
+                i++;
+            }
+        }
+	}
 	//End Camera Controller 
 	
 	//CityController - Maintains cities

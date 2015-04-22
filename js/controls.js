@@ -113,23 +113,8 @@ function renderMouseListener() {
 				if (typeof intersects[0].face !== 'undefined') {
 					if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) {
 						mouseCursor('point');
-						
-						//var box = new THREE.Box3().setFromObject( intersects[0].object );
-						//boxpos = box.center();
-						var boxpos = new THREE.Vector3().setFromMatrixPosition( intersects[0].object.matrixWorld );
-						var boxsize = new THREE.Box3().setFromObject( intersects[0].object ).size();
-						var newLightZ = boxpos.z + (boxsize.z / 2) + mouseSpotZ;
-						mouseSpot.position.set(boxpos.x, boxpos.y, newLightZ);
-						mouseSpot.target.position.set(boxpos.x, boxpos.y, boxpos.z);
-						mouseSpot.intensity = 1.1;
-						mouseSpot.updateMatrixWorld();
-						mouseSpot.target.updateMatrixWorld();
-						
 					} else {
 						mouseCursor('grab');
-						//mouseSpot.position.set(mouseRestX, mouseRestY, mouseSpotZ);
-						//mouseSpot.target.position.set(mouseRestX, mouseRestY, mouseSpotTargetZ);
-						mouseSpot.intensity = 0.2;
 					}
 				}
 			}

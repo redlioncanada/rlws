@@ -10,6 +10,7 @@ var raycaster = new THREE.Raycaster();
 //scene.fog = new THREE.FogExp2( 0x000000, 0.06 );
 var renderer = new THREE.WebGLRenderer({antialias: true});
 var spotLight = new THREE.SpotLight( 0xffffff );
+spotLight.offset = spotlightOffset;
 var mouseSpot = new THREE.SpotLight( 0xffffff, 0.9, 20, 1 );
 var hemilight = null;
 var lightintensity = 40;
@@ -76,6 +77,22 @@ function render() {
 		composer.render( 0.1 );
 		requestAnimationFrame( render );
 	}
+
+	//update spotlight position
+	function translate(a) {return (a*50)/100*0.3;}
+	if (!isMobile) {
+		var mouseX = camera.position.x + camera.width * translate(mouse.x);
+		var mouseY = camera.position.y + camera.height * translate(mouse.y);
+	} else {
+		var mouseX = camera.position.x;
+		var mouseY = camera.position.y;
+	}
+	var mouseZ = cityController.city ? cityController.city.extents.Z2 : 0;
+	var offsetY = 7, offsetX = 6;
+	mouseSpot.position.set(mouseX-offsetX, mouseY-offsetY, mouseZ);
+	mouseSpot.target.position.set(mouseX+offsetX, mouseY+offsetY, 0);
+	mouseSpot.updateMatrixWorld();
+	mouseSpot.target.updateMatrixWorld();
 
 	cameraController.Update();
 	indicator.Update();
@@ -185,30 +202,24 @@ function init3D() {
 		
 		scene.add( spotLight );
 		
-		if (!isMobile) {
-			mouseSpot.position.set( mouseRestX, mouseRestY, 40 );
-			mouseSpot.target.position.set( mouseRestX, mouseRestY, 0);
-			
-			mouseSpot.castShadow = true;
-			mouseSpot.shadowDarkness = 0.3;
-			
-			mouseSpot.shadowMapWidth = 1024;
-			mouseSpot.shadowMapHeight = 1024;
-			
-			mouseSpot.shadowCameraNear = 10;
-			mouseSpot.shadowCameraFar = 40000;
-			mouseSpot.shadowCameraFov = 0.2;
-			mouseSpot.exponent = 20;
-			mouseSpot.angle = 0.1;
-			
-			scene.add( mouseSpot );
-		}
+		mouseSpot.castShadow = true;
+		mouseSpot.shadowDarkness = 0.3;
+		mouseSpot.shadowMapWidth = 1024;
+		mouseSpot.shadowMapHeight = 1024;
+		mouseSpot.shadowCameraNear = 50;
+		mouseSpot.shadowCameraFar = 5000;
+		mouseSpot.shadowCameraFov = 0.2;
+		mouseSpot.exponent = 20;
+		mouseSpot.intensity = 1.5;
+		mouseSpot.angle = isMobile ? 0.5 : 0.2;
+		scene.add( mouseSpot );
 		
 		// Objects init - camera & light
 		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 0.3);
 		scene.add(hemilight);
-		cameraController = new objs.cameraController(renderer,scene,camera);
+		cameraController = new objs.cameraController(renderer,scene,camera,spotLight);
 		cameraController.constrain = !disableConstraints;
+		cameraController.on('outofbounds', keywordHide);
 
 		//Objects init - city, delay until data is populated
 		initInterval = setInterval(function() {

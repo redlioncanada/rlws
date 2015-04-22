@@ -40,8 +40,8 @@ var spotlightOffset = { x : 25, y : 25, z : 50 };
 var surroundingTags = [ "design", "digital", "design", "design", "digital", "design", "design", "digital", "design", "design", "digital", "design" ];
 
 //cam vars
-var camXExtents = 200; //affects how far outside the current grid that the this.camera can scroll, left&right
-var camYExtents = 200;	//affects how far outside the current grid that the this.camera can scroll, up&down
+var camXExtents = 10; //affects how far outside the current grid that the this.camera can scroll, left&right
+var camYExtents = 10;	//affects how far outside the current grid that the this.camera can scroll, up&down
 var camZ1Extents = -7.5;
 var camZ2Extents = 20;
 var camRotateMin = 0.0;
