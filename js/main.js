@@ -205,16 +205,17 @@ function init3D() {
 		scene.add( spotLight );
 		
 		mouseSpot.castShadow = true;
-		mouseSpot.shadowDarkness = 0.4;
+		mouseSpot.shadowDarkness = 0;
 		mouseSpot.shadowMapWidth = 1024;
 		mouseSpot.shadowMapHeight = 1024;
 		mouseSpot.shadowCameraNear = 1;
-		mouseSpot.shadowCameraFar = 120;
+		mouseSpot.shadowCameraFar = 180;
 		mouseSpot.shadowCameraFov = 55;
-		mouseSpot.exponent = 5;
+		mouseSpot.exponent = 20;
 		mouseSpot.intensity = 1;
 		mouseSpot.angle = isMobile ? 0.5 : 0.1;
 		scene.add( mouseSpot );
+		
 		
 		// Objects init - camera & light
 		hemilight = new THREE.HemisphereLight(0x98c3cd, 0xfffdf2, 0.5);
@@ -276,6 +277,16 @@ function SpawnAndGoToCity(tag) {
 
 	function zoomCallback() {
 		cityController.SetCity(city);
+		
+		var t = new TWEEN.Tween( { value : 0 } )
+			.to( { value : 0.4 }, 1000 )
+			.easing( TWEEN.Easing.Cubic.InOut )
+			.onUpdate( function() {
+				mouseSpot.shadowDarkness = this.value;
+				mouseSpot.updateMatrixWorld();
+				mouseSpot.target.updateMatrixWorld(); 
+			})
+			.start();
 	}
 }
 

@@ -84,23 +84,12 @@ function boxClicked(intersect) {
 }
 
 function mouseCursor(cursorType) {
+	var c = $('canvas');
 	switch (cursorType) {
-		case 'grab':
-			$('body').css( { 'cursor': 'grab', 'cursor': '-webkit-grab' } );
-		break;
-		
-		case 'grabbing':
-			$('body').css( { 'cursor': 'grabbing', 'cursor': '-webkit-grabbing' } );
-		break;
-		
-		case 'point':
-			$('body').css( { 'cursor': 'pointer' } );
-		break;
-		
-		case 'normal':
-		default:
-			$('body').css( { 'cursor': 'default' } );
-		break;
+		case 'grab': c.css( { 'cursor': 'grab', 'cursor': '-webkit-grab' } ); break;
+		case 'grabbing': c.css( { 'cursor': 'grabbing', 'cursor': '-webkit-grabbing' } ); break;
+		case 'point': c.css( { 'cursor': 'pointer' } ); break;
+		case 'normal': default: c.css( { 'cursor': 'default' } ); break;
 	}
 }
 
@@ -126,23 +115,19 @@ function fingerMouseDown(e) {
 	e.preventDefault();
 	cameraController.xSpeed = 0;
 	cameraController.ySpeed = 0;
+	mTouchDown = true;
+	didSingleClick = true;
 	if (isMobile && e.touches.length < 2) {		
 		var touch = e.touches[0];
 		oldTouchX = touch.pageX;
 		oldTouchY = touch.pageY;
 		mouseMove(e);
-		canvas.addEventListener('mousemove', fingerMouseDrag);
-		mTouchDown = true;
-		didSingleClick = true;
-		mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
 	} else if (!isMobile) {
 		oldTouchX = e.clientX;
 		oldTouchY = e.clientY;
-		canvas.addEventListener('mousemove', fingerMouseDrag);
-		mTouchDown = true;
-		didSingleClick = true;
-		mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
 	}
+	canvas.addEventListener('mousemove', fingerMouseDrag);
+	mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
 }
 
 function fingerMouseDrag(e) {

@@ -2,7 +2,7 @@
 
 //debug
 var debug = true;
-var debugMovement = false;
+var debugMovement = true;
 var debugGrid = false;
 var debugIndicator = false;
 

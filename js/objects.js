@@ -495,7 +495,7 @@ var _objects = function() {
 			if ( this.HitTestZ(toZ) ) this.zSpeed = this.zSpeed / acc_speed;
 			else this.zSpeed = 0;
 				
-			if (this.xSpeed > 0.01 || this.ySpeed > 0.01 || this.zSpeed > 0.01) {
+			if (Math.abs(this.xSpeed) > 0.01 || Math.abs(this.ySpeed) > 0.01 || Math.abs(this.zSpeed) > 0.01) {
 				this.Move(this.xSpeed, this.ySpeed, this.zSpeed, false);
 			} else {
 				touchFinish = false;
