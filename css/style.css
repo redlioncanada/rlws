@@ -549,132 +549,124 @@ header form #searchCancel {
   cursor: pointer;
   -webkit-animation: closeback-animation 600ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: closeback-animation 600ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: closeback-animation 600ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: closeback-animation 600ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
 }
 .close:hover {
   -webkit-animation: close-animation 600ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: close-animation 600ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: close-animation 600ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: close-animation 600ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
 }
 @-webkit-keyframes socialhover-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @-moz-keyframes socialhover-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @-o-keyframes socialhover-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @keyframes socialhover-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @-webkit-keyframes socialhoverback-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
 }
 @-moz-keyframes socialhoverback-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
 }
 @-o-keyframes socialhoverback-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
 @keyframes socialhoverback-animation {
   0% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 0.7;
   }
   50% {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
   100% {
-    transform: rotatey(0deg);
+    transform: rotateY(0deg);
     opacity: 1;
   }
 }
@@ -685,6 +677,9 @@ header form #searchCancel {
   width: 25px;
   height: 90px;
 }
+.social-btns span {
+  display: inline-block;
+}
 .social-btns span > img {
   margin-top: 5px;
   cursor: hand;
@@ -692,30 +687,22 @@ header form #searchCancel {
   opacity: 0.7;
   -webkit-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
 }
 .social-btns span:hover > img {
   -webkit-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: socialhover-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
   opacity: 1;
 }
 #overlay {
@@ -752,37 +739,32 @@ header form #searchCancel {
   width: 100px;
   height: 25px;
 }
-#overlay #work-overlay footer .social-btns-footer span > img {
-  margin-left: 5px;
+#overlay #work-overlay footer .social-btns-footer span {
+  display: inline-block;
   cursor: hand;
   cursor: pointer;
+}
+#overlay #work-overlay footer .social-btns-footer span > img {
+  margin-left: 5px;
   opacity: 0.7;
   -webkit-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
 }
 #overlay #work-overlay footer .social-btns-footer span:hover > img {
   -webkit-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
-
   -moz-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
-
   -o-animation: socialhover-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
-
   animation: socialhover-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
   opacity: 1;
 }
 #overlay #work-overlay header {
@@ -981,38 +963,33 @@ header form #searchCancel {
     width: 50%;
   }
 }
-#overlay #news-overlay .ncontainer .title .cover img {
-  margin-right: 5px;
-  margin-top: 3px;
+#overlay #news-overlay .ncontainer .title .cover span {
+  display: inline-block;
   cursor: hand;
   cursor: pointer;
-  opacity: 0.7;
-  -webkit-animation: socialhoverback-animation 300ms ease-in-out 0s;
-  /* Safari 4+ */
-
-  -moz-animation: socialhoverback-animation 300ms ease-in-out 0s;
-  /* Fx 5+ */
-
-  -o-animation: socialhoverback-animation 300ms ease-in-out 0s;
-  /* Opera 12+ */
-
-  animation: socialhoverback-animation 300ms ease-in-out 0s;
-  /* IE 10+, Fx 29+ */
-
 }
-#overlay #news-overlay .ncontainer .title .cover img:hover {
-  -webkit-animation: socialhover-animation 300ms ease-in-out 0s;
+#overlay #news-overlay .ncontainer .title .cover span > img {
+  margin-right: 5px;
+  margin-top: 3px;
+  opacity: 0.7;
+  -webkit-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Safari 4+ */
-
-  -moz-animation: socialhover-animation 300ms ease-in-out 0s;
+  -moz-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Fx 5+ */
-
-  -o-animation: socialhover-animation 300ms ease-in-out 0s;
+  -o-animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* Opera 12+ */
-
-  animation: socialhover-animation 300ms ease-in-out 0s;
+  animation: socialhoverback-animation 500ms ease-in-out 0s;
   /* IE 10+, Fx 29+ */
-
+}
+#overlay #news-overlay .ncontainer .title .cover span > img:hover {
+  -webkit-animation: socialhover-animation 500ms ease-in-out 0s;
+  /* Safari 4+ */
+  -moz-animation: socialhover-animation 500ms ease-in-out 0s;
+  /* Fx 5+ */
+  -o-animation: socialhover-animation 500ms ease-in-out 0s;
+  /* Opera 12+ */
+  animation: socialhover-animation 500ms ease-in-out 0s;
+  /* IE 10+, Fx 29+ */
   opacity: 1;
 }
 #overlay #news-overlay .ncontainer .toppad {
@@ -1187,7 +1164,7 @@ header form #searchCancel {
     display: none;
   }
 }
-.player .controlbox .meter  > span {
+.player .controlbox .meter > span {
   display: block;
   height: 100%;
   -moz-border-radius: 7px;
@@ -1212,7 +1189,6 @@ header form #searchCancel {
   }
 }
 .rotateUp {
-  transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
@@ -1220,7 +1196,6 @@ header form #searchCancel {
   transform: rotate(0deg);
 }
 .rotateRight {
-  transform: rotate(270deg);
   -webkit-transform: rotate(270deg);
   -moz-transform: rotate(270deg);
   -ms-transform: rotate(270deg);
@@ -1228,7 +1203,6 @@ header form #searchCancel {
   transform: rotate(270deg);
 }
 .rotateDown {
-  transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
@@ -1236,7 +1210,6 @@ header form #searchCancel {
   transform: rotate(180deg);
 }
 .rotateLeft {
-  transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -ms-transform: rotate(90deg);

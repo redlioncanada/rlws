@@ -352,6 +352,7 @@ $('#blackout').on("click", function(evt) {
     if($($(evt.target).context).attr('id') == 'blackout') {
 	    cameraController.AnimateBlur(0,1);
     	$(this).velocity({"opacity":0, 'padding-top': 50}, {duration: 1000, easing: "easeOutCubic", complete: function() {
+			$('#blackout').scrollTop(0);
 			$(this).css({'display':'none'});
 			window.location.href = "#/grid";
 		}});

@@ -1,8 +1,8 @@
 //MODIFIABLE
 
 //debug
-var debug = true;
-var debugMovement = true;
+var debug = false;
+var debugMovement = false;
 var debugGrid = false;
 var debugIndicator = false;
 

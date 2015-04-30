@@ -105,11 +105,14 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 		var animationTiming = 800;
 		
 		$timeout(function() {
-			$('.ncontainer.'+$scope.dslug+' .title').addClass('selected');
-			$('.ncontainer.'+$scope.dslug+' .title h1 span').html('-');
-			$('.ncontainer.'+$scope.dslug+' .title .cover').velocity({height: '74px'},{duration: animationTiming});
-			$('.ncontainer.'+$scope.dslug+' .newscontent').velocity('slideDown',{duration: animationTiming});
-			socialStart('Red Lion News', $('.ncontainer.'+$scope.dslug+' .title').attr(''));
+			
+			$('#blackout').animate({'scrollTop': $('.ncontainer.'+$scope.dslug+' h1').offset().top}, 500, function() {
+				$('.ncontainer.'+$scope.dslug+' .title').addClass('selected');
+				$('.ncontainer.'+$scope.dslug+' .title h1 span').html('-');
+				$('.ncontainer.'+$scope.dslug+' .title .cover').velocity({height: '74px'},{duration: animationTiming});
+				$('.ncontainer.'+$scope.dslug+' .newscontent').velocity('slideDown',{duration: animationTiming});
+			});
+			socialStart('Red Lion News', $('.ncontainer.'+$scope.dslug+' .title').text());
 			
 			$('#overlay').on('click', '.ncontainer .title', function() {
 				socialStart('Red Lion News', titleCase($scope.dslug));
@@ -417,6 +420,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 	function($scope, $routeParams, $timeout) {
 		$scope.dslug = $routeParams.disciplineID;
 		closeButtonStart(true);
+		$('#blackout').scrollTop(0);
 		
 		if (boxid !== 0) {
 			$scope.disciplines = dataController.GetByType('disciplines');
@@ -430,10 +434,12 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 			}, 1000);
 		}
 		
-		$timeout(function() {
-			$('.dcontainer.'+$scope.dslug+' p').slideDown();
-			$('.dcontainer.'+$scope.dslug+' h1').addClass('selected');
-			$('.dcontainer.'+$scope.dslug+' h1 span').html('-');
+		$timeout(function() {			
+			$('#blackout').animate({'scrollTop': $('.dcontainer.'+$scope.dslug+' h1').offset().top}, 500, function() {
+				$('.dcontainer.'+$scope.dslug+' h1').addClass('selected');
+				$('.dcontainer.'+$scope.dslug+' h1 span').html('-');
+				$('.dcontainer.'+$scope.dslug+' p').slideDown();
+			}); 
 			
 			$('#overlay').on('click', '.dcontainer h1', function() {
 				if (!$(this).hasClass('selected')) {
@@ -449,7 +455,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 					$(this).siblings('p').slideUp();
 				}
 			});
-		}, 2500);
+		}, 1500);
 		
 	}
 ]);
@@ -518,6 +524,7 @@ var closeButtonStart = function(ctrl, millisecs, tweentype) {
 		e.preventDefault();
 		cameraController.AnimateBlur(0,1);
 		$('#blackout').velocity({"opacity":0, 'padding-top': 50}, {duration: millisecs, easing: tweentype, complete: function() {
+			$('#blackout').scrollTop(0);
 			$(this).css({'display':'none'});
 			window.location.href = "#/grid";
 		}});

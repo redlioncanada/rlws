@@ -233,10 +233,11 @@ function zoomHandler(e) {
 	} else if (e.ctrlKey) {
 		var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
 		cameraController.Zoom(-delta);
+		cameraController.zSpeed = -delta;
 	} else {
 		var deltax = Math.max(-10, Math.min(10, (e.wheelDeltaX || -e.detail))); //e.wheelDeltaX;
 		var deltay = Math.max(-10, Math.min(10, (e.wheelDeltaY || -e.detail))); //e.wheelDeltaY;
-		cameraController.Move(-deltax/15, deltay/15, undefined, false);
+		cameraController.Move(-deltax/25, deltay/25, undefined, false);
 	}
 	
 }
@@ -261,12 +262,6 @@ function resetPinches() {
 	});
 	
 	$(document).on("pinchend", function(e) {
-		var sum;
-		for(var x = 0; x < deltaHistory.length; x ++) { sum += deltaHistory[x]; }
-		average = sum / deltaHistory.length;
-		
-		//cameraController.Zoom(average * 10, undefined, 1, false, true, TWEEN.Easing.Cubic.In);
-		
 		pinched = false;
 		$(document).off("pinchstart pinchmove pinchend");
 		resetPinches();

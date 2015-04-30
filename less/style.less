@@ -553,6 +553,10 @@ header {
 	width: 25px;
 	height: 90px;
 	
+	span {
+		display: inline-block;
+	}
+	
 	span > img {
 		margin-top: 5px;
 		cursor: hand;
@@ -598,10 +602,14 @@ header {
 				width: 100px;
 				height: 25px;
 				
-				span > img {
-					margin-left: 5px;
+				span {
+					display: inline-block;
 					cursor: hand;
 					cursor: pointer;
+				}
+				
+				span > img {
+					margin-left: 5px;
 					opacity: 0.7;
 					.animation-mixin (socialhoverback-animation, 500ms, ease-in-out);
 				}
@@ -814,16 +822,20 @@ header {
 						width: 50%;
 					}
 					
-					img {
-						margin-right: 5px;
-						margin-top: 3px;
+					span {
+						display: inline-block;
 						cursor: hand;
 						cursor: pointer;
+					}
+					
+					span > img {
+						margin-right: 5px;
+						margin-top: 3px;
 						opacity: 0.7;
-						.animation-mixin (socialhoverback-animation, 300ms, ease-in-out);
+						.animation-mixin (socialhoverback-animation, 500ms, ease-in-out);
 						
 						&:hover {
-							.animation-mixin (socialhover-animation, 300ms, ease-in-out);
+							.animation-mixin (socialhover-animation, 500ms, ease-in-out);
 							opacity: 1;
 						}
 					}
