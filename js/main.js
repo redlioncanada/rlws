@@ -64,15 +64,15 @@ function render() {
 
 	//apply camera movement
 	if (!overlay) {
-		var newX = xMove ? -(xMove/200) : 0.1;
+		var newX = xMove ? -(xMove/200) : 0.4;
 		if (mLEFT && !xMove) newX *= -1;
-		var newY = yMove ? yMove/200 : 0.1;
+		var newY = yMove ? yMove/200 : 0.4;
 		if (mDOWN && !yMove) newY *= -1;
 		if (mLEFT || mRIGHT) cameraController.Move(newX, undefined, undefined, false);
 		if (mUP || mDOWN) cameraController.Move(undefined, newY, undefined, false);
 
-		if (mGOIN) cameraController.Zoom(0.1);
-		if (mGOOUT) cameraController.Zoom(-0.1);
+		if (mGOIN) cameraController.Zoom(0.4);
+		if (mGOOUT) cameraController.Zoom(-0.4);
 		if (mROTUP) cameraController.Rotate(0.03, undefined, undefined, false);
 		if (mROTDOWN) cameraController.Rotate(-0.03, undefined, undefined, false);
 		

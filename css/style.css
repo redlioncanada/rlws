@@ -409,6 +409,9 @@ header form #searchCancel {
 .menu-item.culture #culture-inner {
   margin: 10px 35px 25px;
 }
+.menu-item.culture #culture-inner p {
+  margin-bottom: 10px;
+}
 .menu-item.culture #culture-inner h2 {
   line-height: 50px;
 }

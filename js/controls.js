@@ -32,6 +32,7 @@ $(document).keydown(function( event ) {
 		event.preventDefault();
 		mROTDOWN = true;
 	}
+	
 	closeMenu();
 });
 
@@ -40,18 +41,22 @@ $(document).keyup(function(event) {
 	if ( event.which == 38 ) { // UP
 		event.preventDefault();
 		mUP = false;
+		cameraController.ySpeed = 0.5;
 	}
 	if (event.which == 40) { // DOWN
 		event.preventDefault();
 		mDOWN = false;
+		cameraController.ySpeed = -0.5;
 	}
 	if (event.which == 37) { // LEFT
 		event.preventDefault();
 		mLEFT = false;
+		cameraController.xSpeed = -0.5;
 	}
 	if (event.which == 39) { // RIGHT
 		event.preventDefault();
 		mRIGHT = false;
+		cameraController.xSpeed = 0.5;
 	}
 	if (event.which == 34) { // PGDN
 		event.preventDefault();
@@ -164,8 +169,10 @@ function fingerMouseDrag(e) {
 	xMod = xMod === 0 ? undefined : -xMod / 75;
 	if (e.which == 3) {
 		var delta = yMod * 10;
-		if (cameraController.HitTestZ(cameraController.camera.position.z + delta)) cameraController.Move(undefined, undefined, delta, false);
-		cameraController.zSpeed = delta;
+		if (cameraController.HitTestZ(cameraController.camera.position.z + delta)) {
+			cameraController.Move(undefined, undefined, delta, false);
+			cameraController.zSpeed = delta;
+		}
 	} else {
 		cameraController.Move(xMod * moveSpeed, yMod * moveSpeed, undefined, false);
 		cameraController.xSpeed = xMod * moveSpeed;
@@ -232,8 +239,10 @@ function zoomHandler(e) {
 	//Zoom
 	} else if (e.ctrlKey) {
 		var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-		cameraController.Zoom(-delta);
-		cameraController.zSpeed = -delta;
+		if (cameraController.HitTestZ(cameraController.camera.position.z - delta)) {
+			cameraController.Zoom(-delta);
+			cameraController.zSpeed = -delta;
+		}
 	} else {
 		var deltax = Math.max(-10, Math.min(10, (e.wheelDeltaX || -e.detail))); //e.wheelDeltaX;
 		var deltay = Math.max(-10, Math.min(10, (e.wheelDeltaY || -e.detail))); //e.wheelDeltaY;
@@ -402,6 +411,7 @@ function enableOnScreenController() {
 			});
 		}).mouseup(function() {
 			mLEFT = false;
+			cameraController.xSpeed = -0.5;
 		});
 		$('#mapctrl-right').mousedown(function() {
 			mRIGHT = true;
@@ -411,6 +421,7 @@ function enableOnScreenController() {
 			});
 		}).mouseup(function() {
 			mRIGHT = false;
+			cameraController.xSpeed = 0.5;
 		});
 		$('#mapctrl-up').mousedown(function() {
 			mUP = true;
@@ -420,6 +431,7 @@ function enableOnScreenController() {
 			});
 		}).mouseup(function() {
 			mUP = false;
+			cameraController.ySpeed = 0.5;
 		});
 		$('#mapctrl-down').mousedown(function() {
 			mDOWN = true;
@@ -429,6 +441,7 @@ function enableOnScreenController() {
 			});
 		}).mouseup(function() {
 			mDOWN = false;
+			cameraController.ySpeed = -0.5;
 		});
 		$('#mapctrl-zoomin').mousedown(function() {
 			mGOOUT = true;
@@ -438,6 +451,7 @@ function enableOnScreenController() {
 			});
 		}).mouseup(function() {
 			mGOOUT = false;
+			if (cameraController.HitTestZ(cameraController.camera.position.z - 0.4)) cameraController.zSpeed = -0.4;
 		});
 		$('#mapctrl-zoomout').mousedown(function() {
 			mGOIN = true;
@@ -447,6 +461,7 @@ function enableOnScreenController() {
 			});
 		}).mouseup(function() {
 			mGOIN = false;
+			cameraController.zSpeed = 0.4;
 		});
 		
 		$('#mapctrl-tilt').click(function(e) {

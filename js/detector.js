@@ -27,11 +27,9 @@ var Detector = {
 		element.style.display = 'none';
 
 			element.innerHTML = window.WebGLRenderingContext ? [
-				'Your graphics card does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" style="color:#e32526">WebGL</a>.<br />',
-				'Find out how to get it <a href="http://get.webgl.org/" style="color:#e32526">here</a>.'
+				'Oops. Seems like you\'re trapped in the past.<br> To properly enjoy our site, we recommend using the latest versions of <a href="http://www.google.com/chrome/">Google Chrome</a> or <a href="http://www.mozilla.com/firefox/">Firefox</a><br>(and joining us in the present).'
 			].join( '\n' ) : [
-				'Your browser does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" style="color:#e32526">WebGL</a>.<br/>',
-				'Find out how to get it <a href="http://get.webgl.org/" style="color:#e32526">here</a>.'
+				'Oops. Seems like you\'re trapped in the past.<br> To properly enjoy our site, we recommend using the latest versions of <a href="http://www.google.com/chrome/">Google Chrome</a> or <a href="http://www.mozilla.com/firefox/">Firefox</a><br>(and joining us in the present).'
 			].join( '\n' );
 
 

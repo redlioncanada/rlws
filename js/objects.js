@@ -75,7 +75,9 @@ var _objects = function() {
 		var cM = this.materials.c[color];
 		var tM = this.materials.t[building.img];
 		var m = [cM,cM,cM,cM,tM,cM];
-		m[4].minFilter = THREE.NearestFilter;
+		m[4].generateMipmaps = false;
+		m[4].minFilter = THREE.LinearFilter;
+		m[4].magFilter = THREE.LinearFilter;
 		return m;
 	};
 	
@@ -483,20 +485,19 @@ var _objects = function() {
 			if (debug && debugMovement) console.log("X Speed = "+this.xSpeed+", Y Speed = "+this.ySpeed);
 			var acc_speed = 1.2;
 			
-			var toX = this.camera.position.x + this.xSpeed / acc_speed;
-			if ( this.HitTestX(toX) ) this.xSpeed = this.xSpeed / acc_speed;
-			else this.xSpeed = 0;
+			this.xSpeed = this.xSpeed / acc_speed;
 			
-			var toY = this.camera.position.y + this.ySpeed / acc_speed;
-			if ( this.HitTestY(toY) ) this.ySpeed = this.ySpeed / acc_speed;
-			else this.ySpeed = 0;
+			this.ySpeed = this.ySpeed / acc_speed;
 			
+			this.zSpeed = this.zSpeed / acc_speed;
 			var toZ = this.camera.position.z + this.zSpeed / acc_speed;
-			if ( this.HitTestZ(toZ) ) this.zSpeed = this.zSpeed / acc_speed;
-			else this.zSpeed = 0;
+			if (!this.HitTestZ(toZ)) {
+				this.zSpeed = 0;
+				toZ = 0;
+			}
 				
 			if (Math.abs(this.xSpeed) > 0.01 || Math.abs(this.ySpeed) > 0.01 || Math.abs(this.zSpeed) > 0.01) {
-				this.Move(this.xSpeed, this.ySpeed, this.zSpeed, false);
+				this.Move(this.xSpeed, this.ySpeed, this.zSpeed, false, false);
 			} else {
 				touchFinish = false;
 				this.zSpeed = 0;

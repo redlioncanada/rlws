@@ -83,6 +83,7 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 		};
 		
 		$scope.parseMyDate = function(datestr) {
+			console.log(datestr);
 			var t = datestr.split(/[- :]/);
 			var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
 			return new Date(d);
@@ -235,7 +236,7 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 	
 	socialStart($scope.work.title, $scope.work.subtitle);
 	
-	$scope.work.date_launched = Date.parse($scope.work.date_launched);
+	$scope.work.date_launched = new Date($scope.work.date_launched);
 	var videos = $scope.work.video_comsep;
 	for (var vids = 0; vids < videos.length; vids++) {
 		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]+'?title=0&byline=0&badge=0&color=e0280a&portrait=0');
