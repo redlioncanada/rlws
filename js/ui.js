@@ -34,10 +34,6 @@ $('#logo').click(function(e) {
 	location.reload();
 });
 
-$('#searchTerm').on('keyup', function(e) {
-	$(this).val($(this).val().toLowerCase());
-});
-
 $('#searchTerm').on('keydown', function(e) {
 	var val = $(this).val();
 	var cval = $('#cachedTerm').val();

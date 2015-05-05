@@ -339,6 +339,7 @@ var _objects = function() {
 				.onUpdate( function() {
 					_self.camera.position.x = this.x;
 					_self.spotlight.position.x = this.x - _self.spotlight.offset.x;
+					_self.spotlight.target.position.x = this.x;
 					_self.spotlight.updateMatrixWorld();
 					_self.spotlight.target.updateMatrixWorld();
 
@@ -368,7 +369,8 @@ var _objects = function() {
 				.easing( easing )
 				.onUpdate( function() {
 					_self.camera.position.y = this.y;
-					_self.spotlight.position.x = this.y + _self.spotlight.offset.y;
+					_self.spotlight.position.y = this.y + _self.spotlight.offset.y;
+					_self.spotlight.target.position.y = this.y;
 					_self.spotlight.updateMatrixWorld();
 					_self.spotlight.target.updateMatrixWorld();
 				})
@@ -421,6 +423,7 @@ var _objects = function() {
 			if (((this.HitTestX(X) || !this.constrain) && !this.animating) || !constrain || abs) {
 				this.camera.position.x = X;
 				this.spotlight.position.x = X - this.spotlight.offset.x;
+				this.spotlight.target.position.x = X;
 				this.spotlight.updateMatrixWorld();
 				this.spotlight.target.updateMatrixWorld();
 			}
@@ -429,6 +432,7 @@ var _objects = function() {
 			if (((this.HitTestX(Y) || !this.constrain) && !this.animating) || !constrain || abs) {
 				this.camera.position.y = Y;
 				this.spotlight.position.y = Y + this.spotlight.offset.y;
+				this.spotlight.target.position.y = Y;
 				this.spotlight.updateMatrixWorld();
 				this.spotlight.target.updateMatrixWorld();
 			}
