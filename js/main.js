@@ -38,6 +38,7 @@ function spinfunction() {
 spinfunction();
 var brentSpinner = setInterval(spinfunction, 1600);
 
+var secondResize = false;
 
 // Render init
 renderer.shadowMapEnabled = true;
@@ -52,6 +53,12 @@ function resize() {
 	renderer.setSize(width, height);
 	camera.updateProjectionMatrix();
 	if (cameraController) cameraController.Update();
+	if (!secondResize) { 
+		setTimeout(resize, 750);
+		secondResize = true;
+	} else {
+		secondResize = false;
+	}
 }
 
 function render() {

@@ -175,9 +175,11 @@ function fingerMouseDrag(e) {
 			cameraController.zSpeed = delta;
 		}
 	} else {
-		cameraController.Move(xMod * moveSpeed, yMod * moveSpeed, undefined, false);
-		cameraController.xSpeed = xMod * moveSpeed;
-		cameraController.ySpeed = yMod * moveSpeed;
+		if (!pinched) {
+			cameraController.Move(xMod * moveSpeed, yMod * moveSpeed, undefined, false);
+			cameraController.xSpeed = xMod * moveSpeed;
+			cameraController.ySpeed = yMod * moveSpeed;
+		}
 	}
 
 }
@@ -267,12 +269,13 @@ function resetPinches() {
 		delta = (e.scale - oldScale) * -10;
 		oldScale = e.scale;
 		
-		if (cameraController.HitTestZ(cameraController.camera.position.z + delta)) cameraController.Move(undefined, undefined, delta, false);
-		cameraController.zSpeed = delta;
+		if (cameraController.HitTestZ(cameraController.camera.position.z + delta)) {
+			cameraController.Move(undefined, undefined, delta, false);
+			cameraController.zSpeed = delta;
+		}
 	});
 	
 	$(document).on("pinchend", function(e) {
-		pinched = false;
 		$(document).off("pinchstart pinchmove pinchend");
 		resetPinches();
 	});
@@ -282,21 +285,21 @@ function resetPinches() {
 resetPinches();
 
 function setupEventListeners() {
+
+	//Microsoft Events
+	canvas.addEventListener('pointerup', fingerMouseUp);
+	canvas.addEventListener('pointermove', fingerMouseDrag);
+	canvas.addEventListener("pointerdown", fingerMouseDown);
 	
-	// Touch Events - Start (Finger/Mouse down)
+	//Touchy Events
 	canvas.addEventListener('touchstart', fingerMouseDown);
-	canvas.addEventListener('mousedown', fingerMouseDown);
-	canvas.addEventListener("MSPointerDown", fingerMouseDown);
-
-	// Touch Events - End (Finger/Mouse up)
 	canvas.addEventListener('touchend', fingerMouseUp);
-	canvas.addEventListener('mouseup', fingerMouseUp);
-	canvas.addEventListener('MSPointerUp', fingerMouseUp);
-
-	// Touch Events - Move (Finger/Mouse drag)
 	canvas.addEventListener('touchmove', fingerMouseDrag);
-	canvas.addEventListener('MSPointerMove', fingerMouseDrag);
+	
+	//Regular Events
+	canvas.addEventListener('mouseup', fingerMouseUp);
 	canvas.addEventListener("mousemove", mouseMove);
+	canvas.addEventListener('mousedown', fingerMouseDown);
 	
 	// Mouse Wheel Zoom (Standards)
 	canvas.addEventListener("mousewheel", zoomHandler);
