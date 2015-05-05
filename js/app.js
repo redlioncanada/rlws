@@ -237,7 +237,7 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 	$scope.work = dataController.GetBySlug($scope.campaignID);
 	
 	socialStart($scope.work.title, $scope.work.subtitle);
-	te('map-clicks',"work-item-clicked",$scope.work.title + " - " + $scope.work.subtitle);
+	te('map-clicks',"work-item-clicked",$scope.work.slug);
 	
 	$scope.work.date_launched = new Date($scope.work.date_launched);
 	var videos = $scope.work.video_comsep;

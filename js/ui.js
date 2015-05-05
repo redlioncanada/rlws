@@ -18,6 +18,7 @@ window.fbAsyncInit = function() {
 
 //search start
 $('#searchCancel, #search-back-img').on('click', function(e) {
+	te('search', 'search-return');
 	if (cameraController.animating) return;
 	$('#searchTerm').val('');
 	$('#cachedTerm').val('');
@@ -31,13 +32,16 @@ $('#searchCancel, #search-back-img').on('click', function(e) {
 });
 
 $('#logo').click(function(e) {
+	te('logo',"logo-clicked");
 	location.reload();
 });
 
 $('#searchTerm').on('keypress', function(e) {
+	te('logo',"logo-clicked");
 	if (!$(this).val().length) $('#cachedTerm').val('');
 	e.preventDefault();
 }).on('keydown', function(e) {
+	te('search',"search-clicked");
 	input(e,this);
 	var val = $(this).val();
 	var cval = $('#cachedTerm').val();
@@ -54,6 +58,7 @@ $('#searchTerm').on('keypress', function(e) {
 		if (!cameraController) return;
 		if (cameraController.animating) return;
 		if ($('#cachedTerm').val().length || val == homeKeyword) {	//search returned results
+			te('search',"search-submitted", cval);
 			if (cityController.city && cityController.city.tag == cval) {
 				$(this).val('').blur();
 				$('#cachedTerm').val('');
@@ -155,6 +160,7 @@ $('.menu-item').each(function(){
 $('#menu a').click(function() {
 	var self = this;
 	var c = $(this).attr('class').replace(' active','');
+	te(c,"menu-clicked");
 	if (!googleMapLoaded && c == 'contact') { 
 		if (!mapInterval) {
 			loadGoogleMap();
@@ -179,9 +185,22 @@ $('#menu a').click(function() {
 		if (lastMenuItem != c) {$(self).addClass('active'); $('.menu-item.'+c).css('z-index',251).velocity({top: headerHeight+1},{duration:300}); lastMenuItem = c;}
 		else {closeMenu();}
 	}
+	
+	if (c == 'contact' || c == 'careers') {
+		$('.'+c+" a").on('click', function(e) {
+			te(c,"email-clicked");
+		});
+	} else if (c == 'culture') {
+		$('.culture button').on('click', function(e) {
+			te(c,$(this).attr('aria-label')+'-clicked');
+		});
+	}
 });
 function closeMenu() {
 	$('#menu a').removeClass('active');
+	$(".contact a, .culture a, .careers a").off('click');
+	$('.culture button').off('click');
+	
 	$('.menu-item').each(function(){
 		$(this).css('z-index',250).velocity({'top':headerHeight-$(this).height()},{duration: 300});
 	});
@@ -366,6 +385,7 @@ indicator.on('update', function() {
 
 $('#indicator').click(function() {
 	SpawnAndGoToCity(homeKeyword);
+	te('search', 'search-return');
 });
 //indicator end
 
@@ -375,6 +395,7 @@ $('#culture-inner').slick({dots: true, infinite: true, speed: 500, slidesToShow:
 $('#blackout').on("click", function(evt) {
     evt.stopPropagation();
     if($($(evt.target).context).attr('id') == 'blackout') {
+	    te('overlay',"close-clicked-blackout");
 	    cameraController.AnimateBlur(0,1);
     	$(this).velocity({"opacity":0, 'padding-top': 50}, {duration: 1000, easing: "easeOutCubic", complete: function() {
 			$('#blackout').scrollTop(0);

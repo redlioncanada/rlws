@@ -406,6 +406,7 @@ function enableOnScreenController() {
 		
 		$('#mapctrl-left').mousedown(function() {
 			mLEFT = true;
+			te('on-screen-controls', 'move-left-clicked');
 			$(this).mousemove(function(e) {
 				e.preventDefault();
 				mLEFT = false;
@@ -416,6 +417,7 @@ function enableOnScreenController() {
 		});
 		$('#mapctrl-right').mousedown(function() {
 			mRIGHT = true;
+			te('on-screen-controls', 'move-right-clicked');
 			$(this).mousemove(function(e) {
 				e.preventDefault();
 				mRIGHT = false;
@@ -426,6 +428,7 @@ function enableOnScreenController() {
 		});
 		$('#mapctrl-up').mousedown(function() {
 			mUP = true;
+			te('on-screen-controls', 'move-up-clicked');
 			$(this).mousemove(function(e) {
 				e.preventDefault();
 				mUP = false;
@@ -436,6 +439,7 @@ function enableOnScreenController() {
 		});
 		$('#mapctrl-down').mousedown(function() {
 			mDOWN = true;
+			te('on-screen-controls', 'move-down-clicked');
 			$(this).mousemove(function(e) {
 				e.preventDefault();
 				mDOWN = false;
@@ -446,6 +450,7 @@ function enableOnScreenController() {
 		});
 		$('#mapctrl-zoomin').mousedown(function() {
 			mGOOUT = true;
+			te('on-screen-controls', 'zoom-in-clicked');
 			$(this).mousemove(function(e) {
 				e.preventDefault();
 				mGOOUT = false;
@@ -456,6 +461,7 @@ function enableOnScreenController() {
 		});
 		$('#mapctrl-zoomout').mousedown(function() {
 			mGOIN = true;
+			te('on-screen-controls', 'zoom-out-clicked');
 			$(this).mousemove(function(e) {
 				e.preventDefault();
 				mGOIN = false;
@@ -466,6 +472,7 @@ function enableOnScreenController() {
 		});
 		
 		$('#mapctrl-tilt').click(function(e) {
+			te('on-screen-controls', 'tilt-clicked');
 			e.preventDefault();
 			var currentTilt = cameraController.rotation.x;
 			var camMinTilt = cameraController.constraints.R1;
