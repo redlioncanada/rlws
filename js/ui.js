@@ -48,25 +48,7 @@ $('#searchTerm').on('keypress', function(e) {
 		$(this).val(s);
 	}
 
-	var search = dataController.GetIdsWithTag(val);
-	if (search.length == 0) {
-		$('#cachedTerm').val('');
-	} else {
-		if (typeof search[0] === 'undefined') {
-			$('#cachedTerm').val('');
-		}
-	}
-	var found = false;
-	for (var a in search) {
-		var tags = search[a].split(', ');
-		for (var i in tags) {
-			if (tags[i].substring(0,val.length) == val) {
-				$('#cachedTerm').val(tags[i]);
-				found = true;
-			}
-		}
-	}
-	if (!found) $('#cachedTerm').val('');
+	updateCache();
 
 	if (e.keyCode == 13 && $(this).val().length) {	//enter
 		if (!cameraController) return;
@@ -96,9 +78,32 @@ $('#searchTerm').on('keypress', function(e) {
 		$(this).val(t);
 	} else if (e.keyCode == 8) {	//backspace
 		$('#cachedTerm').val('');
+		if (val.length-1 > 0) updateCache();
 	} else if (e.keyCode == 27) {	//escape
 		$('#cachedTerm').val('');
 		$(this).val('');
+	}
+
+	function updateCache() {
+		var search = dataController.GetIdsWithTag(val);
+		if (search.length == 0) {
+			$('#cachedTerm').val('');
+		} else {
+			if (typeof search[0] === 'undefined') {
+				$('#cachedTerm').val('');
+			}
+		}
+		var found = false;
+		for (var a in search) {
+			var tags = search[a].split(', ');
+			for (var i in tags) {
+				if (tags[i].substring(0,val.length) == val) {
+					$('#cachedTerm').val(tags[i]);
+					found = true;
+				}
+			}
+		}
+		if (!found) $('#cachedTerm').val('');
 	}
 
 	function input(e,i) {
