@@ -37,7 +37,7 @@ var defaultCityCircleCountModifier = 4; //gets added to defaultCityCircleCount e
 var groundZ = 12;
 
 var spotlightOffset = { x : 25, y : 25, z : 50 };
-var surroundingTags = [ "design", "digital", "design", "design", "digital", "design", "design", "digital", "design", "design", "digital", "design" ];
+var surroundingTags = [ "design", "digital", "app", "brand", "magazine", "mobile", "online", "print", "promotion", "television", "video", "website" ];
 
 //cam vars
 var camXExtents = 10; //affects how far outside the current grid that the this.camera can scroll, left&right
