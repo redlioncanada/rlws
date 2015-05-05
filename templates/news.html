@@ -6,7 +6,7 @@
 	
 	<div class="overlay-content">
 		<div ng-repeat="article in newsitems | orderBy:'-date_launched'" class="ncontainer {{article.slug}}">
-			<div class="title" data-slug="{{news.slug}}">
+			<div class="title" ng-attr-slug="{{article.slug}}">
 				<h1><span>+</span> &nbsp;{{parseMyDate(article.date_launched) | date:'MM/dd/yyyy'}}</h1>
 				<div class="cover">
 					<span class="twitter"><img src="img/twitter.png" alt="Twitter"></span>

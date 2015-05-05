@@ -81,6 +81,7 @@ function boxClicked(intersect) {
 	var spawned = true;
 	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
 	if (clickedBuilding.js_trigger) {
+		te('map-clicks','client-clicked',clickedBuilding.js_trigger);
 		spawned = !typeof SpawnAndGoToCity(clickedBuilding.js_trigger) === 'undefined';
 		if (!spawned) keywordReturn(clickedBuilding.js_trigger);
 	}

@@ -83,7 +83,6 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 		};
 		
 		$scope.parseMyDate = function(datestr) {
-			console.log(datestr);
 			var t = datestr.split(/[- :]/);
 			var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
 			return new Date(d);
@@ -112,8 +111,9 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 				$('.ncontainer.'+$scope.dslug+' .title h1 span').html('-');
 				$('.ncontainer.'+$scope.dslug+' .title .cover').velocity({height: '74px'},{duration: animationTiming});
 				$('.ncontainer.'+$scope.dslug+' .newscontent').velocity('slideDown',{duration: animationTiming});
+				te('map-clicks',"news-item-clicked",$scope.dslug);
 			});
-			socialStart('Red Lion News', $('.ncontainer.'+$scope.dslug+' .title').text());
+			socialStart('Red Lion News', $('.ncontainer.'+$scope.dslug+' .title').html().replace(/(<([^>]+)>)/ig,""));
 			
 			$('#overlay').on('click', '.ncontainer .title', function() {
 				socialStart('Red Lion News', titleCase($scope.dslug));
@@ -127,6 +127,8 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 					title.find('h1 span').html('-').css({'padding-left':3,'padding-right':4});
 					title.children('.cover').velocity({height: '74px'},{duration: animationTiming});
 					title.siblings('.newscontent').velocity('slideDown',{duration: animationTiming});
+					te('overlay',"news-item-clicked",title.attr('slug'));
+					//console.log(title);
 				} else {
 					var title = $(this);
 					title.removeClass('selected');
@@ -235,6 +237,7 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 	$scope.work = dataController.GetBySlug($scope.campaignID);
 	
 	socialStart($scope.work.title, $scope.work.subtitle);
+	te('map-clicks',"work-item-clicked",$scope.work.title + " - " + $scope.work.subtitle);
 	
 	$scope.work.date_launched = new Date($scope.work.date_launched);
 	var videos = $scope.work.video_comsep;
@@ -440,6 +443,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 				$('.dcontainer.'+$scope.dslug+' h1').addClass('selected');
 				$('.dcontainer.'+$scope.dslug+' h1 span').html('-');
 				$('.dcontainer.'+$scope.dslug+' p').slideDown();
+				te('overlay',"discipline-clicked",$scope.dslug);
 			}); 
 			
 			$('#overlay').on('click', '.dcontainer h1', function() {
@@ -450,6 +454,7 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
 					$(this).addClass('selected');
 					$(this).children('span').html('-').css({'padding-left':3,'padding-right':4});
 					$(this).siblings('p').slideDown();
+					te('overlay',"discipline-clicked",$(this).attr('slug'));
 				} else {
 					$(this).removeClass('selected');
 					$(this).children('span').html('+').css('padding',0);
@@ -523,6 +528,7 @@ var closeButtonStart = function(ctrl, millisecs, tweentype) {
 	
 	$('.close').on('click', function(e) {
 		e.preventDefault();
+		te('overlay',"close-clicked");
 		cameraController.AnimateBlur(0,1);
 		$('#blackout').velocity({"opacity":0, 'padding-top': 50}, {duration: millisecs, easing: tweentype, complete: function() {
 			$('#blackout').scrollTop(0);
@@ -540,11 +546,13 @@ var socialStart = function(title, subtitle) {
 	
 	$('img.twitter').on('click',function(e){
 		e.preventDefault();
+		te('share',"twitter",title + " - " + subtitle);
 		window.open('http://twitter.com/share?url=' + loc + '&text=' + newtitle, 'twitterwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
 	});
 	
 	$('img.facebook').on('click',function(e) {
 		e.preventDefault();
+		te('share',"facebook",title + " - " + subtitle);
 		FB.ui({
 			method: 'share',
 			href: loc,
@@ -553,6 +561,7 @@ var socialStart = function(title, subtitle) {
 	
 	$('img.linkedin').on('click',function(e) {
 		e.preventDefault();
+		te('share',"linkedin",title + " - " + subtitle);
 		window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + loc + '&title=' + newtitle, 'linkedinwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
 	});
 }
