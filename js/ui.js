@@ -34,14 +34,22 @@ $('#logo').click(function(e) {
 	location.reload();
 });
 
-$('#searchTerm').on('keydown', function(e) {
+$('#searchTerm').on('keypress', function(e) {
+	if (!$(this).val().length) $('#cachedTerm').val('');
+	e.preventDefault();
+}).on('keydown', function(e) {
+	input(e,this);
 	var val = $(this).val();
 	var cval = $('#cachedTerm').val();
+
 	if ($(this).val().length > 32) {
 		var s = val;
 		s = s.substring(0, s.length-1);
 		$(this).val(s);
 	}
+
+	updateCache();
+
 	if (e.keyCode == 13 && $(this).val().length) {	//enter
 		if (!cameraController) return;
 		if (cameraController.animating) return;
@@ -70,8 +78,44 @@ $('#searchTerm').on('keydown', function(e) {
 		$(this).val(t);
 	} else if (e.keyCode == 8) {	//backspace
 		$('#cachedTerm').val('');
+		if (val.length-1 > 0) updateCache();
+	} else if (e.keyCode == 27) {	//escape
+		$('#cachedTerm').val('');
+		$(this).val('');
 	}
-});
+
+	function updateCache() {
+		var search = dataController.GetIdsWithTag(val);
+		if (search.length == 0) {
+			$('#cachedTerm').val('');
+		} else {
+			if (typeof search[0] === 'undefined') {
+				$('#cachedTerm').val('');
+			}
+		}
+		var found = false;
+		for (var a in search) {
+			var tags = search[a].split(', ');
+			for (var i in tags) {
+				if (tags[i].substring(0,val.length) == val) {
+					$('#cachedTerm').val(tags[i]);
+					found = true;
+				}
+			}
+		}
+		if (!found) $('#cachedTerm').val('');
+	}
+
+	function input(e,i) {
+		var c = e.which || e.keyCode;
+		if (c >= 65 && c <= 90) {	//alpha
+			c = String.fromCharCode(c).toLowerCase();
+			$(i).val($(i).val()+c);
+		} else if (c == 189) {	//dash
+			$(i).val($(i).val()+'-');
+		}
+	}
+}).on('focus',closeMenu);
 
 function keywordReturn(keyword) {	
 	$('#search-back-text span').html(keyword);
@@ -81,30 +125,6 @@ function keywordReturn(keyword) {
 function keywordHide() {
 	$('#search-back-img, #search-back-text').velocity({'opacity':'0'},{duration: 400, complete: function(){$(this).css('display','none')}});
 }
-
-$('#searchTerm').on('input', function(e) {
-	var term = $(this).val();
-	var search = dataController.GetIdsWithTag(term);
-	if (search.length == 0) {
-		$('#cachedTerm').val('');
-		return;
-	} else {
-		if (typeof search[0] === 'undefined') {
-			$('#cachedTerm').val('');
-			return;
-		}
-	}
-	for (var a in search) {
-		var tags = search[a].split(', ');
-		for (var i in tags) {
-			if (tags[i].substring(0,term.length) == term) {
-				$('#cachedTerm').val(tags[i]);
-				return;
-			}
-		}
-	}
-	$('#cachedTerm').val('');
-}).on('focus',closeMenu);
 //search end
 
 //webgl detection start
