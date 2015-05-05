@@ -106,6 +106,8 @@ $('#searchTerm').on('keypress', function(e) {
 		if (c >= 65 && c <= 90) {	//alpha
 			c = String.fromCharCode(c).toLowerCase();
 			$(i).val($(i).val()+c);
+		} else if (c == 189) {	//dash
+			$(i).val($(i).val()+'-');
 		}
 	}
 }).on('focus',closeMenu);
