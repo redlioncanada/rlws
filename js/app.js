@@ -542,15 +542,17 @@ var loc, newtitle;
 
 var socialStart = function(title, subtitle) {
 	loc = escape(window.location.href);
-	newtitle  = escape(title + " - " + subtitle + " || Red Lion Canada");
+	newtitle  = escape(title + " - " + subtitle + " || Red Lion Canada #redlion #redefine");
 	
-	$('img.twitter').on('click',function(e){
+	$('.twitter, .facebook, .linkedin').off('click');
+	
+	$('.twitter').on('click',function(e){
 		e.preventDefault();
 		te('share',"twitter",title + " - " + subtitle);
 		window.open('http://twitter.com/share?url=' + loc + '&text=' + newtitle, 'twitterwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
 	});
 	
-	$('img.facebook').on('click',function(e) {
+	$('.facebook').on('click',function(e) {
 		e.preventDefault();
 		te('share',"facebook",title + " - " + subtitle);
 		FB.ui({
@@ -559,7 +561,7 @@ var socialStart = function(title, subtitle) {
 		}, function(response){});
 	});
 	
-	$('img.linkedin').on('click',function(e) {
+	$('.linkedin').on('click',function(e) {
 		e.preventDefault();
 		te('share',"linkedin",title + " - " + subtitle);
 		window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + loc + '&title=' + newtitle, 'linkedinwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');

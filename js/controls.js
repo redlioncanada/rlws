@@ -286,19 +286,23 @@ function setupEventListeners() {
 	// Touch Events - Start (Finger/Mouse down)
 	canvas.addEventListener('touchstart', fingerMouseDown);
 	canvas.addEventListener('mousedown', fingerMouseDown);
+	canvas.addEventListener("MSPointerDown", fingerMouseDown);
 
 	// Touch Events - End (Finger/Mouse up)
 	canvas.addEventListener('touchend', fingerMouseUp);
 	canvas.addEventListener('mouseup', fingerMouseUp);
+	canvas.addEventListener('MSPointerUp', fingerMouseUp);
 
 	// Touch Events - Move (Finger/Mouse drag)
 	canvas.addEventListener('touchmove', fingerMouseDrag);
+	canvas.addEventListener('MSPointerMove', fingerMouseDrag);
+	canvas.addEventListener("mousemove", mouseMove);
 	
 	// Mouse Wheel Zoom (Standards)
 	canvas.addEventListener("mousewheel", zoomHandler);
 	// Mouse Wheel Zoom (Firefox)
 	canvas.addEventListener("DOMMouseScroll", zoomHandler);
-	canvas.addEventListener("mousemove", mouseMove);
+	
 	
 	enableOnScreenController();
 	

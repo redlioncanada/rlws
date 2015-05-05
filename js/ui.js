@@ -36,12 +36,12 @@ $('#logo').click(function(e) {
 	location.reload();
 });
 
-$('#searchTerm').on('keypress', function(e) {
-	te('logo',"logo-clicked");
+$('#searchTerm').on('clicked', function(e) {
+	te('search',"search-clicked");
+}).on('keypress', function(e) {
 	if (!$(this).val().length) $('#cachedTerm').val('');
 	e.preventDefault();
 }).on('keydown', function(e) {
-	te('search',"search-clicked");
 	input(e,this);
 	var val = $(this).val();
 	var cval = $('#cachedTerm').val();
