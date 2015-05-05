@@ -153,7 +153,14 @@ var _objects = function() {
 	};
 
 	this.dataController.prototype.GetAllWithTag = function(tag) {
-		return this.fuse.search(tag);
+		var r = [];
+		for (var i in this.rawData) {
+			if (!this.rawData[i].tags) continue;
+			if (this.rawData[i].tags.indexOf(tag) > -1) {
+				r.push(this.rawData[i]);
+			}
+		}
+		return r.length ? r : false;
 	};
 
 	this.dataController.prototype.GetIdsWithTag = function(tag) {
