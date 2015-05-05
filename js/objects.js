@@ -41,6 +41,7 @@ var _objects = function() {
 		this.materials = {c:{},t:{}};
 		this.textures = {};
 		this.textureNames = [];
+		this.tags = {};
 		this.loadedTextures = 0;
 		this.subscribers = {};
 		this.loaded = false;
@@ -153,7 +154,18 @@ var _objects = function() {
 	};
 
 	this.dataController.prototype.GetAllWithTag = function(tag) {
-		return this.fuse.search(tag);
+		if (!this.tags.tag) {
+			var r = [];
+			for (var i in this.rawData) {
+				if (!this.rawData[i].tags) continue;
+				if (this.rawData[i].tags.indexOf(tag) > -1) {
+					r.push(this.rawData[i]);
+				}
+			}
+			this.tags.tag = r.length ? r : false;
+		}
+
+		return this.tags.tag;
 	};
 
 	this.dataController.prototype.GetIdsWithTag = function(tag) {
