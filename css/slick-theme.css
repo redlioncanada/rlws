@@ -186,6 +186,11 @@
 
     opacity: .25;
 }
+
+.menu-item.culture .slick-dots li button:before {
+	content: url('../img/dot-white.gif') no-repeat center center;
+}
+
 .slick-dots li.slick-active button:before
 {
     opacity: .75;
