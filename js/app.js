@@ -171,7 +171,7 @@ app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout', 'prelo
 // if there's an audio player, this makes it work
 var audioPlayerStart = function() {
 	var audioplayers = document.getElementsByClassName('audio_file');
-	
+
 	$('.play-pause-btn').click(function() {
 		var audioplayer = $(this).siblings('audio').get(0);
 		if (audioplayer.paused) {
@@ -289,7 +289,7 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 		}, 200);
 	}
 	
-	audioPlayerStart();
+	setTimeout(audioPlayerStart, 1000);
 	overlayFadeIn();
 	closeButtonStart();
 };
