@@ -148,16 +148,16 @@ function init3D() {
 
 		// CLOUDS!!!1!
 		var cloudTexture = new THREE.ImageUtils.loadTexture( 'img/cloud1.png' );
-        var cloudMaterial = new THREE.MeshBasicMaterial( { map: cloudTexture } );
+        var cloudMaterial = new THREE.MeshBasicMaterial( { map: cloudTexture, depthWrite : false, depthTest: false } );
         cloudMaterial.transparent = true;
         var cloudGeometry = new THREE.PlaneBufferGeometry( 64, 64, 1, 1 );
         
         var cloudTexture2 = new THREE.ImageUtils.loadTexture( 'img/cloud2.png' );
-        var cloudMaterial2 = new THREE.MeshBasicMaterial( { map: cloudTexture2 } );
+        var cloudMaterial2 = new THREE.MeshBasicMaterial( { map: cloudTexture2, depthWrite : false, depthTest: false } );
         cloudMaterial2.transparent = true;
         
         var cloudTexture3 = new THREE.ImageUtils.loadTexture( 'img/cloud3.png' );
-        var cloudMaterial3 = new THREE.MeshBasicMaterial( { map: cloudTexture3 } );
+        var cloudMaterial3 = new THREE.MeshBasicMaterial( { map: cloudTexture3, depthWrite : false, depthTest: false } );
         cloudMaterial3.transparent = true;
         
         var cloud1 = new THREE.Mesh( cloudGeometry, cloudMaterial3 );
