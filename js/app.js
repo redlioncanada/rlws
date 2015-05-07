@@ -420,11 +420,15 @@ app.factory( "preloader", function( $q, $rootScope ) {
 //************************
 // Discipline Controller
 //************************
-app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout',
-	function($scope, $routeParams, $timeout) {
+app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
+	function($scope, $routeParams, $timeout, $sce) {
 		$scope.dslug = $routeParams.disciplineID;
 		closeButtonStart(true);
 		$('#blackout').scrollTop(0);
+		
+		$scope.outputHTML = function(snip) {
+			return $sce.trustAsHtml(snip);
+		};
 		
 		if (boxid !== 0) {
 			$scope.disciplines = dataController.GetByType('disciplines');

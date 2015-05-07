@@ -36,6 +36,12 @@ $('#logo').click(function(e) {
 	location.reload();
 });
 
+$('#client-list a').click(function(e) {
+	sterm = $(this).attr("data-search");
+	SpawnAndGoToCity(sterm);
+	closeMenu();
+});
+
 $('#searchTerm').on('clicked', function(e) {
 	te('search',"search-clicked");
 }).on('keypress', function(e) {
@@ -160,7 +166,7 @@ $('.menu-item').each(function(){
 $('#menu a').click(function() {
 	var self = this;
 	var c = $(this).attr('class').replace(' active','');
-	te(c,"menu-clicked");
+	te("menu",c+"-clicked");
 	if (!googleMapLoaded && c == 'contact') { 
 		if (!mapInterval) {
 			loadGoogleMap();
@@ -185,21 +191,10 @@ $('#menu a').click(function() {
 		if (lastMenuItem != c) {$(self).addClass('active'); $('.menu-item.'+c).css('z-index',251).velocity({top: headerHeight+1},{duration:300}); lastMenuItem = c;}
 		else {closeMenu();}
 	}
-	
-	if (c == 'contact' || c == 'careers') {
-		$('.'+c+" a").on('click', function(e) {
-			te(c,"email-clicked");
-		});
-	} else if (c == 'culture') {
-		$('.culture button').on('click', function(e) {
-			te(c,$(this).attr('aria-label')+'-clicked');
-		});
-	}
+
 });
 function closeMenu() {
 	$('#menu a').removeClass('active');
-	$(".contact a, .culture a, .careers a").off('click');
-	$('.culture button').off('click');
 	
 	$('.menu-item').each(function(){
 		$(this).css('z-index',250).velocity({'top':headerHeight-$(this).height()},{duration: 300});

@@ -200,10 +200,15 @@ body {
 header {
   top: 0;
   width: 100%;
-  height: 73px;
+  height: 83px;
   z-index: 300;
   background: black;
   position: relative;
+}
+@media (max-width: 900px) {
+  header {
+    height: 73px;
+  }
 }
 header #menu {
   float: left;
@@ -228,7 +233,7 @@ header #mobile-menu {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100%;
+  width: 50px;
   height: inherit;
 }
 header #mobile-menu img {
@@ -239,7 +244,7 @@ header #mobile-menu img {
 header #logo {
   float: right;
   height: 30px;
-  padding: 22px;
+  padding: 27px;
   cursor: pointer;
 }
 @media (max-width: 480px) {
@@ -272,6 +277,7 @@ header form input {
   position: absolute;
   background-color: transparent;
   z-index: 1;
+  margin-top: 5px;
 }
 header form input#searchTerm {
   background: url('../img/search.png') no-repeat left 10px center;
@@ -401,6 +407,24 @@ header form #searchCancel {
 .menu-item.careers .menu-item-body h2 {
   line-height: 22px;
   margin-bottom: 13px;
+}
+.menu-item.clients .menu-item-header {
+  padding-bottom: 20px;
+}
+.menu-item.clients ul {
+  list-style: none;
+  text-indent: 0;
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+.menu-item.clients ul li {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+}
+.menu-item.clients ul li a:hover {
+  color: #e32526;
+  text-decoration: underline;
 }
 @font-face {
   font-family: 'slick';
@@ -874,7 +898,7 @@ header form #searchCancel {
 #overlay #work-overlay .print-item img,
 #overlay #work-overlay .digital-item img {
   margin: 0 auto;
-  max-width: 95%;
+  max-width: 85%;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.4);
 }
 #overlay #news-overlay {

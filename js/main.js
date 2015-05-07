@@ -12,11 +12,15 @@ var renderer = new THREE.WebGLRenderer({antialias: true});
 var maxAnisotropy = renderer.getMaxAnisotropy();
 var spotLight = new THREE.SpotLight( 0xffffff );
 spotLight.offset = spotlightOffset;
-var mouseSpot = new THREE.SpotLight( 0xffffff, 0.9, 20, 1 );
+var mouseSpot = new THREE.SpotLight( 0xffffff, 1.3, 20, 1 );
 var hemilight = null;
-var lightintensity = 40;
 var composer;
 var hblurPass, vblurPass;
+
+var listener = new THREE.AudioListener();
+camera.add( listener );
+var citySound = new THREE.Audio( listener, true );
+var suburbSound = new THREE.Audio( listener, true );
 
 var initInterval;
 var objects = [];
@@ -111,6 +115,15 @@ function render() {
 function init3D() {
 	if (Detector.webgl) {
 		resize();
+		
+		//Sounds
+		citySound.load( 'sounds/358232_j_s_song.ogg' );
+		citySound.setRefDistance( 20 );
+		citySound.autoplay = true;
+		
+		suburbSound.load( 'sounds/358232_j_s_song.ogg' );
+		suburbSound.setRefDistance( 20 );
+		suburbSound.autoplay = true;
 		
 		//Always after resize
 		composer = new THREE.EffectComposer( renderer );

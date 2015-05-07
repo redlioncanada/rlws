@@ -176,10 +176,14 @@ body {
 header { 
 	top: 0; 
 	width: 100%; 
-	height: 73px; 
+	height: 83px; 
 	z-index: 300; 
 	background: black;
 	position: relative;
+	
+	@media (max-width: 900px) {
+		height: 73px; 
+	}
 
 	#menu {
 		float: left;
@@ -207,7 +211,7 @@ header {
 		position: absolute;
 		left: 0;
 		top: 0;
-		width: 100%;
+		width: 50px;
 		height: inherit;
 
 		img {
@@ -219,7 +223,7 @@ header {
 	#logo { 
 		float: right; 
 		height: 30px;
-		padding: 22px;
+		padding: 27px;
 		cursor: pointer;
 
 		@media (max-width:480px) {
@@ -250,6 +254,7 @@ header {
 			position: absolute;
 			background-color: transparent;
 			z-index: 1;
+			margin-top: 5px;
 		}
 		input#searchTerm {
 			background: url('../img/search.png') no-repeat left 10px center;
@@ -399,6 +404,30 @@ header {
 		h2 {
 			line-height: 22px;
 			margin-bottom: 13px;
+		}
+	}
+}
+
+.menu-item.clients {
+	.menu-item-header {
+		padding-bottom: 20px;
+	}
+	
+	ul {
+		list-style: none;
+		text-indent: 0;
+		margin: 0;
+		padding: 0 0 0 20px;
+		
+		li {
+			list-style: none;
+			margin: 0 0 10px;
+			padding: 0;
+			
+			a:hover {
+				color: @lionred;
+				text-decoration: underline;
+			}
 		}
 	}
 }
@@ -732,7 +761,7 @@ header {
 			
 			img {
 				margin: 0 auto;
-				max-width: 95%;
+				max-width: 85%;
 				box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.4);
 			}
 		}
