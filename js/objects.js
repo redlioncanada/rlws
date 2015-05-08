@@ -115,7 +115,8 @@ var _objects = function() {
 			layout.tiles[i].y -= minY;
 		}
 		return layout;
-	}
+	};
+	
 	this.dataController.prototype.GetBuildingsFromTiles = function(layout) {
 		var temp = [];
 		for (var i in layout.tiles) {
@@ -642,9 +643,9 @@ var _objects = function() {
 				startY = randY;
 			}
 		}
-
-		var c = new self.city(buildingsPerRow, buildingsPerColumn, dataController, rawData, startX, startY, type);
-		c.tag = home ? homeKeyword : tags;
+		
+		var tag = home ? homeKeyword : tags;
+		var c = new self.city(dataController, rawData, startX, startY, type, tag);
 		this.cities.push(c);
 		c.index = this.cities.length;
 		if (c.tag == homeKeyword) this.defaultCity = c;
@@ -752,7 +753,7 @@ var _objects = function() {
 	//End CityController
 
 	//City - a collection of buildings
-	this.city = function(bpr, bpc, dC, rawData, sX, sY, type) {
+	this.city = function(dC, rawData, sX, sY, type, tag) {
 		if (typeof type === 'undefined') type = 0;
 		this.logMatrix = function(matrix) {
 			if (!debug) return;
@@ -764,7 +765,8 @@ var _objects = function() {
 		};
 	
 		this.index = undefined;
-		this.tag = "default";
+		this.layoutData;
+		this.tag = tag;
 		this.buildings = [];
 		this.buildingData = type ? rawData : rawData.slice();
 		this.extents = {X1:undefined,Y1:undefined,X2:undefined,Y2:undefined,Z1:undefined,Z2:undefined};
@@ -772,15 +774,13 @@ var _objects = function() {
 		this.width = 0;
 		this.height = 0;
 		this.midpoint = {X:0,Y:0};
-		//this.buildingsPerRow = bpr;
-		//this.buildingsPerColumn = bpc;
 		this.squareSize = Math.ceil(Math.sqrt(this.buildingData.length));
 		this.buildingsPerRow = this.squareSize;
 		this.buildingsPerColumn = this.squareSize;
 		this.dataRef = dC;
 		this.cityCircle = null;
 		this.spotLight = new THREE.SpotLight( 0xffffff );
-		if (!type) this.init3DRandomized();
+		if (!type) this.init3DExplicitSubCity();
 		else this.init3DExplicit();
 	};
 	
@@ -849,6 +849,64 @@ var _objects = function() {
 		this.extents.Z2 = this.extents.Z1 + camZ2Init;
 		this.CircleCity();
 		
+	};
+	
+	this.city.prototype.init3DExplicitSubCity = function() {
+		var uselayout = this.tag == 'news' ? newslayout : sublayout;
+		
+		var cityLayout = {};
+		cityLayout.tiles = uselayout.tiles.slice();
+		cityLayout.types = uselayout.types.slice();
+		this.layoutData = dataController.NormalizeLayoutData(cityLayout);
+		var scLayoutData = [];
+		
+		for (var i in this.buildingData) {
+			var temp = this.layoutData.tiles[i];
+			temp.id = this.buildingData[i].id;
+			scLayoutData.push(temp);
+		}
+		
+		this.layoutData.tiles = scLayoutData.slice();
+		
+		for (var y = 0; y <= this.buildingData.length-1; y++) {
+				var thisbox = {};
+				var curBuilding = new self.building(this.buildingData[y]);
+				if (typeof curBuilding === 'undefined') {console.log('warning: tried to spawn invalid building)'); continue;}
+
+				var type = this.layoutData.tiles[y].type;
+				var curBoxHeight = this.layoutData.types[type].h;
+				var curBoxWidth = this.layoutData.types[type].w;
+				var curBoxDepth = (Math.random() * buildingHeightVariance) + 1*boxdepth*10;
+				if (curBoxDepth / 2 + 1 > camMinHeight) camMinHeight = Math.ceil(curBoxDepth / 2 + 1);
+			
+				thisbox.geometry = new THREE.BoxGeometry( curBoxWidth, curBoxHeight, curBoxDepth );
+				var useColor = parseInt(curBuilding.hex_color,16);
+				thisbox.material = this.dataRef.GetMaterial(curBuilding, useColor);
+				thisbox.cube = new THREE.Mesh( thisbox.geometry, new THREE.MeshFaceMaterial(thisbox.material) );
+				thisbox.cube.castShadow = true;
+				thisbox.cube.receiveShadow = true;
+				thisbox.cube.name = curBuilding.id;
+				scene.add( thisbox.cube );
+				thisbox.cube.position.x = this.origin.X + this.layoutData.tiles[y].x + this.layoutData.types[type].w / 2;
+				thisbox.cube.position.y = this.origin.Y + this.layoutData.tiles[y].y + this.layoutData.types[type].h / 2;
+
+				if (thisbox.cube.position.x + curBoxWidth*1.4 < this.extents.X1 || typeof this.extents.X1 != 'number') this.extents.X1 = thisbox.cube.position.x + curBoxWidth*1.4;
+				if (thisbox.cube.position.x - curBoxWidth*1.4 > this.extents.X2 || typeof this.extents.X2 != 'number') this.extents.X2 = thisbox.cube.position.x - curBoxWidth*1.4; 
+				if (thisbox.cube.position.y + curBoxHeight/4 < this.extents.Y1 || typeof this.extents.Y1 != 'number') this.extents.Y1 = thisbox.cube.position.y + curBoxHeight/4;
+				if (thisbox.cube.position.y - curBoxHeight/4 > this.extents.Y2 || typeof this.extents.Y2 != 'number') this.extents.Y2 = thisbox.cube.position.y - curBoxHeight/4; 
+				if (thisbox.cube.position.z - curBoxDepth/2 < this.extents.Z1 || typeof this.extents.Z1 != 'number') this.extents.Z1 = thisbox.cube.position.z + curBoxDepth/3;
+				
+				curBuilding.SetModel(thisbox.cube);
+				this.buildings[parseInt(curBuilding.id)] = curBuilding;
+				objects.push(thisbox.cube);
+		}
+
+		this.midpoint.X = (this.extents.X2 + this.extents.X1) / 2;
+		this.midpoint.Y = (this.extents.Y2 + this.extents.Y1) / 2;
+		this.width = Math.abs(this.extents.X1 - this.extents.X2);
+		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
+		this.extents.Z2 = this.extents.Z1 + camZ2Init;
+		this.CircleCity();
 	};
 
 	this.city.prototype.init3DRandomized = function() {
