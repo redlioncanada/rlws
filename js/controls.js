@@ -78,15 +78,20 @@ $(document).keyup(function(event) {
 
 // Box Clicked Function
 function boxClicked(intersect) {
-	var spawned = true;
-	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
-	if (clickedBuilding.js_trigger) {
-		te('map-clicks','client-clicked',clickedBuilding.js_trigger);
-		spawned = !typeof SpawnAndGoToCity(clickedBuilding.js_trigger) === 'undefined';
-		if (!spawned) keywordReturn(clickedBuilding.js_trigger);
+	if (cameraController.camera.position.z >= 35) {
+		cameraController.Pan(intersect.position.x, intersect.position.y, undefined, undefined, 1.5, true, true, TWEEN.Easing.Cubic.InOut);
+		cameraController.Zoom(camZ2Init-10, undefined, 1.5, true, false);
+	} else {
+		var spawned = true;
+		var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
+		if (clickedBuilding.js_trigger) {
+			te('map-clicks','client-clicked',clickedBuilding.js_trigger);
+			spawned = !typeof SpawnAndGoToCity(clickedBuilding.js_trigger) === 'undefined';
+			if (!spawned) keywordReturn(clickedBuilding.js_trigger);
+		}
+		boxid = parseInt(intersect.name);
+		if (spawned || clickedBuilding.js_trigger) window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
 	}
-	boxid = parseInt(intersect.name);
-	if (spawned || clickedBuilding.js_trigger) window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
 }
 
 function mouseCursor(cursorType) {

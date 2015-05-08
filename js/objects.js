@@ -155,10 +155,12 @@ var _objects = function() {
 
 	this.dataController.prototype.GetAllWithTag = function(tag) {
 		var r = [];
+		var s = [];
 		for (var i in this.rawData) {
 			if (!this.rawData[i].tags) continue;
-			if (this.rawData[i].tags.indexOf(tag) > -1) {
+			if (this.rawData[i].tags.indexOf(tag) > -1 && s.indexOf(this.rawData[i].slug) == -1) {
 				r.push(this.rawData[i]);
+				s.push(this.rawData[i].slug);
 			}
 		}
 		return r.length ? r : false;
@@ -827,6 +829,7 @@ var _objects = function() {
 				thisbox.cube.castShadow = true;
 				thisbox.cube.receiveShadow = true;
 				thisbox.cube.name = curBuilding.id;
+				if (y === this.buildingData.length / 2) thisbox.cube.add(citySound);
 				scene.add( thisbox.cube );
 				thisbox.cube.position.x = this.origin.X + this.layoutData.tiles[y].x + this.layoutData.types[type].w / 2;
 				thisbox.cube.position.y = this.origin.Y + this.layoutData.tiles[y].y + this.layoutData.types[type].h / 2;
@@ -865,6 +868,13 @@ var _objects = function() {
 			temp.id = this.buildingData[i].id;
 			scLayoutData.push(temp);
 		}
+		var suburbSound = new THREE.Audio( listener, true );
+		suburbSound.load( 'sounds/smallcity.mp3' );
+		suburbSound.setRefDistance(audioRefDistance);
+		suburbSound.setVolume(audioVolume - 0.15);
+		suburbSound.autoplay = true;
+		suburbSound.setLoop = 5000;
+
 		
 		this.layoutData.tiles = scLayoutData.slice();
 		
@@ -886,6 +896,7 @@ var _objects = function() {
 				thisbox.cube.castShadow = true;
 				thisbox.cube.receiveShadow = true;
 				thisbox.cube.name = curBuilding.id;
+				if (y === Math.floor(this.buildingData.length / 2)) thisbox.cube.add(suburbSound);
 				scene.add( thisbox.cube );
 				thisbox.cube.position.x = this.origin.X + this.layoutData.tiles[y].x + this.layoutData.types[type].w / 2;
 				thisbox.cube.position.y = this.origin.Y + this.layoutData.tiles[y].y + this.layoutData.types[type].h / 2;
@@ -906,7 +917,7 @@ var _objects = function() {
 		this.width = Math.abs(this.extents.X1 - this.extents.X2);
 		this.height = Math.abs(this.extents.Y1 - this.extents.Y2);
 		this.extents.Z2 = this.extents.Z1 + camZ2Init;
-		this.CircleCity();
+		this.CircleCity(true);
 	};
 
 	this.city.prototype.init3DRandomized = function() {

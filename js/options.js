@@ -10,6 +10,9 @@ var debugIndicator = false;
 var homeKeyword = "home";
 var pageTitle = "Red Lion {REDEFINE}";
 
+var audioVolume = 0.55;
+var audioRefDistance = 3;
+
 //city vars
 var gridSizex = 1.2; //multiplicative
 var gridSizey = 1.6; //multiplicative
@@ -28,7 +31,7 @@ var glCards = [];
 var glCards2 = [];
 var cityCirclePadding = 0.5;
 var cityCircleThickness = 1;
-var subCityCirclePadding = 5;
+var subCityCirclePadding = 3;
 var subCityCircleThickness = 0.5;
 var mainCityRadius = 6; //multiplicative
 var outerCityRadius = 6; // multiplicative

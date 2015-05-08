@@ -16,11 +16,13 @@ var mouseSpot = new THREE.SpotLight( 0xffffff, 1.3, 20, 1 );
 var hemilight = null;
 var composer;
 var hblurPass, vblurPass;
+var windSound = document.getElementById('bgwind');
+windSound.volume = 0;
+windSound.play();
 
 var listener = new THREE.AudioListener();
 camera.add( listener );
 var citySound = new THREE.Audio( listener, true );
-var suburbSound = new THREE.Audio( listener, true );
 
 var initInterval;
 var objects = [];
@@ -65,11 +67,31 @@ function resize() {
 	}
 }
 
+var animateVolume = function(newVolume, time) {
+	if (typeof newVolume == 'undefined') return;
+	if (newVolume > 1 && newVolume <= 100) newVolume = newVolume/100;
+	if (typeof time == 'undefined') time = 1000;
+	$('#bgwind').animate({volume: newVolume}, time);
+};
+
+var setVolume = function(newVolume) {
+	if (typeof newVolume == 'undefined') return;
+	if (newVolume > 1 && newVolume <= 100) newVolume = newVolume/100;
+	else if (newVolume > 100) newVolume = 100;
+	else if (newVolume < 0) newVolume = 0;
+	newVolume = newVolume / 25;
+	windSound.volume = newVolume;
+}
+
+animateVolume(25, 2000);
+
 function render() {
 	
 	renderMouseListener();
 	
 	TWEEN.update();
+	
+	setVolume(cameraController.camera.position.z / 100);
 	
 	cameraController.AfterRelease();
 
@@ -117,18 +139,20 @@ function init3D() {
 		resize();
 		
 		//Sounds
-		citySound.load( 'sounds/358232_j_s_song.ogg' );
-		citySound.setRefDistance( 20 );
-		citySound.autoplay = true;
-		
-		suburbSound.load( 'sounds/358232_j_s_song.ogg' );
-		suburbSound.setRefDistance( 20 );
-		suburbSound.autoplay = true;
-		
+		citySound.load( 'sounds/city.mp3' );
+		citySound.setRefDistance(audioRefDistance);
+		citySound.setVolume(audioVolume);
+		citySound.autoplay = false;
+		citySound.setLoop = 5000;
+				
 		//Always after resize
 		composer = new THREE.EffectComposer( renderer );
 		var renderPass = new THREE.RenderPass( scene, camera );
 		composer.addPass(renderPass);
+		
+		//var effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
+		//effectFXAA.uniforms[ 'resolution' ].value.set( 1 / canvasDiv.width(), 1 / canvasDiv.height() );
+		//composer.addPass(effectFXAA);
 		
 		var vignettePass = new THREE.ShaderPass( THREE.VignetteShader );
 		vignettePass.uniforms[ "darkness" ].value = 1.5;
@@ -272,7 +296,7 @@ function SpawnAndGoToCity(tag) {
 			var data = layout;
 			var city = cityController.SpawnCity(tag, data, 1);
 		} else {
-			var data = dataController.GetAllWithTag(tag);
+			var data = dataController.GetAllWithTag(tag, true);
 			if (!data || !(data.length)) return undefined;
 			var city = cityController.SpawnCity(tag, data);
 		}
@@ -285,6 +309,7 @@ function SpawnAndGoToCity(tag) {
 			dataController.on('loaded', function() {
 				dataController.off('loaded', 'centeroncity');
 				cameraController.CenterOnCity(city, false, zoomCallback);
+				if (!citySound.isPlaying) citySound.play();
 			}, 'centeroncity');
 		} else {
 			cameraController.CenterOnCity(city, false, zoomCallback);
