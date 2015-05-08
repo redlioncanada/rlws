@@ -873,7 +873,7 @@ var _objects = function() {
 		suburbSound.setRefDistance(audioRefDistance);
 		suburbSound.setVolume(audioVolume - 0.15);
 		suburbSound.autoplay = true;
-		suburbSound.setLoop = 5000;
+		suburbSound.setLoop(1);
 
 		
 		this.layoutData.tiles = scLayoutData.slice();
