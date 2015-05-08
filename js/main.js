@@ -74,15 +74,6 @@ var animateVolume = function(newVolume, time) {
 	$('#bgwind').animate({volume: newVolume}, time);
 };
 
-var setVolume = function(newVolume) {
-	if (typeof newVolume == 'undefined') return;
-	if (newVolume > 1 && newVolume <= 100) newVolume = newVolume/100;
-	else if (newVolume > 100) newVolume = 100;
-	else if (newVolume < 0) newVolume = 0;
-	newVolume = newVolume / 25;
-	windSound.volume = newVolume;
-}
-
 animateVolume(25, 2000);
 
 function render() {
@@ -91,7 +82,7 @@ function render() {
 	
 	TWEEN.update();
 	
-	setVolume(cameraController.camera.position.z / 100);
+	windSound.volume = cameraController.camera.position.z / 1100;
 	
 	cameraController.AfterRelease();
 

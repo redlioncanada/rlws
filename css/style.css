@@ -433,9 +433,6 @@ header form #searchCancel {
   src: url('fonts/slick.eot');
   src: url('fonts/slick.eot?#iefix') format('embedded-opentype'), url('fonts/slick.woff') format('woff'), url('fonts/slick.ttf') format('truetype'), url('fonts/slick.svg#slick') format('svg');
 }
-.menu-item.culture {
-  width: 500px;
-}
 .menu-item.culture .menu-item-body {
   padding: 0 20px;
 }
