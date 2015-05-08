@@ -134,7 +134,7 @@ function init3D() {
 		citySound.setRefDistance(audioRefDistance);
 		citySound.setVolume(audioVolume);
 		citySound.autoplay = false;
-		citySound.setLoop = 5000;
+		citySound.setLoop(1);
 				
 		//Always after resize
 		composer = new THREE.EffectComposer( renderer );
