@@ -323,9 +323,7 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 			var theid = "#" + $(this).attr('data-vidid');
 			var iframe = $(theid)[0];
 			var clickedplayer = $f(iframe);
-			if (clickedplayer.paused()) clickedplayer.play();
-			else clickedplayer.pause();
-			console.log(clickedplayer);
+			clickedplayer.api('play');
 		});
 	}, 4000);
 	
