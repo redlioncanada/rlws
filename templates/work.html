@@ -22,8 +22,8 @@
 	
 	<div class="overlay-content">
 		<div class="videobox" ng-repeat="video in work.video_comsep" ng-show="work.video_comsep[0] !== ''">
-			<iframe ng-src="{{video}}" ng-attr-id="{{'video' + $index}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-			<!--<div class="vidcontrol"><img src="img/transp.png" ng-attr-data-vidid="{{'video' + $index}}"></div>-->
+			<iframe ng-src="{{video}}" ng-attr-id="{{'video' + $index}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
+			<div class="vidcontrol" ng-attr-data-vidid="{{'video' + $index}}"><img src="img/rl_wordmark_transparent.png"></div>
 		</div>
 		
 		<div class="otherbox" ng-show="work.print_comsep[0] !== ''">

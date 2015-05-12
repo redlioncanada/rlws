@@ -267,12 +267,6 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 	var videos = $scope.work.video_comsep;
 	for (var vids = 0; vids < videos.length; vids++) {
 		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]+'?title=0&byline=0&badge=0&color=e0280a&portrait=0&api=1&player_id=video'+vids);
-		setTimeout(function(){
-			player = document.querySelectorAll('iframe')[0];
-			$f(player).addEvent('ready', function(id){
-	            //console.log('success');
-	        });
-		}, 600);
 	}
 	
 	var soptions = {
@@ -317,22 +311,24 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 			if (dImages) $('.digitalwork').slick(soptions);
 		}, 200);
 	}
-	
-	$('.videobox').click(function() {
-			//e.preventDefault();
-			console.log("YES");
-	/*
-			console.log('test');
-			var iframe = $('#'+$(this).attr('data-vidid'));
-			var player = $f(iframe);
-			
-			if (player.paused()) player.play();
-			else player.pause();
-	*/
-		});
-	
+		
 	setTimeout(audioPlayerStart, 1000);
 	overlayFadeIn();
+	setTimeout( function() {
+		player = $('.videobox iframe').get(0);
+		$f(player).addEvent('ready', function(id){
+        	
+        });
+        $('.vidcontrol').click(function(e) {
+			var theid = "#" + $(this).attr('data-vidid');
+			var iframe = $(theid)[0];
+			var clickedplayer = $f(iframe);
+			clickedplayer.play();
+			console.log(clickedplayer);
+		});
+	}, 4000);
+	
+	
 	closeButtonStart();
 };
 
@@ -564,6 +560,7 @@ var overlayFadeIn = function(millisecs, tweentype) {
 	setTimeout(function() {
 		$('#overlay .overlay-content').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlaybuildtime, easing: tweentype});
 	}, overlaydelay);
+
 }
 
 // Universal close button start

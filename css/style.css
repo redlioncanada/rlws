@@ -908,6 +908,7 @@ header form #searchCancel {
   width: 90%;
   height: 90%;
   opacity: inherit;
+  overflow: hidden;
 }
 #overlay #work-overlay .videobox .vidcontrol,
 #overlay #work-overlay .videobox .vidcontrol img {
@@ -919,7 +920,6 @@ header form #searchCancel {
   width: 110%;
   height: 110%;
   z-index: 10000;
-  display: none;
 }
 #overlay #work-overlay .otherbox {
   padding-top: 60px;
