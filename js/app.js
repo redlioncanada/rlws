@@ -323,7 +323,13 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 			var theid = "#" + $(this).attr('data-vidid');
 			var iframe = $(theid)[0];
 			var clickedplayer = $f(iframe);
-			clickedplayer.api('play');
+			if (!$(iframe).hasClass('playing')) {
+				clickedplayer.api('play');
+				$(iframe).addClass('playing');
+			} else {
+				clickedplayer.api('pause');
+				$(iframe).removeClass('playing');
+			}
 		});
 	}, 4000);
 	
