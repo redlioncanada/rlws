@@ -20,9 +20,11 @@ var windSound = document.getElementById('bgwind');
 windSound.volume = 0;
 windSound.play();
 
-var listener = new THREE.AudioListener();
-camera.add( listener );
-var citySound = new THREE.Audio( listener, true );
+if (!isIE) {
+	var listener = new THREE.AudioListener();
+	camera.add( listener );
+	var citySound = new THREE.Audio( listener, true );
+}
 
 var initInterval;
 var objects = [];
@@ -130,11 +132,13 @@ function init3D() {
 		resize();
 		
 		//Sounds
-		citySound.load( 'sounds/city.mp3' );
-		citySound.setRefDistance(audioRefDistance);
-		citySound.setVolume(audioVolume);
-		citySound.autoplay = false;
-		citySound.setLoop(1);
+		if (!isIE) {
+			citySound.load( 'sounds/city.mp3' );
+			citySound.setRefDistance(audioRefDistance);
+			citySound.setVolume(audioVolume);
+			citySound.autoplay = false;
+			citySound.setLoop(1);
+		}
 				
 		//Always after resize
 		composer = new THREE.EffectComposer( renderer );
@@ -239,13 +243,15 @@ function init3D() {
 		
 		scene.add( spotLight );
 		
-		mouseSpot.castShadow = true;
-		mouseSpot.shadowDarkness = 0;
-		mouseSpot.shadowMapWidth = 1024;
-		mouseSpot.shadowMapHeight = 1024;
-		mouseSpot.shadowCameraNear = 1;
-		mouseSpot.shadowCameraFar = 180;
-		mouseSpot.shadowCameraFov = 55;
+		if (!isMobile) {
+			mouseSpot.castShadow = true;
+			mouseSpot.shadowDarkness = 0;
+			mouseSpot.shadowMapWidth = 1024;
+			mouseSpot.shadowMapHeight = 1024;
+			mouseSpot.shadowCameraNear = 1;
+			mouseSpot.shadowCameraFar = 180;
+			mouseSpot.shadowCameraFov = 55;
+		}
 		mouseSpot.exponent = 20;
 		mouseSpot.intensity = 1;
 		mouseSpot.angle = isMobile ? 0.5 : 0.1;
@@ -300,7 +306,7 @@ function SpawnAndGoToCity(tag) {
 			dataController.on('loaded', function() {
 				dataController.off('loaded', 'centeroncity');
 				cameraController.CenterOnCity(city, false, zoomCallback);
-				if (!citySound.isPlaying) citySound.play();
+				if (!isIE && !citySound.isPlaying) citySound.play();
 			}, 'centeroncity');
 		} else {
 			cameraController.CenterOnCity(city, false, zoomCallback);

@@ -138,6 +138,7 @@ function fingerMouseDown(e) {
 		oldTouchY = e.clientY;
 	}
 	canvas.addEventListener('mousemove', fingerMouseDrag);
+	canvas.addEventListener('pointermove', fingerMouseDrag);
 	mouseDownTimeout = setTimeout(function(){didSingleClick = false;}, singleClickTimeout*1000);
 }
 
@@ -194,6 +195,7 @@ function fingerMouseUp(e) {
 	mTouchDown = false;
 	clearTimeout(mouseDownTimeout);
 	canvas.removeEventListener('mousemove', fingerMouseDrag);
+	canvas.removeEventListener('pointermove', fingerMouseDrag);
 	
 	if (xMove < 1 && xMove > -1 && yMove < 1 && yMove > -1 && !pinched && didSingleClick) {
 		raycaster.setFromCamera(mouse, camera);
@@ -203,6 +205,7 @@ function fingerMouseUp(e) {
 			if (typeof intersects[0] !=='undefined') {
 				if (typeof intersects[0].face !== 'undefined') {
 					if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
+					else if (cameraController.camera.position.z >= 35 && intersects[0].object.position.z != groundZ) boxClicked(intersects[0].object);
 				}
 			}
 		}
@@ -293,7 +296,6 @@ function setupEventListeners() {
 
 	//Microsoft Events
 	canvas.addEventListener('pointerup', fingerMouseUp);
-	canvas.addEventListener('pointermove', fingerMouseDrag);
 	canvas.addEventListener("pointerdown", fingerMouseDown);
 	
 	//Touchy Events

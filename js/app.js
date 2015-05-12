@@ -63,11 +63,7 @@ app.factory('Cards', function ($http) {
 // Grid Controller (nothing to see here)
 //****************************************
 app.controller('GridControler', function ($scope) {
-	if( $("#blackout").css('display') == 'block') {
-		$('#blackout').velocity({"opacity":0, 'padding-top': 50}, {duration: millisecs, easing: tweentype, complete: function() {
-			$(this).css({'display':'none'});
-		}});
-	}
+	closeAction();
 });
 
 //************************
@@ -83,10 +79,13 @@ app.controller("NewsCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 		};
 		
 		$scope.parseMyDate = function(datestr) {
-			var t = datestr.split(/[- :]/);
-			var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
-			return new Date(d);
-			
+			if (datestr instanceof Date) {
+				return datestr;
+			} else {
+				var t = datestr.split(/[- :]/);
+				var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+				return new Date(d);
+			}
 			//return Date.parse(datestr); iOS doesn't like this.
 		}
 		
@@ -156,10 +155,13 @@ app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout', 'prelo
 		};
 		
 		$scope.parseMyDate = function(datestr) {
-			var t = datestr.split(/[- :]/);
-			var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
-			return new Date(d);
-			
+			if (datestr instanceof Date) {
+				return datestr;
+			} else {
+				var t = datestr.split(/[- :]/);
+				var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+				return new Date(d);
+			}
 			//return Date.parse(datestr); iOS doesn't like this.
 		}
 		
@@ -178,8 +180,30 @@ app.controller('WorkCtrl', ['$scope', '$routeParams', '$sce', '$timeout', 'prelo
 
 // if there's an audio player, this makes it work
 var audioPlayerStart = function() {
-	var audioplayers = document.getElementsByClassName('audio_file');
-
+	var media = document.getElementById('audio_file');
+	
+	media.volume = 0.2;
+	
+	var playbar = $(media).siblings('div.meter')[0];
+	var progressbar = $(playbar).children('span')[0];
+	var timediv = $(media).siblings('.time-readout')[0];
+	var audioCurTime = $(timediv).children('.audioCurrent')[0];
+	
+	$('.swap-audio').click(function(e) {
+		e.preventDefault();
+		$('.play-pause-btn').attr('src', 'img/play-btn.gif');
+		media.pause();
+		media.src = $(this).attr('data-audio');
+		setTimeout( function() {
+			$('.play-pause-btn').attr('src', 'img/pause-btn.gif');
+			$(audioCurTime).text('0:00');
+			audioLoadTimeout(media);
+			$(progressbar).css('width', "0%");
+			media.play();
+		}, 200);
+		return false;
+	});
+	
 	$('.play-pause-btn').click(function() {
 		var audioplayer = $(this).siblings('audio').get(0);
 		if (audioplayer.paused) {
@@ -200,27 +224,18 @@ var audioPlayerStart = function() {
 		var audioplayer = $(this).siblings('audio').get(0);
 		audioplayer.currentTime += 5;
 	});
-					
-	for (var aps = 0; aps < audioplayers.length; aps++) {
-		var media = audioplayers[aps];
-		
-		setTimeout(audioLoadTimeout, 200, media);
-		
-		media.addEventListener('timeupdate', function(e) {
-			var playbar = $(media).siblings('div.meter')[0];
-			var progressbar = $(playbar).children('span')[0];
-			var percentComplete = media.currentTime / media.duration * 100;
-			$(progressbar).css('width', percentComplete + "%");
-			
-			var timediv = $(media).siblings('.time-readout')[0];
-			var audioCurTime = $(timediv).children('.audioCurrent')[0];
-			$(audioCurTime).text(getMinSec(media.currentTime));
-		}, false);
-		
-		media.addEventListener('ended', function(e) {
-			media.pause();
-		}, false);
-	}
+	
+	setTimeout(audioLoadTimeout, 200, media);
+	
+	media.addEventListener('timeupdate', function(e) {
+		var percentComplete = media.currentTime / media.duration * 100;
+		$(progressbar).css('width', percentComplete + "%");
+		$(audioCurTime).text(getMinSec(media.currentTime));
+	}, false);
+	
+	media.addEventListener('ended', function(e) {
+		media.pause();
+	}, false);
 
 };
 
@@ -241,6 +256,7 @@ var getMinSec = function (time) {
 
 // This gets all the data and sets up the Work page
 var getWorkData = function($scope, $sce, $timeout, preloader) {
+	var playerReady = false;
 	
 	$scope.work = dataController.GetBySlug($scope.campaignID);
 	
@@ -250,9 +266,14 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 	$scope.work.date_launched = $scope.parseMyDate($scope.work.date_launched);
 	var videos = $scope.work.video_comsep;
 	for (var vids = 0; vids < videos.length; vids++) {
-		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]+'?title=0&byline=0&badge=0&color=e0280a&portrait=0');
+		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]+'?title=0&byline=0&badge=0&color=e0280a&portrait=0&api=1&player_id=video'+vids);
+		setTimeout(function(){
+			player = document.querySelectorAll('iframe')[0];
+			$f(player).addEvent('ready', function(id){
+	            //console.log('success');
+	        });
+		}, 600);
 	}
-	
 	
 	var soptions = {
 		dots: true,
@@ -296,6 +317,19 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 			if (dImages) $('.digitalwork').slick(soptions);
 		}, 200);
 	}
+	
+	$('.videobox').click(function() {
+			//e.preventDefault();
+			console.log("YES");
+	/*
+			console.log('test');
+			var iframe = $('#'+$(this).attr('data-vidid'));
+			var player = $f(iframe);
+			
+			if (player.paused()) player.play();
+			else player.pause();
+	*/
+		});
 	
 	setTimeout(audioPlayerStart, 1000);
 	overlayFadeIn();
@@ -435,6 +469,9 @@ app.controller("DisciplineCtrl", ['$scope', '$routeParams', '$timeout', '$sce',
 		$('#blackout').scrollTop(0);
 		
 		$scope.outputHTML = function(snip) {
+			if (isMobile) {
+				snip = snip.replace(new RegExp("<br>", 'g'), "");
+			}
 			return $sce.trustAsHtml(snip);
 		};
 		
@@ -482,6 +519,7 @@ var overlayFadeIn = function(millisecs, tweentype) {
 	if (typeof millisecs == 'undefined') millisecs = 1000;
 	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
 	var overlaydelay = 0;
+	overlayShown = true;
 	
 	$('#overlay header h1, #overlay header h2').css('left','-800px');
 	$('#overlay button.close, #overlay .social-btns').css('right', '-30px');
@@ -541,13 +579,20 @@ var closeButtonStart = function(ctrl, millisecs, tweentype) {
 	$('.close').on('click', function(e) {
 		e.preventDefault();
 		te('overlay',"close-clicked");
-		cameraController.AnimateBlur(0,1);
-		$('#blackout').velocity({"opacity":0, 'padding-top': 50}, {duration: millisecs, easing: tweentype, complete: function() {
-			$('#blackout').scrollTop(0);
-			$(this).css({'display':'none'});
-			window.location.href = "#/grid";
-		}});
+		closeAction(millisecs, tweentype)
 	});
+};
+
+var closeAction = function(millisecs, tweentype) {
+	overlayShown = false;
+	if (typeof millisecs == 'undefined') millisecs = 1000;
+	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
+	cameraController.AnimateBlur(0,1);
+	$('#blackout').velocity({"opacity":0, 'padding-top': 50}, {duration: millisecs, easing: tweentype, complete: function() {
+		$('#blackout').scrollTop(0);
+		$(this).css({'display':'none'});
+		window.location.href = "#/grid";
+	}});
 };
 
 var loc, newtitle;
@@ -569,7 +614,7 @@ var socialStart = function(title, subtitle) {
 		te('share',"facebook",title + " - " + subtitle);
 		FB.ui({
 			method: 'share',
-			href: loc,
+			href: window.location.href,
 		}, function(response){});
 	});
 	

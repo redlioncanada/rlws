@@ -829,7 +829,7 @@ var _objects = function() {
 				thisbox.cube.castShadow = true;
 				thisbox.cube.receiveShadow = true;
 				thisbox.cube.name = curBuilding.id;
-				if (y === this.buildingData.length / 2) thisbox.cube.add(citySound);
+				if (y === Math.ceil(this.buildingData.length / 2) && !isIE) thisbox.cube.add(citySound);
 				scene.add( thisbox.cube );
 				thisbox.cube.position.x = this.origin.X + this.layoutData.tiles[y].x + this.layoutData.types[type].w / 2;
 				thisbox.cube.position.y = this.origin.Y + this.layoutData.tiles[y].y + this.layoutData.types[type].h / 2;
@@ -868,13 +868,15 @@ var _objects = function() {
 			temp.id = this.buildingData[i].id;
 			scLayoutData.push(temp);
 		}
-		var suburbSound = new THREE.Audio( listener, true );
-		suburbSound.load( 'sounds/smallcity.mp3' );
-		suburbSound.setRefDistance(audioRefDistance);
-		suburbSound.setVolume(audioVolume - 0.15);
-		suburbSound.autoplay = true;
-		suburbSound.setLoop(1);
-
+		
+		if (!isIE) {
+			var suburbSound = new THREE.Audio( listener, true );
+			suburbSound.load( 'sounds/smallcity.mp3' );
+			suburbSound.setRefDistance(audioRefDistance);
+			suburbSound.setVolume(audioVolume - 0.15);
+			suburbSound.autoplay = true;
+			suburbSound.setLoop(1);
+		}
 		
 		this.layoutData.tiles = scLayoutData.slice();
 		
@@ -896,7 +898,7 @@ var _objects = function() {
 				thisbox.cube.castShadow = true;
 				thisbox.cube.receiveShadow = true;
 				thisbox.cube.name = curBuilding.id;
-				if (y === Math.floor(this.buildingData.length / 2)) thisbox.cube.add(suburbSound);
+				if (y === Math.floor(this.buildingData.length / 2) && !isIE) thisbox.cube.add(suburbSound);
 				scene.add( thisbox.cube );
 				thisbox.cube.position.x = this.origin.X + this.layoutData.tiles[y].x + this.layoutData.types[type].w / 2;
 				thisbox.cube.position.y = this.origin.Y + this.layoutData.tiles[y].y + this.layoutData.types[type].h / 2;

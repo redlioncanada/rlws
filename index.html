@@ -2,8 +2,18 @@
 	<head>
 		<title>Red Lion {REDEFINE}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<meta name="theme-color" content="#fffdf2">
+		<meta name="theme-color" content="#000000">
 		<meta name="msapplication-tap-highlight" content="no" />
+		
+		<link rel="apple-touch-icon" href="img/app-icon/logo@1x.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="img/app-icon/logo@1x.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="img/app-icon/logo@2x.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="img/app-icon/logo@2-5x.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="img/app-icon/logo@3x.png">
+				
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-title" content="Red Lion">
+		
 		<link rel="stylesheet" href="css/style.css?v=1.0">
 		<link rel="stylesheet" href="css/slick.css"/>
 		<link rel="stylesheet" href="css/slick-theme.css"/>
@@ -21,6 +31,7 @@
 				<a href="#" class='careers'><p>careers</p></a>
 				<a href="#" class='contact'><p>contact</p></a>
 				<a href="#" class='clients'><p>clients</p></a>
+				<a href="#" class='cities' style="display: none"></a>
 				<a href="#" class='mobile' style='display:none;'></a>
 			</div>
 			<div id="mobile-menu">
@@ -52,6 +63,9 @@
 			<div class='mobile-menu-item-header clients'>
 				<h1>CLIENTS</h1>
 			</div>
+			<div class='mobile-menu-item-header cities'>
+				<h1>CITIES</h1>
+			</div>
 			<div class='mobile-menu-item-footer'>
 				<div><img src='img/menu-footer-red.png'/></div>
 			</div>
@@ -66,8 +80,8 @@
 				<div id="culture-inner">
 					<div>
 						<h2>Redefine</h2>
-						<p>What defines things? Are you an optimist? <br>Do you look around and see what&rsquo;s there? <br>Or see what isn&rsquo;t?</p>
-						<p>Do you accept the status quo or dare it? <br>What defines you? <br>Do you run when they walk? <br>Start when they stop? <br>Question when they listen? <br>Accept what is <br>or redefine what should be?</p>
+						<p>What defines things? <br>Are you an optimist? <br>Do you look around <br>and see what&rsquo;s there? <br>Or see what isn&rsquo;t?</p>
+						<p>Do you accept the status quo <br>or dare it? <br>What defines you? <br>Do you run when they walk? <br>Start when they stop? <br>Question when they listen? <br>Accept what is <br>or redefine what should be?</p>
 						<p>Markets are changing. <br>Business is changing. <br>The world is changing. <br>We revel in the change. <br>We seek it.</p>
 						<p>The difference. The opposites. <br>The outcomes. <br>The change.</p>
 						<p>Let&rsquo;s embrace it. The fears. The risks. <br>The change.</p>
@@ -171,7 +185,7 @@
 					<li><a href="#" data-search="tbooth">Tbooth</a></li>
 					<li><a href="#" data-search="kraft">Kraft</a></li>
 					<li><a href="#" data-search="tsff">Toronto Silent Film Festival</a></li>
-					<li><a href="#" data-search="sound-communications">Sound Communications</a></li>
+					<li><a href="#" data-search="sound communications">Sound Communications</a></li>
 					<li><a href="#" data-search="coa">Company of Adventurers</a></li>
 				</ul>
 			</div>
@@ -179,6 +193,32 @@
 				<div><img src='img/menu-footer-red.png'/></div>
 			</div>
 		</div>
+		<div class='menu-item cities' tabindex="4">
+			<div class='menu-item-header'>
+				<div>
+					<h2>CITIES</h2>
+				</div>
+			</div>
+			<div class='menu-item-body'>
+				<ul id="cities-list">
+					<li><a href="#" data-search="design">Design</a></li>
+					<li><a href="#" data-search="digital">Digital</a></li>
+					<li><a href="#" data-search="app">App</a></li>
+					<li><a href="#" data-search="magazine">Magazine</a></li>
+					<li><a href="#" data-search="mobile">Mobile</a></li>
+					<li><a href="#" data-search="online">Online</a></li>
+					<li><a href="#" data-search="print">Print</a></li>
+					<li><a href="#" data-search="promotion">Promotion</a></li>
+					<li><a href="#" data-search="television">Television</a></li>
+					<li><a href="#" data-search="video">Video</a></li>
+					<li><a href="#" data-search="website">Website</a></li>
+				</ul>
+			</div>
+			<div class='menu-item-footer'>
+				<div><img src='img/menu-footer-red.png'/></div>
+			</div>
+		</div>
+
 		<div id="controls">
 			<div>
 				<img src="img/map_ctrl/left.png" id="mapctrl-left" alt="map control">
@@ -191,7 +231,7 @@
 			</div>
 		</div>
 		<div id="content">
-			<img id="indicator" src="img/home-arrow.png"/>
+			<img id="indicator" src="img/home-arrow.png" data-rotation="0" data-shown="false"/>
 			<div id="canvas" tabindex="4"></div>
 		</div>
 		
@@ -225,6 +265,7 @@
 		<script src="js/lib/math.min.js"></script>
 		<script src="js/lib/tween.min.js"></script>
 		<script src="js/lib/fuse.min.js"></script>
+		<script src="https://f.vimeocdn.com/js/froogaloop2.min.js"></script>
 		<script src="js/detector.js"></script>
 		<script src="js/layout.js"></script>
 		<script src="js/sublayout.js"></script>

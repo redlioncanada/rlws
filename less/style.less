@@ -63,6 +63,7 @@ body {
 	left: 0;
 	top: 0;
 	cursor: pointer;
+	z-index: 3;
 }
 #canvas {
 	height: 100%;
@@ -240,6 +241,7 @@ header {
 
 		@media(max-width: 480px) {
 			margin-left: 45px;
+			width: 48%;
 		}
 
 		input {
@@ -255,6 +257,12 @@ header {
 			background-color: transparent;
 			z-index: 1;
 			margin-top: 5px;
+			
+			@media (max-width:480px) {
+				margin-top: 0;
+				font-size: 20px;
+			}
+			
 		}
 		input#searchTerm {
 			background: url('../img/search.png') no-repeat left 10px center;
@@ -408,7 +416,7 @@ header {
 	}
 }
 
-.menu-item.clients {
+.menu-item.clients, .menu-item.cities {
 	.menu-item-header {
 		padding-bottom: 40px;
 	}
@@ -442,9 +450,17 @@ header {
 }
 
 .menu-item.culture {
+	@media (max-width:600px) {
+		overflow: scroll;
+	}
+	
 	
 	.menu-item-body {
 		padding: 0 20px;
+		@media (max-width:600px) {
+			overflow: scroll;
+			max-height: 80%;
+		}
 	}
 
 	.menu-item-header {
@@ -521,8 +537,7 @@ header {
 	overflow-x: hidden;
 	
 	@media (max-width: 900px) {
-		overflow-y: visible;
-		overflow-x: visible;
+		overflow: scroll;
 	}
 	
 	padding-top: 50px;
@@ -684,6 +699,8 @@ header {
 				position: absolute;
 				@media (max-width: 900px) {
 					font-size: 20px;
+					max-width: 75%;
+					line-height: 22px;
 				}
 			}
 			
@@ -697,6 +714,7 @@ header {
 				@media (max-width: 900px) {
 					font-size: 30px;
 					line-height: 33px;
+					max-width: 75%;
 				}
 			}
 		}
@@ -734,18 +752,34 @@ header {
 			padding: 40px 0 56.25%;
 			position: relative;
 			height: 0;
-			overflow: hidden;
+			//overflow: hidden;
 			opacity: inherit;
+			-webkit-overflow-scrolling: touch;
 			
 			iframe {
 				margin: 0 auto;
 				display: block;
 				position: absolute;
+				z-index: 100;
 				top: 5%;
 				left: 5%;
 				width: 90%;
 				height: 90%;
 				opacity: inherit;
+				//pointer-events: none;
+				//display: none;
+			}
+			
+			.vidcontrol, .vidcontrol img {
+				position: absolute;
+				top: -5%;
+				left: -5%;
+				bottom: -5%;
+				right: -5%;
+				width: 110%;
+				height: 110%;
+				z-index: 10000;
+				display: none;
 			}
 		}
 		
@@ -762,6 +796,29 @@ header {
 				margin: 0 auto;
 				max-width: 85%;
 				box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.4);
+			}
+		}
+		
+		.audiowork {
+			.file-list {
+				margin-left: 265px;
+				@media (max-width: 900px) {
+					margin-left: 21.5%;	
+				}
+				a {
+					display: inline-block;
+					border: rgba(175,182,185,0.5) solid 1px;
+					height: 16px;
+					background: white;
+					border-radius: 5px;
+					box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+					padding: 10px;
+					margin-right: 15px;
+					
+					&:hover {
+						background: #efefef;
+					}
+				}
 			}
 		}
 	}
@@ -827,9 +884,13 @@ header {
 					margin-left: 35px;
 					
 					@media (max-width: 900px) {
-						font-size: 26px;
-						line-height: 28px;
+						font-size: 20px;
+						line-height: 30px;
 						margin-left: 20px;
+					}
+					
+					@media (max-width: 325px) {
+						font-size: 18px;
 					}
 				}
 				
@@ -842,8 +903,8 @@ header {
 					width: 45%;
 					margin: 0;
 					@media (max-width: 900px) {
-						font-size: 14px;
-						line-height: 15px;
+						font-size: 12px;
+						line-height: 14px;
 						width: 50%;
 					}
 				}
@@ -1082,6 +1143,7 @@ header {
 	}
 }
 
+/*
 body {
 	@media (orientation: landscape) and (max-width: 700px) {
 		-webkit-transform: rotate(-90deg);
@@ -1091,6 +1153,7 @@ body {
 		transform: rotate(-90deg);
 	}
 }
+*/
 
 .rotateUp {
 	transform: rotate(0deg);

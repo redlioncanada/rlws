@@ -1,1 +1,1 @@
-function te(n,e,o){console.log("Tracking event: "+n+"||"+e+"||"+o)}
+function te(e,a,t){ga("send","event",e,a,t)}!function(e,a,t,n,s,c,o){e.GoogleAnalyticsObject=s,e[s]=e[s]||function(){(e[s].q=e[s].q||[]).push(arguments)},e[s].l=1*new Date,c=a.createElement(t),o=a.getElementsByTagName(t)[0],c.async=1,c.src=n,o.parentNode.insertBefore(c,o)}(window,document,"script","//www.google-analytics.com/analytics.js","ga"),ga("create","UA-62581538-1","auto"),ga("require","displayfeatures"),ga("send","pageview");

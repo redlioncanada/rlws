@@ -99,6 +99,7 @@ body {
   left: 0;
   top: 0;
   cursor: pointer;
+  z-index: 3;
 }
 #canvas {
   height: 100%;
@@ -263,6 +264,7 @@ header form {
 @media (max-width: 480px) {
   header form {
     margin-left: 45px;
+    width: 48%;
   }
 }
 header form input {
@@ -278,6 +280,12 @@ header form input {
   background-color: transparent;
   z-index: 1;
   margin-top: 5px;
+}
+@media (max-width: 480px) {
+  header form input {
+    margin-top: 0;
+    font-size: 20px;
+  }
 }
 header form input#searchTerm {
   background: url('../img/search.png') no-repeat left 10px center;
@@ -408,21 +416,25 @@ header form #searchCancel {
   line-height: 22px;
   margin-bottom: 13px;
 }
-.menu-item.clients .menu-item-header {
+.menu-item.clients .menu-item-header,
+.menu-item.cities .menu-item-header {
   padding-bottom: 40px;
 }
-.menu-item.clients ul {
+.menu-item.clients ul,
+.menu-item.cities ul {
   list-style: none;
   text-indent: 0;
   margin: 0;
   padding: 0 0 0 20px;
 }
-.menu-item.clients ul li {
+.menu-item.clients ul li,
+.menu-item.cities ul li {
   list-style: none;
   margin: 0 0 10px;
   padding: 0;
 }
-.menu-item.clients ul li a:hover {
+.menu-item.clients ul li a:hover,
+.menu-item.cities ul li a:hover {
   color: #e32526;
   text-decoration: underline;
 }
@@ -433,8 +445,19 @@ header form #searchCancel {
   src: url('fonts/slick.eot');
   src: url('fonts/slick.eot?#iefix') format('embedded-opentype'), url('fonts/slick.woff') format('woff'), url('fonts/slick.ttf') format('truetype'), url('fonts/slick.svg#slick') format('svg');
 }
+@media (max-width: 600px) {
+  .menu-item.culture {
+    overflow: scroll;
+  }
+}
 .menu-item.culture .menu-item-body {
   padding: 0 20px;
+}
+@media (max-width: 600px) {
+  .menu-item.culture .menu-item-body {
+    overflow: scroll;
+    max-height: 80%;
+  }
 }
 .menu-item.culture .menu-item-header {
   padding-bottom: 20px;
@@ -502,8 +525,7 @@ header form #searchCancel {
 }
 @media (max-width: 900px) {
   #blackout {
-    overflow-y: visible;
-    overflow-x: visible;
+    overflow: scroll;
   }
 }
 @-webkit-keyframes close-animation {
@@ -821,6 +843,8 @@ header form #searchCancel {
 @media (max-width: 900px) {
   #overlay #work-overlay header h2 {
     font-size: 20px;
+    max-width: 75%;
+    line-height: 22px;
   }
 }
 #overlay #work-overlay header h1 {
@@ -835,6 +859,7 @@ header form #searchCancel {
   #overlay #work-overlay header h1 {
     font-size: 30px;
     line-height: 33px;
+    max-width: 75%;
   }
 }
 #overlay #work-overlay #description p {
@@ -870,18 +895,31 @@ header form #searchCancel {
   padding: 40px 0 56.25%;
   position: relative;
   height: 0;
-  overflow: hidden;
   opacity: inherit;
+  -webkit-overflow-scrolling: touch;
 }
 #overlay #work-overlay .videobox iframe {
   margin: 0 auto;
   display: block;
   position: absolute;
+  z-index: 100;
   top: 5%;
   left: 5%;
   width: 90%;
   height: 90%;
   opacity: inherit;
+}
+#overlay #work-overlay .videobox .vidcontrol,
+#overlay #work-overlay .videobox .vidcontrol img {
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  bottom: -5%;
+  right: -5%;
+  width: 110%;
+  height: 110%;
+  z-index: 10000;
+  display: none;
 }
 #overlay #work-overlay .otherbox {
   padding-top: 60px;
@@ -897,6 +935,27 @@ header form #searchCancel {
   margin: 0 auto;
   max-width: 85%;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.4);
+}
+#overlay #work-overlay .audiowork .file-list {
+  margin-left: 265px;
+}
+@media (max-width: 900px) {
+  #overlay #work-overlay .audiowork .file-list {
+    margin-left: 21.5%;
+  }
+}
+#overlay #work-overlay .audiowork .file-list a {
+  display: inline-block;
+  border: rgba(175, 182, 185, 0.5) solid 1px;
+  height: 16px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin-right: 15px;
+}
+#overlay #work-overlay .audiowork .file-list a:hover {
+  background: #efefef;
 }
 #overlay #news-overlay {
   margin: 0;
@@ -957,9 +1016,14 @@ header form #searchCancel {
 }
 @media (max-width: 900px) {
   #overlay #news-overlay .ncontainer .title h1 {
-    font-size: 26px;
-    line-height: 28px;
+    font-size: 20px;
+    line-height: 30px;
     margin-left: 20px;
+  }
+}
+@media (max-width: 325px) {
+  #overlay #news-overlay .ncontainer .title h1 {
+    font-size: 18px;
   }
 }
 #overlay #news-overlay .ncontainer .title h2 {
@@ -973,8 +1037,8 @@ header form #searchCancel {
 }
 @media (max-width: 900px) {
   #overlay #news-overlay .ncontainer .title h2 {
-    font-size: 14px;
-    line-height: 15px;
+    font-size: 12px;
+    line-height: 14px;
     width: 50%;
   }
 }
@@ -1214,15 +1278,17 @@ header form #searchCancel {
   color: #afb6b9;
   padding-top: 2px;
 }
-@media (orientation: landscape) and (max-width: 700px) {
-  body {
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-  }
+/*
+body {
+	@media (orientation: landscape) and (max-width: 700px) {
+		-webkit-transform: rotate(-90deg);
+		-moz-transform: rotate(-90deg);
+		-o-transform: rotate(-90deg);
+		-ms-transform: rotate(-90deg);
+		transform: rotate(-90deg);
+	}
 }
+*/
 .rotateUp {
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
