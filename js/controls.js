@@ -78,20 +78,15 @@ $(document).keyup(function(event) {
 
 // Box Clicked Function
 function boxClicked(intersect) {
-	if (cameraController.camera.position.z >= 35) {
-		cameraController.Pan(intersect.position.x, intersect.position.y, undefined, undefined, 1.5, true, true, TWEEN.Easing.Cubic.InOut);
-		cameraController.Zoom(camZ2Init-10, undefined, 1.5, true, false);
-	} else {
-		var spawned = true;
-		var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
-		if (clickedBuilding.js_trigger) {
-			te('map-clicks','client-clicked',clickedBuilding.js_trigger);
-			spawned = !typeof SpawnAndGoToCity(clickedBuilding.js_trigger) === 'undefined';
-			if (!spawned) keywordReturn(clickedBuilding.js_trigger);
-		}
-		boxid = parseInt(intersect.name);
-		if (spawned || clickedBuilding.js_trigger) window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
+	var spawned = true;
+	var clickedBuilding = dataController.GetByID(parseInt(intersect.name));
+	if (clickedBuilding.js_trigger) {
+		te('map-clicks','client-clicked',clickedBuilding.js_trigger);
+		spawned = !typeof SpawnAndGoToCity(clickedBuilding.js_trigger) === 'undefined';
+		if (!spawned) keywordReturn(clickedBuilding.js_trigger);
 	}
+	boxid = parseInt(intersect.name);
+	if (spawned || clickedBuilding.js_trigger) window.location.href = "#/" + clickedBuilding.overlay + '/' + clickedBuilding.slug + "/" + clickedBuilding.type;
 }
 
 function mouseCursor(cursorType) {
@@ -202,12 +197,16 @@ function fingerMouseUp(e) {
 		var intersects = raycaster.intersectObjects(scene.children);
 
 		if ( intersects.length > 0 ) {
-			if (typeof intersects[0] !=='undefined') {
-				if (typeof intersects[0].face !== 'undefined') {
-					if ((intersects[0].face.a == 5 && intersects[0].face.b == 7) || (intersects[0].face.a == 7 && intersects[0].face.b == 2)) boxClicked(intersects[0].object);
-					else if (cameraController.camera.position.z >= 35 && intersects[0].object.position.z != groundZ) boxClicked(intersects[0].object);
+			for (var mesh = 0; mesh < intersects.length; mesh++) {
+				if (intersects[mesh].object.name !== '') { 
+					boxClicked(intersects[mesh].object);
+					break;
+				} else if (typeof intersects[mesh].object.tag !== 'undefined') {
+					SpawnAndGoToCity(intersects[mesh].object.tag);
+					break;
 				}
 			}
+
 		}
 	}
 	

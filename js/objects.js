@@ -255,6 +255,7 @@ var _objects = function() {
 		} else {
 			if (city.tag == homeKeyword && !this.zoomed) {
 				//init
+				this.zoomed = true;
 				this.camera.position.z = city.extents.Z2 * camZStart;
 				this.SetConstraints(constraints);
 				this.Move(city.midpoint.X, city.midpoint.Y, this.camera.position.z, true, false);
@@ -268,7 +269,7 @@ var _objects = function() {
 				});
 			} else {
 				//on search
-				this.Zoom(city.extents.Z2/3, undefined, camZAnimationTime/2, false, false, undefined, function() {
+				this.Zoom(city.extents.Z2/3, undefined, camZAnimationTime/4, false, false, undefined, function() {
 					_self.SetConstraints(constraints);
 					_self.Pan(city.midpoint.X, city.midpoint.Y, undefined, undefined, camPanToCityAnimationTime, true, false, TWEEN.Easing.Cubic.InOut, function() {
 						_self.withinConstraints = true;
@@ -406,7 +407,7 @@ var _objects = function() {
 				})
 				.onComplete( function() {
 					_self.animating = false;
-					_self.zoomed = to < from;
+					//_self.zoomed = to < from;
 					if (typeof cb !== 'undefined') cb();
 				})
 				.start();
@@ -781,6 +782,7 @@ var _objects = function() {
 		this.buildingsPerColumn = this.squareSize;
 		this.dataRef = dC;
 		this.cityCircle = null;
+		this.cityZoomCircle = null;
 		this.spotLight = new THREE.SpotLight( 0xffffff );
 		if (!type) this.init3DExplicitSubCity();
 		else this.init3DExplicit();
@@ -796,6 +798,17 @@ var _objects = function() {
 			circleThickness = cityCircleThickness;
 		}
 		var innerRadius = (this.width > this.height) ? this.width + cityPadding : this.height + cityPadding;
+		
+		var circleMaterial = new THREE.MeshLambertMaterial( {color: 0x363636, side: THREE.DoubleSide} );
+		var circleGeometry = new THREE.CircleGeometry( innerRadius, 144 );				
+		this.cityZoomCircle = new THREE.Mesh( circleGeometry, circleMaterial );
+		scene.add( this.cityZoomCircle );
+		this.cityZoomCircle.receiveShadow = true;
+		this.cityZoomCircle.tag = this.tag;
+		this.cityZoomCircle.position.x = this.midpoint.X;
+		this.cityZoomCircle.position.y = this.midpoint.Y;
+		this.cityZoomCircle.position.z = groundZ + 0.1;
+		
 		var cgeometry = new THREE.RingGeometry( innerRadius, innerRadius + circleThickness, 144 );
 		var cmaterial = new THREE.MeshBasicMaterial( { color: 0xe12726, side: THREE.DoubleSide } );
 		this.cityCircle = new THREE.Mesh( cgeometry, cmaterial );

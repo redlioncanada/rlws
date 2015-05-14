@@ -23,7 +23,8 @@
 	<div class="overlay-content">
 		<div class="videobox" ng-repeat="video in work.video_comsep" ng-show="work.video_comsep[0] !== ''">
 			<iframe ng-src="{{video}}" ng-attr-id="{{'video' + $index}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
-			<div class="vidcontrol" ng-attr-data-vidid="{{'video' + $index}}"><img src="img/transp.png"></div>
+			<div class="vidleft"><img src="img/transp.png"></div>
+			<div class="vidright"><img src="img/transp.png"></div>
 		</div>
 		
 		<div class="otherbox" ng-show="work.print_comsep[0] !== ''">

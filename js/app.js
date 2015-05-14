@@ -197,12 +197,12 @@ var audioPlayerStart = function() {
 		setTimeout( function() {
 			$('.play-pause-btn').attr('src', 'img/pause-btn.gif');
 			$(audioCurTime).text('0:00');
-			audioLoadTimeout(media);
+			setTimeout(audioLoadTimeout,500,media);
 			$(progressbar).css('width', "0%");
 			media.play();
 		}, 200);
 		return false;
-	});
+	})
 	
 	$('.play-pause-btn').click(function() {
 		var audioplayer = $(this).siblings('audio').get(0);
@@ -256,7 +256,6 @@ var getMinSec = function (time) {
 
 // This gets all the data and sets up the Work page
 var getWorkData = function($scope, $sce, $timeout, preloader) {
-	var playerReady = false;
 	
 	$scope.work = dataController.GetBySlug($scope.campaignID);
 	
@@ -266,8 +265,9 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 	$scope.work.date_launched = $scope.parseMyDate($scope.work.date_launched);
 	var videos = $scope.work.video_comsep;
 	for (var vids = 0; vids < videos.length; vids++) {
-		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]+'?title=0&byline=0&badge=0&color=e0280a&portrait=0&api=1&player_id=video'+vids);
+		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]+'?title=0&byline=0&badge=0&color=e0280a&portrait=0');
 	}
+	
 	
 	var soptions = {
 		dots: true,
@@ -311,29 +311,9 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 			if (dImages) $('.digitalwork').slick(soptions);
 		}, 200);
 	}
-		
+	
 	setTimeout(audioPlayerStart, 1000);
 	overlayFadeIn();
-	setTimeout( function() {
-		player = $('.videobox iframe').get(0);
-		$f(player).addEvent('ready', function(id){
-        	
-        });
-        $('.vidcontrol').click(function(e) {
-			var theid = "#" + $(this).attr('data-vidid');
-			var iframe = $(theid)[0];
-			var clickedplayer = $f(iframe);
-			if (!$(iframe).hasClass('playing')) {
-				clickedplayer.api('play');
-				$(iframe).addClass('playing');
-			} else {
-				clickedplayer.api('pause');
-				$(iframe).removeClass('playing');
-			}
-		});
-	}, 4000);
-	
-	
 	closeButtonStart();
 };
 
@@ -565,7 +545,6 @@ var overlayFadeIn = function(millisecs, tweentype) {
 	setTimeout(function() {
 		$('#overlay .overlay-content').velocity({"margin-top":'0px', 'opacity':1}, {duration: overlaybuildtime, easing: tweentype});
 	}, overlaydelay);
-
 }
 
 // Universal close button start
@@ -585,7 +564,7 @@ var closeButtonStart = function(ctrl, millisecs, tweentype) {
 	});
 };
 
-var closeAction = function(millisecs, tweentype) {
+var closeAction = function(ctrl, millisecs, tweentype) {
 	overlayShown = false;
 	if (typeof millisecs == 'undefined') millisecs = 1000;
 	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
@@ -607,12 +586,14 @@ var socialStart = function(title, subtitle) {
 	
 	$('.twitter').on('click',function(e){
 		e.preventDefault();
+		e.stopPropagation();
 		te('share',"twitter",title + " - " + subtitle);
 		window.open('http://twitter.com/share?url=' + loc + '&text=' + newtitle, 'twitterwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
 	});
 	
 	$('.facebook').on('click',function(e) {
 		e.preventDefault();
+		e.stopPropagation();
 		te('share',"facebook",title + " - " + subtitle);
 		FB.ui({
 			method: 'share',
@@ -622,6 +603,7 @@ var socialStart = function(title, subtitle) {
 	
 	$('.linkedin').on('click',function(e) {
 		e.preventDefault();
+		e.stopPropagation();
 		te('share',"linkedin",title + " - " + subtitle);
 		window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + loc + '&title=' + newtitle, 'linkedinwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
 	});
