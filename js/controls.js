@@ -256,7 +256,7 @@ function zoomHandler(e) {
 	} else {
 		var deltax = Math.max(-10, Math.min(10, (e.wheelDeltaX || -e.detail))); //e.wheelDeltaX;
 		var deltay = Math.max(-10, Math.min(10, (e.wheelDeltaY || -e.detail))); //e.wheelDeltaY;
-		cameraController.Move(-deltax/25, deltay/25, undefined, false);
+		cameraController.Move(0, deltay/25, undefined, false);
 	}
 	
 }
