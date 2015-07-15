@@ -610,6 +610,7 @@ var _objects = function() {
 		this.numCircles = 1;
 		this.dataController = d;
 		this.camera = c;
+		this.muted = false;
 	};
 
 	this.cityController.prototype.SpawnCity = function(tag, rawData, type, startX, startY) {
@@ -753,6 +754,33 @@ var _objects = function() {
 		}
 		return 0;
 	};
+
+	this.cityController.prototype.MuteCitySounds = function() {
+		for (var i in this.cities) {
+			if (this.cities[i].sounds.length > 0) {
+				for (var sound in this.cities[i].sounds) {
+					this.cities[i].sounds[sound].setVolume(0);
+				}
+			}
+		}
+		this.sound.setVolume(0);
+		this.muted = true;
+	}
+
+	this.cityController.prototype.UnmuteCitySounds = function() {
+		for (var i in this.cities) {
+			if (this.cities[i].sounds.length > 0) {
+				for (var sound in this.cities[i].sounds) {
+					var s = this.cities[i].sounds[sound];
+					s.setVolume(s._volume);
+				}
+			}
+		}
+		this.sound.setVolume(this.sound._volume);
+		this.muted = false;
+	}
+
+	this.cityController.prototype.IsMuted = function() {return this.muted;}
 	//End CityController
 
 	//City - a collection of buildings
@@ -784,6 +812,7 @@ var _objects = function() {
 		this.cityCircle = null;
 		this.cityZoomCircle = null;
 		this.spotLight = new THREE.SpotLight( 0xffffff );
+		this.sounds = [];
 		if (!type) this.init3DExplicitSubCity();
 		else this.init3DExplicit();
 	};
@@ -886,9 +915,11 @@ var _objects = function() {
 			var suburbSound = new THREE.Audio( listener, true );
 			suburbSound.load( 'sounds/smallcity.mp3' );
 			suburbSound.setRefDistance(audioRefDistance);
-			suburbSound.setVolume(audioVolume - 0.15);
+			suburbSound.setVolume(suburbVolume);
+			suburbSound._volume = suburbVolume;
 			suburbSound.autoplay = true;
 			suburbSound.setLoop(1);
+			this.sounds.push(suburbSound);
 		}
 		
 		this.layoutData.tiles = scLayoutData.slice();

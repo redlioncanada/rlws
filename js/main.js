@@ -135,9 +135,12 @@ function init3D() {
 		if (!isIE) {
 			citySound.load( 'sounds/city.mp3' );
 			citySound.setRefDistance(audioRefDistance);
-			citySound.setVolume(audioVolume);
+			citySound.setVolume(cityVolume);
+			citySound.type = 'city';
+			citySound._volume = cityVolume;
 			citySound.autoplay = false;
 			citySound.setLoop(1);
+			cityController.sound = citySound;
 		}
 				
 		//Always after resize

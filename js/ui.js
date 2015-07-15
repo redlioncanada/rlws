@@ -449,3 +449,19 @@ $('#blackout').on("click", function(evt) {
 var w = [83,65,82,67,65,83,77], cw=0;
 $(document).on('keydown', function(e) {if ($('#discipline-overlay').length && !$('.sarcasm').length && e.keyCode==w[cw++]) {if(cw==w.length){cw=0;$('#discipline-overlay header').after('<div class="dcontainer sarcasm" ng-repeat="disc in disciplines"><h1 class="ng-binding"><span>+</span> &nbsp;Sarcasm</h1><p style="display:none;" class="ng-binding">We never use sarcasm in any way, shape or form. There is no room for humour in a professional environment, and sarcasm is the lowest form of humour. Sarcasm is basically lying. If you work with Red Lion, you can rest assured that this disgusting practice will not be employed.<br/>#stopsarcasm</p></div>');$('#blackout').animate({'scrollTop':0},500)}} else {cw=0;}});
 //overlay end
+
+//mute button start
+$('#mute-panel').on('click', function() {
+	if (cityController.IsMuted()) {
+		cityController.UnmuteCitySounds();
+		$('#bgwind').prop("volume", 1);
+		$('#mute-panel .muted').addClass('hidden');
+		$('#mute-panel .unmuted').removeClass('hidden');
+	} else {
+		cityController.MuteCitySounds();
+		$('#bgwind').prop("volume", 0);
+		$('#mute-panel .unmuted').addClass('hidden');
+		$('#mute-panel .muted').removeClass('hidden');
+	}
+});
+//mute button end

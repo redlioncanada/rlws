@@ -10,7 +10,8 @@ var debugIndicator = false;
 var homeKeyword = "home";
 var pageTitle = "Red Lion {REDEFINE}";
 
-var audioVolume = 0.55;
+var suburbVolume = 0.4;
+var cityVolume = 0.55;
 var audioRefDistance = 3;
 
 //city vars
