@@ -756,6 +756,7 @@ var _objects = function() {
 	};
 
 	this.cityController.prototype.MuteCitySounds = function() {
+		if (this.muted) return;
 		for (var i in this.cities) {
 			if (this.cities[i].sounds.length > 0) {
 				for (var sound in this.cities[i].sounds) {
@@ -768,6 +769,7 @@ var _objects = function() {
 	}
 
 	this.cityController.prototype.UnmuteCitySounds = function() {
+		if (!this.muted) return;
 		for (var i in this.cities) {
 			if (this.cities[i].sounds.length > 0) {
 				for (var sound in this.cities[i].sounds) {

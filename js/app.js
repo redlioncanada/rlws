@@ -265,7 +265,7 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 	$scope.work.date_launched = $scope.parseMyDate($scope.work.date_launched);
 	var videos = $scope.work.video_comsep;
 	for (var vids = 0; vids < videos.length; vids++) {
-		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]+'?title=0&byline=0&badge=0&color=e0280a&portrait=0');
+		if ($scope.work.video_comsep[vids] !== '' && typeof $scope.work.video_comsep[vids] == 'string') $scope.work.video_comsep[vids] = $sce.trustAsResourceUrl($scope.work.video_comsep[vids]+'?title=0&byline=0&badge=0&color=e0280a&portrait=0&api=1&player_id=video'+vids);
 	}
 	
 	
@@ -312,6 +312,32 @@ var getWorkData = function($scope, $sce, $timeout, preloader) {
 		}, 200);
 	}
 	
+	setTimeout(function() {
+		$.each($('.videobox iframe'), function(k, iframe) {
+			if (!iframe || cityController.IsMuted()) return;
+			var player = $f(iframe);
+
+			player.addEvent('ready', function() {
+				player.addEvent('play', mute);
+				player.addEvent('pause', unmute);
+				player.addEvent('finish', unmute);
+
+				function mute(id) {
+					cityController.MuteCitySounds();
+					$('#bgwind').prop("volume", 0);
+					$('#mute-panel .unmuted').addClass('hidden');
+					$('#mute-panel .muted').removeClass('hidden');
+				}
+
+				function unmute(id) {
+					cityController.UnmuteCitySounds();
+					$('#bgwind').prop("volume", 1);
+					$('#mute-panel .muted').addClass('hidden');
+					$('#mute-panel .unmuted').removeClass('hidden');
+				}
+			});
+		});
+	},1000);
 	setTimeout(audioPlayerStart, 1000);
 	overlayFadeIn();
 	closeButtonStart();
@@ -569,6 +595,7 @@ var closeAction = function(ctrl, millisecs, tweentype) {
 	if (typeof millisecs == 'undefined') millisecs = 1000;
 	if (typeof tweentype == 'undefined') tweentype = "easeOutCubic";
 	cameraController.AnimateBlur(0,1);
+
 	$('#blackout').velocity({"opacity":0, 'padding-top': 50}, {duration: millisecs, easing: tweentype, complete: function() {
 		$('#blackout').scrollTop(0);
 		$(this).css({'display':'none'});
